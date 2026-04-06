@@ -27,3 +27,14 @@ pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<Stri
 
     Ok( (dirs, files) )
 }
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn init_library(app_data_dir: String) {
+    std::env::set_var("APP_DATA_DIR", app_data_dir);
+}
+
+#[flutter_rust_bridge::frb(init)]
+pub fn init_app() {
+    // Default utilities - feel free to customize
+    flutter_rust_bridge::setup_default_user_utils();
+}

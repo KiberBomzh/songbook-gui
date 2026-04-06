@@ -8,3 +8,6 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 (List<String>, List<String>) readDirectory({String? pathStr}) =>
     RustLib.instance.api.crateApiLibraryReadDirectory(pathStr: pathStr);
+
+void initLibrary({required String appDataDir}) =>
+    RustLib.instance.api.crateApiLibraryInitLibrary(appDataDir: appDataDir);

@@ -1,6 +1,5 @@
 use std::path::PathBuf;
 
-use songbook::Song;
 use songbook::song_library::lib_functions::get_song;
 
 use anyhow::Result;

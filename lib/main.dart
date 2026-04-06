@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:songbook/src/rust/api/simple.dart';
+
 import 'package:songbook/src/rust/frb_generated.dart';
 
 import 'package:songbook/screens/library.dart';
@@ -9,6 +9,7 @@ Future<void> main() async {
 	await RustLib.init();
 	runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
 	const MyApp({super.key});

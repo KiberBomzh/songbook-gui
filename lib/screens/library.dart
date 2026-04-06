@@ -1,9 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+
+import 'package:path_provider/path_provider.dart';
 
 import 'package:songbook/screens/song.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
 
+
+var _isAppDirSet = false;
 
 class LibraryScreen extends StatefulWidget {
 	final String? path;
@@ -19,13 +24,26 @@ class _LibraryState extends State<LibraryScreen> {
 	@override
 	void initState() {
 		super.initState();
+		_loadDirectory();
+	}
 
+	Future<void> _loadDirectory() async {
+		if (Platform.isAndroid && !_isAppDirSet) {
+			// Установка переменной окружения с путем к библиотеке
+			final appDataDir = await getExternalStorageDirectory();
+			initLibrary(appDataDir: appDataDir!.path);
+			_isAppDirSet = true;
+		}
 		var (d, f) = readDirectory(pathStr: widget.path);
 		setState(() {
 			_dirs = d;
 			_files = f;
 		});
 	}
+
+	Future<void> setAppDataDir() async {
+	}
+
 
 
 	@override
