@@ -5,6 +5,7 @@
 
 import 'api/library.dart';
 import 'api/simple.dart';
+import 'api/song.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ffi' as ffi;

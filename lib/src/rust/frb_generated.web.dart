@@ -8,6 +8,7 @@
 
 import 'api/library.dart';
 import 'api/simple.dart';
+import 'api/song.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'frb_generated.dart';

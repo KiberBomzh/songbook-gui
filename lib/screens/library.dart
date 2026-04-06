@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:songbook/screens/song.dart';
+
 import 'package:songbook/src/rust/api/library.dart';
 
 
@@ -53,17 +55,16 @@ class _LibraryState extends State<LibraryScreen> {
 					),
 					child: _buildItem(
 						name: itemName,
-						onTap: () {
-							if (isItemDir) {
-								Navigator.push(context,
-									MaterialPageRoute(
-										builder: (context) => LibraryScreen(path: itemPath),
-									),
-								);
-							} else {
-								print('fsdj');
-							}
-						},
+						onTap: () =>  Navigator.push(context,
+							MaterialPageRoute(
+								builder: (context) {
+									if (isItemDir)
+										return LibraryScreen(path: itemPath);
+									else
+										return SongScreen(path: itemPath);
+								},
+							),
+						),
 					),
 				);
 			},
