@@ -68,11 +68,17 @@ class _LibraryState extends State<LibraryScreen> {
 				final itemName = itemPath.substring(itemPath.lastIndexOf('/') + 1);
 
 				return Container(
+					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
 					decoration: BoxDecoration(
 						borderRadius: .circular(10),
+						border: Border.all(
+							color: Theme.of(context).colorScheme.outline,
+							width: 2,
+						),
 					),
 					child: _buildItem(
 						name: itemName,
+						isDir: isItemDir,
 						onTap: () =>  Navigator.push(context,
 							MaterialPageRoute(
 								builder: (context) {
@@ -91,6 +97,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 	Widget _buildItem({
 		required String name,
+		required bool isDir,
 		required VoidCallback onTap,
 	}) {
 		return Material(
@@ -100,8 +107,20 @@ class _LibraryState extends State<LibraryScreen> {
 				splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 				highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
 				child: Padding(
-					padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-					child: Text(name),
+					padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+					child: Row(
+						children: [
+							Icon( (isDir) ? Icons.folder : Icons.music_note),
+							const SizedBox(width: 5),
+
+							Expanded(
+								child: Text(name,
+									maxLines: 2,
+									overflow: TextOverflow.ellipsis,
+								),
+							),
+						],
+					),
 				),
 			),
 		);
