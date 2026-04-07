@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
 
+import 'package:songbook/screens/editor.dart';
+
 
 class SongScreen extends StatefulWidget {
 	final String path;
@@ -14,14 +16,23 @@ class SongScreen extends StatefulWidget {
 }
 
 class SongState extends State<SongScreen> {
-	SimpleSong song = SimpleSong.empty();
+	late SimpleSong song;
 
 	@override
 	void initState() {
 		super.initState();
-		setState(() {
-			song = SimpleSong.open(pathStr: widget.path);
-		});
+		song = SimpleSong.open(pathStr: widget.path);
+	}
+
+
+	void _edit() async {
+		final result = await Navigator.push(context,
+			MaterialPageRoute(
+				builder: (context) => EditorScreen(song: song),
+			),
+		);
+
+		setState(() {});
 	}
 
 	@override
@@ -29,15 +40,32 @@ class SongState extends State<SongScreen> {
 		final List<SimpleBlock> blocks = song.getBlocks();
 
 		return Scaffold(
-			appBar: AppBar( title: Text('Song') ),
-			body: Container(
-				padding: const EdgeInsets.symmetric(horizontal: 10),
-				width: double.infinity,
-				child: ListView.separated(
-					itemCount: blocks.length,
-					separatorBuilder: (context, index) => const SizedBox(height: 25),
-					itemBuilder: (context, index) => _buildBlock(blocks[index]),
+			appBar: AppBar(
+				title: Text('Song'),
+				actions: [
+					IconButton(
+						icon: Icon(Icons.edit),
+						tooltip: 'Edit',
+						onPressed: _edit,
+					),
+				],
+			),
+			body: (blocks.length > 0)
+				? _buildBody(blocks)
+				: Center(
+					child: Text('The song is empty...')
 				),
+		);
+	}
+
+	Widget _buildBody(List<SimpleBlock> blocks) {
+		return Container(
+			padding: const EdgeInsets.symmetric(horizontal: 10),
+			width: double.infinity,
+			child: ListView.separated(
+				itemCount: blocks.length,
+				separatorBuilder: (context, index) => const SizedBox(height: 25),
+				itemBuilder: (context, index) => _buildBlock(blocks[index]),
 			),
 		);
 	}

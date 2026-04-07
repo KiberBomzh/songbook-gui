@@ -13,10 +13,11 @@ abstract class Block implements RustOpaqueInterface {}
 abstract class SimpleSong implements RustOpaqueInterface {
   String asText();
 
-  static SimpleSong empty() =>
-      RustLib.instance.api.crateApiSongSimpleSongEmpty();
+  void changeFromEdited({required String s});
 
   List<SimpleBlock> getBlocks();
+
+  String getForEditing();
 
   static SimpleSong open({required String pathStr}) =>
       RustLib.instance.api.crateApiSongSimpleSongOpen(pathStr: pathStr);

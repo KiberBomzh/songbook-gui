@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use songbook::song_library::lib_functions::get_song;
+use songbook::song_library::lib_functions::*;
 pub use songbook::song::block::{Block, Line};
 pub use songbook::Song;
 
@@ -9,20 +9,20 @@ use anyhow::Result;
 
 pub struct SimpleSong {
     song: Song,
+    path: String,
 }
 
 impl SimpleSong {
     #[flutter_rust_bridge::frb(sync)]
-    pub fn empty() -> Self {
-        Self { song: Song::new("", "") }
+    pub fn open(path_str: String) -> Result<Self> {
+        let path = PathBuf::from(&path_str);
+        let song = get_song(&path)?;
+        Ok(Self {
+            song,
+            path: path_str
+        } )
     }
 
-    #[flutter_rust_bridge::frb(sync)]
-    pub fn open(path_str: String) -> Result<Self> {
-        let path = PathBuf::from(path_str);
-        let song = get_song(&path)?;
-        Ok(Self { song } )
-    }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {
@@ -37,6 +37,21 @@ impl SimpleSong {
         }
 
         return blocks
+    }
+
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_for_editing(&self) -> String {
+        self.song.get_for_editing()
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn change_from_edited(&mut self, s: String) -> Result<()> {
+        let path = PathBuf::from(&self.path);
+        self.song.change_from_edited_str(&s);
+        save(&self.song, &path)?;
+
+        Ok(())
     }
 }
 

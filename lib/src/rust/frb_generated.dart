@@ -67,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => -587013568;
+  int get rustContentHash => 278731249;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -81,9 +81,14 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
 abstract class RustLibApi extends BaseApi {
   String crateApiSongSimpleSongAsText({required SimpleSong that});
 
-  SimpleSong crateApiSongSimpleSongEmpty();
+  void crateApiSongSimpleSongChangeFromEdited({
+    required SimpleSong that,
+    required String s,
+  });
 
   List<SimpleBlock> crateApiSongSimpleSongGetBlocks({required SimpleSong that});
+
+  String crateApiSongSimpleSongGetForEditing({required SimpleSong that});
 
   SimpleSong crateApiSongSimpleSongOpen({required String pathStr});
 
@@ -145,27 +150,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "SimpleSong_as_text", argNames: ["that"]);
 
   @override
-  SimpleSong crateApiSongSimpleSongEmpty() {
+  void crateApiSongSimpleSongChangeFromEdited({
+    required SimpleSong that,
+    required String s,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+            that,
+            serializer,
+          );
+          sse_encode_String(s, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 2)!;
         },
         codec: SseCodec(
-          decodeSuccessData:
-              sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong,
-          decodeErrorData: null,
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
         ),
-        constMeta: kCrateApiSongSimpleSongEmptyConstMeta,
-        argValues: [],
+        constMeta: kCrateApiSongSimpleSongChangeFromEditedConstMeta,
+        argValues: [that, s],
         apiImpl: this,
       ),
     );
   }
 
-  TaskConstMeta get kCrateApiSongSimpleSongEmptyConstMeta =>
-      const TaskConstMeta(debugName: "SimpleSong_empty", argNames: []);
+  TaskConstMeta get kCrateApiSongSimpleSongChangeFromEditedConstMeta =>
+      const TaskConstMeta(
+        debugName: "SimpleSong_change_from_edited",
+        argNames: ["that", "s"],
+      );
 
   @override
   List<SimpleBlock> crateApiSongSimpleSongGetBlocks({
@@ -199,13 +214,42 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  String crateApiSongSimpleSongGetForEditing({required SimpleSong that}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+            that,
+            serializer,
+          );
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_String,
+          decodeErrorData: null,
+        ),
+        constMeta: kCrateApiSongSimpleSongGetForEditingConstMeta,
+        argValues: [that],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiSongSimpleSongGetForEditingConstMeta =>
+      const TaskConstMeta(
+        debugName: "SimpleSong_get_for_editing",
+        argNames: ["that"],
+      );
+
+  @override
   SimpleSong crateApiSongSimpleSongOpen({required String pathStr}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(pathStr, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 4)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 5)!;
         },
         codec: SseCodec(
           decodeSuccessData:
@@ -231,7 +275,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 5,
+            funcId: 6,
             port: port_,
           );
         },
@@ -256,7 +300,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(appDataDir, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -279,7 +323,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_String(pathStr, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 8)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_record_list_string_list_string,
@@ -308,7 +352,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 8,
+            funcId: 9,
             port: port_,
           );
         },
@@ -351,6 +395,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   SimpleSong
   dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    dynamic raw,
+  ) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return SimpleSongImpl.frbInternalDcoDecode(raw as List<dynamic>);
+  }
+
+  @protected
+  SimpleSong
+  dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
     dynamic raw,
   ) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
@@ -476,6 +529,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   @protected
   SimpleSong
   sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return SimpleSongImpl.frbInternalSseDecode(
+      sse_decode_usize(deserializer),
+      sse_decode_i_32(deserializer),
+    );
+  }
+
+  @protected
+  SimpleSong
+  sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
     SseDeserializer deserializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -648,6 +713,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_usize(
       (self as SimpleSongImpl).frbInternalSseEncode(move: true),
+      serializer,
+    );
+  }
+
+  @protected
+  void
+  sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SimpleSong self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_usize(
+      (self as SimpleSongImpl).frbInternalSseEncode(move: false),
       serializer,
     );
   }
@@ -841,6 +919,12 @@ class SimpleSongImpl extends RustOpaque implements SimpleSong {
   String asText() =>
       RustLib.instance.api.crateApiSongSimpleSongAsText(that: this);
 
+  void changeFromEdited({required String s}) => RustLib.instance.api
+      .crateApiSongSimpleSongChangeFromEdited(that: this, s: s);
+
   List<SimpleBlock> getBlocks() =>
       RustLib.instance.api.crateApiSongSimpleSongGetBlocks(that: this);
+
+  String getForEditing() =>
+      RustLib.instance.api.crateApiSongSimpleSongGetForEditing(that: this);
 }
