@@ -6,5 +6,42 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-String getSongAsString({required String pathStr}) =>
-    RustLib.instance.api.crateApiSongGetSongAsString(pathStr: pathStr);
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
+abstract class Block implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleSong>>
+abstract class SimpleSong implements RustOpaqueInterface {
+  String asText();
+
+  static SimpleSong empty() =>
+      RustLib.instance.api.crateApiSongSimpleSongEmpty();
+
+  List<SimpleBlock> getBlocks();
+
+  static SimpleSong open({required String pathStr}) =>
+      RustLib.instance.api.crateApiSongSimpleSongOpen(pathStr: pathStr);
+}
+
+class SimpleBlock {
+  final String? title;
+  final List<String> lines;
+  final String? notes;
+
+  const SimpleBlock({this.title, required this.lines, this.notes});
+
+  // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
+  static Future<SimpleBlock> newInstance({required Block block}) =>
+      RustLib.instance.api.crateApiSongSimpleBlockNew(block: block);
+
+  @override
+  int get hashCode => title.hashCode ^ lines.hashCode ^ notes.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SimpleBlock &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          lines == other.lines &&
+          notes == other.notes;
+}

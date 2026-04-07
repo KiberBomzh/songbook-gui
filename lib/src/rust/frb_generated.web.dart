@@ -21,8 +21,45 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     required super.portManager,
   });
 
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_BlockPtr => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock;
+
+  CrossPlatformFinalizerArg
+  get rust_arc_decrement_strong_count_SimpleSongPtr => wire
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong;
+
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
+
+  @protected
+  SimpleSong
+  dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    dynamic raw,
+  );
+
+  @protected
+  Block
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    dynamic raw,
+  );
+
+  @protected
+  SimpleSong
+  dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    dynamic raw,
+  );
+
+  @protected
+  Block
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    dynamic raw,
+  );
+
+  @protected
+  SimpleSong
+  dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    dynamic raw,
+  );
 
   @protected
   String dco_decode_String(dynamic raw);
@@ -34,6 +71,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
+  List<SimpleBlock> dco_decode_list_simple_block(dynamic raw);
+
+  @protected
   String? dco_decode_opt_String(dynamic raw);
 
   @protected
@@ -42,13 +82,49 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  SimpleBlock dco_decode_simple_block(dynamic raw);
+
+  @protected
   int dco_decode_u_8(dynamic raw);
 
   @protected
   void dco_decode_unit(dynamic raw);
 
   @protected
+  BigInt dco_decode_usize(dynamic raw);
+
+  @protected
   AnyhowException sse_decode_AnyhowException(SseDeserializer deserializer);
+
+  @protected
+  SimpleSong
+  sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Block
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  SimpleSong
+  sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  Block
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  SimpleSong
+  sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SseDeserializer deserializer,
+  );
 
   @protected
   String sse_decode_String(SseDeserializer deserializer);
@@ -60,6 +136,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
+  List<SimpleBlock> sse_decode_list_simple_block(SseDeserializer deserializer);
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
@@ -68,10 +147,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  SimpleBlock sse_decode_simple_block(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_u_8(SseDeserializer deserializer);
 
   @protected
   void sse_decode_unit(SseDeserializer deserializer);
+
+  @protected
+  BigInt sse_decode_usize(SseDeserializer deserializer);
 
   @protected
   int sse_decode_i_32(SseDeserializer deserializer);
@@ -82,6 +167,41 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_AnyhowException(
     AnyhowException self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SimpleSong self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    Block self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SimpleSong self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    Block self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void
+  sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    SimpleSong self,
     SseSerializer serializer,
   );
 
@@ -98,6 +218,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_simple_block(
+    List<SimpleBlock> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
@@ -107,10 +233,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_simple_block(SimpleBlock self, SseSerializer serializer);
+
+  @protected
   void sse_encode_u_8(int self, SseSerializer serializer);
 
   @protected
   void sse_encode_unit(void self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_usize(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
@@ -123,6 +255,38 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
 class RustLibWire implements BaseWire {
   RustLibWire.fromExternalLibrary(ExternalLibrary lib);
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+        ptr,
+      );
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+        ptr,
+      );
+
+  void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+        ptr,
+      );
+
+  void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    int ptr,
+  ) => wasmModule
+      .rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+        ptr,
+      );
 }
 
 @JS('wasm_bindgen')
@@ -130,4 +294,24 @@ external RustLibWasmModule get wasmModule;
 
 @JS()
 @anonymous
-extension type RustLibWasmModule._(JSObject _) implements JSObject {}
+extension type RustLibWasmModule._(JSObject _) implements JSObject {
+  external void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    int ptr,
+  );
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerBlock(
+    int ptr,
+  );
+
+  external void
+  rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    int ptr,
+  );
+
+  external void
+  rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerSimpleSong(
+    int ptr,
+  );
+}
