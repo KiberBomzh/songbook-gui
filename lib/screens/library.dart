@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:songbook/screens/song.dart';
+import 'package:songbook/functions/set_name_dialog.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
 
@@ -20,6 +22,7 @@ class LibraryScreen extends StatefulWidget {
 class _LibraryState extends State<LibraryScreen> {
 	List<String> _dirs = [];
 	List<String> _files = [];
+	late String _currentPath;
 
 	@override
 	void initState() {
@@ -34,14 +37,12 @@ class _LibraryState extends State<LibraryScreen> {
 			initLibrary(appDataDir: appDataDir!.path);
 			_isAppDirSet = true;
 		}
-		var (d, f) = readDirectory(pathStr: widget.path);
+		var (d, f, p) = readDirectory(pathStr: widget.path);
 		setState(() {
 			_dirs = d;
 			_files = f;
+			_currentPath = p;
 		});
-	}
-
-	Future<void> setAppDataDir() async {
 	}
 
 
@@ -51,6 +52,8 @@ class _LibraryState extends State<LibraryScreen> {
 		return Scaffold(
 			appBar: AppBar( title: Text('Library') ),
 			body: _buildBody(),
+			floatingActionButtonLocation: ExpandableFab.location,
+			floatingActionButton: _buildFAB(),
 		);
 	}
 
@@ -124,5 +127,91 @@ class _LibraryState extends State<LibraryScreen> {
 				),
 			),
 		);
+	}
+
+	Widget _buildFAB() {
+		return Padding(
+			padding: const EdgeInsets.only(bottom: 20, right: 20),
+			child: ExpandableFab(
+				type: ExpandableFabType.up,
+				distance: 70,
+				overlayStyle: ExpandableFabOverlayStyle(
+					color: Colors.white.withOpacity(0),
+				),
+				openButtonBuilder: RotateFloatingActionButtonBuilder(
+					child: const Icon(Icons.add),
+					fabSize: ExpandableFabSize.regular,
+				),
+				children: [
+					Row(
+						children: [
+							Container(
+								margin: const EdgeInsets.only(right: 10),
+								padding: const EdgeInsets.all(10),
+								decoration: BoxDecoration(
+									borderRadius: .circular(10),
+									color: Theme.of(context).colorScheme.primaryContainer,
+								),
+								child: Text('Add song',
+									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+								),
+							),
+							FloatingActionButton(
+								heroTag: null,
+								child: const Icon(Icons.music_note),
+								onPressed: _addSong,
+							),
+						],
+					),
+
+					Row(
+						children: [
+							Container(
+								margin: const EdgeInsets.only(right: 10),
+								padding: const EdgeInsets.all(10),
+								decoration: BoxDecoration(
+									borderRadius: .circular(10),
+									color: Theme.of(context).colorScheme.primaryContainer,
+								),
+								child: Text('Add folder',
+									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+								),
+							),
+							FloatingActionButton(
+								heroTag: null,
+								child: const Icon(Icons.folder),
+								onPressed: _addFolder,
+							),
+						],
+					),
+				],
+			),
+		);
+	}
+
+
+	Future<void> _addFolder() async {
+		final String? folderName = await setName(
+			existsCheck: checkExistence,
+			context: context,
+			title: 'Create new folder',
+			hintText: 'Folder name',
+		);
+
+		if (folderName != null) {
+			final String path = _currentPath + '/' + folderName;
+			createDirectory(pathStr: path);
+			_loadDirectory();
+		}
+	}
+
+	Future<void> _addSong() async {
+	}
+
+
+	bool checkExistence(String name) {
+		final String path = _currentPath + '/' + name;
+		
+		return existenceCheck(pathStr: path);
 	}
 }

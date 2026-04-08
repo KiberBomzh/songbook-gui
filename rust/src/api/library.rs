@@ -1,11 +1,12 @@
 use std::path::PathBuf;
 
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use songbook::song_library::lib_functions::get_files_in_dir;
+use songbook::song_library::{FORBIDDEN_CHARS, mkdir};
 
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<String>)> {
+pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<String>, String)> {
     let mut dirs: Vec<String> = Vec::new();
     let mut files: Vec<String> = Vec::new();
     let mut path: Option<PathBuf> = None;
@@ -13,7 +14,7 @@ pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<Stri
         path = Some(PathBuf::from(p));
     }
 
-    let (paths, _current_path) = get_files_in_dir(path.as_deref())?;
+    let (paths, current_path) = get_files_in_dir(path.as_deref())?;
     for (_, p) in paths {
         if let Some(s) = p.to_str() {
             if p.is_dir() {
@@ -24,9 +25,38 @@ pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<Stri
         }
     }
 
+    let c_path = if let Some(s) = current_path.to_str() {
+        s.to_string()
+    } else {
+        return Err(anyhow!("Cannot get current path"));
+    };
 
-    Ok( (dirs, files) )
+
+    Ok( (dirs, files, c_path) )
 }
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn create_directory(path_str: String) -> Result<()> {
+    let path = PathBuf::from(path_str);
+    mkdir(&path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn existence_check(path_str: String) -> bool {
+    let path = PathBuf::from(path_str);
+    
+    path.exists()
+}
+
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_forbidden_chars() -> Vec<char> {
+    FORBIDDEN_CHARS.into()
+}
+
+
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn init_library(app_data_dir: String) {

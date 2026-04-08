@@ -6,8 +6,17 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-(List<String>, List<String>) readDirectory({String? pathStr}) =>
+(List<String>, List<String>, String) readDirectory({String? pathStr}) =>
     RustLib.instance.api.crateApiLibraryReadDirectory(pathStr: pathStr);
+
+void createDirectory({required String pathStr}) =>
+    RustLib.instance.api.crateApiLibraryCreateDirectory(pathStr: pathStr);
+
+bool existenceCheck({required String pathStr}) =>
+    RustLib.instance.api.crateApiLibraryExistenceCheck(pathStr: pathStr);
+
+List<String> getForbiddenChars() =>
+    RustLib.instance.api.crateApiLibraryGetForbiddenChars();
 
 void initLibrary({required String appDataDir}) =>
     RustLib.instance.api.crateApiLibraryInitLibrary(appDataDir: appDataDir);
