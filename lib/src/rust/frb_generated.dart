@@ -67,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => 995532205;
+  int get rustContentHash => 177131808;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -102,9 +102,16 @@ abstract class RustLibApi extends BaseApi {
 
   void crateApiLibraryInitLibrary({required String appDataDir});
 
+  void crateApiLibraryMoveFileOrDir({
+    required String inputPathStr,
+    required String outputPathStr,
+  });
+
   (List<String>, List<String>, String) crateApiLibraryReadDirectory({
     String? pathStr,
   });
+
+  void crateApiLibraryRemoveFromLibrary({required String pathStr});
 
   Future<SimpleBlock> crateApiSongSimpleBlockNew({required Block block});
 
@@ -393,6 +400,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "init_library", argNames: ["appDataDir"]);
 
   @override
+  void crateApiLibraryMoveFileOrDir({
+    required String inputPathStr,
+    required String outputPathStr,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(inputPathStr, serializer);
+          sse_encode_String(outputPathStr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiLibraryMoveFileOrDirConstMeta,
+        argValues: [inputPathStr, outputPathStr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiLibraryMoveFileOrDirConstMeta =>
+      const TaskConstMeta(
+        debugName: "move_file_or_dir",
+        argNames: ["inputPathStr", "outputPathStr"],
+      );
+
+  @override
   (List<String>, List<String>, String) crateApiLibraryReadDirectory({
     String? pathStr,
   }) {
@@ -401,7 +438,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_opt_String(pathStr, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 11)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 12)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_record_list_string_list_string_string,
@@ -418,6 +455,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "read_directory", argNames: ["pathStr"]);
 
   @override
+  void crateApiLibraryRemoveFromLibrary({required String pathStr}) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(pathStr, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 13)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiLibraryRemoveFromLibraryConstMeta,
+        argValues: [pathStr],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiLibraryRemoveFromLibraryConstMeta =>
+      const TaskConstMeta(
+        debugName: "remove_from_library",
+        argNames: ["pathStr"],
+      );
+
+  @override
   Future<SimpleBlock> crateApiSongSimpleBlockNew({required Block block}) {
     return handler.executeNormal(
       NormalTask(
@@ -430,7 +493,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 12,
+            funcId: 14,
             port: port_,
           );
         },

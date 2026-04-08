@@ -81,6 +81,7 @@ class _LibraryState extends State<LibraryScreen> {
 					),
 					child: _buildItem(
 						name: itemName,
+						path: itemPath,
 						isDir: isItemDir,
 						onTap: () =>  Navigator.push(context,
 							MaterialPageRoute(
@@ -100,6 +101,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 	Widget _buildItem({
 		required String name,
+		required String path,
 		required bool isDir,
 		required VoidCallback onTap,
 	}) {
@@ -122,10 +124,46 @@ class _LibraryState extends State<LibraryScreen> {
 									overflow: TextOverflow.ellipsis,
 								),
 							),
+							Spacer(),
+
+							_buildPopupMenuButton(path, name),
 						],
 					),
 				),
 			),
+		);
+	}
+
+	Widget _buildPopupMenuButton(String path, String name) {
+		return PopupMenuButton<String>(
+			icon: Icon(Icons.more_vert),
+			tooltip: 'Options',
+			offset: const Offset(0, 40),
+
+			onSelected: (value) {
+				switch (value) {
+					case ('rename'):
+						_rename(name);
+						break;
+					case ('delete'):
+						removeFromLibrary(pathStr: path);
+						_loadDirectory();
+						break;
+				}
+			},
+			itemBuilder: (context) => [
+				const PopupMenuItem(
+					value: 'rename',
+					child: Text('Rename'),
+				),
+				const PopupMenuDivider(),
+
+				const PopupMenuItem(
+					value: 'delete',
+					child: Text('Delete'),
+				),
+
+			],
 		);
 	}
 
@@ -189,6 +227,23 @@ class _LibraryState extends State<LibraryScreen> {
 		);
 	}
 
+
+	Future<void> _rename(String name) async {
+		final String? newName = await setName(
+			existsCheck: checkExistence,
+			context: context,
+			title: 'Rename',
+			initialValue: name,
+			hintText: 'New name...',
+		);
+
+		if (newName != null) {
+			final String i_path = _currentPath + '/' + name;
+			final String o_path = _currentPath + '/' + newName;
+			moveFileOrDir(inputPathStr: i_path, outputPathStr: o_path);
+			_loadDirectory();
+		}
+	}
 
 	Future<void> _addFolder() async {
 		final String? folderName = await setName(

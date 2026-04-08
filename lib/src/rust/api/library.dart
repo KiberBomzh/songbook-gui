@@ -12,6 +12,17 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 void createDirectory({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryCreateDirectory(pathStr: pathStr);
 
+void removeFromLibrary({required String pathStr}) =>
+    RustLib.instance.api.crateApiLibraryRemoveFromLibrary(pathStr: pathStr);
+
+void moveFileOrDir({
+  required String inputPathStr,
+  required String outputPathStr,
+}) => RustLib.instance.api.crateApiLibraryMoveFileOrDir(
+  inputPathStr: inputPathStr,
+  outputPathStr: outputPathStr,
+);
+
 bool existenceCheck({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryExistenceCheck(pathStr: pathStr);
 

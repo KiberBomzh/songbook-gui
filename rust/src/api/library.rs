@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::{Result, anyhow};
 use songbook::song_library::lib_functions::get_files_in_dir;
-use songbook::song_library::{FORBIDDEN_CHARS, mkdir};
+use songbook::song_library::*;
 
 
 #[flutter_rust_bridge::frb(sync)]
@@ -39,6 +39,23 @@ pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<Stri
 pub fn create_directory(path_str: String) -> Result<()> {
     let path = PathBuf::from(path_str);
     mkdir(&path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn remove_from_library(path_str: String) -> Result<()> {
+    let path = PathBuf::from(path_str);
+    rm(&path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn move_file_or_dir(input_path_str: String, output_path_str: String) -> Result<()> {
+    let i_path = PathBuf::from(input_path_str);
+    let o_path = PathBuf::from(output_path_str);
+    mv(&i_path, &o_path)?;
 
     Ok(())
 }
