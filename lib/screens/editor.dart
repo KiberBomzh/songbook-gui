@@ -81,11 +81,12 @@ class _EditorState extends State<EditorScreen> {
 
 	@override
 	Widget build(BuildContext context) {
-		return Scaffold(
-			appBar: AppBar(
-				title: Text('Editor'),
+		return SafeArea(
+			bottom: true,
+			top: true,
+			child: Scaffold(
+				body: _buildBody(),
 			),
-			body: _buildBody(),
 		);
 	}
 
@@ -97,7 +98,7 @@ class _EditorState extends State<EditorScreen> {
 					child: _buildTextField(),
 				),
 				Container(
-					height: MediaQuery.of(context).size.height * 0.15,
+					height: 70,
 					padding: const EdgeInsets.symmetric(horizontal: 20),
 					decoration: BoxDecoration(
 						color: Theme.of(context).colorScheme.surfaceVariant,
@@ -106,6 +107,9 @@ class _EditorState extends State<EditorScreen> {
 					child: Row(
 						mainAxisAlignment: .end,
 						children: [
+							BackButton(),
+							Spacer(),
+
 							IconButton(
 								icon: Icon(Icons.save),
 								tooltip: 'Save',
