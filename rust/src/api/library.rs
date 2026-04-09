@@ -1,8 +1,9 @@
 use std::path::PathBuf;
 
 use anyhow::{Result, anyhow};
-use songbook::song_library::lib_functions::get_files_in_dir;
+use songbook::song_library::lib_functions::*;
 use songbook::song_library::*;
+use songbook::{Song, Metadata};
 
 
 #[flutter_rust_bridge::frb(sync)]
@@ -56,6 +57,34 @@ pub fn move_file_or_dir(input_path_str: String, output_path_str: String) -> Resu
     let i_path = PathBuf::from(input_path_str);
     let o_path = PathBuf::from(output_path_str);
     mv(&i_path, &o_path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn add_new_song(
+    artist: String,
+    title: String,
+    text: String,
+    path_str: String
+) -> Result<()> {
+    let path = PathBuf::from(path_str);
+    let song = {
+        let (blocks, chord_list) = songbook::file_reader::txt_reader::read_from_txt(&text);
+        let metadata = Metadata {
+            artist,
+            title,
+            key: None,
+            capo: None,
+            autoscroll_speed: None,
+        };
+        let mut s = Song { blocks, chord_list, metadata, notes: None };
+        s.detect_key();
+
+        s
+    };
+
+    save(&song, &path)?;
 
     Ok(())
 }

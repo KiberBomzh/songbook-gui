@@ -261,6 +261,53 @@ class _LibraryState extends State<LibraryScreen> {
 	}
 
 	Future<void> _addSong() async {
+		_buildAddSongBottomSheet(
+			onDone: (artist, title, text) async {
+				final String? songName = await setName(
+					existsCheck: checkExistence,
+					context: context,
+					title: 'New song name',
+					initialValue: artist + ' - ' + title,
+					hintText: "Song's name",
+				);
+				if (songName == null)
+					return;
+
+
+				final String path = _currentPath + '/' + songName!;
+				addNewSong(
+					artist: artist,
+					title: title,
+					text: text,
+					pathStr: path
+				);
+				_loadDirectory();
+
+
+				Navigator.of(context).pop();
+			},
+		);
+	}
+
+	void _buildAddSongBottomSheet({required Function(String, String, String) onDone}) {
+		showModalBottomSheet(
+			context: context,
+			isScrollControlled: true,
+			builder: (context) {
+				final screenHeight = MediaQuery.of(context).size.height;
+
+				return Container(
+					height: screenHeight * 0.9,
+					width: double.infinity,
+					padding: const EdgeInsets.all(10),
+					decoration: BoxDecoration(
+						borderRadius: .vertical(top: Radius.circular(12)),
+						color: Theme.of(context).colorScheme.surfaceVariant,
+					),
+					child: SongAddScreen(onDone: onDone),
+				);
+			}
+		);
 	}
 
 
@@ -268,5 +315,183 @@ class _LibraryState extends State<LibraryScreen> {
 		final String path = _currentPath + '/' + name;
 		
 		return existenceCheck(pathStr: path);
+	}
+}
+
+
+class SongAddScreen extends StatefulWidget {
+	Function(String, String, String) onDone;
+
+	SongAddScreen({super.key, required this.onDone});
+
+
+	@override
+	State<SongAddScreen> createState() => SongAddState();
+}
+
+class SongAddState extends State<SongAddScreen> {
+	late TextEditingController _artistController;
+	late FocusNode _artistFocusNode;
+	String? _artistError;
+
+	late TextEditingController _titleController;
+	late FocusNode _titleFocusNode;
+	String? _titleError;
+
+	late TextEditingController _songContentController;
+	late FocusNode _songContentFocusNode;
+
+	@override
+	void initState() {
+		super.initState();
+		_artistController = TextEditingController();
+		_artistFocusNode = FocusNode();
+
+		_titleController = TextEditingController();
+		_titleFocusNode = FocusNode();
+
+		_songContentController = TextEditingController();
+		_songContentFocusNode = FocusNode();
+	}
+
+	@override
+	void dispose() {
+		_artistController.dispose();
+		_artistFocusNode.dispose();
+
+		_titleController.dispose();
+		_titleFocusNode.dispose();
+
+		_songContentController.dispose();
+		_songContentFocusNode.dispose();
+
+		super.dispose();
+	}
+
+
+	@override
+	Widget build(BuildContext context) {
+		return Column(
+			children: [
+				Padding(
+					padding: const EdgeInsets.all(15),
+					child: Row(
+						children: [
+							TextButton(
+								child: Text('Cancel'),
+								onPressed: () => Navigator.of(context).pop(),
+							),
+							Spacer(),
+							ElevatedButton(
+								child: Text('Done'),
+								onPressed: () {
+									final artist = _artistController.text.trim();
+									final artistCheckResult = _validateName(artist);
+									if (artistCheckResult != null) {
+										setState(() => _artistError = artistCheckResult);
+										_artistFocusNode.requestFocus();
+
+										return;
+									}
+
+									final title = _titleController.text.trim();
+									final titleCheckResult = _validateName(title);
+									if (titleCheckResult != null) {
+										setState(() => _titleError = titleCheckResult);
+										_titleFocusNode.requestFocus();
+
+										return;
+									}
+
+									final text = _songContentController.text;
+									widget.onDone(artist, title, text);
+								},
+							),
+						],
+					),
+				),
+
+				Row(
+					children: [
+						Expanded(
+							child: TextField(
+								controller: _artistController,
+								focusNode: _artistFocusNode,
+								decoration: InputDecoration(
+									border: OutlineInputBorder(),
+									hintText: "Artist...",
+									errorText: _artistError,
+								),
+								onChanged: (value) {
+									setState(() => _artistError = _validateName(value));
+								},
+								onSubmitted: (value) {
+									final String text = value.trim();
+									final checkResult = _validateName(text);
+									if (checkResult == null) {
+										_titleFocusNode.requestFocus();
+									} else {
+										setState(() => _artistError = checkResult);
+										_artistFocusNode.requestFocus();
+									}
+								}
+							),
+						),
+						const SizedBox(width: 10),
+						Expanded(
+							child: TextField(
+								controller: _titleController,
+								focusNode: _titleFocusNode,
+								decoration: InputDecoration(
+									border: OutlineInputBorder(),
+									hintText: "Title...",
+									errorText: _titleError,
+								),
+								onChanged: (value) {
+									setState(() => _titleError = _validateName(value));
+								},
+								onSubmitted: (value) {
+									final String text = value.trim();
+									final checkResult = _validateName(text);
+									if (checkResult == null) {
+										_songContentFocusNode.requestFocus();
+									} else {
+										setState(() => _titleError = checkResult);
+										_titleFocusNode.requestFocus();
+									}
+								}
+							),
+						),
+					]
+				),
+				const SizedBox(height: 20),
+				Expanded(
+					child: TextField(
+						controller: _songContentController,
+						focusNode: _songContentFocusNode,
+						maxLines: null,
+						expands: true,
+						textAlignVertical: .top,
+						style: TextStyle(fontFamily: 'RobotoMono'),
+						decoration: const InputDecoration(
+							border: OutlineInputBorder(),
+							hintText: "Song's text...",
+						),
+					),
+				),
+			],
+		);
+	}
+	String? _validateName(String value) {
+		final trimmed = value.trim();
+
+		if (trimmed.isEmpty)
+			return 'Text cannot be empty!';
+		
+		final forbiddenChars = getForbiddenChars();
+		if (trimmed.characters.any((char) => forbiddenChars.contains(char)))
+			return 'Text contains forbidden chars!';
+		
+		return null;
 	}
 }

@@ -23,6 +23,18 @@ void moveFileOrDir({
   outputPathStr: outputPathStr,
 );
 
+void addNewSong({
+  required String artist,
+  required String title,
+  required String text,
+  required String pathStr,
+}) => RustLib.instance.api.crateApiLibraryAddNewSong(
+  artist: artist,
+  title: title,
+  text: text,
+  pathStr: pathStr,
+);
+
 bool existenceCheck({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryExistenceCheck(pathStr: pathStr);
 
