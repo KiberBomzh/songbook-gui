@@ -117,6 +117,12 @@ class _EditorState extends State<EditorScreen> {
 							),
 
 							IconButton(
+								icon: Icon(Icons.help),
+								tooltip: 'Help',
+								onPressed: _showHelp,
+							),
+
+							IconButton(
 								icon: Icon(Icons.undo),
 								tooltip: 'Undo',
 								onPressed: _undo,
@@ -157,6 +163,20 @@ class _EditorState extends State<EditorScreen> {
 				onChanged: (text) {
 					_saveToHistory();
 				}
+			),
+		);
+	}
+
+
+	void _showHelp() {
+		showDialog(
+			context: context,
+			builder: (context) => SimpleDialog(
+				title: Center( child: Text('Help') ),
+				contentPadding: const EdgeInsets.all(10),
+				children: [
+					Text(getEditorHelpMsg()),
+				],
 			),
 		);
 	}

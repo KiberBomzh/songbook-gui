@@ -97,3 +97,18 @@ impl SimpleBlock {
         }
     }
 }
+
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_editor_help_msg() -> String {
+    let help = get_help_msg();
+
+    let res: String = help
+        .lines()
+        .enumerate()
+        .map(|(i, l)|
+            if i != 0 && i != help.lines().count() - 1 { l.to_string() + "\n" } else { String::new() }
+        ).collect();
+
+    return res.trim().to_string()
+}

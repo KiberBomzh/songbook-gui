@@ -6,6 +6,9 @@
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+String getEditorHelpMsg() =>
+    RustLib.instance.api.crateApiSongGetEditorHelpMsg();
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}
 
