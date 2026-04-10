@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 import 'package:songbook/screens/editor.dart';
@@ -96,7 +97,7 @@ class SongState extends State<SongScreen> {
 
 					...block.lines.map((l) {
 						return Text(l,
-							style: TextStyle(fontFamily: 'RobotoMono')
+							style: GoogleFonts.jetBrainsMono()
 						);
 					}).toList(),
 				],
