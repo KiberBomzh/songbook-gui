@@ -149,21 +149,33 @@ class _EditorState extends State<EditorScreen> {
 	Widget _buildTextField() {
 		return Container(
 			padding: const EdgeInsets.symmetric(horizontal: 15),
-			child: TextField(
-				controller: _textController,
-				focusNode: _focusNode,
-				maxLines: null,
-				expands: true,
-				textAlignVertical: .top,
-				style: GoogleFonts.cascadiaMono(),
-				decoration: const InputDecoration(
-					border: InputBorder.none,
-					hintText: "Song's text...",
-					hintStyle: TextStyle(color: Colors.grey),
+			child: SingleChildScrollView(
+				scrollDirection: Axis.horizontal,
+				child: ConstrainedBox(
+					constraints: BoxConstraints(
+						minWidth: MediaQuery.of(context).size.width,
+					),
+					child: IntrinsicWidth(
+						child: TextField(
+							controller: _textController,
+							focusNode: _focusNode,
+							maxLines: null,
+							expands: true,
+							textAlignVertical: .top,
+							style: GoogleFonts.cascadiaMono(
+								textStyle: Theme.of(context).textTheme.bodyMedium
+							),
+							decoration: const InputDecoration(
+								border: InputBorder.none,
+								hintText: "Song's text...",
+								hintStyle: TextStyle(color: Colors.grey),
+							),
+							onChanged: (text) {
+								_saveToHistory();
+							}
+						),
+					),
 				),
-				onChanged: (text) {
-					_saveToHistory();
-				}
 			),
 		);
 	}
