@@ -58,7 +58,7 @@ impl SimpleSong {
 
 pub struct SimpleBlock {
     pub title: Option<String>,
-    pub lines: Vec<String>,
+    pub lines: Vec<SimpleLine>,
     pub notes: Option<String>
 }
 
@@ -66,8 +66,12 @@ impl SimpleBlock {
     pub fn new(block: &Block) -> Self {
         let mut lines = Vec::new();
         for line in &block.lines {
-            let s = match line {
-                Line::TextBlock(row) => row.to_string(true, true),
+            let l = match line {
+                Line::TextBlock(row) => {
+                    let (chords, rhythm, text) = row.get_strings();
+
+                    SimpleLine::Row(chords, rhythm, text)
+                },
                 Line::ChordsLine(chords) => {
                     let mut s = String::new();
                     let mut is_first = true;
@@ -81,13 +85,13 @@ impl SimpleBlock {
                         s.push_str(&c.text);
                     }
 
-                    s
+                    SimpleLine::ChordsLine(s)
                 },
-                Line::PlainText(text) => text.clone(),
-                Line::Tab(tab) => tab.clone(),
-                Line::EmptyLine => String::new()
+                Line::PlainText(text) => SimpleLine::PlainText(text.clone()),
+                Line::Tab(tab) => SimpleLine::Tab(tab.clone()),
+                Line::EmptyLine => SimpleLine::EmptyLine
             };
-            lines.push(s);
+            lines.push(l);
         }
 
         Self {
@@ -96,6 +100,14 @@ impl SimpleBlock {
             notes: block.notes.clone(),
         }
     }
+}
+
+pub enum SimpleLine {
+    Row(String, String, String),
+    ChordsLine(String),
+    PlainText(String),
+    Tab(String),
+    EmptyLine
 }
 
 

@@ -694,6 +694,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<SimpleLine> dco_decode_list_simple_line(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_simple_line).toList();
+  }
+
+  @protected
   String? dco_decode_opt_String(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_String(raw);
@@ -722,9 +728,32 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       throw Exception('unexpected arr length: expect 3 but see ${arr.length}');
     return SimpleBlock(
       title: dco_decode_opt_String(arr[0]),
-      lines: dco_decode_list_String(arr[1]),
+      lines: dco_decode_list_simple_line(arr[1]),
       notes: dco_decode_opt_String(arr[2]),
     );
+  }
+
+  @protected
+  SimpleLine dco_decode_simple_line(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    switch (raw[0]) {
+      case 0:
+        return SimpleLine_Row(
+          dco_decode_String(raw[1]),
+          dco_decode_String(raw[2]),
+          dco_decode_String(raw[3]),
+        );
+      case 1:
+        return SimpleLine_ChordsLine(dco_decode_String(raw[1]));
+      case 2:
+        return SimpleLine_PlainText(dco_decode_String(raw[1]));
+      case 3:
+        return SimpleLine_Tab(dco_decode_String(raw[1]));
+      case 4:
+        return SimpleLine_EmptyLine();
+      default:
+        throw Exception("unreachable");
+    }
   }
 
   @protected
@@ -888,6 +917,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<SimpleLine> sse_decode_list_simple_line(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <SimpleLine>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_simple_line(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -914,9 +955,36 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   SimpleBlock sse_decode_simple_block(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_title = sse_decode_opt_String(deserializer);
-    var var_lines = sse_decode_list_String(deserializer);
+    var var_lines = sse_decode_list_simple_line(deserializer);
     var var_notes = sse_decode_opt_String(deserializer);
     return SimpleBlock(title: var_title, lines: var_lines, notes: var_notes);
+  }
+
+  @protected
+  SimpleLine sse_decode_simple_line(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var tag_ = sse_decode_i_32(deserializer);
+    switch (tag_) {
+      case 0:
+        var var_field0 = sse_decode_String(deserializer);
+        var var_field1 = sse_decode_String(deserializer);
+        var var_field2 = sse_decode_String(deserializer);
+        return SimpleLine_Row(var_field0, var_field1, var_field2);
+      case 1:
+        var var_field0 = sse_decode_String(deserializer);
+        return SimpleLine_ChordsLine(var_field0);
+      case 2:
+        var var_field0 = sse_decode_String(deserializer);
+        return SimpleLine_PlainText(var_field0);
+      case 3:
+        var var_field0 = sse_decode_String(deserializer);
+        return SimpleLine_Tab(var_field0);
+      case 4:
+        return SimpleLine_EmptyLine();
+      default:
+        throw UnimplementedError('');
+    }
   }
 
   @protected
@@ -1088,6 +1156,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_simple_line(
+    List<SimpleLine> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_simple_line(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -1112,8 +1192,35 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   void sse_encode_simple_block(SimpleBlock self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_opt_String(self.title, serializer);
-    sse_encode_list_String(self.lines, serializer);
+    sse_encode_list_simple_line(self.lines, serializer);
     sse_encode_opt_String(self.notes, serializer);
+  }
+
+  @protected
+  void sse_encode_simple_line(SimpleLine self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    switch (self) {
+      case SimpleLine_Row(
+        field0: final field0,
+        field1: final field1,
+        field2: final field2,
+      ):
+        sse_encode_i_32(0, serializer);
+        sse_encode_String(field0, serializer);
+        sse_encode_String(field1, serializer);
+        sse_encode_String(field2, serializer);
+      case SimpleLine_ChordsLine(field0: final field0):
+        sse_encode_i_32(1, serializer);
+        sse_encode_String(field0, serializer);
+      case SimpleLine_PlainText(field0: final field0):
+        sse_encode_i_32(2, serializer);
+        sse_encode_String(field0, serializer);
+      case SimpleLine_Tab(field0: final field0):
+        sse_encode_i_32(3, serializer);
+        sse_encode_String(field0, serializer);
+      case SimpleLine_EmptyLine():
+        sse_encode_i_32(4, serializer);
+    }
   }
 
   @protected

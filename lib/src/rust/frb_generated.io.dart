@@ -87,6 +87,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<SimpleBlock> dco_decode_list_simple_block(dynamic raw);
 
   @protected
+  List<SimpleLine> dco_decode_list_simple_line(dynamic raw);
+
+  @protected
   String? dco_decode_opt_String(dynamic raw);
 
   @protected
@@ -95,6 +98,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   SimpleBlock dco_decode_simple_block(dynamic raw);
+
+  @protected
+  SimpleLine dco_decode_simple_line(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -166,6 +172,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<SimpleBlock> sse_decode_list_simple_block(SseDeserializer deserializer);
 
   @protected
+  List<SimpleLine> sse_decode_list_simple_line(SseDeserializer deserializer);
+
+  @protected
   String? sse_decode_opt_String(SseDeserializer deserializer);
 
   @protected
@@ -176,6 +185,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   SimpleBlock sse_decode_simple_block(SseDeserializer deserializer);
+
+  @protected
+  SimpleLine sse_decode_simple_line(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -265,6 +277,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_simple_line(
+    List<SimpleLine> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_String(String? self, SseSerializer serializer);
 
   @protected
@@ -275,6 +293,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_simple_block(SimpleBlock self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_simple_line(SimpleLine self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);

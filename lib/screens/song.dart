@@ -6,6 +6,11 @@ import 'package:songbook/src/rust/api/song.dart';
 import 'package:songbook/screens/editor.dart';
 
 
+final Color chordsColor = Colors.cyan;
+final Color rhythmColor = Colors.orange;
+final Color notesColor = Colors.blue.withOpacity(0.7);
+
+
 class SongScreen extends StatefulWidget {
 	final String path;
 
@@ -63,45 +68,70 @@ class SongState extends State<SongScreen> {
 		return Container(
 			padding: const EdgeInsets.symmetric(horizontal: 10),
 			width: double.infinity,
-			child: ListView.separated(
+			child: ListView.builder(
 				itemCount: blocks.length,
-				separatorBuilder: (context, index) => const SizedBox(height: 25),
+				// separatorBuilder: (context, index) => const SizedBox(height: 25),
 				itemBuilder: (context, index) => _buildBlock(blocks[index]),
 			),
 		);
 	}
 
 	Widget _buildBlock(SimpleBlock block) {
-		return Container(
-			child: Column(
-				crossAxisAlignment: .start,
-				children: [
-					if (block.title != null || block.notes != null) ...[
-						Row(
-							children: [
-								if (block.title != null) ...[
-									Text(block.title!,
-										style: Theme.of(context).textTheme.titleLarge,
-									),
-									const SizedBox(width: 10),
-								],
+		return Column(
+			crossAxisAlignment: .start,
+			children: [
+				if (block.title != null || block.notes != null) ...[
+					Row(
+						children: [
+							if (block.title != null) ...[
+								Text(block.title!,
+									style: Theme.of(context).textTheme.titleLarge,
+								),
+								const SizedBox(width: 10),
+							],
 
-								if (block.notes != null)
-									Text(block.notes!,
-										style: TextStyle(color: Theme.of(context).colorScheme.primary.withOpacity(0.7))
-									),
-							]
-						),
-						const SizedBox(height: 10),
-					],
-
-					...block.lines.map((l) {
-						return Text(l,
-							style: GoogleFonts.jetBrainsMono()
-						);
-					}).toList(),
+							if (block.notes != null)
+								Text(block.notes!,
+									style: TextStyle(color: notesColor),
+								),
+						]
+					),
+					const SizedBox(height: 10),
 				],
-			),
+
+				...block.lines.map((l) {
+					final chordsStyle = GoogleFonts.jetBrainsMono(
+						textStyle: TextStyle(color: chordsColor),
+					);
+					final rhythmStyle = GoogleFonts.jetBrainsMono(
+						textStyle: TextStyle(color: rhythmColor),
+					);
+					final textStyle = GoogleFonts.jetBrainsMono();
+
+					return switch (l) {
+						SimpleLine_Row(field0: String chords, field1: String rhythm, field2: String text) =>
+							Column(
+								crossAxisAlignment: .start,
+								children: [
+									if (chords.isNotEmpty)
+										Text(chords, style: chordsStyle),
+
+									if (rhythm.isNotEmpty)
+										Text(rhythm, style: rhythmStyle),
+
+									if (text.isNotEmpty)
+										Text(text, style: textStyle)
+								],
+							),
+						SimpleLine_ChordsLine(field0: String chords) => Text(chords, style: chordsStyle),
+						SimpleLine_PlainText(field0: String text) => Text(text, style: textStyle),
+						SimpleLine_Tab(field0: String tab) => Text(tab, style: textStyle),
+						SimpleLine_EmptyLine() => Text(''),
+					};
+				}).toList(),
+
+				const SizedBox(height: 25),
+			],
 		);
 	}
 }

@@ -770,6 +770,18 @@ impl SseDecode for Vec<crate::api::song::SimpleBlock> {
     }
 }
 
+impl SseDecode for Vec<crate::api::song::SimpleLine> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::song::SimpleLine>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -795,13 +807,46 @@ impl SseDecode for crate::api::song::SimpleBlock {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_title = <Option<String>>::sse_decode(deserializer);
-        let mut var_lines = <Vec<String>>::sse_decode(deserializer);
+        let mut var_lines = <Vec<crate::api::song::SimpleLine>>::sse_decode(deserializer);
         let mut var_notes = <Option<String>>::sse_decode(deserializer);
         return crate::api::song::SimpleBlock {
             title: var_title,
             lines: var_lines,
             notes: var_notes,
         };
+    }
+}
+
+impl SseDecode for crate::api::song::SimpleLine {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut tag_ = <i32>::sse_decode(deserializer);
+        match tag_ {
+            0 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                let mut var_field1 = <String>::sse_decode(deserializer);
+                let mut var_field2 = <String>::sse_decode(deserializer);
+                return crate::api::song::SimpleLine::Row(var_field0, var_field1, var_field2);
+            }
+            1 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::song::SimpleLine::ChordsLine(var_field0);
+            }
+            2 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::song::SimpleLine::PlainText(var_field0);
+            }
+            3 => {
+                let mut var_field0 = <String>::sse_decode(deserializer);
+                return crate::api::song::SimpleLine::Tab(var_field0);
+            }
+            4 => {
+                return crate::api::song::SimpleLine::EmptyLine;
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
@@ -910,6 +955,41 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::song::SimpleBlock>
         self
     }
 }
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::song::SimpleLine {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        match self {
+            crate::api::song::SimpleLine::Row(field0, field1, field2) => [
+                0.into_dart(),
+                field0.into_into_dart().into_dart(),
+                field1.into_into_dart().into_dart(),
+                field2.into_into_dart().into_dart(),
+            ]
+            .into_dart(),
+            crate::api::song::SimpleLine::ChordsLine(field0) => {
+                [1.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::song::SimpleLine::PlainText(field0) => {
+                [2.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::song::SimpleLine::Tab(field0) => {
+                [3.into_dart(), field0.into_into_dart().into_dart()].into_dart()
+            }
+            crate::api::song::SimpleLine::EmptyLine => [4.into_dart()].into_dart(),
+            _ => {
+                unimplemented!("");
+            }
+        }
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::song::SimpleLine {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::song::SimpleLine>
+    for crate::api::song::SimpleLine
+{
+    fn into_into_dart(self) -> crate::api::song::SimpleLine {
+        self
+    }
+}
 
 impl SseEncode for flutter_rust_bridge::for_generated::anyhow::Error {
     // Codec=Sse (Serialization based), see doc to use other codecs
@@ -1006,6 +1086,16 @@ impl SseEncode for Vec<crate::api::song::SimpleBlock> {
     }
 }
 
+impl SseEncode for Vec<crate::api::song::SimpleLine> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::song::SimpleLine>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1029,8 +1119,40 @@ impl SseEncode for crate::api::song::SimpleBlock {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Option<String>>::sse_encode(self.title, serializer);
-        <Vec<String>>::sse_encode(self.lines, serializer);
+        <Vec<crate::api::song::SimpleLine>>::sse_encode(self.lines, serializer);
         <Option<String>>::sse_encode(self.notes, serializer);
+    }
+}
+
+impl SseEncode for crate::api::song::SimpleLine {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        match self {
+            crate::api::song::SimpleLine::Row(field0, field1, field2) => {
+                <i32>::sse_encode(0, serializer);
+                <String>::sse_encode(field0, serializer);
+                <String>::sse_encode(field1, serializer);
+                <String>::sse_encode(field2, serializer);
+            }
+            crate::api::song::SimpleLine::ChordsLine(field0) => {
+                <i32>::sse_encode(1, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            crate::api::song::SimpleLine::PlainText(field0) => {
+                <i32>::sse_encode(2, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            crate::api::song::SimpleLine::Tab(field0) => {
+                <i32>::sse_encode(3, serializer);
+                <String>::sse_encode(field0, serializer);
+            }
+            crate::api::song::SimpleLine::EmptyLine => {
+                <i32>::sse_encode(4, serializer);
+            }
+            _ => {
+                unimplemented!("");
+            }
+        }
     }
 }
 
