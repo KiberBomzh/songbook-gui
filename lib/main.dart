@@ -19,24 +19,28 @@ class MyApp extends StatelessWidget {
 		final themeMode = ThemeMode.dark;
 		final accentColor = Colors.blue;
 
-		return MaterialApp(
-			title: 'Songbook',
-			theme: ThemeData(
-				useMaterial3: true,
-				colorScheme: ColorScheme.fromSeed(
-					brightness: .light,
-					seedColor: accentColor,
+		return SafeArea(
+			top: true,
+			bottom: true,
+			child: MaterialApp(
+				title: 'Songbook',
+				theme: ThemeData(
+					useMaterial3: true,
+					colorScheme: ColorScheme.fromSeed(
+						brightness: .light,
+						seedColor: accentColor,
+					),
 				),
-			),
-			darkTheme: ThemeData(
-				useMaterial3: true,
-				colorScheme: ColorScheme.fromSeed(
-					brightness: .dark,
-					seedColor: accentColor,
+				darkTheme: ThemeData(
+					useMaterial3: true,
+					colorScheme: ColorScheme.fromSeed(
+						brightness: .dark,
+						seedColor: accentColor,
+					),
 				),
+				themeMode: themeMode,
+				home: LibraryScreen(),
 			),
-			themeMode: themeMode,
-			home: LibraryScreen(),
 		);
 	}
 }
