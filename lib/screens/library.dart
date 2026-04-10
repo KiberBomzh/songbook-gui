@@ -50,7 +50,12 @@ class _LibraryState extends State<LibraryScreen> {
 	@override
 	Widget build(BuildContext context) {
 		return Scaffold(
-			appBar: AppBar( title: Text('Library') ),
+			appBar: AppBar(
+				title: Text( (widget.path == null)
+					? 'Library'
+					: _getPathName(_currentPath),
+				),
+			),
 			body: _buildBody(),
 			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
@@ -68,7 +73,7 @@ class _LibraryState extends State<LibraryScreen> {
 					? _dirs[dirsIndex]
 					: _files[filesIndex];
 
-				final itemName = itemPath.substring(itemPath.lastIndexOf('/') + 1);
+				final itemName = _getPathName(itemPath);
 
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
@@ -315,6 +320,11 @@ class _LibraryState extends State<LibraryScreen> {
 		final String path = _currentPath + '/' + name;
 		
 		return existenceCheck(pathStr: path);
+	}
+
+
+	String _getPathName(String path) {
+		return path.substring(path.lastIndexOf('/') + 1);
 	}
 }
 
