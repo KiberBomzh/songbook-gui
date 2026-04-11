@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 import 'package:songbook/screens/editor.dart';
@@ -11,13 +10,17 @@ final Color rhythmColor = Colors.orange;
 final Color notesColor = Colors.blue.withOpacity(0.7);
 
 
-final chordsStyle = 
-	GoogleFonts.jetBrainsMono( textStyle: TextStyle(color: chordsColor) );
+final chordsStyle = TextStyle(
+	color: chordsColor,
+	fontFamily: 'JetBrainsMono',
+);
 
-final rhythmStyle =
-	GoogleFonts.jetBrainsMono( textStyle: TextStyle(color: rhythmColor) );
+final rhythmStyle = TextStyle(
+	color: rhythmColor,
+	fontFamily: 'JetBrainsMono',
+);
 
-final textStyle = GoogleFonts.jetBrainsMono();
+final textStyle = TextStyle(fontFamily: 'JetBrainsMono');
 
 
 final useLineWrap = true;

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:songbook/screens/song.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
@@ -487,7 +486,7 @@ class SongAddState extends State<SongAddScreen> {
 						maxLines: null,
 						expands: true,
 						textAlignVertical: .top,
-						style: GoogleFonts.cascadiaMono(),
+						style: TextStyle(fontFamily: 'CascadiaMono'),
 						decoration: const InputDecoration(
 							border: OutlineInputBorder(),
 							hintText: "Song's text...",

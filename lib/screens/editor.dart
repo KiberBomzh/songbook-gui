@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 
@@ -162,9 +161,7 @@ class _EditorState extends State<EditorScreen> {
 							maxLines: null,
 							expands: true,
 							textAlignVertical: .top,
-							style: GoogleFonts.cascadiaMono(
-								textStyle: Theme.of(context).textTheme.bodyMedium
-							),
+							style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontFamily: 'CascadiaMono'),
 							decoration: const InputDecoration(
 								border: InputBorder.none,
 								hintText: "Song's text...",
