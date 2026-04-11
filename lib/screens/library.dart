@@ -24,6 +24,7 @@ class _LibraryState extends State<LibraryScreen> {
 	List<String> _dirs = [];
 	List<String> _files = [];
 	late String _currentPath;
+	bool _isCurrentDirEmpty = true;
 
 	@override
 	void initState() {
@@ -43,6 +44,7 @@ class _LibraryState extends State<LibraryScreen> {
 			_dirs = d;
 			_files = f;
 			_currentPath = p;
+			_isCurrentDirEmpty = (_dirs.isEmpty && _files.isEmpty);
 		});
 	}
 
@@ -57,7 +59,9 @@ class _LibraryState extends State<LibraryScreen> {
 					: _getPathName(_currentPath),
 				),
 			),
-			body: _buildBody(),
+			body: _isCurrentDirEmpty
+				? Center( child: Text("There's nothing to show...") )
+				: _buildBody(),
 			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
 		);
