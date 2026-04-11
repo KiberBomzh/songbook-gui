@@ -11,6 +11,16 @@ final Color rhythmColor = Colors.orange;
 final Color notesColor = Colors.blue.withOpacity(0.7);
 
 
+final chordsStyle = 
+	GoogleFonts.jetBrainsMono( textStyle: TextStyle(color: chordsColor) );
+
+final rhythmStyle =
+	GoogleFonts.jetBrainsMono( textStyle: TextStyle(color: rhythmColor) );
+
+final textStyle = GoogleFonts.jetBrainsMono();
+
+
+
 class SongScreen extends StatefulWidget {
 	final String path;
 
@@ -65,13 +75,24 @@ class SongState extends State<SongScreen> {
 	}
 
 	Widget _buildBody(List<SimpleBlock> blocks) {
-		return Container(
-			padding: const EdgeInsets.symmetric(horizontal: 10),
-			width: double.infinity,
-			child: ListView.builder(
-				itemCount: blocks.length,
-				// separatorBuilder: (context, index) => const SizedBox(height: 25),
-				itemBuilder: (context, index) => _buildBlock(blocks[index]),
+		return SingleChildScrollView(
+			scrollDirection: Axis.horizontal,
+			child: ConstrainedBox(
+				constraints: BoxConstraints(
+					minWidth: MediaQuery.of(context).size.width,
+				),
+				child: SingleChildScrollView(
+					scrollDirection: Axis.vertical,
+					child: Padding(
+						padding: const EdgeInsets.symmetric(horizontal: 10),
+						child: Column(
+							crossAxisAlignment: .start,
+							children: [
+								...blocks.map((block) => _buildBlock(block)),
+							],
+						),
+					),
+				),
 			),
 		);
 	}
@@ -100,29 +121,9 @@ class SongState extends State<SongScreen> {
 				],
 
 				...block.lines.map((l) {
-					final chordsStyle = GoogleFonts.jetBrainsMono(
-						textStyle: TextStyle(color: chordsColor),
-					);
-					final rhythmStyle = GoogleFonts.jetBrainsMono(
-						textStyle: TextStyle(color: rhythmColor),
-					);
-					final textStyle = GoogleFonts.jetBrainsMono();
-
 					return switch (l) {
 						SimpleLine_Row(field0: String chords, field1: String rhythm, field2: String text) =>
-							Column(
-								crossAxisAlignment: .start,
-								children: [
-									if (chords.isNotEmpty)
-										Text(chords, style: chordsStyle),
-
-									if (rhythm.isNotEmpty)
-										Text(rhythm, style: rhythmStyle),
-
-									if (text.isNotEmpty)
-										Text(text, style: textStyle)
-								],
-							),
+							RowWidget(chords: chords, rhythm: rhythm, text: text),
 						SimpleLine_ChordsLine(field0: String chords) => Text(chords, style: chordsStyle),
 						SimpleLine_PlainText(field0: String text) => Text(text, style: textStyle),
 						SimpleLine_Tab(field0: String tab) => Text(tab, style: textStyle),
@@ -131,6 +132,35 @@ class SongState extends State<SongScreen> {
 				}).toList(),
 
 				const SizedBox(height: 25),
+			],
+		);
+	}
+}
+
+class RowWidget extends StatelessWidget {
+	final String chords;
+	final String rhythm;
+	final String text;
+
+	RowWidget({
+		super.key,
+		required this.chords,
+		required this.rhythm,
+		required this.text
+	});
+
+	@override
+	Widget build(BuildContext context) {
+		return Column(
+			children: [
+				if (chords.isNotEmpty)
+					Text(chords, style: chordsStyle),
+
+				if (rhythm.isNotEmpty)
+					Text(rhythm, style: rhythmStyle),
+
+				if (text.isNotEmpty)
+					Text(text, style: textStyle)
 			],
 		);
 	}
