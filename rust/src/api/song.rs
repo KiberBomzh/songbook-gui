@@ -39,6 +39,11 @@ impl SimpleSong {
         return blocks
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_notes(&self) -> Option<String> {
+        self.song.notes.clone()
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_for_editing(&self) -> String {

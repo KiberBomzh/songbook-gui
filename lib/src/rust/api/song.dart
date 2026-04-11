@@ -24,6 +24,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String getForEditing();
 
+  String? getNotes();
+
   static SimpleSong open({required String pathStr}) =>
       RustLib.instance.api.crateApiSongSimpleSongOpen(pathStr: pathStr);
 }

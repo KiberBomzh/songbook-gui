@@ -82,6 +82,7 @@ class SongState extends State<SongScreen> {
 
 	Widget _buildBody(List<SimpleBlock> blocks) {
 		final screenWidth = MediaQuery.of(context).size.width;
+		final String? songNotes = song.getNotes();
 
 		return SingleChildScrollView(
 			scrollDirection: Axis.horizontal,
@@ -99,6 +100,13 @@ class SongState extends State<SongScreen> {
 						child: Column(
 							crossAxisAlignment: .start,
 							children: [
+								if (songNotes != null)
+									Text(songNotes!,
+										style: TextStyle(
+											color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+										)
+									),
+
 								...blocks.map((block) => _buildBlock(block)),
 							],
 						),
