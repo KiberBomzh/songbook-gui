@@ -236,7 +236,27 @@ class _LibraryState extends State<LibraryScreen> {
 						},
 						onLongPress: () {
 							if (_isSelectMode) {
-								_switchSelectionForPath(itemPath);
+								if (_selected.contains(itemPath)) {
+									setState(() => _selected.remove(itemPath));
+									return;
+								}
+
+								final List<String> allPaths = _files + _dirs;
+								final int currentIndex = allPaths.indexOf(itemPath);
+								final int lastAddedIndex = allPaths.indexOf(_selected.last);
+
+								final betweenPaths = (currentIndex > lastAddedIndex)
+									? allPaths.sublist(lastAddedIndex, currentIndex + 1)
+									: allPaths.sublist(currentIndex, lastAddedIndex);
+
+
+								setState(() {
+									for (int i = 0; i < betweenPaths.length; i++) {
+										final String path = betweenPaths[i];
+										if (!_selected.contains(path))
+											_selected.add(path);
+									}
+								});
 							} else {
 								setState(() {
 									_isSelectMode = true;
