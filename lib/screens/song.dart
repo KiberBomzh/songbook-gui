@@ -211,27 +211,25 @@ class RowWidget extends StatelessWidget {
 		final maxChars = (maxWidth / charWidth).floor();
 		List<Widget> lines = [];
 
-		int minusIndent = 0;
-		final linesLength = (lineLength / maxChars).ceil();
-		for (int i = 0; i < linesLength; i++) {
-			final startIndex = (i * maxChars) - minusIndent;
-			int endIndex = (i < linesLength - 1)
-				? (i + 1) * maxChars
-				: lineLength;
+		int lastEndIndex = 0;
+		while (lastEndIndex < lineLength) {
+			final startIndex = lastEndIndex;
+			int endIndex = lastEndIndex + maxChars;
+			if (endIndex > lineLength)
+				endIndex = lineLength;
 
 
-			if (chords != null && i < linesLength - 1) {
+			if (chords != null && endIndex < lineLength) {
 				while (chords![endIndex] != ' ' && chords![endIndex - 1] != '' && endIndex > startIndex) {
-					minusIndent++;
 					endIndex--;
 				}
 			}
-			if (text != null && i < linesLength - 1) {
+			if (text != null && endIndex < lineLength) {
 				while (text![endIndex] != ' ' && text![endIndex - 1] != '' && endIndex > startIndex) {
-					minusIndent++;
 					endIndex--;
 				}
 			}
+			lastEndIndex = endIndex;
 
 
 			if (chords != null) {
