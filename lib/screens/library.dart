@@ -96,6 +96,21 @@ class _LibraryState extends State<LibraryScreen> {
 
 	@override
 	Widget build(BuildContext context) {
+		return PopScope(
+			canPop: !_isSelectMode,
+			onPopInvokedWithResult: (didPop, result) async {
+				if (_isSelectMode) {
+					setState(() {
+						_selected.clear();
+						_isSelectMode = false;
+					});
+				}
+			},
+			child: _buildScaffold()
+		);
+	}
+
+	Widget _buildScaffold() {
 		return Scaffold(
 			appBar: AppBar(
 				title: Text( (widget.path == null)
@@ -103,6 +118,9 @@ class _LibraryState extends State<LibraryScreen> {
 					: _getPathName(_currentPath),
 				),
 
+				leading: (_isSelectMode || widget.path != null)
+					? BackButton()
+					: null,
 				actions: [
 					if (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty)
 						IconButton(
