@@ -7,7 +7,6 @@ import 'package:songbook/screens/editor.dart';
 
 final Color chordsColor = Colors.cyan;
 final Color rhythmColor = Colors.orange;
-final Color notesColor = Colors.blue.withOpacity(0.7);
 
 
 final chordsStyle = TextStyle(
@@ -130,10 +129,14 @@ class SongState extends State<SongScreen> {
 								const SizedBox(width: 10),
 							],
 
-							if (block.notes != null)
+							if (block.notes != null) ...[
+								if (block.title == null)
+									Spacer(),
+
 								Text(block.notes!,
-									style: TextStyle(color: notesColor),
+									style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
 								),
+							],
 						]
 					),
 					const SizedBox(height: 10),
