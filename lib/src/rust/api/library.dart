@@ -23,6 +23,30 @@ void moveFileOrDir({
   outputPathStr: outputPathStr,
 );
 
+void copyFileOrDir({
+  required String inputPathStr,
+  required String outputPathStr,
+}) => RustLib.instance.api.crateApiLibraryCopyFileOrDir(
+  inputPathStr: inputPathStr,
+  outputPathStr: outputPathStr,
+);
+
+void copyPathListIn({
+  required List<String> pathsStr,
+  required String outDirStr,
+}) => RustLib.instance.api.crateApiLibraryCopyPathListIn(
+  pathsStr: pathsStr,
+  outDirStr: outDirStr,
+);
+
+void movePathListIn({
+  required List<String> pathsStr,
+  required String outDirStr,
+}) => RustLib.instance.api.crateApiLibraryMovePathListIn(
+  pathsStr: pathsStr,
+  outDirStr: outDirStr,
+);
+
 void addNewSong({
   required String artist,
   required String title,

@@ -14,7 +14,9 @@ var _isAppDirSet = false;
 
 class LibraryScreen extends StatefulWidget {
 	final String? path;
-	LibraryScreen({super.key, this.path});
+	final List<String>? copyBuffer;
+	final List<String>? cutBuffer;
+	LibraryScreen({super.key, this.path, this.copyBuffer, this.cutBuffer});
 
 	State<LibraryScreen> createState() => _LibraryState();
 }
@@ -25,9 +27,17 @@ class _LibraryState extends State<LibraryScreen> {
 	late String _currentPath;
 	bool _isCurrentDirEmpty = true;
 
+	List<String> _copyBuffer = [];
+	List<String> _cutBuffer = [];
+
+
 	@override
 	void initState() {
 		super.initState();
+
+		_copyBuffer = widget.copyBuffer ?? [];
+		_cutBuffer = widget.cutBuffer ?? [];
+
 		_loadDirectory();
 	}
 
@@ -47,6 +57,38 @@ class _LibraryState extends State<LibraryScreen> {
 		});
 	}
 
+	// Может быть сделаю ассинхронным
+	void _paste() {
+		if (_copyBuffer.isNotEmpty) {
+			if (_copyBuffer.contains(_currentPath)) {
+				ScaffoldMessenger.of(context).showSnackBar(
+					const SnackBar(
+						content: Text('Cannot copy in current dir!'),
+						duration: Duration(seconds: 1)
+					),
+				);
+				return;
+			}
+
+			copyPathListIn(
+				pathsStr: _copyBuffer,
+				outDirStr: _currentPath
+			);
+		} else if (_cutBuffer.isNotEmpty) {
+			movePathListIn(
+				pathsStr: _cutBuffer,
+				outDirStr: _currentPath
+			);
+		}
+
+
+		setState(() {
+			_cutBuffer.clear();
+			_copyBuffer.clear();
+		});
+		_loadDirectory();
+	}
+
 
 
 	@override
@@ -57,6 +99,14 @@ class _LibraryState extends State<LibraryScreen> {
 					? 'Library'
 					: _getPathName(_currentPath),
 				),
+
+				actions: [
+					if (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty)
+						IconButton(
+							icon: Icon(Icons.paste),
+							onPressed: _paste,
+						),
+				],
 			),
 			body: _isCurrentDirEmpty
 				? Center( child: Text("There's nothing to show...") )
@@ -79,6 +129,10 @@ class _LibraryState extends State<LibraryScreen> {
 
 				final itemName = _getPathName(itemPath);
 
+				if (_cutBuffer.contains(itemPath))
+					return SizedBox();
+
+
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
 					decoration: BoxDecoration(
@@ -96,7 +150,11 @@ class _LibraryState extends State<LibraryScreen> {
 							MaterialPageRoute(
 								builder: (context) {
 									if (isItemDir)
-										return LibraryScreen(path: itemPath);
+										return LibraryScreen(
+											path: itemPath,
+											copyBuffer: _copyBuffer,
+											cutBuffer: _cutBuffer,
+										);
 									else
 										return SongScreen(path: itemPath);
 								},
@@ -148,11 +206,26 @@ class _LibraryState extends State<LibraryScreen> {
 			icon: Icon(Icons.more_vert),
 			tooltip: 'Options',
 			offset: const Offset(0, 40),
+			shape: RoundedRectangleBorder(
+				borderRadius: .circular(12),
+			),
 
 			onSelected: (value) {
 				switch (value) {
 					case ('rename'):
 						_rename(name);
+						break;
+					case ('copy'):
+						_cutBuffer.clear();
+
+						if (!_copyBuffer.contains(path))
+							setState(() => _copyBuffer.add(path));
+						break;
+					case ('cut'):
+						_copyBuffer.clear();
+
+						if (!_cutBuffer.contains(path))
+							setState(() => _cutBuffer.add(path));
 						break;
 					case ('delete'):
 						removeFromLibrary(pathStr: path);
@@ -165,13 +238,18 @@ class _LibraryState extends State<LibraryScreen> {
 					value: 'rename',
 					child: Text('Rename'),
 				),
-				const PopupMenuDivider(),
-
+				const PopupMenuItem(
+					value: 'copy',
+					child: Text('Copy'),
+				),
+				const PopupMenuItem(
+					value: 'cut',
+					child: Text('Cut'),
+				),
 				const PopupMenuItem(
 					value: 'delete',
 					child: Text('Delete'),
 				),
-
 			],
 		);
 	}

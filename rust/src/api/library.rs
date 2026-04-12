@@ -62,6 +62,34 @@ pub fn move_file_or_dir(input_path_str: String, output_path_str: String) -> Resu
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn copy_file_or_dir(input_path_str: String, output_path_str: String) -> Result<()> {
+    let i_path = PathBuf::from(input_path_str);
+    let o_path = PathBuf::from(output_path_str);
+    cp(&i_path, &o_path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn copy_path_list_in(paths_str: Vec<String>, out_dir_str: String) -> Result<()> {
+    for i in paths_str {
+        copy_file_or_dir(i, out_dir_str.clone())?;
+    }
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn move_path_list_in(paths_str: Vec<String>, out_dir_str: String) -> Result<()> {
+    for i in paths_str {
+        move_file_or_dir(i, out_dir_str.clone())?;
+    }
+
+    Ok(())
+}
+
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn add_new_song(
     artist: String,
     title: String,
