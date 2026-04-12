@@ -66,10 +66,10 @@ class SongState extends State<SongScreen> {
 					crossAxisAlignment: .start,
 					children: [
 						Text(song.getTitle(),
-							style: Theme.of(context).textTheme.titleLarge
+							style: Theme.of(context).textTheme.titleMedium
 						),
 						Text(song.getArtist(),
-							style: Theme.of(context).textTheme.titleMedium?.copyWith(
+							style: Theme.of(context).textTheme.titleSmall?.copyWith(
 								color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)
 							),
 						),
