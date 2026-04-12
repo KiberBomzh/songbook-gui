@@ -27,6 +27,9 @@ class _LibraryState extends State<LibraryScreen> {
 	late String _currentPath;
 	bool _isCurrentDirEmpty = true;
 
+	List<String> _selected = [];
+	bool _isSelectMode = false;
+
 	List<String> _copyBuffer = [];
 	List<String> _cutBuffer = [];
 
@@ -106,6 +109,9 @@ class _LibraryState extends State<LibraryScreen> {
 							icon: Icon(Icons.paste),
 							onPressed: _paste,
 						),
+
+					if (_isSelectMode)
+						_buildAppBarPopupMenuButton(),
 				],
 			),
 			body: _isCurrentDirEmpty
@@ -113,6 +119,76 @@ class _LibraryState extends State<LibraryScreen> {
 				: _buildBody(),
 			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
+		);
+	}
+
+	Widget _buildAppBarPopupMenuButton() {
+		return PopupMenuButton<String>(
+			icon: Icon(Icons.more_vert),
+			tooltip: 'Options',
+			offset: const Offset(0, 40),
+			shape: RoundedRectangleBorder(
+				borderRadius: .circular(12),
+			),
+
+			onSelected: (value) {
+				switch (value) {
+					case ('copy'):
+						setState(() {
+							_cutBuffer.clear();
+
+							for (int i = 0; i < _selected.length; i++)
+								if (!_copyBuffer.contains(_selected[i]))
+									_copyBuffer.add(_selected[i]);
+
+							_selected.clear();
+							_isSelectMode = false;
+						});
+						break;
+					case ('cut'):
+						setState(() {
+							_copyBuffer.clear();
+
+							for (int i = 0; i < _selected.length; i++)
+								if (!_cutBuffer.contains(_selected[i]))
+									_cutBuffer.add(_selected[i]);
+
+							_selected.clear();
+							_isSelectMode = false;
+						});
+						break;
+					case ('delete'):
+						setState(() {
+							for (int i = 0; i < _selected.length; i++) {
+								String path = _selected[i];
+								removeFromLibrary(pathStr: path);
+
+								if (_copyBuffer.contains(path))
+									_copyBuffer.remove(path);
+								if (_cutBuffer.contains(path))
+									_cutBuffer.remove(path);
+							}
+							_selected.clear();
+							_isSelectMode = false;
+						});
+						_loadDirectory();
+						break;
+				}
+			},
+			itemBuilder: (context) => [
+				const PopupMenuItem(
+					value: 'copy',
+					child: Text('Copy'),
+				),
+				const PopupMenuItem(
+					value: 'cut',
+					child: Text('Cut'),
+				),
+				const PopupMenuItem(
+					value: 'delete',
+					child: Text('Delete'),
+				),
+			],
 		);
 	}
 
@@ -135,31 +211,39 @@ class _LibraryState extends State<LibraryScreen> {
 
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
-					decoration: BoxDecoration(
-						borderRadius: .circular(10),
-						border: Border.all(
-							color: Theme.of(context).colorScheme.outline,
-							width: 2,
-						),
-					),
 					child: _buildItem(
 						name: itemName,
 						path: itemPath,
 						isDir: isItemDir,
-						onTap: () =>  Navigator.push(context,
-							MaterialPageRoute(
-								builder: (context) {
-									if (isItemDir)
-										return LibraryScreen(
-											path: itemPath,
-											copyBuffer: _copyBuffer,
-											cutBuffer: _cutBuffer,
-										);
-									else
-										return SongScreen(path: itemPath);
-								},
-							),
-						),
+						onTap: () {
+							if (!_isSelectMode)
+								Navigator.push(context,
+									MaterialPageRoute(
+										builder: (context) {
+											if (isItemDir)
+												return LibraryScreen(
+													path: itemPath,
+													copyBuffer: _copyBuffer,
+													cutBuffer: _cutBuffer,
+												);
+											else
+												return SongScreen(path: itemPath);
+										},
+									),
+								);
+							else
+								_switchSelectionForPath(itemPath);
+						},
+						onLongPress: () {
+							if (_isSelectMode) {
+								_switchSelectionForPath(itemPath);
+							} else {
+								setState(() {
+									_isSelectMode = true;
+									_selected.add(itemPath);
+								});
+							}
+						},
 					),
 				);
 			},
@@ -171,14 +255,22 @@ class _LibraryState extends State<LibraryScreen> {
 		required String path,
 		required bool isDir,
 		required VoidCallback onTap,
+		required VoidCallback onLongPress,
 	}) {
 		return Material(
-			color: Colors.transparent,
+			color: (_selected.contains(path))
+				? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+				: Theme.of(context).colorScheme.surfaceContainer,
+			clipBehavior: Clip.antiAlias,
+			shape: RoundedRectangleBorder(
+				borderRadius: .circular(10),
+			),
 			child: InkWell(
 				onTap: onTap,
+				onLongPress: onLongPress,
 				splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
 				highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
-				child: Padding(
+				child: Container(
 					padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
 					child: Row(
 						children: [
@@ -214,6 +306,11 @@ class _LibraryState extends State<LibraryScreen> {
 				switch (value) {
 					case ('rename'):
 						_rename(name);
+
+						if (_copyBuffer.contains(path))
+							_copyBuffer.remove(path);
+						if (_cutBuffer.contains(path))
+							_cutBuffer.remove(path);
 						break;
 					case ('copy'):
 						_cutBuffer.clear();
@@ -229,6 +326,12 @@ class _LibraryState extends State<LibraryScreen> {
 						break;
 					case ('delete'):
 						removeFromLibrary(pathStr: path);
+
+						if (_copyBuffer.contains(path))
+							_copyBuffer.remove(path);
+						if (_cutBuffer.contains(path))
+							_cutBuffer.remove(path);
+
 						_loadDirectory();
 						break;
 				}
@@ -408,6 +511,16 @@ class _LibraryState extends State<LibraryScreen> {
 	String _getPathName(String path) {
 		return path.substring(path.lastIndexOf('/') + 1);
 	}
+
+	void _switchSelectionForPath(String path) => setState(() {
+		if (_selected.contains(path))
+			_selected.remove(path);
+		else
+			_selected.add(path);
+
+		if (_selected.isEmpty)
+			_isSelectMode = false;
+	});
 }
 
 
