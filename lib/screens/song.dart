@@ -62,7 +62,19 @@ class SongState extends State<SongScreen> {
 
 		return Scaffold(
 			appBar: AppBar(
-				title: Text('Song'),
+				title: Column(
+					crossAxisAlignment: .start,
+					children: [
+						Text(song.getTitle(),
+							style: Theme.of(context).textTheme.titleLarge
+						),
+						Text(song.getArtist(),
+							style: Theme.of(context).textTheme.titleMedium?.copyWith(
+								color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)
+							),
+						),
+					],
+				),
 				actions: [
 					IconButton(
 						icon: Icon(Icons.edit),

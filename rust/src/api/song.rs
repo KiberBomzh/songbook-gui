@@ -44,6 +44,16 @@ impl SimpleSong {
         self.song.notes.clone()
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_artist(&self) -> String {
+        self.song.metadata.artist.clone()
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_title(&self) -> String {
+        self.song.metadata.title.clone()
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_for_editing(&self) -> String {
