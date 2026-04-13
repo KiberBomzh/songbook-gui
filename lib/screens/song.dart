@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
@@ -39,6 +40,11 @@ class SongScreen extends StatefulWidget {
 class SongState extends State<SongScreen> {
 	late SimpleSong song;
 
+	bool _showNotes = true;
+	bool _showRhythm = true;
+	bool _showChords = true;
+
+
 	@override
 	void initState() {
 		super.initState();
@@ -75,19 +81,21 @@ class SongState extends State<SongScreen> {
 						),
 					],
 				),
-				actions: [
-					IconButton(
-						icon: Icon(Icons.edit),
-						tooltip: 'Edit',
-						onPressed: _edit,
-					),
-				],
 			),
 			body: (blocks.length > 0)
 				? _buildBody(blocks)
 				: Center(
 					child: Text('The song is empty...')
 				),
+			bottomSheet: BottomBar(
+				edit: _edit,
+				toggleNotes: () => setState(() => _showNotes = !_showNotes),
+				toggleRhythm: () => setState(() => _showRhythm = !_showRhythm),
+				toggleChords: () => setState(() => _showChords = !_showChords),
+				showNotes: _showNotes,
+				showRhythm: _showRhythm,
+				showChords: _showChords,
+			),
 		);
 	}
 
@@ -111,7 +119,7 @@ class SongState extends State<SongScreen> {
 						child: Column(
 							crossAxisAlignment: .start,
 							children: [
-								if (songNotes != null)
+								if (songNotes != null && _showNotes)
 									Text(songNotes!,
 										style: TextStyle(
 											color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
@@ -119,6 +127,8 @@ class SongState extends State<SongScreen> {
 									),
 
 								...blocks.map((block) => _buildBlock(block)),
+
+								const SizedBox(height: 70),
 							],
 						),
 					),
@@ -141,7 +151,7 @@ class SongState extends State<SongScreen> {
 								const SizedBox(width: 10),
 							],
 
-							if (block.notes != null) ...[
+							if (block.notes != null && _showNotes) ...[
 								if (block.title == null)
 									Spacer(),
 
@@ -158,11 +168,11 @@ class SongState extends State<SongScreen> {
 					return switch (l) {
 						SimpleLine_Row(field0: String chords, field1: String rhythm, field2: String text) =>
 							RowWidget(
-								chords: chords.isEmpty
+								chords: (chords.isEmpty || !_showChords)
 									? null
 									: chords,
 
-								rhythm: rhythm.isEmpty
+								rhythm: (rhythm.isEmpty || !_showRhythm)
 									? null
 									: rhythm,
 
@@ -170,10 +180,12 @@ class SongState extends State<SongScreen> {
 									? null
 									: text
 							),
-						SimpleLine_ChordsLine(field0: String chords) => Text(chords, style: chordsStyle),
+						SimpleLine_ChordsLine(field0: String chords) => (_showChords)
+							? Text(chords, style: chordsStyle)
+							: SizedBox(),
 						SimpleLine_PlainText(field0: String text) => Text(text, style: textStyle),
 						SimpleLine_Tab(field0: String tab) => Text(tab, style: textStyle),
-						SimpleLine_EmptyLine() => Text(''),
+						SimpleLine_EmptyLine() => Text('', style: textStyle),
 					};
 				}).toList(),
 
@@ -314,4 +326,171 @@ class RowWidget extends StatelessWidget {
 
 		return max;
 	}
+}
+
+class BottomBar extends StatefulWidget {
+	final VoidCallback edit;
+
+	// left
+	final VoidCallback toggleNotes;
+	final VoidCallback toggleRhythm;
+	final VoidCallback toggleChords;
+	bool showNotes;
+	bool showRhythm;
+	bool showChords;
+
+	BottomBar({
+		super.key,
+		required this.edit,
+
+		required this.toggleNotes,
+		required this.toggleRhythm,
+		required this.toggleChords,
+		required this.showNotes,
+		required this.showRhythm,
+		required this.showChords,
+	});
+
+
+	@override
+	State<BottomBar> createState() => _BarState();
+}
+
+class _BarState extends State<BottomBar> {
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			height: 70,
+			decoration: BoxDecoration(
+				borderRadius: .vertical(top: .circular(10)),
+				color: Theme.of(context).colorScheme.surfaceVariant,
+			),
+			child: Row(
+				mainAxisAlignment: .start,
+				children: [
+					const SizedBox(width: 10),
+					SizedBox(
+						width: 200,
+						child: _buildLeftSide()
+					),
+					Spacer(),
+					const SizedBox(width: 10),
+
+					IconButton(
+						icon: Icon(Icons.edit, size: 25),
+						style: IconButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.primary,
+							foregroundColor: Theme.of(context).colorScheme.onPrimary,
+							fixedSize: Size(50, 50),
+						),
+						onPressed: widget.edit,
+					),
+
+					const SizedBox(width: 10),
+					Spacer(),
+					SizedBox(
+						width: 200,
+						child: _buildRightSide()
+					),
+					const SizedBox(width: 10),
+				],
+			),
+		);
+	}
+
+	Widget _buildLeftSide() {
+		final activeColor = Theme.of(context).colorScheme.onPrimary;
+		final inactiveColor = Theme.of(context).colorScheme.onSurface;
+
+		return Material(
+			color: Colors.transparent,
+			child: Row(
+				children: [
+					_buildBarItem( // Notes toggle
+						child: Icon(Icons.note,
+							size: 25,
+							color: (widget.showNotes)
+								? activeColor
+								: inactiveColor,
+						),
+						isActive: widget.showNotes,
+						onTap: widget.toggleNotes,
+					),
+					_buildBarItem( // Rhythm toggle
+						child: Icon(Icons.music_note,
+							size: 25,
+							color: (widget.showRhythm)
+								? activeColor
+								: inactiveColor,
+						),
+						isActive: widget.showRhythm,
+						onTap: widget.toggleRhythm,
+					),
+					_buildBarItem( // Chords toggle
+						child: Text('Am', 
+							style: TextStyle(
+								fontSize: 15,
+								color: (widget.showChords)
+									? activeColor
+									: inactiveColor,
+							)
+						),
+						isActive: widget.showChords,
+						onTap: widget.toggleChords,
+					),
+				],
+			),
+		);
+	}
+	Widget _buildRightSide() {
+		return Row(
+			mainAxisAlignment: .end,
+			children: [
+				IconButton( // автопрокрутка
+					icon: Icon(Icons.question_mark, size: 25),
+					onPressed: () {},
+				),
+				IconButton( // тональность
+					icon: Icon(Icons.question_mark, size: 25),
+					onPressed: () {},
+				),
+				IconButton( // каподастр
+					icon: Icon(Icons.question_mark, size: 25),
+					onPressed: () {},
+				),
+			],
+		);
+	}
+
+	Widget _buildBarItem({
+		required Widget child,
+		required VoidCallback onTap,
+		bool isActive = true,
+	}) {
+		return Padding(
+			padding: const EdgeInsets.all(5),
+			child: Material(
+				color: isActive
+					? Theme.of(context).colorScheme.primary
+					: Colors.transparent,
+				clipBehavior: .antiAlias,
+				shape: RoundedRectangleBorder(
+					borderRadius: .circular(12),
+				),
+				child: InkWell(
+					child: SizedBox(
+						height: 40,
+						width: 40,
+						child: Center(
+							child: child,
+						),
+					),
+					onTap: onTap,
+					splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+					highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+				),
+			),
+		);
+	}
+
 }
