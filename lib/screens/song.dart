@@ -38,7 +38,10 @@ class SongScreen extends StatefulWidget {
 }
 
 class SongState extends State<SongScreen> {
-	late SimpleSong song;
+	late SimpleSong _song;
+
+	late String _key;
+	late int? _capo;
 
 	bool _showNotes = true;
 	bool _showRhythm = true;
@@ -48,14 +51,23 @@ class SongState extends State<SongScreen> {
 	@override
 	void initState() {
 		super.initState();
-		song = SimpleSong.open(pathStr: widget.path);
+		_song = SimpleSong.open(pathStr: widget.path);
+		_capo = _song.getCapo();
+
+		String? checkKey = _song.getKey();
+		if (checkKey == null) {
+			_song.detectKey();
+			_key = _song.getKey()!;
+		} else {
+			_key = checkKey!;
+		}
 	}
 
 
 	void _edit() async {
 		final result = await Navigator.push(context,
 			MaterialPageRoute(
-				builder: (context) => EditorScreen(song: song),
+				builder: (context) => EditorScreen(song: _song),
 			),
 		);
 
@@ -64,17 +76,17 @@ class SongState extends State<SongScreen> {
 
 	@override
 	Widget build(BuildContext context) {
-		final List<SimpleBlock> blocks = song.getBlocks();
+		final List<SimpleBlock> blocks = _song.getBlocks();
 
 		return Scaffold(
 			appBar: AppBar(
 				title: Column(
 					crossAxisAlignment: .start,
 					children: [
-						Text(song.getTitle(),
+						Text(_song.getTitle(),
 							style: Theme.of(context).textTheme.titleMedium
 						),
-						Text(song.getArtist(),
+						Text(_song.getArtist(),
 							style: Theme.of(context).textTheme.titleSmall?.copyWith(
 								color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)
 							),
@@ -95,13 +107,23 @@ class SongState extends State<SongScreen> {
 				showNotes: _showNotes,
 				showRhythm: _showRhythm,
 				showChords: _showChords,
+				songCapo: _capo ?? 0,
+				songKey: _key,
+				transposeSong: (steps) => setState(() {
+					_song.transpose(steps: steps);
+					_key = _song.getKey()!;
+				}),
+				setCapo: (newCapo) => setState(() {
+					_song.setCapo(capo: newCapo);
+					_capo = _song.getCapo();
+				}),
 			),
 		);
 	}
 
 	Widget _buildBody(List<SimpleBlock> blocks) {
 		final screenWidth = MediaQuery.of(context).size.width;
-		final String? songNotes = song.getNotes();
+		final String? songNotes = _song.getNotes();
 
 		return SingleChildScrollView(
 			scrollDirection: Axis.horizontal,
@@ -328,6 +350,13 @@ class RowWidget extends StatelessWidget {
 	}
 }
 
+
+enum RightSideMode {
+	none,
+	key,
+	capo,
+	autoscroll
+}
 class BottomBar extends StatefulWidget {
 	final VoidCallback edit;
 
@@ -335,9 +364,14 @@ class BottomBar extends StatefulWidget {
 	final VoidCallback toggleNotes;
 	final VoidCallback toggleRhythm;
 	final VoidCallback toggleChords;
-	bool showNotes;
-	bool showRhythm;
-	bool showChords;
+	final bool showNotes;
+	final bool showRhythm;
+	final bool showChords;
+
+	final String songKey;
+	final int songCapo;
+	final Function(int) transposeSong;
+	final Function(int) setCapo;
 
 	BottomBar({
 		super.key,
@@ -349,6 +383,11 @@ class BottomBar extends StatefulWidget {
 		required this.showNotes,
 		required this.showRhythm,
 		required this.showChords,
+
+		required this.songKey,
+		required this.songCapo,
+		required this.transposeSong,
+		required this.setCapo,
 	});
 
 
@@ -357,6 +396,8 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BarState extends State<BottomBar> {
+	RightSideMode _currentMode = RightSideMode.none;
+
 	@override
 	Widget build(BuildContext context) {
 		return Container(
@@ -370,7 +411,7 @@ class _BarState extends State<BottomBar> {
 				children: [
 					const SizedBox(width: 10),
 					SizedBox(
-						width: 200,
+						width: 150,
 						child: _buildLeftSide()
 					),
 					Spacer(),
@@ -389,7 +430,7 @@ class _BarState extends State<BottomBar> {
 					const SizedBox(width: 10),
 					Spacer(),
 					SizedBox(
-						width: 200,
+						width: 150,
 						child: _buildRightSide()
 					),
 					const SizedBox(width: 10),
@@ -399,79 +440,186 @@ class _BarState extends State<BottomBar> {
 	}
 
 	Widget _buildLeftSide() {
-		final activeColor = Theme.of(context).colorScheme.onPrimary;
-		final inactiveColor = Theme.of(context).colorScheme.onSurface;
-
-		return Material(
-			color: Colors.transparent,
-			child: Row(
-				children: [
-					_buildBarItem( // Notes toggle
-						child: Icon(Icons.note,
-							size: 25,
-							color: (widget.showNotes)
-								? activeColor
-								: inactiveColor,
-						),
-						isActive: widget.showNotes,
-						onTap: widget.toggleNotes,
+		return Row(
+			children: [
+				_buildBarItem( // Notes toggle
+					child: Icon(Icons.note,
+						size: 25,
 					),
-					_buildBarItem( // Rhythm toggle
-						child: Icon(Icons.music_note,
-							size: 25,
-							color: (widget.showRhythm)
-								? activeColor
-								: inactiveColor,
-						),
-						isActive: widget.showRhythm,
-						onTap: widget.toggleRhythm,
+					isActive: widget.showNotes,
+					onTap: widget.toggleNotes,
+				),
+				_buildBarItem( // Rhythm toggle
+					child: Icon(Icons.music_note,
+						size: 25,
 					),
-					_buildBarItem( // Chords toggle
-						child: Text('Am', 
-							style: TextStyle(
-								fontSize: 15,
-								color: (widget.showChords)
-									? activeColor
-									: inactiveColor,
-							)
-						),
-						isActive: widget.showChords,
-						onTap: widget.toggleChords,
+					isActive: widget.showRhythm,
+					onTap: widget.toggleRhythm,
+				),
+				_buildBarItem( // Chords toggle
+					child: Text('Am', 
+						style: TextStyle(
+							fontSize: 15,
+							fontWeight: .bold,
+						)
 					),
-				],
-			),
+					isActive: widget.showChords,
+					onTap: widget.toggleChords,
+				),
+			],
 		);
 	}
 	Widget _buildRightSide() {
 		return Row(
 			mainAxisAlignment: .end,
-			children: [
-				IconButton( // автопрокрутка
-					icon: Icon(Icons.question_mark, size: 25),
-					onPressed: () {},
-				),
-				IconButton( // тональность
-					icon: Icon(Icons.question_mark, size: 25),
-					onPressed: () {},
-				),
-				IconButton( // каподастр
-					icon: Icon(Icons.question_mark, size: 25),
-					onPressed: () {},
-				),
-			],
+			children: switch (_currentMode) {
+				RightSideMode.none => _buildDefaultRightSide(),
+				RightSideMode.capo => _buildCapoRightSide(),
+				RightSideMode.key => _buildKeyRightSide(),
+				RightSideMode.autoscroll => _buildAutoscrollRightSide(),
+			},
 		);
+	}
+
+	List<Widget> _buildDefaultRightSide() {
+		return [
+			_buildBarItem( // Capo
+				child: Text('Capo', 
+					style: TextStyle(
+						fontSize: 12,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.capo),
+			),
+
+			_buildBarItem( // Key
+				child: Text('Key', 
+					style: TextStyle(
+						fontSize: 12,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.key),
+			),
+
+			_buildBarItem( // Autoscroll
+				child: Icon(Icons.speed,
+					size: 25,
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.autoscroll),
+			),
+		];
+	}
+	List<Widget> _buildCapoRightSide() {
+		return [
+			_buildBarItem(
+				child: Text('-1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: (widget.songCapo > 0)
+					? () => widget.setCapo(widget.songCapo - 1)
+					: null,
+			),
+
+			_buildBarItem(
+				child: Text(widget.songCapo.toString(), 
+					style: TextStyle(
+						fontSize: 12,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.none),
+			),
+
+			_buildBarItem(
+				child: Text('+1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.setCapo(widget.songCapo + 1),
+			),
+		];
+	}
+	List<Widget> _buildKeyRightSide() {
+		return [
+			_buildBarItem(
+				child: Text('-1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.transposeSong(-1),
+			),
+
+			_buildBarItem(
+				child: Text(widget.songKey, 
+					style: TextStyle(
+						fontSize: 12,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.none),
+			),
+
+			_buildBarItem(
+				child: Text('+1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.transposeSong(1),
+			),
+		];
+	}
+	List<Widget> _buildAutoscrollRightSide() {
+		return [
+			_buildBarItem(
+				child: Text('-1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () {},
+			),
+
+			_buildBarItem(
+				child: Icon(Icons.speed, 
+					size: 25,
+				),
+				onTap: () => setState(() => _currentMode = RightSideMode.none),
+			),
+
+			_buildBarItem(
+				child: Text('+1', 
+					style: TextStyle(
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () {},
+			),
+		];
 	}
 
 	Widget _buildBarItem({
 		required Widget child,
-		required VoidCallback onTap,
+		required VoidCallback? onTap,
 		bool isActive = true,
 	}) {
 		return Padding(
 			padding: const EdgeInsets.all(5),
 			child: Material(
 				color: isActive
-					? Theme.of(context).colorScheme.primary
+					? Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.5)
 					: Colors.transparent,
 				clipBehavior: .antiAlias,
 				shape: RoundedRectangleBorder(
@@ -494,3 +642,4 @@ class _BarState extends State<BottomBar> {
 	}
 
 }
+

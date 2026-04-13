@@ -23,6 +23,35 @@ impl SimpleSong {
         } )
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn save(&self) -> Result<()> {
+        let path = PathBuf::from(&self.path);
+        save(&self.song, &path)?;
+
+        Ok(())
+    }
+
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn transpose(&mut self, steps: i32) {
+        self.song.transpose(steps);
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn set_capo(&mut self, capo: u8) {
+        if let Some(song_capo) = self.song.metadata.capo {
+            let song_capo: i32 = song_capo.into();
+            let capo: i32 = capo.into();
+            self.transpose(capo - song_capo);
+        } else {
+            self.transpose(capo.into());
+        }
+
+        self.song.metadata.capo =
+            if capo == 0 { None }
+            else { Some(capo) };
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {
@@ -54,6 +83,16 @@ impl SimpleSong {
         self.song.metadata.title.clone()
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_key(&self) -> Option<String> {
+        Some(self.song.metadata.key?.to_string())
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_capo(&self) -> Option<u8> {
+        self.song.metadata.capo
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_for_editing(&self) -> String {
@@ -62,11 +101,15 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn change_from_edited(&mut self, s: String) -> Result<()> {
-        let path = PathBuf::from(&self.path);
         self.song.change_from_edited_str(&s);
-        save(&self.song, &path)?;
+        self.save()?;
 
         Ok(())
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn detect_key(&mut self) {
+        self.song.detect_key();
     }
 }
 
