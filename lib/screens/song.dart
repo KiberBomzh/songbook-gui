@@ -99,29 +99,34 @@ class SongState extends State<SongScreen> {
 				),
 			),
 			body: (blocks.length > 0)
-				? _buildBody(blocks)
+				? Stack(
+					children: [
+						_buildBody(blocks),
+
+						Align(
+							alignment: .bottomLeft,
+							child: BottomBar(
+								songCapo: _capo ?? 0,
+								songKey: _key,
+								transposeSong: (steps) => setState(() {
+									_song.transpose(steps: steps);
+									_key = _song.getKey()!;
+								}),
+								setCapo: (newCapo) => setState(() {
+									_song.setCapo(capo: newCapo);
+									_capo = _song.getCapo();
+									_key = _song.getKey()!;
+								}),
+							),
+						),
+					],
+				)
 				: Center(
 					child: Text('The song is empty...')
 				),
-			bottomSheet: BottomBar(
-				songCapo: _capo ?? 0,
-				songKey: _key,
-				transposeSong: (steps) => setState(() {
-					_song.transpose(steps: steps);
-					_key = _song.getKey()!;
-				}),
-				setCapo: (newCapo) => setState(() {
-					_song.setCapo(capo: newCapo);
-					_capo = _song.getCapo();
-					_key = _song.getKey()!;
-				}),
-			),
-			floatingActionButton: Padding(
-				padding: const EdgeInsets.only(right: 20, bottom: 20),
-				child: FloatingActionButton(
-					child: Icon(Icons.edit),
-					onPressed: _edit,
-				),
+			floatingActionButton: FloatingActionButton(
+				child: Icon(Icons.edit),
+				onPressed: _edit,
 			),
 		);
 	}
@@ -388,13 +393,14 @@ class _BarState extends State<BottomBar> {
 
 	@override
 	Widget build(BuildContext context) {
-		_foregroundColor = Theme.of(context).colorScheme.onPrimary;
+		_foregroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
 
 		return Container(
 			height: 80,
+			width: 250,
 			decoration: BoxDecoration(
-				borderRadius: .vertical(top: .circular(10)),
-				color: Theme.of(context).colorScheme.surfaceVariant,
+				borderRadius: .only(topRight: .circular(10)),
+				// color: Theme.of(context).colorScheme.surfaceVariant,
 			),
 			child: Row(
 				mainAxisAlignment: .center,
@@ -575,7 +581,7 @@ class _BarState extends State<BottomBar> {
 		return Padding(
 			padding: const EdgeInsets.all(5),
 			child: Material(
-				color: Theme.of(context).colorScheme.primary,
+				color: Theme.of(context).colorScheme.primaryContainer,
 				clipBehavior: .antiAlias,
 				shape: RoundedRectangleBorder(
 					borderRadius: .circular(15),
