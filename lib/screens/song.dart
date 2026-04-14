@@ -51,6 +51,10 @@ class SongState extends State<SongScreen> {
 	@override
 	void initState() {
 		super.initState();
+		_loadSong();
+	}
+
+	void _loadSong() => setState(() {
 		_song = SimpleSong.open(pathStr: widget.path);
 		_capo = _song.getCapo();
 
@@ -61,7 +65,7 @@ class SongState extends State<SongScreen> {
 		} else {
 			_key = checkKey!;
 		}
-	}
+	});
 
 
 	void _edit() async {
@@ -71,7 +75,7 @@ class SongState extends State<SongScreen> {
 			),
 		);
 
-		setState(() {});
+		_loadSong();
 	}
 
 	@override
@@ -100,13 +104,6 @@ class SongState extends State<SongScreen> {
 					child: Text('The song is empty...')
 				),
 			bottomSheet: BottomBar(
-				edit: _edit,
-				toggleNotes: () => setState(() => _showNotes = !_showNotes),
-				toggleRhythm: () => setState(() => _showRhythm = !_showRhythm),
-				toggleChords: () => setState(() => _showChords = !_showChords),
-				showNotes: _showNotes,
-				showRhythm: _showRhythm,
-				showChords: _showChords,
 				songCapo: _capo ?? 0,
 				songKey: _key,
 				transposeSong: (steps) => setState(() {
@@ -116,7 +113,15 @@ class SongState extends State<SongScreen> {
 				setCapo: (newCapo) => setState(() {
 					_song.setCapo(capo: newCapo);
 					_capo = _song.getCapo();
+					_key = _song.getKey()!;
 				}),
+			),
+			floatingActionButton: Padding(
+				padding: const EdgeInsets.only(right: 20, bottom: 20),
+				child: FloatingActionButton(
+					child: Icon(Icons.edit),
+					onPressed: _edit,
+				),
 			),
 		);
 	}
@@ -150,7 +155,7 @@ class SongState extends State<SongScreen> {
 
 								...blocks.map((block) => _buildBlock(block)),
 
-								const SizedBox(height: 70),
+								const SizedBox(height: 80),
 							],
 						),
 					),
@@ -351,23 +356,13 @@ class RowWidget extends StatelessWidget {
 }
 
 
-enum RightSideMode {
+enum BarMode {
 	none,
 	key,
 	capo,
 	autoscroll
 }
 class BottomBar extends StatefulWidget {
-	final VoidCallback edit;
-
-	// left
-	final VoidCallback toggleNotes;
-	final VoidCallback toggleRhythm;
-	final VoidCallback toggleChords;
-	final bool showNotes;
-	final bool showRhythm;
-	final bool showChords;
-
 	final String songKey;
 	final int songCapo;
 	final Function(int) transposeSong;
@@ -375,15 +370,6 @@ class BottomBar extends StatefulWidget {
 
 	BottomBar({
 		super.key,
-		required this.edit,
-
-		required this.toggleNotes,
-		required this.toggleRhythm,
-		required this.toggleChords,
-		required this.showNotes,
-		required this.showRhythm,
-		required this.showChords,
-
 		required this.songKey,
 		required this.songCapo,
 		required this.transposeSong,
@@ -396,126 +382,79 @@ class BottomBar extends StatefulWidget {
 }
 
 class _BarState extends State<BottomBar> {
-	RightSideMode _currentMode = RightSideMode.none;
+	BarMode _currentMode = BarMode.none;
+	late Color _foregroundColor;
+
 
 	@override
 	Widget build(BuildContext context) {
+		_foregroundColor = Theme.of(context).colorScheme.onPrimary;
+
 		return Container(
-			height: 70,
+			height: 80,
 			decoration: BoxDecoration(
 				borderRadius: .vertical(top: .circular(10)),
 				color: Theme.of(context).colorScheme.surfaceVariant,
 			),
 			child: Row(
-				mainAxisAlignment: .start,
-				children: [
-					const SizedBox(width: 10),
-					SizedBox(
-						width: 150,
-						child: _buildLeftSide()
-					),
-					Spacer(),
-					const SizedBox(width: 10),
-
-					IconButton(
-						icon: Icon(Icons.edit, size: 25),
-						style: IconButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.primary,
-							foregroundColor: Theme.of(context).colorScheme.onPrimary,
-							fixedSize: Size(50, 50),
-						),
-						onPressed: widget.edit,
-					),
-
-					const SizedBox(width: 10),
-					Spacer(),
-					SizedBox(
-						width: 150,
-						child: _buildRightSide()
-					),
-					const SizedBox(width: 10),
-				],
+				mainAxisAlignment: .center,
+				children: switch (_currentMode) {
+					BarMode.none => _buildDefault(),
+					BarMode.capo => _buildCapo(),
+					BarMode.key => _buildKey(),
+					BarMode.autoscroll => _buildAutoscroll(),
+				},
 			),
 		);
 	}
-
-	Widget _buildLeftSide() {
-		return Row(
-			children: [
-				_buildBarItem( // Notes toggle
-					child: Icon(Icons.note,
-						size: 25,
-					),
-					isActive: widget.showNotes,
-					onTap: widget.toggleNotes,
-				),
-				_buildBarItem( // Rhythm toggle
-					child: Icon(Icons.music_note,
-						size: 25,
-					),
-					isActive: widget.showRhythm,
-					onTap: widget.toggleRhythm,
-				),
-				_buildBarItem( // Chords toggle
-					child: Text('Am', 
-						style: TextStyle(
-							fontSize: 15,
-							fontWeight: .bold,
-						)
-					),
-					isActive: widget.showChords,
-					onTap: widget.toggleChords,
-				),
-			],
-		);
-	}
-	Widget _buildRightSide() {
-		return Row(
-			mainAxisAlignment: .end,
-			children: switch (_currentMode) {
-				RightSideMode.none => _buildDefaultRightSide(),
-				RightSideMode.capo => _buildCapoRightSide(),
-				RightSideMode.key => _buildKeyRightSide(),
-				RightSideMode.autoscroll => _buildAutoscrollRightSide(),
-			},
-		);
-	}
-
-	List<Widget> _buildDefaultRightSide() {
+	List<Widget> _buildDefault() {
 		return [
 			_buildBarItem( // Capo
-				child: Text('Capo', 
+				child: Text((widget.songCapo > 0)
+					? widget.songCapo.toString()
+					: 'Capo',
 					style: TextStyle(
-						fontSize: 12,
+						color: _foregroundColor,
+						fontSize: 15,
 						fontWeight: .bold,
 					)
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.capo),
+				onTap: () => setState(() => _currentMode = BarMode.capo),
+				size: 50,
 			),
+			const SizedBox(width: 10),
 
 			_buildBarItem( // Key
-				child: Text('Key', 
+				child: Text(widget.songKey.replaceFirst('/', '\n'), 
 					style: TextStyle(
-						fontSize: 12,
+						color: _foregroundColor,
+						fontSize: 15,
 						fontWeight: .bold,
-					)
+					),
+					textAlign: .center,
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.key),
+				onTap: () => setState(() => _currentMode = BarMode.key),
+				size: 60,
 			),
+
+			const SizedBox(width: 10),
 
 			_buildBarItem( // Autoscroll
 				child: Icon(Icons.speed,
-					size: 25,
+					color: _foregroundColor,
+					size: 35,
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.autoscroll),
+				onTap: () => setState(() => _currentMode = BarMode.autoscroll),
+				size: 50,
 			),
 		];
 	}
-	List<Widget> _buildCapoRightSide() {
+	List<Widget> _buildCapo() {
 		return [
 			_buildBarItem(
 				child: Text('-1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
@@ -524,20 +463,25 @@ class _BarState extends State<BottomBar> {
 					? () => widget.setCapo(widget.songCapo - 1)
 					: null,
 			),
+			const SizedBox(width: 10),
 
 			_buildBarItem(
 				child: Text(widget.songCapo.toString(), 
 					style: TextStyle(
-						fontSize: 12,
+						color: _foregroundColor,
+						fontSize: 20,
 						fontWeight: .bold,
 					)
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.none),
+				onTap: () => setState(() => _currentMode = BarMode.none),
+				size: 60,
 			),
 
+			const SizedBox(width: 10),
 			_buildBarItem(
 				child: Text('+1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
@@ -546,31 +490,38 @@ class _BarState extends State<BottomBar> {
 			),
 		];
 	}
-	List<Widget> _buildKeyRightSide() {
+	List<Widget> _buildKey() {
 		return [
 			_buildBarItem(
 				child: Text('-1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
 				),
 				onTap: () => widget.transposeSong(-1),
 			),
+			const SizedBox(width: 10),
 
 			_buildBarItem(
-				child: Text(widget.songKey, 
+				child: Text(widget.songKey.replaceFirst('/', '\n'), 
 					style: TextStyle(
-						fontSize: 12,
+						color: _foregroundColor,
+						fontSize: 15,
 						fontWeight: .bold,
-					)
+					),
+					textAlign: .center,
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.none),
+				onTap: () => setState(() => _currentMode = BarMode.none),
+				size: 60,
 			),
 
+			const SizedBox(width: 10),
 			_buildBarItem(
 				child: Text('+1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
@@ -579,28 +530,34 @@ class _BarState extends State<BottomBar> {
 			),
 		];
 	}
-	List<Widget> _buildAutoscrollRightSide() {
+	List<Widget> _buildAutoscroll() {
 		return [
 			_buildBarItem(
 				child: Text('-1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
 				),
 				onTap: () {},
 			),
+			const SizedBox(width: 10),
 
 			_buildBarItem(
 				child: Icon(Icons.speed, 
-					size: 25,
+					color: _foregroundColor,
+					size: 35,
 				),
-				onTap: () => setState(() => _currentMode = RightSideMode.none),
+				onTap: () => setState(() => _currentMode = BarMode.none),
+				size: 60,
 			),
 
+			const SizedBox(width: 10),
 			_buildBarItem(
 				child: Text('+1', 
 					style: TextStyle(
+						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
@@ -613,29 +570,27 @@ class _BarState extends State<BottomBar> {
 	Widget _buildBarItem({
 		required Widget child,
 		required VoidCallback? onTap,
-		bool isActive = true,
+		double size = 40,
 	}) {
 		return Padding(
 			padding: const EdgeInsets.all(5),
 			child: Material(
-				color: isActive
-					? Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.5)
-					: Colors.transparent,
+				color: Theme.of(context).colorScheme.primary,
 				clipBehavior: .antiAlias,
 				shape: RoundedRectangleBorder(
-					borderRadius: .circular(12),
+					borderRadius: .circular(15),
 				),
 				child: InkWell(
 					child: SizedBox(
-						height: 40,
-						width: 40,
+						height: size,
+						width: size,
 						child: Center(
 							child: child,
 						),
 					),
 					onTap: onTap,
-					splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-					highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+					splashColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+					highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.05),
 				),
 			),
 		);

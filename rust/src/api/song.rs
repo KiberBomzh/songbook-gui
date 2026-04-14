@@ -85,7 +85,18 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_key(&self) -> Option<String> {
-        Some(self.song.metadata.key?.to_string())
+        let key = self.song.metadata.key?;
+        let mut s = String::new();
+
+        if let Some(capo) = self.song.metadata.capo{
+            let key_without_capo = key.transpose(-(capo.try_into().ok()?));
+            s.push_str(&format!("{key_without_capo}/({key})"));
+        } else {
+            s = key.to_string();
+        }
+
+
+        Some(s)
     }
 
     #[flutter_rust_bridge::frb(sync)]
