@@ -233,9 +233,9 @@ class _LibraryState extends State<LibraryScreen> {
 						name: itemName,
 						path: itemPath,
 						isDir: isItemDir,
-						onTap: () {
-							if (!_isSelectMode)
-								Navigator.push(context,
+						onTap: () async {
+							if (!_isSelectMode) {
+								await Navigator.push(context,
 									MaterialPageRoute(
 										builder: (context) {
 											if (isItemDir)
@@ -249,7 +249,8 @@ class _LibraryState extends State<LibraryScreen> {
 										},
 									),
 								);
-							else
+								_loadDirectory();
+							} else
 								_switchSelectionForPath(itemPath);
 						},
 						onLongPress: () {
