@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
@@ -19,6 +20,7 @@ class _EditorState extends State<EditorScreen> {
 
 	final List<String> _history = [];
 	int _historyIndex = -1;
+	Timer? _historyTimer;
 
 
 	@override
@@ -35,6 +37,7 @@ class _EditorState extends State<EditorScreen> {
 	void dispose() {
 		_textController.dispose();
 		_focusNode.dispose();
+		_historyTimer?.cancel();
 		super.dispose();
 	}
 
@@ -49,16 +52,19 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 
-	void _saveToHistory() => setState(() {
-		if (_historyIndex < _history.length - 1) {
-			_history.removeRange(_historyIndex + 1, _history.length);
-		}
-		if (_history.length >= 50)
-			_history.removeAt(0);
+	void _saveToHistory() {
+		_historyTimer?.cancel();
+		_historyTimer = Timer(const Duration(milliseconds: 250), () => setState(() {
+			if (_historyIndex < _history.length - 1) {
+				_history.removeRange(_historyIndex + 1, _history.length);
+			}
+			if (_history.length >= 50)
+				_history.removeAt(0);
 
-		_history.add(_textController.text);
-		_historyIndex = _history.length - 1;
-	});
+			_history.add(_textController.text);
+			_historyIndex = _history.length - 1;
+		}));
+	}
 	void _undo() {
 		if (_historyIndex > 0) setState(() {
 			_historyIndex--;
