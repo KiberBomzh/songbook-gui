@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
@@ -25,6 +26,8 @@ final textStyle = TextStyle(fontFamily: 'JetBrainsMono');
 
 final useLineWrap = true;
 
+const int AutoscrollSpeedStep = 50;
+
 
 
 class SongScreen extends StatefulWidget {
@@ -42,16 +45,29 @@ class SongState extends State<SongScreen> {
 
 	late String _key;
 	late int? _capo;
+	late int _autoscrollSpeed; // milliseconds per pixel
 
 	bool _showNotes = true;
 	bool _showRhythm = true;
 	bool _showChords = true;
 
+	late ScrollController _scrollController;
+	Timer? _autoscrollTimer;
+	bool _isAutoscrolling = false;
+
 
 	@override
 	void initState() {
 		super.initState();
+		_scrollController = ScrollController();
 		_loadSong();
+	}
+
+	@override
+	void dispose() {
+		_stopAutoscroll();
+		_scrollController.dispose();
+		super.dispose();
 	}
 
 	void _loadSong() => setState(() {
@@ -65,7 +81,44 @@ class SongState extends State<SongScreen> {
 		} else {
 			_key = checkKey!;
 		}
+
+		final int speedPerLine = _song.getAutoscrollSpeed()?.toInt() ?? 2500;
+		final textPainter = TextPainter(
+			text: TextSpan(text: 'W', style: textStyle),
+			textDirection: .ltr
+		)..layout();
+		final lineHeight = textPainter.height; // height in pixels
+		_autoscrollSpeed = ((speedPerLine / lineHeight) / AutoscrollSpeedStep).round() * AutoscrollSpeedStep;
 	});
+
+
+	void _startAutoscroll() {
+		_stopAutoscroll();
+
+		_isAutoscrolling = true;
+		_autoscrollTimer = Timer.periodic(
+			Duration(milliseconds: _autoscrollSpeed),
+			(timer) {
+				if (!_scrollController.hasClients) return;
+
+				final newOffset = _scrollController.offset + 1;
+				final maxExtent = _scrollController.position.maxScrollExtent;
+				if (newOffset >= maxExtent) {
+					_stopAutoscroll();
+				} else {
+					_scrollController.animateTo(newOffset,
+						duration: Duration(milliseconds: 1),
+						curve: Curves.linear,
+					);
+				}
+			}
+		);
+	}
+	void _stopAutoscroll() {
+		_isAutoscrolling = false;
+		_autoscrollTimer?.cancel();
+		_autoscrollTimer = null;
+	}
 
 
 	void _edit() async {
@@ -108,6 +161,7 @@ class SongState extends State<SongScreen> {
 							child: BottomBar(
 								songCapo: _capo ?? 0,
 								songKey: _key,
+								autoscrollSpeed: _autoscrollSpeed,
 								transposeSong: (steps) => setState(() {
 									_song.transpose(steps: steps);
 									_key = _song.getKey()!;
@@ -117,6 +171,12 @@ class SongState extends State<SongScreen> {
 									_capo = _song.getCapo();
 									_key = _song.getKey()!;
 								}),
+								setAutoscrollSpeed: (newSpeed) => setState(() {
+									_autoscrollSpeed = newSpeed;
+									_startAutoscroll();
+								}),
+								startAutoscroll: _startAutoscroll,
+								stopAutoscroll: _stopAutoscroll,
 							),
 						),
 					],
@@ -146,6 +206,7 @@ class SongState extends State<SongScreen> {
 				),
 				child: SingleChildScrollView(
 					scrollDirection: Axis.vertical,
+					controller: _scrollController,
 					child: Padding(
 						padding: const EdgeInsets.symmetric(horizontal: 10),
 						child: Column(
@@ -370,15 +431,24 @@ enum BarMode {
 class BottomBar extends StatefulWidget {
 	final String songKey;
 	final int songCapo;
+	final int autoscrollSpeed;
 	final Function(int) transposeSong;
 	final Function(int) setCapo;
+	final Function(int) setAutoscrollSpeed;
+
+	final VoidCallback startAutoscroll;
+	final VoidCallback stopAutoscroll;
 
 	BottomBar({
 		super.key,
 		required this.songKey,
 		required this.songCapo,
+		required this.autoscrollSpeed,
 		required this.transposeSong,
 		required this.setCapo,
+		required this.setAutoscrollSpeed,
+		required this.startAutoscroll,
+		required this.stopAutoscroll,
 	});
 
 
@@ -450,7 +520,10 @@ class _BarState extends State<BottomBar> {
 					color: _foregroundColor,
 					size: 35,
 				),
-				onTap: () => setState(() => _currentMode = BarMode.autoscroll),
+				onTap: () {
+					widget.startAutoscroll();
+					setState(() => _currentMode = BarMode.autoscroll);
+				},
 				size: 50,
 			),
 		];
@@ -539,36 +612,44 @@ class _BarState extends State<BottomBar> {
 	List<Widget> _buildAutoscroll() {
 		return [
 			_buildBarItem(
-				child: Text('-1', 
+				child: Text('-' + AutoscrollSpeedStep.toString(), 
 					style: TextStyle(
 						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
 				),
-				onTap: () {},
+				onTap: (widget.autoscrollSpeed > AutoscrollSpeedStep)
+					? () => widget.setAutoscrollSpeed(widget.autoscrollSpeed - AutoscrollSpeedStep)
+					: null,
 			),
 			const SizedBox(width: 10),
 
 			_buildBarItem(
-				child: Icon(Icons.speed, 
-					color: _foregroundColor,
-					size: 35,
+				child: Text(widget.autoscrollSpeed.toString(), 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
 				),
-				onTap: () => setState(() => _currentMode = BarMode.none),
+				onTap: () {
+					widget.stopAutoscroll();
+					setState(() => _currentMode = BarMode.none);
+				},
 				size: 60,
 			),
 
 			const SizedBox(width: 10),
 			_buildBarItem(
-				child: Text('+1', 
+				child: Text('+' + AutoscrollSpeedStep.toString(), 
 					style: TextStyle(
 						color: _foregroundColor,
 						fontSize: 15,
 						fontWeight: .bold,
 					)
 				),
-				onTap: () {},
+				onTap: () => widget.setAutoscrollSpeed(widget.autoscrollSpeed + AutoscrollSpeedStep),
 			),
 		];
 	}

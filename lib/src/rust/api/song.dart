@@ -24,6 +24,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String getArtist();
 
+  BigInt? getAutoscrollSpeed();
+
   List<SimpleBlock> getBlocks();
 
   int? getCapo();

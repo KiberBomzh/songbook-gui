@@ -104,6 +104,11 @@ impl SimpleSong {
         self.song.metadata.capo
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_autoscroll_speed(&self) -> Option<u64> {
+        self.song.metadata.autoscroll_speed
+    } // in milliseconds per line
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_for_editing(&self) -> String {
