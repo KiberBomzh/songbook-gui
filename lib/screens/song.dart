@@ -54,12 +54,16 @@ class SongState extends State<SongScreen> {
 	late ScrollController _scrollController;
 	Timer? _autoscrollTimer;
 	bool _isAutoscrolling = false;
+	late double _lineHeight;
+
+	Timer? _saveTimer;
 
 
 	@override
 	void initState() {
 		super.initState();
 		_scrollController = ScrollController();
+		_calculateLineHeight();
 		_loadSong();
 	}
 
@@ -67,7 +71,16 @@ class SongState extends State<SongScreen> {
 	void dispose() {
 		_stopAutoscroll();
 		_scrollController.dispose();
+		_saveTimer?.cancel();
 		super.dispose();
+	}
+
+	void _calculateLineHeight() {
+		final textPainter = TextPainter(
+			text: TextSpan(text: 'W', style: textStyle),
+			textDirection: .ltr
+		)..layout();
+		_lineHeight = textPainter.height; // height in pixels
 	}
 
 	void _loadSong() => setState(() {
@@ -83,13 +96,15 @@ class SongState extends State<SongScreen> {
 		}
 
 		final int speedPerLine = _song.getAutoscrollSpeed()?.toInt() ?? 2500;
-		final textPainter = TextPainter(
-			text: TextSpan(text: 'W', style: textStyle),
-			textDirection: .ltr
-		)..layout();
-		final lineHeight = textPainter.height; // height in pixels
-		_autoscrollSpeed = ((speedPerLine / lineHeight) / AutoscrollSpeedStep).round() * AutoscrollSpeedStep;
+		_autoscrollSpeed = ((speedPerLine / _lineHeight) / AutoscrollSpeedStep).round() * AutoscrollSpeedStep;
 	});
+
+	void _scheduleSave() {
+		_saveTimer?.cancel();
+		_saveTimer = Timer(const Duration(milliseconds: 1000), () {
+			_song.save();
+		});
+	}
 
 
 	void _startAutoscroll() {
@@ -165,15 +180,21 @@ class SongState extends State<SongScreen> {
 								transposeSong: (steps) => setState(() {
 									_song.transpose(steps: steps);
 									_key = _song.getKey()!;
+									_scheduleSave();
 								}),
 								setCapo: (newCapo) => setState(() {
 									_song.setCapo(capo: newCapo);
 									_capo = _song.getCapo();
 									_key = _song.getKey()!;
+									_scheduleSave();
 								}),
 								setAutoscrollSpeed: (newSpeed) => setState(() {
 									_autoscrollSpeed = newSpeed;
 									_startAutoscroll();
+
+									final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
+									_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
+									_scheduleSave();
 								}),
 								startAutoscroll: _startAutoscroll,
 								stopAutoscroll: _stopAutoscroll,

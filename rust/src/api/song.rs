@@ -52,6 +52,11 @@ impl SimpleSong {
             else { Some(capo) };
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn set_autoscroll_speed(&mut self, new_speed: u64) {
+        self.song.metadata.autoscroll_speed = Some(new_speed)
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {

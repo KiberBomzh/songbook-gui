@@ -43,6 +43,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   void save();
 
+  void setAutoscrollSpeed({required BigInt newSpeed});
+
   void setCapo({required int capo});
 
   void transpose({required int steps});
