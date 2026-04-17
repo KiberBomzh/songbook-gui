@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:songbook/src/rust/frb_generated.dart';
 
 import 'package:songbook/screens/library.dart';
+import 'package:songbook/services/settings.dart';
 
 
 Future<void> main() async {
+	WidgetsFlutterBinding.ensureInitialized();
 	await RustLib.init();
-	runApp(const MyApp());
+	await Preferences.init();
+	runApp(
+		ChangeNotifierProvider(
+			create: (_) => SettingsProvider(),
+			child: const MyApp()
+		),
+	);
 }
 
 
@@ -16,8 +25,18 @@ class MyApp extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
-		final themeMode = ThemeMode.dark;
-		final accentColor = Colors.blue;
+		final settings = context.watch<SettingsProvider>();
+
+		var themeMode = ThemeMode.system;
+		final bool? isDark = settings.isDarkTheme;
+		if (isDark != null) {
+			themeMode = (isDark!)
+				? ThemeMode.dark
+				: ThemeMode.light;
+		}
+		themeMode = ThemeMode.dark;
+
+		final accentColor = settings.colorAccent;
 
 		return SafeArea(
 			top: true,

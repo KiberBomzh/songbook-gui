@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:songbook/screens/song.dart';
+import 'package:songbook/screens/settings.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
@@ -125,11 +126,22 @@ class _LibraryState extends State<LibraryScreen> {
 					if (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty)
 						IconButton(
 							icon: Icon(Icons.paste),
+							tooltip: 'Paste',
 							onPressed: _paste,
 						),
 
 					if (_isSelectMode)
 						_buildAppBarPopupMenuButton(),
+
+					IconButton(
+						icon: Icon(Icons.settings),
+						tooltip: 'Settings',
+						onPressed: () => Navigator.push(context,
+							MaterialPageRoute(
+								builder: (context) => SettingsScreen()
+							),
+						),
+					),
 				],
 			),
 			body: _isCurrentDirEmpty
@@ -256,7 +268,7 @@ class _LibraryState extends State<LibraryScreen> {
 						onLongPress: () {
 							if (_isSelectMode) {
 								if (_selected.contains(itemPath)) {
-									setState(() => _selected.remove(itemPath));
+									_switchSelectionForPath(itemPath);
 									return;
 								}
 
