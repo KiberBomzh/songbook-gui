@@ -26,16 +26,7 @@ class MyApp extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		final settings = context.watch<SettingsProvider>();
-
-		var themeMode = ThemeMode.system;
-		final bool? isDark = settings.isDarkTheme;
-		if (isDark != null) {
-			themeMode = (isDark!)
-				? ThemeMode.dark
-				: ThemeMode.light;
-		}
-		themeMode = ThemeMode.dark;
-
+		final themeMode = settings.themeMode;
 		final accentColor = settings.colorAccent;
 
 		return SafeArea(

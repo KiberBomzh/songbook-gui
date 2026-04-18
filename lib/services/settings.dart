@@ -13,7 +13,17 @@ class SettingsProvider extends ChangeNotifier {
 	bool? _isDarkTheme;
 	String _colorAccent = 'blue';
 
-	bool? get isDarkTheme => _isDarkTheme;
+	ThemeMode get themeMode {
+		if (_isDarkTheme != null) {
+			if (_isDarkTheme!) {
+				return ThemeMode.dark;
+			} else {
+				return ThemeMode.light;
+			}
+		} else {
+			return ThemeMode.system;
+		}
+	}
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 
 	SettingsProvider() {
@@ -22,15 +32,22 @@ class SettingsProvider extends ChangeNotifier {
 
 	void _loadAllSettings() {
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
-		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? _colorAccent;
+		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 
 		notifyListeners();
 	}
 
-	Future<void> setDarkTheme(bool? value) async {
-		_isDarkTheme = value;
-		if (value != null) {
-			await Preferences.setBool(IS_DARK_THEME, value!);
+	Future<void> setThemeMode(ThemeMode value) async {
+		final isDark = switch (value) {
+			ThemeMode.dark => true,
+			ThemeMode.light => false,
+			ThemeMode.system => null
+		};
+
+
+		_isDarkTheme = isDark;
+		if (isDark != null) {
+			await Preferences.setBool(IS_DARK_THEME, isDark!);
 		} else {
 			await Preferences.remove(IS_DARK_THEME);
 		}
@@ -49,6 +66,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<void> resetToDefault() async {
 		await Preferences.clear();
+		_loadAllSettings();
 	}
 
 
