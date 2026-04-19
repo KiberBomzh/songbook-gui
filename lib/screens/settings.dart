@@ -34,81 +34,118 @@ class _SettingsState extends State<SettingsScreen> {
 
 	Widget _buildBody() {
 		return Material(
-			child: Padding(
-				padding: const EdgeInsets.symmetric(vertical: 5),
-				child: ListView(
-					children: [
-						_buildItem(
-							text: 'Theme',
-							child: SegmentedButton<ThemeMode>(
-								segments: const <ButtonSegment<ThemeMode>>[
-									ButtonSegment<ThemeMode>(
-										value: ThemeMode.light,
-										label: Icon(Icons.light_mode),
-									),
-									ButtonSegment<ThemeMode>(
-										value: ThemeMode.system,
-										label: Text('Auto'),
-									),
-									ButtonSegment<ThemeMode>(
-										value: ThemeMode.dark,
-										label: Icon(Icons.dark_mode),
-									),
-								],
-								selected: <ThemeMode>{_currentTheme},
-								onSelectionChanged: (newSelection) => _settings.setThemeMode(newSelection.first),
-								selectedIcon: Container(),
-							),
-							onTap: null,
-						),
+			color: Theme.of(context).colorScheme.surfaceContainer,
+			child: ListView(
+				children: [
+					_buildTitle('Global'),
 
-						_buildItem(
-							text: 'Accent',
-							child: ListView(
-								scrollDirection: Axis.horizontal,
-								shrinkWrap: true,
-								children: [
-									_buildColorItem(
-										color: Colors.blue,
-										text: 'blue',
-									),
-									_buildColorItem(
-										color: Colors.green,
-										text: 'green',
-									),
-									_buildColorItem(
-										color: Colors.yellow,
-										text: 'yellow',
-									),
-									_buildColorItem(
-										color: Colors.orange,
-										text: 'orange',
-									),
-									_buildColorItem(
-										color: Colors.brown,
-										text: 'brown',
-									),
-									_buildColorItem(
-										color: Colors.red,
-										text: 'red',
-									),
-									_buildColorItem(
-										color: Colors.purple,
-										text: 'purple',
-									),
-								],
-							),
-							onTap: null,
+					_buildItem(
+						text: 'Theme',
+						child: SegmentedButton<ThemeMode>(
+							segments: const <ButtonSegment<ThemeMode>>[
+								ButtonSegment<ThemeMode>(
+									value: ThemeMode.light,
+									label: Icon(Icons.light_mode),
+								),
+								ButtonSegment<ThemeMode>(
+									value: ThemeMode.system,
+									label: Text('Auto'),
+								),
+								ButtonSegment<ThemeMode>(
+									value: ThemeMode.dark,
+									label: Icon(Icons.dark_mode),
+								),
+							],
+							selected: <ThemeMode>{_currentTheme},
+							onSelectionChanged: (newSelection) => _settings.setThemeMode(newSelection.first),
+							selectedIcon: Container(),
 						),
+						onTap: null,
+					),
 
-						_buildItem(
-							text: 'Reset',
-							child: null,
-							onTap: () => _settings.resetToDefault(),
+					_buildItem(
+						text: 'Accent',
+						child: ListView(
+							scrollDirection: Axis.horizontal,
+							shrinkWrap: true,
+							children: [
+								_buildColorItem(
+									color: Colors.blue,
+									text: 'blue',
+								),
+								_buildColorItem(
+									color: Colors.green,
+									text: 'green',
+								),
+								_buildColorItem(
+									color: Colors.yellow,
+									text: 'yellow',
+								),
+								_buildColorItem(
+									color: Colors.orange,
+									text: 'orange',
+								),
+								_buildColorItem(
+									color: Colors.brown,
+									text: 'brown',
+								),
+								_buildColorItem(
+									color: Colors.red,
+									text: 'red',
+								),
+								_buildColorItem(
+									color: Colors.purple,
+									text: 'purple',
+								),
+							],
 						),
-					],
-				),
+						onTap: null,
+					),
+
+
+					_buildTitle('Editor'),
+
+					_buildItem(
+						text: 'Font size',
+						child: Text(_settings.editorFontSize.toString()),
+						onTap: () async {
+							final String? newSizeStr = await _askDialog(
+								context: context,
+								validator: _fontSizeValidator,
+								title: 'Editor font size',
+								initialValue: _settings.editorFontSize.toString(),
+								hintText: 'Font size...',
+							);
+							if (newSizeStr != null) {
+								final newSize = double.parse(newSizeStr);
+								await _settings.setEditorFontSize(newSize!);
+							}
+						},
+					),
+
+
+					_buildTitle('Other'),
+
+					_buildItem(
+						text: 'Reset',
+						child: null,
+						onTap: () => _settings.resetToDefault(),
+					),
+				],
 			),
+		);
+	}
+
+	Widget _buildTitle(String text) {
+		return Container(
+			color: Theme.of(context).colorScheme.surface,
+			padding: const EdgeInsets.only(
+				left: 15,
+				right: 15,
+				top: 25,
+				bottom: 5,
+			),
+			child: Text(text, style: Theme.of(context).textTheme.titleLarge),
 		);
 	}
 
@@ -123,7 +160,7 @@ class _SettingsState extends State<SettingsScreen> {
 			splashColor: primary.withOpacity(0.1),
 			highlightColor: primary.withOpacity(0.05),
 			child: Padding(
-				padding: const EdgeInsets.symmetric(horizontal: 15),
+				padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
 				child: SizedBox(
 					height: 50,
 					child: Row(
@@ -158,5 +195,83 @@ class _SettingsState extends State<SettingsScreen> {
 				),
 			),
 		);
+	}
+}
+
+
+Future<String?> _askDialog({
+	required String? Function(String) validator,
+	required BuildContext context,
+	required String title,
+	String initialValue = '',
+	String hintText = 'Type something...'
+}) {
+	final controller = TextEditingController();
+	controller.text = initialValue;
+
+	String? errorText;
+
+	return showDialog<String>(
+		context: context,
+		builder: (context) => StatefulBuilder(
+			builder: (context, setState) => AlertDialog(
+				title: Text(title),
+				content: TextField(
+					controller: controller,
+					autofocus: true,
+					decoration: InputDecoration(
+						hintText: hintText,
+						errorText: errorText,
+						border: const OutlineInputBorder(),
+					),
+					onChanged: (value) => setState(() => errorText = validator(value)),
+					onSubmitted: (value) {
+						final checkResult = validator(value);
+
+						if (checkResult != null) {
+							setState(() => errorText = checkResult);
+						} else {
+							Navigator.of(context).pop(value.trim());
+						}
+					},
+				),
+				actions: [
+					TextButton(
+						child: Text('Cancel'),
+						onPressed: () => Navigator.of(context).pop(),
+					),
+					ElevatedButton(
+						child: Text('Ok'),
+						onPressed: () {
+							final value = controller.text;
+							final checkResult = validator(value);
+
+							if (checkResult != null) {
+								setState(() => errorText = checkResult);
+							} else {
+								Navigator.of(context).pop(value.trim());
+							}
+						},
+					),
+				],
+			),
+		),
+	);
+}
+
+String? _fontSizeValidator(String text) {
+	final value = text.trim();
+	final double? result = double.tryParse(value);
+
+	if (result == null) {
+		return 'Not valid input!';
+	} else {
+		if (result! < 1) {
+			return 'Value must be bigger than 0!';
+		} else if (result! >= 100) {
+			return 'Value must be smaller than 100!';
+		} else {
+			return null;
+		}
 	}
 }

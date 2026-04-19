@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 
@@ -152,6 +155,9 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 	Widget _buildTextField() {
+		final settings = context.watch<SettingsProvider>();
+		final fontSize = settings.editorFontSize;
+
 		return Container(
 			padding: const EdgeInsets.symmetric(horizontal: 15),
 			child: SingleChildScrollView(
@@ -167,7 +173,7 @@ class _EditorState extends State<EditorScreen> {
 							maxLines: null,
 							expands: true,
 							textAlignVertical: .top,
-							style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontFamily: 'CascadiaMono'),
+							style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontFamily: 'CascadiaMono', fontSize: fontSize),
 							decoration: const InputDecoration(
 								border: InputBorder.none,
 								hintText: "Song's text...",

@@ -7,11 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 // keys
 const String IS_DARK_THEME = 'is_dark_theme';
 const String COLOR_ACCENT = 'color_accent';
+const String EDITOR_FONT_SIZE = 'editor_font_size';
 
 
 class SettingsProvider extends ChangeNotifier {
 	bool? _isDarkTheme;
 	String _colorAccent = 'blue';
+	double _editorFontSize = 14;
 
 	ThemeMode get themeMode {
 		if (_isDarkTheme != null) {
@@ -25,14 +27,18 @@ class SettingsProvider extends ChangeNotifier {
 		}
 	}
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
+	double get editorFontSize => _editorFontSize;
+
 
 	SettingsProvider() {
 		_loadAllSettings();
 	}
 
+
 	void _loadAllSettings() {
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
+		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
 
 		notifyListeners();
 	}
@@ -58,6 +64,13 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setColorAccent(String value) async {
 		_colorAccent = value;
 		await Preferences.setString(COLOR_ACCENT, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setEditorFontSize(double value) async {
+		_editorFontSize = value;
+		await Preferences.setDouble(EDITOR_FONT_SIZE, value);
 
 		notifyListeners();
 	}
@@ -117,6 +130,13 @@ class Preferences {
 	}
 	static int? getInt(String key) {
 		return _prefs?.getInt(key);
+	}
+
+	static Future<void> setDouble(String key, double value) async {
+		await _prefs?.setDouble(key, value);
+	}
+	static double? getDouble(String key) {
+		return _prefs?.getDouble(key);
 	}
 
 	static Future<void> setBool(String key, bool value) async {
