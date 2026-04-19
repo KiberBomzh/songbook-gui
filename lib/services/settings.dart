@@ -8,12 +8,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 const String IS_DARK_THEME = 'is_dark_theme';
 const String COLOR_ACCENT = 'color_accent';
 const String EDITOR_FONT_SIZE = 'editor_font_size';
+const String SONG_FONT_SIZE = 'song_font_size';
+const String CHORDS_COLOR = 'chords_color';
+const String RHYTHM_COLOR = 'rhythm_color';
+const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 
 
 class SettingsProvider extends ChangeNotifier {
 	bool? _isDarkTheme;
 	String _colorAccent = 'blue';
 	double _editorFontSize = 14;
+	double _songFontSize = 14;
+	String _chordsColor = 'cyan';
+	String _rhythmColor = 'orange';
+	bool _lineWrapInSong = true;
 
 	ThemeMode get themeMode {
 		if (_isDarkTheme != null) {
@@ -28,6 +36,28 @@ class SettingsProvider extends ChangeNotifier {
 	}
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 	double get editorFontSize => _editorFontSize;
+	double get songFontSize => _songFontSize;
+	Color get chordsColor => _stringToColor(_chordsColor) ?? Colors.cyan;
+	Color get rhythmColor => _stringToColor(_rhythmColor) ?? Colors.orange;
+	bool get lineWrapInSong => _lineWrapInSong;
+
+
+	TextStyle get chordsStyle => TextStyle(
+		color: _stringToColor(_chordsColor),
+		fontFamily: 'JetBrainsMono',
+		fontSize: _songFontSize,
+	);
+
+	TextStyle get rhythmStyle => TextStyle(
+		color: _stringToColor(_rhythmColor),
+		fontFamily: 'JetBrainsMono',
+		fontSize: _songFontSize,
+	);
+
+	TextStyle get textStyle => TextStyle(
+		fontFamily: 'JetBrainsMono',
+		fontSize: _songFontSize,
+	);
 
 
 	SettingsProvider() {
@@ -39,6 +69,10 @@ class SettingsProvider extends ChangeNotifier {
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
+		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
+		_chordsColor = Preferences.getString(CHORDS_COLOR) ?? 'cyan';
+		_rhythmColor = Preferences.getString(RHYTHM_COLOR) ?? 'orange';
+		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 
 		notifyListeners();
 	}
@@ -71,6 +105,34 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setEditorFontSize(double value) async {
 		_editorFontSize = value;
 		await Preferences.setDouble(EDITOR_FONT_SIZE, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setSongFontSize(double value) async {
+		_songFontSize = value;
+		await Preferences.setDouble(SONG_FONT_SIZE, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setChordsColor(String value) async {
+		_chordsColor = value;
+		await Preferences.setString(CHORDS_COLOR, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setRhythmColor(String value) async {
+		_rhythmColor = value;
+		await Preferences.setString(RHYTHM_COLOR, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setLineWrapInSong(bool value) async {
+		_lineWrapInSong = value;
+		await Preferences.setBool(LINE_WRAP_IN_SONG, value);
 
 		notifyListeners();
 	}

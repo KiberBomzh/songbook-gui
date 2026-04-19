@@ -16,15 +16,41 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsState extends State<SettingsScreen> {
 	late SettingsProvider _settings;
 
-	late ThemeMode _currentTheme;
-	late Color _currentAccent;
+	List<ColorItem> _colors = [
+		ColorItem(
+			color: Colors.red,
+			value: 'red',
+		),
+		ColorItem(
+			color: Colors.purple,
+			value: 'purple',
+		),
+		ColorItem(
+			color: Colors.blue,
+			value: 'blue',
+		),
+		ColorItem(
+			color: Colors.green,
+			value: 'green',
+		),
+		ColorItem(
+			color: Colors.yellow,
+			value: 'yellow',
+		),
+		ColorItem(
+			color: Colors.orange,
+			value: 'orange',
+		),
+		ColorItem(
+			color: Colors.brown,
+			value: 'brown',
+		),
+	];
 
 
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
-		_currentTheme = _settings.themeMode;
-		_currentAccent = _settings.colorAccent;
 
 		return Scaffold(
 			appBar: AppBar( title: Text('Settings') ),
@@ -56,7 +82,7 @@ class _SettingsState extends State<SettingsScreen> {
 									label: Icon(Icons.dark_mode),
 								),
 							],
-							selected: <ThemeMode>{_currentTheme},
+							selected: <ThemeMode>{_settings.themeMode},
 							onSelectionChanged: (newSelection) => _settings.setThemeMode(newSelection.first),
 							selectedIcon: Container(),
 						),
@@ -65,39 +91,19 @@ class _SettingsState extends State<SettingsScreen> {
 
 					_buildItem(
 						text: 'Accent',
-						child: ListView(
+						child: ListView.builder(
 							scrollDirection: Axis.horizontal,
 							shrinkWrap: true,
-							children: [
-								_buildColorItem(
-									color: Colors.blue,
-									text: 'blue',
-								),
-								_buildColorItem(
-									color: Colors.green,
-									text: 'green',
-								),
-								_buildColorItem(
-									color: Colors.yellow,
-									text: 'yellow',
-								),
-								_buildColorItem(
-									color: Colors.orange,
-									text: 'orange',
-								),
-								_buildColorItem(
-									color: Colors.brown,
-									text: 'brown',
-								),
-								_buildColorItem(
-									color: Colors.red,
-									text: 'red',
-								),
-								_buildColorItem(
-									color: Colors.purple,
-									text: 'purple',
-								),
-							],
+							itemCount: _colors.length,
+							itemBuilder: (context, index) {
+								final colorItem = _colors[index];
+
+								return colorItem.build(
+									context: context,
+									currentColor: _settings.colorAccent,
+									onTap: _settings.setColorAccent,
+								);
+							},
 						),
 						onTap: null,
 					),
@@ -112,7 +118,7 @@ class _SettingsState extends State<SettingsScreen> {
 							final String? newSizeStr = await _askDialog(
 								context: context,
 								validator: _fontSizeValidator,
-								title: 'Editor font size',
+								title: 'Song font size',
 								initialValue: _settings.editorFontSize.toString(),
 								hintText: 'Font size...',
 							);
@@ -121,6 +127,73 @@ class _SettingsState extends State<SettingsScreen> {
 								await _settings.setEditorFontSize(newSize!);
 							}
 						},
+					),
+
+					
+					_buildTitle('Song'),
+
+					_buildItem(
+						text: 'Line wrap',
+						child: Switch(
+							value: _settings.lineWrapInSong,
+							onChanged: _settings.setLineWrapInSong,
+						),
+						onTap: null,
+					),
+
+					_buildItem(
+						text: 'Font size',
+						child: Text(_settings.songFontSize.toString()),
+						onTap: () async {
+							final String? newSizeStr = await _askDialog(
+								context: context,
+								validator: _fontSizeValidator,
+								title: 'Song font size',
+								initialValue: _settings.songFontSize.toString(),
+								hintText: 'Font size...',
+							);
+							if (newSizeStr != null) {
+								final newSize = double.parse(newSizeStr);
+								await _settings.setSongFontSize(newSize!);
+							}
+						},
+					),
+
+					_buildItem(
+						text: 'Chords',
+						child: ListView.builder(
+							scrollDirection: Axis.horizontal,
+							shrinkWrap: true,
+							itemCount: _colors.length,
+							itemBuilder: (context, index) {
+								final colorItem = _colors[index];
+
+								return colorItem.build(
+									context: context,
+									currentColor: _settings.chordsColor,
+									onTap: _settings.setChordsColor,
+								);
+							},
+						),
+						onTap: null,
+					),
+					_buildItem(
+						text: 'Rhythm',
+						child: ListView.builder(
+							scrollDirection: Axis.horizontal,
+							shrinkWrap: true,
+							itemCount: _colors.length,
+							itemBuilder: (context, index) {
+								final colorItem = _colors[index];
+
+								return colorItem.build(
+									context: context,
+									currentColor: _settings.rhythmColor,
+									onTap: _settings.setRhythmColor,
+								);
+							},
+						),
+						onTap: null,
 					),
 
 
@@ -160,38 +233,21 @@ class _SettingsState extends State<SettingsScreen> {
 			splashColor: primary.withOpacity(0.1),
 			highlightColor: primary.withOpacity(0.05),
 			child: Padding(
-				padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+				padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
 				child: SizedBox(
 					height: 50,
 					child: Row(
 						mainAxisAlignment: .spaceBetween,
 						children: [
-							Text(text),
-							const SizedBox(width: 100),
+							SizedBox(
+								width: 70,
+								child: Text(text),
+							),
+							const SizedBox(width: 50),
 							if (child != null)
 								Flexible(child: child!),
 						],
 					),
-				),
-			),
-		);
-	}
-
-	Widget _buildColorItem({
-		required Color color,
-		required String text,
-	}) {
-		return Container(
-			margin: const EdgeInsets.symmetric(horizontal: 5),
-			child: IconButton(
-				icon: Icon(Icons.check),
-				color: (_currentAccent == color)
-					? Theme.of(context).colorScheme.onPrimary
-					: Colors.transparent,
-				onPressed: () => _settings.setColorAccent(text),
-				style: IconButton.styleFrom(
-					backgroundColor: color,
-					fixedSize: Size(50, 50),
 				),
 			),
 		);
@@ -273,5 +329,38 @@ String? _fontSizeValidator(String text) {
 		} else {
 			return null;
 		}
+	}
+}
+
+
+class ColorItem {
+	final Color color;
+	final String value;
+
+	const ColorItem({
+		required this.color,
+		required this.value,
+	});
+
+
+	Widget build({
+		required BuildContext context,
+		required Color currentColor,
+		required Function(String) onTap,
+	}) {
+		return Container(
+			margin: const EdgeInsets.symmetric(horizontal: 5),
+			child: IconButton(
+				icon: Icon(Icons.check),
+				color: (color == currentColor)
+					? Theme.of(context).colorScheme.onPrimary
+					: Colors.transparent,
+				onPressed: () => onTap(value),
+				style: IconButton.styleFrom(
+					backgroundColor: color,
+					fixedSize: Size(50, 50),
+				),
+			),
+		);
 	}
 }

@@ -2,29 +2,12 @@ import 'dart:ui';
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 import 'package:songbook/screens/editor.dart';
+import 'package:songbook/services/settings.dart';
 
-
-final Color chordsColor = Colors.cyan;
-final Color rhythmColor = Colors.orange;
-
-
-final chordsStyle = TextStyle(
-	color: chordsColor,
-	fontFamily: 'JetBrainsMono',
-);
-
-final rhythmStyle = TextStyle(
-	color: rhythmColor,
-	fontFamily: 'JetBrainsMono',
-);
-
-final textStyle = TextStyle(fontFamily: 'JetBrainsMono');
-
-
-final useLineWrap = true;
 
 const int AutoscrollSpeedStep = 50;
 
@@ -59,11 +42,15 @@ class SongState extends State<SongScreen> {
 	Timer? _saveTimer;
 
 
+	late SettingsProvider _settings;
+	late TextStyle _chordsStyle;
+	late TextStyle _textStyle;
+
+
 	@override
 	void initState() {
 		super.initState();
 		_scrollController = ScrollController();
-		_calculateLineHeight();
 		_loadSong();
 	}
 
@@ -77,7 +64,7 @@ class SongState extends State<SongScreen> {
 
 	void _calculateLineHeight() {
 		final textPainter = TextPainter(
-			text: TextSpan(text: 'W', style: textStyle),
+			text: TextSpan(text: 'W', style: _textStyle),
 			textDirection: .ltr
 		)..layout();
 		_lineHeight = textPainter.height; // height in pixels
@@ -94,10 +81,12 @@ class SongState extends State<SongScreen> {
 		} else {
 			_key = checkKey!;
 		}
+	});
 
+	void _loadAutoscrollSpeed() {
 		final int speedPerLine = _song.getAutoscrollSpeed()?.toInt() ?? 2500;
 		_autoscrollSpeed = ((speedPerLine / _lineHeight) / AutoscrollSpeedStep).round() * AutoscrollSpeedStep;
-	});
+	}
 
 	void _scheduleSave() {
 		_saveTimer?.cancel();
@@ -149,6 +138,12 @@ class SongState extends State<SongScreen> {
 	@override
 	Widget build(BuildContext context) {
 		final List<SimpleBlock> blocks = _song.getBlocks();
+		_settings = context.watch<SettingsProvider>();
+		_chordsStyle = _settings.chordsStyle;
+		_textStyle = _settings.textStyle;
+
+		_calculateLineHeight();
+		_loadAutoscrollSpeed();
 
 		return Scaffold(
 			appBar: AppBar(
@@ -221,7 +216,7 @@ class SongState extends State<SongScreen> {
 			child: ConstrainedBox(
 				constraints: BoxConstraints(
 					minWidth: screenWidth,
-					maxWidth: useLineWrap
+					maxWidth: (_settings.lineWrapInSong)
 						? screenWidth
 						: double.infinity,
 				),
@@ -295,11 +290,11 @@ class SongState extends State<SongScreen> {
 									: text
 							),
 						SimpleLine_ChordsLine(field0: String chords) => (_showChords)
-							? Text(chords, style: chordsStyle)
+							? Text(chords, style: _chordsStyle)
 							: SizedBox(),
-						SimpleLine_PlainText(field0: String text) => Text(text, style: textStyle),
-						SimpleLine_Tab(field0: String tab) => Text(tab, style: textStyle),
-						SimpleLine_EmptyLine() => Text('', style: textStyle),
+						SimpleLine_PlainText(field0: String text) => Text(text, style: _textStyle),
+						SimpleLine_Tab(field0: String tab) => Text(tab, style: _textStyle),
+						SimpleLine_EmptyLine() => Text('', style: _textStyle),
 					};
 				}).toList(),
 
@@ -314,6 +309,12 @@ class RowWidget extends StatelessWidget {
 	String? rhythm;
 	String? text;
 
+	late SettingsProvider _settings;
+	late TextStyle _chordsStyle;
+	late TextStyle _rhythmStyle;
+	late TextStyle _textStyle;
+
+
 	RowWidget({
 		super.key,
 		required this.chords,
@@ -323,10 +324,14 @@ class RowWidget extends StatelessWidget {
 
 	@override
 	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+		_chordsStyle = _settings.chordsStyle;
+		_rhythmStyle = _settings.rhythmStyle;
+		_textStyle = _settings.textStyle;
 
 		return Column(
 			crossAxisAlignment: .start,
-			children: useLineWrap
+			children: (_settings.lineWrapInSong)
 				? _getWraped(context)
 				: _getDefault()
 		);
@@ -334,7 +339,7 @@ class RowWidget extends StatelessWidget {
 
 	List<Widget> _getWraped(BuildContext context) {
 		final textPainter = TextPainter(
-			text: TextSpan(text: 'W', style: textStyle),
+			text: TextSpan(text: 'W', style: _textStyle),
 			textDirection: TextDirection.ltr,
 		)..layout();
 		final charWidth = textPainter.width;
@@ -375,13 +380,13 @@ class RowWidget extends StatelessWidget {
 
 			if (chords != null) {
 				lines.add(
-					Text(chords!.substring(startIndex, endIndex), style: chordsStyle)
+					Text(chords!.substring(startIndex, endIndex), style: _chordsStyle)
 				);
 			}
 
 			if (rhythm != null) {
 				lines.add(
-					Text(rhythm!.substring(startIndex, endIndex), style: rhythmStyle)
+					Text(rhythm!.substring(startIndex, endIndex), style: _rhythmStyle)
 				);
 			}
 
@@ -389,7 +394,7 @@ class RowWidget extends StatelessWidget {
 				lines.add(
 					Text(
 						text!.substring(startIndex, endIndex),
-						style: textStyle
+						style: _textStyle
 					)
 				);
 			}
@@ -401,13 +406,13 @@ class RowWidget extends StatelessWidget {
 	List<Widget> _getDefault() {
 		return [
 			if (chords != null)
-				Text(chords!, style: chordsStyle),
+				Text(chords!, style: _chordsStyle),
 
 			if (rhythm != null)
-				Text(rhythm!, style: rhythmStyle),
+				Text(rhythm!, style: _rhythmStyle),
 
 			if (text != null)
-				Text(text!, style: textStyle)
+				Text(text!, style: _textStyle)
 		];
 	}
 
