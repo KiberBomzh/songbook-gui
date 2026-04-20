@@ -133,15 +133,16 @@ class _LibraryState extends State<LibraryScreen> {
 					if (_isSelectMode)
 						_buildAppBarPopupMenuButton(),
 
-					IconButton(
-						icon: Icon(Icons.settings),
-						tooltip: 'Settings',
-						onPressed: () => Navigator.push(context,
-							MaterialPageRoute(
-								builder: (context) => SettingsScreen()
+					if (!_isSelectMode)
+						IconButton(
+							icon: Icon(Icons.settings),
+							tooltip: 'Settings',
+							onPressed: () => Navigator.push(context,
+								MaterialPageRoute(
+									builder: (context) => SettingsScreen()
+								),
 							),
 						),
-					),
 				],
 			),
 			body: _isCurrentDirEmpty
