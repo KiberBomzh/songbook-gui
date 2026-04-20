@@ -293,13 +293,53 @@ class SongState extends State<SongScreen> {
 							? Text(chords, style: _chordsStyle)
 							: SizedBox(),
 						SimpleLine_PlainText(field0: String text) => Text(text, style: _textStyle),
-						SimpleLine_Tab(field0: String tab) => Text(tab, style: _textStyle),
+						SimpleLine_Tab(field0: String tab) => TabWidget(
+							text: Text(tab, style: _textStyle),
+						),
 						SimpleLine_EmptyLine() => Text('', style: _textStyle),
 					};
 				}).toList(),
 
 				const SizedBox(height: 25),
 			],
+		);
+	}
+}
+
+class TabWidget extends StatefulWidget {
+	final Widget text;
+
+	TabWidget({super.key, required this.text});
+
+	@override
+	State<TabWidget> createState() => TabState();
+}
+class TabState extends State<TabWidget> {
+	late ScrollController _controller;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = ScrollController();
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return Scrollbar(
+			controller: _controller,
+			interactive: true,
+			child: SingleChildScrollView(
+				controller: _controller,
+				scrollDirection: Axis.horizontal,
+				padding: const EdgeInsets.symmetric(vertical: 10),
+				child: widget.text,
+			),
 		);
 	}
 }
