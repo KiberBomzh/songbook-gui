@@ -242,6 +242,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
+					height: 70,
 					child: _buildItem(
 						name: itemName,
 						path: itemPath,
@@ -337,7 +338,8 @@ class _LibraryState extends State<LibraryScreen> {
 							),
 							Spacer(),
 
-							_buildPopupMenuButton(path, name),
+							if (!_isSelectMode)
+								_buildPopupMenuButton(path, name),
 						],
 					),
 				),
