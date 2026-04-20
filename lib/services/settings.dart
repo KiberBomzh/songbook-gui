@@ -70,12 +70,14 @@ class SettingsProvider extends ChangeNotifier {
 		color: chordsColor(context),
 		fontFamily: 'JetBrainsMono',
 		fontSize: _songFontSize,
+		fontWeight: .bold,
 	);
 
 	TextStyle rhythmStyle(BuildContext context) => TextStyle(
 		color: rhythmColor(context),
 		fontFamily: 'JetBrainsMono',
 		fontSize: _songFontSize,
+		fontWeight: .bold,
 	);
 
 	TextStyle textStyle(BuildContext context) => TextStyle(
@@ -90,6 +92,7 @@ class SettingsProvider extends ChangeNotifier {
 	TextStyle titleStyle(BuildContext context) => TextStyle(
 		color: titleColor(context),
 		fontSize: _songFontSize * 1.5,
+		fontWeight: .bold,
 	);
 
 
