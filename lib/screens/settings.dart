@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 
 import 'package:songbook/services/settings.dart';
 
@@ -100,7 +101,7 @@ class _SettingsState extends State<SettingsScreen> {
 
 								return colorItem.build(
 									context: context,
-									currentColor: _settings.colorAccent,
+									isSelected: (colorItem.color == _settings.colorAccent),
 									onTap: _settings.setColorAccent,
 								);
 							},
@@ -160,38 +161,199 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 
 					_buildItem(
-						text: 'Chords',
-						child: ListView.builder(
-							scrollDirection: Axis.horizontal,
-							shrinkWrap: true,
-							itemCount: _colors.length,
-							itemBuilder: (context, index) {
-								final colorItem = _colors[index];
+						text: 'Chords color',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(CHORDS_COLOR) != null)
+										? () => _settings.setChordsColor(null)
+										: null,
+								),
 
-								return colorItem.build(
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.chordsColor(context),
+									value: '',
+								).build(
 									context: context,
-									currentColor: _settings.chordsColor,
-									onTap: _settings.setChordsColor,
-								);
-							},
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.chordsColor(context),
+										);
+										await _settings.setChordsColor(newColor);
+									}
+								)
+							],
 						),
 						onTap: null,
 					),
-					_buildItem(
-						text: 'Rhythm',
-						child: ListView.builder(
-							scrollDirection: Axis.horizontal,
-							shrinkWrap: true,
-							itemCount: _colors.length,
-							itemBuilder: (context, index) {
-								final colorItem = _colors[index];
 
-								return colorItem.build(
+					_buildItem(
+						text: 'Rhythm color',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
+										? () => _settings.setRhythmColor(null)
+										: null,
+								),
+
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.rhythmColor(context),
+									value: '',
+								).build(
 									context: context,
-									currentColor: _settings.rhythmColor,
-									onTap: _settings.setRhythmColor,
-								);
-							},
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.rhythmColor(context),
+										);
+										await _settings.setRhythmColor(newColor);
+									}
+								)
+							],
+						),
+						onTap: null,
+					),
+
+					_buildItem(
+						text: 'Text color',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(TEXT_COLOR) != null)
+										? () => _settings.setTextColor(null)
+										: null,
+								),
+
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.textColor(context),
+									value: '',
+								).build(
+									context: context,
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.textColor(context),
+										);
+										await _settings.setTextColor(newColor);
+									}
+								)
+							],
+						),
+						onTap: null,
+					),
+
+					_buildItem(
+						text: 'Notes color',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(NOTES_COLOR) != null)
+										? () => _settings.setNotesColor(null)
+										: null,
+								),
+
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.notesColor(context),
+									value: '',
+								).build(
+									context: context,
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.notesColor(context),
+										);
+										await _settings.setNotesColor(newColor);
+									}
+								)
+							],
+						),
+						onTap: null,
+					),
+
+					_buildItem(
+						text: 'Title color',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(TITLE_COLOR) != null)
+										? () => _settings.setTitleColor(null)
+										: null,
+								),
+
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.titleColor(context),
+									value: '',
+								).build(
+									context: context,
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.titleColor(context),
+										);
+										await _settings.setTitleColor(newColor);
+									}
+								)
+							],
+						),
+						onTap: null,
+					),
+
+					_buildItem(
+						text: 'Background',
+						child: Row(
+							mainAxisAlignment: .end,
+							children: [
+								ElevatedButton(
+									child: Text('Reset'),
+									onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
+										? () => _settings.setBackgroundColor(null)
+										: null,
+								),
+
+								const SizedBox(width: 5),
+
+								ColorItem(
+									color: _settings.backgroundColor(context),
+									value: '',
+								).build(
+									context: context,
+									isSelected: false,
+									onTap: (_) async {
+										final String? newColor = await _showColorPickerDialog(
+											context: context,
+											initialColor: _settings.backgroundColor(context),
+										);
+										await _settings.setBackgroundColor(newColor);
+									}
+								)
+							],
 						),
 						onTap: null,
 					),
@@ -240,10 +402,10 @@ class _SettingsState extends State<SettingsScreen> {
 						mainAxisAlignment: .spaceBetween,
 						children: [
 							SizedBox(
-								width: 70,
+								width: 100,
 								child: Text(text),
 							),
-							const SizedBox(width: 50),
+							const SizedBox(width: 20),
 							if (child != null)
 								Flexible(child: child!),
 						],
@@ -345,14 +507,14 @@ class ColorItem {
 
 	Widget build({
 		required BuildContext context,
-		required Color currentColor,
+		required bool isSelected,
 		required Function(String) onTap,
 	}) {
 		return Container(
 			margin: const EdgeInsets.symmetric(horizontal: 5),
 			child: IconButton(
 				icon: Icon(Icons.check),
-				color: (color == currentColor)
+				color: (isSelected)
 					? Theme.of(context).colorScheme.onPrimary
 					: Colors.transparent,
 				onPressed: () => onTap(value),
@@ -363,4 +525,39 @@ class ColorItem {
 			),
 		);
 	}
+}
+
+
+Future<String?> _showColorPickerDialog({
+	required BuildContext context,
+	required Color initialColor,
+}) async {
+	Color dialogPickerColor = initialColor;
+  
+	final bool result = await ColorPicker(
+		color: dialogPickerColor,
+		onColorChanged: (color) => dialogPickerColor = color,
+		enableOpacity: true,
+		showColorCode: true,
+		pickersEnabled: const {
+			ColorPickerType.wheel: true,
+			ColorPickerType.primary: true,
+			ColorPickerType.accent: true,
+		},
+		actionButtons: const ColorPickerActionButtons(
+			okButton: true,
+			closeButton: true,
+			dialogActionButtons: false,
+		),
+	).showPickerDialog(
+		context,
+		constraints: const BoxConstraints(
+			minHeight: 480, minWidth: 320, maxWidth: 320,
+		),
+	);
+
+	if (!result)
+		return null;
+	else
+		return '#${dialogPickerColor.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
 }

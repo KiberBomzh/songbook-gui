@@ -45,6 +45,8 @@ class SongState extends State<SongScreen> {
 	late SettingsProvider _settings;
 	late TextStyle _chordsStyle;
 	late TextStyle _textStyle;
+	late TextStyle _notesStyle;
+	late TextStyle _titleStyle;
 
 
 	@override
@@ -139,8 +141,10 @@ class SongState extends State<SongScreen> {
 	Widget build(BuildContext context) {
 		final List<SimpleBlock> blocks = _song.getBlocks();
 		_settings = context.watch<SettingsProvider>();
-		_chordsStyle = _settings.chordsStyle;
-		_textStyle = _settings.textStyle;
+		_chordsStyle = _settings.chordsStyle(context);
+		_textStyle = _settings.textStyle(context);
+		_notesStyle = _settings.notesStyle(context);
+		_titleStyle = _settings.titleStyle(context);
 
 		_calculateLineHeight();
 		_loadAutoscrollSpeed();
@@ -164,7 +168,10 @@ class SongState extends State<SongScreen> {
 			body: (blocks.length > 0)
 				? Stack(
 					children: [
-						_buildBody(blocks),
+						Container(
+							color: _settings.backgroundColor(context),
+							child: _buildBody(blocks),
+						),
 
 						Align(
 							alignment: .bottomLeft,
@@ -229,11 +236,7 @@ class SongState extends State<SongScreen> {
 							crossAxisAlignment: .start,
 							children: [
 								if (songNotes != null && _showNotes)
-									Text(songNotes!,
-										style: TextStyle(
-											color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-										)
-									),
+									Text(songNotes!, style: _notesStyle),
 
 								...blocks.map((block) => _buildBlock(block)),
 
@@ -254,9 +257,7 @@ class SongState extends State<SongScreen> {
 					Row(
 						children: [
 							if (block.title != null) ...[
-								Text(block.title!,
-									style: Theme.of(context).textTheme.titleLarge,
-								),
+								Text(block.title!, style: _titleStyle),
 								const SizedBox(width: 10),
 							],
 
@@ -264,9 +265,7 @@ class SongState extends State<SongScreen> {
 								if (block.title == null)
 									Spacer(),
 
-								Text(block.notes!,
-									style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
-								),
+								Text(block.notes!, style: _notesStyle),
 							],
 						]
 					),
@@ -365,9 +364,9 @@ class RowWidget extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
-		_chordsStyle = _settings.chordsStyle;
-		_rhythmStyle = _settings.rhythmStyle;
-		_textStyle = _settings.textStyle;
+		_chordsStyle = _settings.chordsStyle(context);
+		_rhythmStyle = _settings.rhythmStyle(context);
+		_textStyle = _settings.textStyle(context);
 
 		return Column(
 			crossAxisAlignment: .start,

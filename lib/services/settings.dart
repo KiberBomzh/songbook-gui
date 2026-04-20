@@ -11,6 +11,10 @@ const String EDITOR_FONT_SIZE = 'editor_font_size';
 const String SONG_FONT_SIZE = 'song_font_size';
 const String CHORDS_COLOR = 'chords_color';
 const String RHYTHM_COLOR = 'rhythm_color';
+const String TEXT_COLOR = 'text_color';
+const String NOTES_COLOR = 'notes_color';
+const String TITLE_COLOR = 'title_color';
+const String BACKGROUND_COLOR = 'background_color';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 
 
@@ -19,8 +23,12 @@ class SettingsProvider extends ChangeNotifier {
 	String _colorAccent = 'blue';
 	double _editorFontSize = 14;
 	double _songFontSize = 14;
-	String _chordsColor = 'cyan';
-	String _rhythmColor = 'orange';
+	String? _chordsColor;
+	String? _rhythmColor;
+	String? _textColor;
+	String? _notesColor;
+	String? _titleColor;
+	String? _backgroundColor;
 	bool _lineWrapInSong = true;
 
 	ThemeMode get themeMode {
@@ -37,26 +45,51 @@ class SettingsProvider extends ChangeNotifier {
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 	double get editorFontSize => _editorFontSize;
 	double get songFontSize => _songFontSize;
-	Color get chordsColor => _stringToColor(_chordsColor) ?? Colors.cyan;
-	Color get rhythmColor => _stringToColor(_rhythmColor) ?? Colors.orange;
 	bool get lineWrapInSong => _lineWrapInSong;
 
+	Color chordsColor(BuildContext context) =>
+		_stringToColor(_chordsColor) ?? Theme.of(context).colorScheme.primary;
 
-	TextStyle get chordsStyle => TextStyle(
-		color: _stringToColor(_chordsColor),
+	Color rhythmColor(BuildContext context) =>
+		_stringToColor(_rhythmColor) ?? Theme.of(context).colorScheme.tertiary;
+	
+	Color textColor(BuildContext context) =>
+		_stringToColor(_textColor) ?? Theme.of(context).colorScheme.onSurface;
+
+	Color notesColor(BuildContext context) =>
+		_stringToColor(_notesColor) ?? Theme.of(context).colorScheme.onSurfaceVariant;
+
+	Color titleColor(BuildContext context) =>
+		_stringToColor(_titleColor) ?? Theme.of(context).colorScheme.secondary;
+
+	Color backgroundColor(BuildContext context) =>
+		_stringToColor(_backgroundColor) ?? Theme.of(context).colorScheme.surface;
+
+
+	TextStyle chordsStyle(BuildContext context) => TextStyle(
+		color: chordsColor(context),
 		fontFamily: 'JetBrainsMono',
 		fontSize: _songFontSize,
 	);
 
-	TextStyle get rhythmStyle => TextStyle(
-		color: _stringToColor(_rhythmColor),
+	TextStyle rhythmStyle(BuildContext context) => TextStyle(
+		color: rhythmColor(context),
 		fontFamily: 'JetBrainsMono',
 		fontSize: _songFontSize,
 	);
 
-	TextStyle get textStyle => TextStyle(
+	TextStyle textStyle(BuildContext context) => TextStyle(
+		color: textColor(context),
 		fontFamily: 'JetBrainsMono',
 		fontSize: _songFontSize,
+	);
+	TextStyle notesStyle(BuildContext context) => TextStyle(
+		color: notesColor(context),
+		fontSize: _songFontSize / 1.2,
+	);
+	TextStyle titleStyle(BuildContext context) => TextStyle(
+		color: titleColor(context),
+		fontSize: _songFontSize * 1.5,
 	);
 
 
@@ -70,8 +103,12 @@ class SettingsProvider extends ChangeNotifier {
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
-		_chordsColor = Preferences.getString(CHORDS_COLOR) ?? 'cyan';
-		_rhythmColor = Preferences.getString(RHYTHM_COLOR) ?? 'orange';
+		_chordsColor = Preferences.getString(CHORDS_COLOR);
+		_rhythmColor = Preferences.getString(RHYTHM_COLOR);
+		_textColor = Preferences.getString(TEXT_COLOR);
+		_notesColor = Preferences.getString(NOTES_COLOR);
+		_titleColor = Preferences.getString(TITLE_COLOR);
+		_backgroundColor = Preferences.getString(BACKGROUND_COLOR);
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 
 		notifyListeners();
@@ -116,16 +153,62 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
-	Future<void> setChordsColor(String value) async {
+	Future<void> setChordsColor(String? value) async {
 		_chordsColor = value;
-		await Preferences.setString(CHORDS_COLOR, value);
+		if (value != null)
+			await Preferences.setString(CHORDS_COLOR, value!);
+		else
+			await Preferences.remove(CHORDS_COLOR);
 
 		notifyListeners();
 	}
 
-	Future<void> setRhythmColor(String value) async {
+	Future<void> setRhythmColor(String? value) async {
 		_rhythmColor = value;
-		await Preferences.setString(RHYTHM_COLOR, value);
+		if (value != null)
+			await Preferences.setString(RHYTHM_COLOR, value!);
+		else
+			await Preferences.remove(RHYTHM_COLOR);
+
+		notifyListeners();
+	}
+
+	Future<void> setTextColor(String? value) async {
+		_textColor = value;
+		if (value != null)
+			await Preferences.setString(TEXT_COLOR, value!);
+		else
+			await Preferences.remove(TEXT_COLOR);
+
+		notifyListeners();
+	}
+
+	Future<void> setNotesColor(String? value) async {
+		_notesColor = value;
+		if (value != null)
+			await Preferences.setString(NOTES_COLOR, value!);
+		else
+			await Preferences.remove(NOTES_COLOR);
+
+		notifyListeners();
+	}
+
+	Future<void> setTitleColor(String? value) async {
+		_titleColor = value;
+		if (value != null)
+			await Preferences.setString(TITLE_COLOR, value!);
+		else
+			await Preferences.remove(TITLE_COLOR);
+
+		notifyListeners();
+	}
+
+	Future<void> setBackgroundColor(String? value) async {
+		_backgroundColor = value;
+		if (value != null)
+			await Preferences.setString(BACKGROUND_COLOR, value!);
+		else
+			await Preferences.remove(BACKGROUND_COLOR);
 
 		notifyListeners();
 	}
@@ -145,9 +228,13 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	Color? _stringToColor(String colorStr) {
-		if (colorStr.startsWith('0x')) {
-			return Color(int.parse(colorStr, radix: 16));
+	Color? _stringToColor(String? colorStr) {
+		if (colorStr == null) {
+			return null;
+		}
+
+		if (colorStr!.startsWith('#')) {
+			return Color(int.parse(colorStr!.substring(1), radix: 16));
 		}
 
 		return switch (colorStr) {
