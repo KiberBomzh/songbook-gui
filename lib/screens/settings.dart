@@ -170,6 +170,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(CHORDS_COLOR) != null)
 										? () => _settings.setChordsColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
@@ -203,6 +206,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
 										? () => _settings.setRhythmColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
@@ -236,6 +242,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(TEXT_COLOR) != null)
 										? () => _settings.setTextColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
@@ -269,6 +278,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(NOTES_COLOR) != null)
 										? () => _settings.setNotesColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
@@ -302,6 +314,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(TITLE_COLOR) != null)
 										? () => _settings.setTitleColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
@@ -335,6 +350,9 @@ class _SettingsState extends State<SettingsScreen> {
 									onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
 										? () => _settings.setBackgroundColor(null)
 										: null,
+									style: ElevatedButton.styleFrom(
+										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+									),
 								),
 
 								const SizedBox(width: 5),
