@@ -48,6 +48,7 @@ class SongState extends State<SongScreen> {
 	late TextStyle _textStyle;
 	late TextStyle _notesStyle;
 	late TextStyle _titleStyle;
+	late double _fontSize;
 
 
 	@override
@@ -146,6 +147,7 @@ class SongState extends State<SongScreen> {
 		_textStyle = _settings.textStyle(context);
 		_notesStyle = _settings.notesStyle(context);
 		_titleStyle = _settings.titleStyle(context);
+		_fontSize = _settings.songFontSize;
 
 		_calculateLineHeight();
 		_loadAutoscrollSpeed();
@@ -181,6 +183,8 @@ class SongState extends State<SongScreen> {
 				? Stack(
 					children: [
 						Container(
+							padding: const EdgeInsets.all(10),
+							height: double.infinity,
 							color: _settings.backgroundColor(context),
 							child: _buildBody(blocks),
 						),
@@ -242,19 +246,18 @@ class SongState extends State<SongScreen> {
 				child: SingleChildScrollView(
 					scrollDirection: Axis.vertical,
 					controller: _scrollController,
-					child: Padding(
-						padding: const EdgeInsets.symmetric(horizontal: 10),
-						child: Column(
-							crossAxisAlignment: .start,
-							children: [
-								if (songNotes != null && _showNotes)
-									Text(songNotes!, style: _notesStyle),
-
-								...blocks.map((block) => _buildBlock(block)),
-
-								const SizedBox(height: 80),
+					child: Column(
+						crossAxisAlignment: .start,
+						children: [
+							if (songNotes != null && _showNotes) ...[
+								Text(songNotes!, style: _notesStyle),
+								SizedBox(height: _fontSize * 1.5),
 							],
-						),
+
+							...blocks.map((block) => _buildBlock(block)),
+
+							const SizedBox(height: 80), // отступ для нижней панели
+						],
 					),
 				),
 			),
@@ -270,7 +273,7 @@ class SongState extends State<SongScreen> {
 						children: [
 							if (block.title != null) ...[
 								Text(block.title!, style: _titleStyle),
-								const SizedBox(width: 10),
+								SizedBox(width: _fontSize / 2),
 							],
 
 							if (block.notes != null && _showNotes) ...[
@@ -281,7 +284,6 @@ class SongState extends State<SongScreen> {
 							],
 						]
 					),
-					const SizedBox(height: 10),
 				],
 
 				...block.lines.map((l) {
@@ -311,7 +313,7 @@ class SongState extends State<SongScreen> {
 					};
 				}).toList(),
 
-				const SizedBox(height: 25),
+				SizedBox(height: _fontSize * 2),
 			],
 		);
 	}
@@ -348,7 +350,7 @@ class TabState extends State<TabWidget> {
 			child: SingleChildScrollView(
 				controller: _controller,
 				scrollDirection: Axis.horizontal,
-				padding: const EdgeInsets.symmetric(vertical: 10),
+				padding: const EdgeInsets.only(bottom: 10),
 				child: widget.text,
 			),
 		);
