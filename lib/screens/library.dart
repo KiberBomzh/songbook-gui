@@ -328,6 +328,7 @@ class _LibraryState extends State<LibraryScreen> {
 				child: Container(
 					padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
 					child: Row(
+						mainAxisAlignment: .spaceBetween,
 						children: [
 							Icon( (isDir) ? Icons.folder : Icons.music_note),
 							const SizedBox(width: 5),
@@ -338,7 +339,7 @@ class _LibraryState extends State<LibraryScreen> {
 									overflow: TextOverflow.ellipsis,
 								),
 							),
-							Spacer(),
+							const SizedBox(width: 10),
 
 							if (!_isSelectMode)
 								_buildPopupMenuButton(path, name),
