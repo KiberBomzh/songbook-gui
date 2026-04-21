@@ -118,6 +118,27 @@ pub fn add_new_song(
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: String) -> Result<()> {
+    let song = song.get_mut_song();
+    let current_dir = PathBuf::from(dir_path);
+    let song_name = 
+        get_without_forbidden_chars( format!("{} - {}", song.metadata.artist, song.metadata.title));
+    let mut song_path = current_dir.join(&song_name);
+    let mut counter = 0;
+    while song_path.exists() {
+        counter += 1;
+        song_path = current_dir.join(format!("{} ({})", song_name, counter));
+    }
+    if song.metadata.key == None {
+        song.detect_key();
+    }
+
+    save(&song, &song_path)?;
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn existence_check(path_str: String) -> bool {
     let path = PathBuf::from(path_str);
     

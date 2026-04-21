@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.5.5
   provider: ^6.1.5+1
   flex_color_picker: ^3.8.0
+  file_picker: ^11.0.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4

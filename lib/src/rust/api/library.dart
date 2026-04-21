@@ -5,6 +5,7 @@
 
 import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
+import 'song.dart';
 
 (List<String>, List<String>, String) readDirectory({String? pathStr}) =>
     RustLib.instance.api.crateApiLibraryReadDirectory(pathStr: pathStr);
@@ -58,6 +59,11 @@ void addNewSong({
   text: text,
   pathStr: pathStr,
 );
+
+void importSong({required SimpleSong song, required String dirPath}) => RustLib
+    .instance
+    .api
+    .crateApiLibraryImportSong(song: song, dirPath: dirPath);
 
 bool existenceCheck({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryExistenceCheck(pathStr: pathStr);

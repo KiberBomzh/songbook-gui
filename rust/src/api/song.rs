@@ -24,6 +24,27 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn from_chordpro(path_str: String) -> Result<Self> {
+        Ok( Self{
+            song: Song::from_chordpro(&PathBuf::from(path_str))?,
+            path: String::new(),
+        })
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn from_songbookpro(path_str: String) -> Result<Vec<Self>> {
+        let mut new_songs = Vec::new();
+        let songs: Vec<Song> = Song::from_sbp(&PathBuf::from(path_str))?;
+        for song in songs {
+            new_songs.push(
+                Self { song, path: String::new() }
+            );
+        }
+
+        Ok(new_songs)
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn save(&self) -> Result<()> {
         let path = PathBuf::from(&self.path);
         save(&self.song, &path)?;
@@ -131,6 +152,11 @@ impl SimpleSong {
     #[flutter_rust_bridge::frb(sync)]
     pub fn detect_key(&mut self) {
         self.song.detect_key();
+    }
+
+
+    pub fn get_mut_song(&mut self) -> &mut Song {
+        &mut self.song
     }
 }
 

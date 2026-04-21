@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:songbook/screens/song.dart';
@@ -9,6 +10,7 @@ import 'package:songbook/screens/settings.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
+import 'package:songbook/src/rust/api/song.dart';
 
 
 var _isAppDirSet = false;
@@ -466,6 +468,27 @@ class _LibraryState extends State<LibraryScreen> {
 							),
 						],
 					),
+
+					Row(
+						children: [
+							Container(
+								margin: const EdgeInsets.only(right: 10),
+								padding: const EdgeInsets.all(10),
+								decoration: BoxDecoration(
+									borderRadius: .circular(10),
+									color: Theme.of(context).colorScheme.primaryContainer,
+								),
+								child: Text('Import',
+									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+								),
+							),
+							FloatingActionButton(
+								heroTag: null,
+								child: const Icon(Icons.download),
+								onPressed: _importInLibrary,
+							),
+						],
+					),
 				],
 			),
 		);
@@ -486,6 +509,92 @@ class _LibraryState extends State<LibraryScreen> {
 			final String o_path = _currentPath + '/' + newName;
 			moveFileOrDir(inputPathStr: i_path, outputPathStr: o_path);
 			_loadDirectory();
+		}
+	}
+
+	Future<void> _importInLibrary() async {
+		final ImportFormat? importFormat = await _importDialog(context: context);
+		if (ImportFormat == null)
+			return;
+
+		final List<String> extensions = switch (importFormat!) {
+			ImportFormat.chordPro => ['cho'],
+			ImportFormat.songBookPro => ['sbp', 'sbpbackup'],
+			ImportFormat.yaml => ['yml', 'yaml'],
+		};
+
+		final FilePickerResult? result = await FilePicker.pickFiles(
+			allowMultiple: true,
+			type: FileType.custom,
+			allowedExtensions: extensions,
+		);
+
+		if (result == null)
+			return;
+
+		switch (importFormat!) {
+			case (ImportFormat.chordPro):
+				_addFromChordPro(result.paths);
+				break;
+
+			case (ImportFormat.songBookPro):
+				_addFromSongBookPro(result.paths);
+				break;
+
+			case (ImportFormat.yaml):
+				_addFromYaml(result.paths);
+				break;
+		}
+
+		await _loadDirectory();
+	}
+	void _addFromChordPro(List<String?> files) {
+		for (int i = 0; i < files.length; i++) {
+			if (files[i] == null)
+				continue;
+
+			final file = files[i]!;
+			try { // в песни ниже поле path пустое
+				SimpleSong song = SimpleSong.fromChordpro(pathStr: file);
+				importSong(song: song, dirPath: _currentPath);
+		} catch (e) {
+				continue;
+			}
+		}
+	}
+	void _addFromSongBookPro(List<String?> files) {
+		for (int i = 0; i < files.length; i++) {
+			if (files[i] == null)
+				continue;
+
+			final file = files[i]!;
+			try {
+				List<SimpleSong> songs = SimpleSong.fromSongbookpro(pathStr: file);
+				for (int i = 0; i < songs.length; i++) {
+					final song = songs[i];
+					try {
+						importSong(song: song, dirPath: _currentPath);
+					} catch (e) {
+						continue;
+					}
+				}
+		} catch (e) {
+				continue;
+			}
+		}
+	}
+	void _addFromYaml(List<String?> files) {
+		for (int i = 0; i < files.length; i++) {
+			if (files[i] == null)
+				continue;
+
+			final file = files[i]!;
+			try { // в песни ниже поле path пустое
+				SimpleSong song = SimpleSong.open(pathStr: file);
+				importSong(song: song, dirPath: _currentPath);
+		} catch (e) {
+				continue;
+			}
 		}
 	}
 
@@ -753,4 +862,48 @@ class SongAddState extends State<SongAddScreen> {
 		
 		return null;
 	}
+}
+
+
+enum ImportFormat {
+	chordPro,
+	songBookPro,
+	yaml, // Собственный формат
+}
+
+Future<ImportFormat?> _importDialog({
+	required BuildContext context,
+}) async {
+	return showDialog<ImportFormat?>(
+		context: context,
+		barrierDismissible: true,
+		builder: (context) {
+			return SimpleDialog(
+				title: const Text('Import format'),
+				children: [
+					SimpleDialogOption(
+						onPressed: () => Navigator.pop(context, ImportFormat.chordPro),
+						child: Padding(
+							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+							child: Text('ChordPro'),
+						),
+					),
+					SimpleDialogOption(
+						onPressed: () => Navigator.pop(context, ImportFormat.songBookPro),
+						child: Padding(
+							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+							child: Text('SongBookPro'),
+						),
+					),
+					SimpleDialogOption(
+						onPressed: () => Navigator.pop(context, ImportFormat.yaml),
+						child: Padding(
+							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+							child: Text('Yaml'),
+						),
+					),
+				],
+			);
+		},
+	);
 }

@@ -22,6 +22,14 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   void detectKey();
 
+  static SimpleSong fromChordpro({required String pathStr}) =>
+      RustLib.instance.api.crateApiSongSimpleSongFromChordpro(pathStr: pathStr);
+
+  static List<SimpleSong> fromSongbookpro({required String pathStr}) => RustLib
+      .instance
+      .api
+      .crateApiSongSimpleSongFromSongbookpro(pathStr: pathStr);
+
   String getArtist();
 
   BigInt? getAutoscrollSpeed();
@@ -33,6 +41,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
   String getForEditing();
 
   String? getKey();
+
+  Future<void> getMutSong();
 
   String? getNotes();
 
