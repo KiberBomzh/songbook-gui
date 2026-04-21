@@ -7,6 +7,7 @@ import 'package:songbook/src/rust/api/song.dart';
 
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/services/settings.dart';
+import 'package:songbook/screens/settings.dart';
 
 
 const int AutoscrollSpeedStep = 50;
@@ -164,6 +165,17 @@ class SongState extends State<SongScreen> {
 						),
 					],
 				),
+				actions: [
+					IconButton(
+						icon: Icon(Icons.settings),
+						tooltip: 'Settings',
+						onPressed: () => Navigator.push(context,
+							MaterialPageRoute(
+								builder: (context) => SettingsScreen()
+							),
+						),
+					),
+				],
 			),
 			body: (blocks.length > 0)
 				? Stack(
