@@ -26,7 +26,7 @@ class SongScreen extends StatefulWidget {
 class SongState extends State<SongScreen> {
 	late SimpleSong _song;
 
-	late String _key;
+	late String? _key;
 	late int? _capo;
 	late int _autoscrollSpeed; // milliseconds per pixel
 
@@ -79,9 +79,9 @@ class SongState extends State<SongScreen> {
 		String? checkKey = _song.getKey();
 		if (checkKey == null) {
 			_song.detectKey();
-			_key = _song.getKey()!;
+			_key = _song.getKey();
 		} else {
-			_key = checkKey!;
+			_key = checkKey;
 		}
 	});
 
@@ -181,13 +181,13 @@ class SongState extends State<SongScreen> {
 								autoscrollSpeed: _autoscrollSpeed,
 								transposeSong: (steps) => setState(() {
 									_song.transpose(steps: steps);
-									_key = _song.getKey()!;
+									_key = _song.getKey();
 									_scheduleSave();
 								}),
 								setCapo: (newCapo) => setState(() {
 									_song.setCapo(capo: newCapo);
 									_capo = _song.getCapo();
-									_key = _song.getKey()!;
+									_key = _song.getKey();
 									_scheduleSave();
 								}),
 								setAutoscrollSpeed: (newSpeed) => setState(() {
@@ -494,7 +494,7 @@ enum BarMode {
 	autoscroll
 }
 class BottomBar extends StatefulWidget {
-	final String songKey;
+	final String? songKey;
 	final int songCapo;
 	final int autoscrollSpeed;
 	final Function(int) transposeSong;
@@ -560,24 +560,11 @@ class _BarState extends State<BottomBar> {
 						fontWeight: .bold,
 					)
 				),
-				onTap: () => setState(() => _currentMode = BarMode.capo),
+				onTap: (widget.songKey != null)
+					? () => setState(() => _currentMode = BarMode.capo)
+					: null,
 				size: 50,
 			),
-			const SizedBox(width: 10),
-
-			_buildBarItem( // Key
-				child: Text(widget.songKey.replaceFirst('/', '\n'), 
-					style: TextStyle(
-						color: _foregroundColor,
-						fontSize: 15,
-						fontWeight: .bold,
-					),
-					textAlign: .center,
-				),
-				onTap: () => setState(() => _currentMode = BarMode.key),
-				size: 60,
-			),
-
 			const SizedBox(width: 10),
 
 			_buildBarItem( // Autoscroll
@@ -589,6 +576,23 @@ class _BarState extends State<BottomBar> {
 					widget.startAutoscroll();
 					setState(() => _currentMode = BarMode.autoscroll);
 				},
+				size: 60,
+			),
+
+			const SizedBox(width: 10),
+
+			_buildBarItem( // Key
+				child: Text(widget.songKey?.replaceFirst('/', '\n') ?? 'Key', 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					),
+					textAlign: .center,
+				),
+				onTap: (widget.songKey != null)
+					? () => setState(() => _currentMode = BarMode.key)
+					: null,
 				size: 50,
 			),
 		];
@@ -649,7 +653,7 @@ class _BarState extends State<BottomBar> {
 			const SizedBox(width: 10),
 
 			_buildBarItem(
-				child: Text(widget.songKey.replaceFirst('/', '\n'), 
+				child: Text(widget.songKey!.replaceFirst('/', '\n'), 
 					style: TextStyle(
 						color: _foregroundColor,
 						fontSize: 15,
