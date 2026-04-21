@@ -87,7 +87,7 @@ class SettingsProvider extends ChangeNotifier {
 	);
 	TextStyle notesStyle(BuildContext context) => TextStyle(
 		color: notesColor(context),
-		fontSize: _songFontSize / 1.2,
+		fontSize: _songFontSize * 0.9,
 	);
 	TextStyle titleStyle(BuildContext context) => TextStyle(
 		color: titleColor(context),
