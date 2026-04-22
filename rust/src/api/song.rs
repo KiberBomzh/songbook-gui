@@ -78,6 +78,18 @@ impl SimpleSong {
         self.song.metadata.autoscroll_speed = Some(new_speed)
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn set_show_options(&mut self,
+        chords: bool,
+        rhythm: bool,
+        notes: bool,
+        fingerings: bool
+    ) {
+        self.song.metadata.show_options = Some(
+            songbook::song::ShowOptions { chords, rhythm, notes, fingerings }
+        );
+    }
+
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {
@@ -134,6 +146,11 @@ impl SimpleSong {
     pub fn get_autoscroll_speed(&self) -> Option<u64> {
         self.song.metadata.autoscroll_speed
     } // in milliseconds per line
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
+        self.song.metadata.get_show_options()
+    } // chords, rhythm, notes, fingerings
 
 
     #[flutter_rust_bridge::frb(sync)]

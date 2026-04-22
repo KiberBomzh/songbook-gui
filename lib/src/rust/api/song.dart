@@ -46,6 +46,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String? getNotes();
 
+  (bool, bool, bool, bool) getShowOptions();
+
   String getTitle();
 
   static SimpleSong open({required String pathStr}) =>
@@ -56,6 +58,13 @@ abstract class SimpleSong implements RustOpaqueInterface {
   void setAutoscrollSpeed({required BigInt newSpeed});
 
   void setCapo({required int capo});
+
+  void setShowOptions({
+    required bool chords,
+    required bool rhythm,
+    required bool notes,
+    required bool fingerings,
+  });
 
   void transpose({required int steps});
 }

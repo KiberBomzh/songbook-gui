@@ -31,9 +31,10 @@ class SongState extends State<SongScreen> {
 	late int? _capo;
 	late int _autoscrollSpeed; // milliseconds per pixel
 
-	bool _showNotes = true;
 	bool _showRhythm = true;
 	bool _showChords = true;
+	bool _showNotes = true;
+	bool _showFingerings = false;
 
 	late ScrollController _scrollController;
 	Timer? _autoscrollTimer;
@@ -85,6 +86,12 @@ class SongState extends State<SongScreen> {
 		} else {
 			_key = checkKey;
 		}
+
+		final (c, r, n, f) = _song.getShowOptions();
+		_showChords = c;
+		_showRhythm = r;
+		_showNotes = n;
+		_showFingerings = f;
 	});
 
 	void _loadAutoscrollSpeed() {
