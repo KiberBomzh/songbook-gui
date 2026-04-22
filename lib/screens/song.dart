@@ -270,6 +270,9 @@ class SongState extends State<SongScreen> {
 			children: [
 				if (block.title != null || block.notes != null) ...[
 					Row(
+						mainAxisAlignment: (block.title == null)
+							? .end
+							: .start,
 						children: [
 							if (block.title != null) ...[
 								Text(block.title!, style: _titleStyle),
@@ -277,10 +280,9 @@ class SongState extends State<SongScreen> {
 							],
 
 							if (block.notes != null && _showNotes) ...[
-								if (block.title == null)
-									Spacer(),
-
-								Text(block.notes!, style: _notesStyle),
+								Flexible(
+									child:Text(block.notes!, style: _notesStyle, overflow: .ellipsis),
+								),
 							],
 						]
 					),
