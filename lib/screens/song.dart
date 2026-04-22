@@ -10,7 +10,7 @@ import 'package:songbook/services/settings.dart';
 import 'package:songbook/screens/settings.dart';
 
 
-const int AutoscrollSpeedStep = 50;
+const int AutoscrollSpeedStep = 25;
 
 
 
@@ -146,6 +146,16 @@ class SongState extends State<SongScreen> {
 		_loadSong();
 	}
 
+	void _setShowOptions() {
+		_song.setShowOptions(
+			chords: _showChords,
+			rhythm: _showRhythm,
+			notes: _showNotes,
+			fingerings: _showFingerings,
+		);
+		_scheduleSave();
+	}
+
 	@override
 	Widget build(BuildContext context) {
 		final List<SimpleBlock> blocks = _song.getBlocks();
@@ -187,52 +197,64 @@ class SongState extends State<SongScreen> {
 				],
 			),
 			body: (blocks.length > 0)
-				? Stack(
-					children: [
-						Container(
-							padding: const EdgeInsets.all(10),
-							height: double.infinity,
-							color: _settings.backgroundColor(context),
-							child: _buildBody(blocks),
-						),
-
-						Align(
-							alignment: .bottomLeft,
-							child: BottomBar(
-								songCapo: _capo ?? 0,
-								songKey: _key,
-								autoscrollSpeed: _autoscrollSpeed,
-								transposeSong: (steps) => setState(() {
-									_song.transpose(steps: steps);
-									_key = _song.getKey();
-									_scheduleSave();
-								}),
-								setCapo: (newCapo) => setState(() {
-									_song.setCapo(capo: newCapo);
-									_capo = _song.getCapo();
-									_key = _song.getKey();
-									_scheduleSave();
-								}),
-								setAutoscrollSpeed: (newSpeed) => setState(() {
-									_autoscrollSpeed = newSpeed;
-									_startAutoscroll();
-
-									final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
-									_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
-									_scheduleSave();
-								}),
-								startAutoscroll: _startAutoscroll,
-								stopAutoscroll: _stopAutoscroll,
-							),
-						),
-					],
+				? Container(
+					padding: const EdgeInsets.all(10),
+					height: double.infinity,
+					color: _settings.backgroundColor(context),
+					child: _buildBody(blocks),
 				)
 				: Center(
 					child: Text('The song is empty...')
 				),
-			floatingActionButton: FloatingActionButton(
-				child: Icon(Icons.edit),
-				onPressed: _edit,
+			bottomSheet: BottomBar(
+				songCapo: _capo ?? 0,
+				songKey: _key,
+				autoscrollSpeed: _autoscrollSpeed,
+				transposeSong: (steps) => setState(() {
+					_song.transpose(steps: steps);
+					_key = _song.getKey();
+					_scheduleSave();
+				}),
+				setCapo: (newCapo) => setState(() {
+					_song.setCapo(capo: newCapo);
+					_capo = _song.getCapo();
+					_key = _song.getKey();
+					_scheduleSave();
+				}),
+				setAutoscrollSpeed: (newSpeed) => setState(() {
+					_autoscrollSpeed = newSpeed;
+					_startAutoscroll();
+
+					final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
+					_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
+					_scheduleSave();
+				}),
+				startAutoscroll: _startAutoscroll,
+				stopAutoscroll: _stopAutoscroll,
+				edit: _edit,
+				popupMenuButton: PopupMenu(
+					chords: _showChords,
+					rhythm: _showRhythm,
+					notes: _showNotes,
+					fingerings: _showFingerings,
+
+					switchChords: () => setState(() {
+						_showChords = !_showChords;
+						_setShowOptions();
+					}),
+					switchRhythm: () => setState(() {
+						_showRhythm = !_showRhythm;
+						_setShowOptions();
+					}),
+					switchNotes: () => setState(() {
+						_showNotes = !_showNotes;
+						_setShowOptions();
+					}),
+					switchFingerings: () => setState(() {
+						_showFingerings = !_showFingerings;
+						_setShowOptions();
+					}),
+				),
 			),
 		);
 	}
@@ -527,16 +549,25 @@ class BottomBar extends StatefulWidget {
 	final VoidCallback startAutoscroll;
 	final VoidCallback stopAutoscroll;
 
+	final VoidCallback edit;
+	final Widget popupMenuButton;
+
 	BottomBar({
 		super.key,
 		required this.songKey,
 		required this.songCapo,
 		required this.autoscrollSpeed,
+
 		required this.transposeSong,
 		required this.setCapo,
 		required this.setAutoscrollSpeed,
+
 		required this.startAutoscroll,
 		required this.stopAutoscroll,
+
+
+		required this.edit,
+		required this.popupMenuButton,
 	});
 
 
@@ -555,10 +586,12 @@ class _BarState extends State<BottomBar> {
 
 		return Container(
 			height: 80,
-			width: 250,
 			decoration: BoxDecoration(
-				borderRadius: .only(topRight: .circular(10)),
-				// color: Theme.of(context).colorScheme.surfaceVariant,
+				borderRadius: .only(
+					topRight: .circular(20),
+					topLeft: .circular(20),
+				),
+				color: Theme.of(context).colorScheme.surfaceContainer,
 			),
 			child: Row(
 				mainAxisAlignment: .center,
@@ -573,6 +606,21 @@ class _BarState extends State<BottomBar> {
 	}
 	List<Widget> _buildDefault() {
 		return [
+			Container(
+				padding: const EdgeInsets.only(left: 5),
+				width: 60,
+				child: Row(
+					mainAxisAlignment: .start,
+					children: [
+						IconButton(
+							icon: Icon(Icons.edit),
+							onPressed: widget.edit
+						),
+					],
+				),
+			),
+			Spacer(),
+
 			_buildBarItem( // Capo
 				child: Text((widget.songCapo > 0)
 					? widget.songCapo.toString()
@@ -618,6 +666,18 @@ class _BarState extends State<BottomBar> {
 					: null,
 				size: 50,
 			),
+
+			Spacer(),
+			Container(
+				padding: const EdgeInsets.only(right: 10),
+				width: 60,
+				child: Row(
+					mainAxisAlignment: .end,
+					children: [
+						widget.popupMenuButton,
+					],
+				),
+			),
 		];
 	}
 	List<Widget> _buildCapo() {
@@ -632,6 +692,21 @@ class _BarState extends State<BottomBar> {
 				),
 				onTap: (widget.songCapo > 0)
 					? () => widget.setCapo(widget.songCapo - 1)
+					: null,
+				size: 40,
+			),
+			const SizedBox(width: 10),
+
+			_buildBarItem(
+				child: Text('-3', 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: (widget.songCapo > 2)
+					? () => widget.setCapo(widget.songCapo - 3)
 					: null,
 			),
 			const SizedBox(width: 10),
@@ -650,6 +725,18 @@ class _BarState extends State<BottomBar> {
 
 			const SizedBox(width: 10),
 			_buildBarItem(
+				child: Text('+3', 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.setCapo(widget.songCapo + 3),
+			),
+
+			const SizedBox(width: 10),
+			_buildBarItem(
 				child: Text('+1', 
 					style: TextStyle(
 						color: _foregroundColor,
@@ -658,11 +745,24 @@ class _BarState extends State<BottomBar> {
 					)
 				),
 				onTap: () => widget.setCapo(widget.songCapo + 1),
+				size: 40,
 			),
 		];
 	}
 	List<Widget> _buildKey() {
 		return [
+			_buildBarItem(
+				child: Text('-0.5', 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.transposeSong(-1),
+			),
+			const SizedBox(width: 10),
+
 			_buildBarItem(
 				child: Text('-1', 
 					style: TextStyle(
@@ -671,7 +771,7 @@ class _BarState extends State<BottomBar> {
 						fontWeight: .bold,
 					)
 				),
-				onTap: () => widget.transposeSong(-1),
+				onTap: () => widget.transposeSong(-2),
 			),
 			const SizedBox(width: 10),
 
@@ -697,6 +797,18 @@ class _BarState extends State<BottomBar> {
 						fontWeight: .bold,
 					)
 				),
+				onTap: () => widget.transposeSong(2),
+			),
+
+			const SizedBox(width: 10),
+			_buildBarItem(
+				child: Text('+0.5', 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
 				onTap: () => widget.transposeSong(1),
 			),
 		];
@@ -713,6 +825,21 @@ class _BarState extends State<BottomBar> {
 				),
 				onTap: (widget.autoscrollSpeed > AutoscrollSpeedStep)
 					? () => widget.setAutoscrollSpeed(widget.autoscrollSpeed - AutoscrollSpeedStep)
+					: null,
+				size: 40,
+			),
+			const SizedBox(width: 10),
+
+			_buildBarItem(
+				child: Text('-' + (AutoscrollSpeedStep * 2).toString(), 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: (widget.autoscrollSpeed > (AutoscrollSpeedStep * 2))
+					? () => widget.setAutoscrollSpeed(widget.autoscrollSpeed - (AutoscrollSpeedStep * 2))
 					: null,
 			),
 			const SizedBox(width: 10),
@@ -734,6 +861,18 @@ class _BarState extends State<BottomBar> {
 
 			const SizedBox(width: 10),
 			_buildBarItem(
+				child: Text('+' + (AutoscrollSpeedStep * 2).toString(), 
+					style: TextStyle(
+						color: _foregroundColor,
+						fontSize: 15,
+						fontWeight: .bold,
+					)
+				),
+				onTap: () => widget.setAutoscrollSpeed(widget.autoscrollSpeed + (AutoscrollSpeedStep * 2)),
+			),
+
+			const SizedBox(width: 10),
+			_buildBarItem(
 				child: Text('+' + AutoscrollSpeedStep.toString(), 
 					style: TextStyle(
 						color: _foregroundColor,
@@ -742,6 +881,7 @@ class _BarState extends State<BottomBar> {
 					)
 				),
 				onTap: () => widget.setAutoscrollSpeed(widget.autoscrollSpeed + AutoscrollSpeedStep),
+				size: 40,
 			),
 		];
 	}
@@ -749,7 +889,7 @@ class _BarState extends State<BottomBar> {
 	Widget _buildBarItem({
 		required Widget child,
 		required VoidCallback? onTap,
-		double size = 40,
+		double size = 45,
 	}) {
 		return Padding(
 			padding: const EdgeInsets.all(5),
@@ -774,6 +914,108 @@ class _BarState extends State<BottomBar> {
 			),
 		);
 	}
-
 }
 
+class PopupMenu extends StatefulWidget {
+	final bool chords;
+	final bool rhythm;
+	final bool notes;
+	final bool fingerings;
+
+	final VoidCallback switchChords;
+	final VoidCallback switchRhythm;
+	final VoidCallback switchNotes;
+	final VoidCallback switchFingerings;
+
+
+	PopupMenu({
+		super.key,
+		required this.chords,
+		required this.rhythm,
+		required this.notes,
+		required this.fingerings,
+
+		required this.switchChords,
+		required this.switchRhythm,
+		required this.switchNotes,
+		required this.switchFingerings,
+	});
+
+	@override
+	State<PopupMenu> createState() => _PopupMenuState();
+}
+
+class _PopupMenuState extends State<PopupMenu> {
+	late Map<String, bool> _showOptions;
+
+	@override
+	void initState() {
+		super.initState();
+		_showOptions = {
+			'Chords': widget.chords,
+			'Rhythm': widget.rhythm,
+			'Notes': widget.notes,
+		};
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return IconButton(
+			icon: Icon(Icons.more_vert),
+			onPressed: () => _showMenu(),
+		);
+	}
+
+	void _showMenu() {
+		final RenderBox button = context.findRenderObject() as RenderBox;
+		final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+		final RelativeRect position = RelativeRect.fromRect(
+			Rect.fromPoints(
+				button.localToGlobal(Offset(0, -180), ancestor: overlay),
+				button.localToGlobal(button.size.bottomRight(Offset(0, -200)), ancestor: overlay),
+			),
+			Offset.zero & overlay.size,
+		);
+
+		showMenu<String>(
+			context: context,
+			position: position,
+			items: _showOptions.keys.map((key) {
+				return PopupMenuItem<String>(
+					child: StatefulBuilder(
+						builder: (context, StateSetter setState) {
+							return CheckboxListTile(
+								title: Text(key),
+								value: _showOptions[key],
+								onChanged: (bool? value) {
+									setState(() => _showOptions[key] = value!);
+									switch (key) {
+										case ('Chords'):
+											widget.switchChords();
+											break;
+
+										case ('Rhythm'):
+											widget.switchRhythm();
+											break;
+
+										case ('Notes'):
+											widget.switchNotes();
+											break;
+
+										case ('Fingerings'):
+											widget.switchFingerings();
+											break;
+
+										default:
+											break;
+									}
+								},
+								controlAffinity: ListTileControlAffinity.leading,
+							);
+						},
+					),
+				);
+			}).toList(),
+		);
+	}
+}
