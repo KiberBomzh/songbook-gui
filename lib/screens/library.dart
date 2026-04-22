@@ -166,6 +166,20 @@ class _LibraryState extends State<LibraryScreen> {
 
 			onSelected: (value) {
 				switch (value) {
+					case ('rename'):
+						String path = _selected[0];
+						_rename(_getPathName(path));
+
+						if (_copyBuffer.contains(path))
+							_copyBuffer.remove(path);
+						if (_cutBuffer.contains(path))
+							_cutBuffer.remove(path);
+
+						setState(() {
+							_selected.clear();
+							_isSelectMode = false;
+						});
+						break;
 					case ('copy'):
 						setState(() {
 							_cutBuffer.clear();
@@ -209,6 +223,11 @@ class _LibraryState extends State<LibraryScreen> {
 				}
 			},
 			itemBuilder: (context) => [
+				if (_selected.length == 1)
+					PopupMenuItem(
+						value: 'rename',
+						child: Text('Rename'),
+					),
 				const PopupMenuItem(
 					value: 'copy',
 					child: Text('Copy'),
