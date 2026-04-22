@@ -903,24 +903,18 @@ Future<ImportFormat?> _importDialog({
 				children: [
 					SimpleDialogOption(
 						onPressed: () => Navigator.pop(context, ImportFormat.chordPro),
-						child: Padding(
-							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-							child: Text('ChordPro'),
-						),
+						padding: const EdgeInsets.all(20),
+						child: Text('ChordPro (.cho)'),
 					),
 					SimpleDialogOption(
 						onPressed: () => Navigator.pop(context, ImportFormat.songBookPro),
-						child: Padding(
-							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-							child: Text('SongBookPro'),
-						),
+						padding: const EdgeInsets.all(20),
+						child: Text('SongBookPro (.sbp, .sbpbackup)'),
 					),
 					SimpleDialogOption(
 						onPressed: () => Navigator.pop(context, ImportFormat.yaml),
-						child: Padding(
-							padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-							child: Text('Yaml'),
-						),
+						padding: const EdgeInsets.all(20),
+						child: Text('songbook (.yml, .yaml)'),
 					),
 				],
 			);
