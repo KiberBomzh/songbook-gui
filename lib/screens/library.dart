@@ -534,7 +534,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 	Future<void> _importInLibrary() async {
 		final ImportFormat? importFormat = await _importDialog(context: context);
-		if (ImportFormat == null)
+		if (importFormat == null)
 			return;
 
 		final List<String> extensions = switch (importFormat!) {
