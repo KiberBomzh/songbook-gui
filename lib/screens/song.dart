@@ -231,7 +231,7 @@ class SongState extends State<SongScreen> {
 	}
 
 	Widget _buildBody(List<SimpleBlock> blocks) {
-		final screenWidth = MediaQuery.of(context).size.width;
+		final screenWidth = MediaQuery.of(context).size.width - 20; // padding
 		final String? songNotes = _song.getNotes();
 
 		return SingleChildScrollView(
