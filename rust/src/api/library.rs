@@ -105,6 +105,7 @@ pub fn add_new_song(
             key: None,
             capo: None,
             autoscroll_speed: None,
+            show_options: None,
         };
         let mut s = Song { blocks, chord_list, metadata, notes: None };
         s.detect_key();

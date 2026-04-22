@@ -81,7 +81,7 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {
-        self.song.get_song_as_text(true, true, false, true)
+        self.song.get_song_as_text()
     }
 
     #[flutter_rust_bridge::frb(sync)]
