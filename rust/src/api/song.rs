@@ -171,6 +171,17 @@ impl SimpleSong {
         self.song.detect_key();
     }
 
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_path(&self) -> Option<String> {
+        if self.path.is_empty() {
+            return None
+        } else if !PathBuf::from(&self.path).exists() {
+            return None
+        } else {
+            return Some(self.path.clone())
+        }
+    }
+
 
     pub fn get_mut_song(&mut self) -> &mut Song {
         &mut self.song

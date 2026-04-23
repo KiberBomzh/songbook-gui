@@ -1,13 +1,17 @@
 import 'dart:ui';
+import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
-import 'package:songbook/src/rust/api/song.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/screens/settings.dart';
+
+import 'package:songbook/src/rust/api/song.dart';
 
 
 const int AutoscrollSpeedStep = 25;
@@ -185,6 +189,51 @@ class SongState extends State<SongScreen> {
 					],
 				),
 				actions: [
+					PopupMenuButton<String>(
+						icon: Icon(Icons.share),
+						tooltip: 'Export',
+						offset: const Offset(0, 40),
+						shape: RoundedRectangleBorder(
+							borderRadius: .circular(12),
+						),
+						onSelected: (value) async { switch (value) {
+							case ('text'):
+								Clipboard.setData(ClipboardData(text: _song.asText()));
+								break;
+
+							case ('songbook'):
+								final pathMaybe = _song.getPath();
+								if (pathMaybe == null) {
+									break;
+								}
+								final String path = pathMaybe!;
+								final file = await File(path).rename(path + '.yml');
+
+								final params = ShareParams(
+									files: [ XFile('${file.path}')],
+								);
+								try {
+									final result = await SharePlus.instance.share(params);
+								} finally {
+									await file.rename(path);
+								}
+
+								break;
+
+							default:
+								break;
+						}},
+						itemBuilder: (context) => [
+							const PopupMenuItem(
+								value: 'text',
+								child: Text('Text'),
+							),
+							const PopupMenuItem(
+								value: 'songbook',
+								child: Text('songbook (.yml)'),
+							),
+						],
+					),
 					IconButton(
 						icon: Icon(Icons.settings),
 						tooltip: 'Settings',

@@ -46,6 +46,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String? getNotes();
 
+  String? getPath();
+
   (bool, bool, bool, bool) getShowOptions();
 
   String getTitle();
