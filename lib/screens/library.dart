@@ -867,6 +867,8 @@ class SongAddState extends State<SongAddScreen> {
 						),
 					),
 				),
+
+				SizedBox(height: MediaQuery.of(context).viewInsets.bottom), // для клавиатуры
 			],
 		);
 	}
