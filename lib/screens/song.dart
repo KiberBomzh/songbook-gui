@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/services/settings.dart';
@@ -61,10 +62,12 @@ class SongState extends State<SongScreen> {
 		super.initState();
 		_scrollController = ScrollController();
 		_loadSong();
+		WakelockPlus.enable();
 	}
 
 	@override
 	void dispose() {
+		WakelockPlus.disable();
 		_stopAutoscroll();
 		_scrollController.dispose();
 		_saveTimer?.cancel();
@@ -141,12 +144,7 @@ class SongState extends State<SongScreen> {
 
 
 	void _edit() async {
-		final result = await Navigator.push(context,
-			MaterialPageRoute(
-				builder: (context) => EditorScreen(song: _song),
-			),
-		);
-
+		await _navigatorPush(EditorScreen(song: _song));
 		_loadSong();
 	}
 
@@ -158,6 +156,16 @@ class SongState extends State<SongScreen> {
 			fingerings: _showFingerings,
 		);
 		_scheduleSave();
+	}
+
+	Future<void> _navigatorPush(Widget screen) async {
+		WakelockPlus.disable();
+		await Navigator.push(context,
+			MaterialPageRoute(
+				builder: (context) => screen,
+			),
+		);
+		WakelockPlus.enable();
 	}
 
 	@override
@@ -237,11 +245,7 @@ class SongState extends State<SongScreen> {
 					IconButton(
 						icon: Icon(Icons.settings),
 						tooltip: 'Settings',
-						onPressed: () => Navigator.push(context,
-							MaterialPageRoute(
-								builder: (context) => SettingsScreen()
-							),
-						),
+						onPressed: () => _navigatorPush(SettingsScreen()),
 					),
 				],
 			),
