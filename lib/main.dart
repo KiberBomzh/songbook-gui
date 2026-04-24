@@ -40,12 +40,24 @@ class MyApp extends StatelessWidget {
 						brightness: .light,
 						seedColor: accentColor,
 					),
+					snackBarTheme: SnackBarThemeData(
+						shape: RoundedRectangleBorder(
+							borderRadius: .vertical(top: Radius.circular(10)),
+						),
+						elevation: 4,
+					),
 				),
 				darkTheme: ThemeData(
 					useMaterial3: true,
 					colorScheme: ColorScheme.fromSeed(
 						brightness: .dark,
 						seedColor: accentColor,
+					),
+					snackBarTheme: SnackBarThemeData(
+						shape: RoundedRectangleBorder(
+							borderRadius: .vertical(top: Radius.circular(10)),
+						),
+						elevation: 4,
 					),
 				),
 				themeMode: themeMode,

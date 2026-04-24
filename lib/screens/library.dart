@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +15,10 @@ import 'package:songbook/src/rust/api/song.dart';
 
 
 var _isAppDirSet = false;
+const Duration _beforeDeleteDuration = Duration(seconds: 3);
+
+List<String> _deleted = [];
+Timer? _deleteTimer;
 
 class LibraryScreen extends StatefulWidget {
 	final String? path;
@@ -93,6 +98,58 @@ class _LibraryState extends State<LibraryScreen> {
 			_copyBuffer.clear();
 		});
 		_loadDirectory();
+	}
+
+	void _delete(List<String> paths) {
+		for (int i = 0; i < paths.length; i++) {
+			String path = paths[i];
+			if (_deleted.contains(path))
+				continue;
+
+			if (_copyBuffer.contains(path))
+				_copyBuffer.remove(path);
+			if (_cutBuffer.contains(path))
+				_cutBuffer.remove(path);
+
+			_deleted.add(path);
+		}
+		_scheduleDelete();
+		ScaffoldMessenger.of(context).showSnackBar(
+			SnackBar(
+				content: Row(
+					mainAxisAlignment: .spaceBetween,
+					children: [
+						Text('Deleted: ${_deleted.length}'),
+						TextButton(
+							child: Text('Cancel', 
+								style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary)
+							),
+							onPressed: () {
+								_deleteTimer?.cancel();
+								_deleted.clear();
+
+								if (!mounted) return;
+								ScaffoldMessenger.of(context).hideCurrentSnackBar();
+								_loadDirectory();
+							},
+						),
+					],
+				),
+				duration: _beforeDeleteDuration,
+			),
+		);
+
+		_loadDirectory();
+	}
+
+	void _scheduleDelete() {
+		_deleteTimer?.cancel();
+		_deleteTimer = Timer(_beforeDeleteDuration, () {
+			for (String path in _deleted) {
+				removeFromLibrary(pathStr: path);
+			}
+			_deleted.clear();
+		});
 	}
 
 
@@ -205,20 +262,11 @@ class _LibraryState extends State<LibraryScreen> {
 						});
 						break;
 					case ('delete'):
+						_delete(_selected);
 						setState(() {
-							for (int i = 0; i < _selected.length; i++) {
-								String path = _selected[i];
-								removeFromLibrary(pathStr: path);
-
-								if (_copyBuffer.contains(path))
-									_copyBuffer.remove(path);
-								if (_cutBuffer.contains(path))
-									_cutBuffer.remove(path);
-							}
 							_selected.clear();
 							_isSelectMode = false;
 						});
-						_loadDirectory();
 						break;
 				}
 			},
@@ -257,7 +305,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 				final itemName = _getPathName(itemPath);
 
-				if (_cutBuffer.contains(itemPath))
+				if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath))
 					return SizedBox();
 
 
@@ -401,14 +449,7 @@ class _LibraryState extends State<LibraryScreen> {
 							setState(() => _cutBuffer.add(path));
 						break;
 					case ('delete'):
-						removeFromLibrary(pathStr: path);
-
-						if (_copyBuffer.contains(path))
-							_copyBuffer.remove(path);
-						if (_cutBuffer.contains(path))
-							_cutBuffer.remove(path);
-
-						_loadDirectory();
+						_delete([path]);
 						break;
 				}
 			},
