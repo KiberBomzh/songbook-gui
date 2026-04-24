@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 import 'package:songbook/screens/song.dart';
+import 'package:songbook/screens/editor.dart';
 import 'package:songbook/screens/settings.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
 
@@ -237,6 +238,23 @@ class _LibraryState extends State<LibraryScreen> {
 							_isSelectMode = false;
 						});
 						break;
+					case ('edit'):
+						String path = _selected[0];
+						Navigator.push(context,
+							MaterialPageRoute(
+								builder: (context) => EditorScreen(
+									song: SimpleSong.open(pathStr: path),
+									path: path,
+									mode: EditorMode.source,
+								),
+							),
+						);
+
+						setState(() {
+							_selected.clear();
+							_isSelectMode = false;
+						});
+						break;
 					case ('copy'):
 						setState(() {
 							_cutBuffer.clear();
@@ -271,11 +289,17 @@ class _LibraryState extends State<LibraryScreen> {
 				}
 			},
 			itemBuilder: (context) => [
-				if (_selected.length == 1)
+				if (_selected.length == 1) ...[
 					PopupMenuItem(
 						value: 'rename',
 						child: Text('Rename'),
 					),
+					PopupMenuItem(
+						value: 'edit',
+						child: Text('Edit'),
+					),
+				],
+
 				const PopupMenuItem(
 					value: 'copy',
 					child: Text('Copy'),
@@ -436,6 +460,17 @@ class _LibraryState extends State<LibraryScreen> {
 						if (_cutBuffer.contains(path))
 							_cutBuffer.remove(path);
 						break;
+					case ('edit'):
+						Navigator.push(context,
+							MaterialPageRoute(
+								builder: (context) => EditorScreen(
+									song: SimpleSong.open(pathStr: path),
+									path: path,
+									mode: EditorMode.source,
+								),
+							),
+						);
+						break;
 					case ('copy'):
 						_cutBuffer.clear();
 
@@ -457,6 +492,10 @@ class _LibraryState extends State<LibraryScreen> {
 				const PopupMenuItem(
 					value: 'rename',
 					child: Text('Rename'),
+				),
+				const PopupMenuItem(
+					value: 'edit',
+					child: Text('Edit'),
 				),
 				const PopupMenuItem(
 					value: 'copy',

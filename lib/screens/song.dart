@@ -144,7 +144,7 @@ class SongState extends State<SongScreen> {
 
 
 	void _edit() async {
-		await _navigatorPush(EditorScreen(song: _song));
+		await _navigatorPush(EditorScreen(song: _song, path: widget.path));
 		_loadSong();
 	}
 

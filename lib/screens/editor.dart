@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -7,10 +8,23 @@ import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
 
+enum EditorMode {
+	source,
+	raw
+}
+
+
 class EditorScreen extends StatefulWidget {
 	SimpleSong song;
+	final String path;
+	final EditorMode? mode;
 
-	EditorScreen({super.key, required this.song});
+	EditorScreen({
+		super.key,
+		required this.song,
+		required this.path,
+		this.mode,
+	});
 
 
 	@override
@@ -18,10 +32,28 @@ class EditorScreen extends StatefulWidget {
 }
 
 class _EditorState extends State<EditorScreen> {
+	late EditorMode _currentMode;
+
+	String? _rawText;
+	String? _sourceText;
+
+
+	List<String> _rawHistory = [];
+	int _rawHistoryIndex = -1;
+
+	List<String> _sourceHistory = [];
+	int _sourceHistoryIndex = -1;
+
+	// Позиция курсора
+	TextSelection? _rawSelection;
+	TextSelection? _sourceSelection;
+
+
+
 	late TextEditingController _textController;
 	late FocusNode _focusNode;
 
-	final List<String> _history = [];
+	List<String> _history = [];
 	int _historyIndex = -1;
 	Timer? _historyTimer;
 
@@ -29,8 +61,9 @@ class _EditorState extends State<EditorScreen> {
 	@override
 	void initState() {
 		super.initState();
+		_currentMode = widget.mode ?? EditorMode.raw;
 		_textController = TextEditingController();
-		_textController.text = widget.song.getForEditing();
+		_loadText();
 
 		_focusNode = FocusNode();
 		_saveToHistory();
@@ -44,8 +77,30 @@ class _EditorState extends State<EditorScreen> {
 		super.dispose();
 	}
 
-	void _save() {
-		widget.song.changeFromEdited(s: _textController.text);
+	Future<void> _loadText() async {
+		if (_currentMode == EditorMode.source) {
+			_textController.text = await File(widget.path).readAsString();
+		} else {
+			_textController.text = widget.song.getForEditing();
+		};
+	}
+
+	void _save() async {
+		if (_currentMode == EditorMode.source) {
+			await File(widget.path).writeAsString(_textController.text);
+			widget.song = SimpleSong.open(pathStr: widget.path);
+			_rawText = null;
+			_rawHistory = [];
+			_rawHistoryIndex = -1;
+			_rawSelection = null;
+		} else {
+			widget.song.changeFromEdited(s: _textController.text);
+			_sourceText = null;
+			_sourceHistory = [];
+			_sourceHistoryIndex = -1;
+			_sourceSelection = null;
+		}
+
 		ScaffoldMessenger.of(context).showSnackBar(
 			const SnackBar(
 				content: Text('Saved!'),
@@ -100,12 +155,112 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 	Widget _buildBody() {
+		return Stack(
+			children: [
+				Column(
+					children: [
+						Expanded(
+							child: _buildTextField(),
+						),
+
+						const SizedBox(height: 60),
+					],
+				),
+
+				_buildBottomBar(),
+			],
+		);
+	}
+
+	Widget _buildBottomBar() {
 		return Column(
 			crossAxisAlignment: .start,
+			mainAxisAlignment: .end,
 			children: [
-				Expanded(
-					child: _buildTextField(),
+				Container(
+					margin: const EdgeInsets.only(right: 10, bottom: 5),
+					alignment: .centerRight,
+					child: SegmentedButton<EditorMode>(
+						style: SegmentedButton.styleFrom(
+							backgroundColor: Colors.black.withOpacity(0.7),
+						),
+						segments: const <ButtonSegment<EditorMode>>[
+							ButtonSegment(
+								value: EditorMode.source,
+								label: Text('Source'),
+							),
+							ButtonSegment(
+								value: EditorMode.raw,
+								label: Text('Raw'),
+							),
+						],
+						selected: <EditorMode>{_currentMode},
+						onSelectionChanged: (newSelection) => setState(() {
+							switch (_currentMode) {
+								case (EditorMode.source):
+									_sourceText = _textController.text;
+									_sourceHistory = _history;
+									_sourceHistoryIndex = _historyIndex;
+									_sourceSelection = _textController.selection;
+									_historyTimer?.cancel();
+
+									_currentMode = newSelection.first;
+
+									switch (newSelection.first) {
+										case (EditorMode.raw):
+											if (_rawText != null) {
+												_textController.text = _rawText!;
+											} else {
+												_loadText();
+											}
+
+											_textController.selection = _rawSelection ?? TextSelection.collapsed(offset: 0);
+
+											_history = _rawHistory;
+											_historyIndex = _rawHistoryIndex;
+											if (_historyIndex < 0)
+												_saveToHistory();
+											break;
+
+										default:
+											break;
+									}
+									break;
+
+								case (EditorMode.raw):
+									_rawText = _textController.text;
+									_rawHistory = _history;
+									_rawHistoryIndex = _historyIndex;
+									_rawSelection = _textController.selection;
+									_historyTimer?.cancel();
+
+									_currentMode = newSelection.first;
+
+									switch (newSelection.first) {
+										case (EditorMode.source):
+											if (_sourceText != null) {
+												_textController.text = _sourceText!;
+											} else {
+												_loadText();
+											}
+
+											_textController.selection = _sourceSelection ?? TextSelection.collapsed(offset: 0);
+
+											_history = _sourceHistory;
+											_historyIndex = _sourceHistoryIndex;
+											if (_historyIndex < 0)
+												_saveToHistory();
+											break;
+
+										default:
+											break;
+									}
+									break;
+							}
+						}),
+					),
 				),
+
 				Container(
 					height: 70,
 					padding: const EdgeInsets.symmetric(horizontal: 20),
