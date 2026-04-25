@@ -257,3 +257,35 @@ pub fn get_editor_help_msg() -> String {
 
     return res.trim().to_string()
 }
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_editor_keywords() -> Vec<String> {
+    use songbook::*;
+
+    let mut keywords = Vec::new();
+    keywords.push(CHORDS_SYMBOL.to_string());
+    keywords.push(RHYTHM_SYMBOL.to_string());
+    keywords.push(TEXT_SYMBOL.to_string());
+    keywords.push(TITLE_SYMBOL.to_string());
+    keywords.push(BLOCK_NOTE_SYMBOL.to_string());
+    keywords.push(CHORDS_LINE_SYMBOL.to_string());
+    keywords.push(EMPTY_LINE_SYMBOL.to_string());
+    keywords.push(BLOCK_START.to_string());
+    keywords.push(BLOCK_END.to_string());
+    keywords.push(PLAIN_TEXT_START.to_string());
+    keywords.push(PLAIN_TEXT_END.to_string());
+    keywords.push(TAB_START_SYMBOL.to_string());
+    keywords.push(TAB_END_SYMBOL.to_string());
+    keywords.push(SONG_NOTE_START_SYMBOL.to_string());
+    keywords.push(SONG_NOTE_END_SYMBOL.to_string());
+    keywords.push(METADATA_START.to_string());
+    keywords.push(METADATA_END.to_string());
+    keywords.push(SONG_TITLE_SYMBOL.to_string());
+    keywords.push(SONG_ARTIST_SYMBOL.to_string());
+    keywords.push(SONG_KEY_SYMBOL.to_string());
+    keywords.push(SONG_CAPO_SYMBOL.to_string());
+    keywords.push(SONG_AUTOSCROLL_SPEED_SYMBOL.to_string());
+    keywords.push(SONG_SHOW_OPTIONS_SYMBOL.to_string());
+
+    return keywords
+}

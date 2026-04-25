@@ -142,6 +142,24 @@ class _EditorState extends State<EditorScreen> {
 		});
 	}
 
+	void _insert(String text) {
+		final selection = _textController.selection;
+		if (selection.start == -1)
+			return;
+
+		final newText = _textController.text.replaceRange(
+			selection.start,
+			selection.end,
+			text
+		);
+		_textController.value = TextEditingValue(
+			text: newText,
+			selection: TextSelection.collapsed(offset: selection.start + text.length),
+		);
+		_saveToHistory();
+		_focusNode.requestFocus();
+	}
+
 
 	@override
 	Widget build(BuildContext context) {
@@ -162,6 +180,9 @@ class _EditorState extends State<EditorScreen> {
 						Expanded(
 							child: _buildTextField(),
 						),
+
+						if (_currentMode == EditorMode.raw)
+							SizedBox(height: 50),
 
 						const SizedBox(height: 60),
 					],
@@ -261,6 +282,9 @@ class _EditorState extends State<EditorScreen> {
 					),
 				),
 
+				if (_currentMode == EditorMode.raw)
+					FastKeywordsLine(onTap: _insert),
+
 				Container(
 					height: 70,
 					padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -354,6 +378,59 @@ class _EditorState extends State<EditorScreen> {
 				children: [
 					Text(getEditorHelpMsg()),
 				],
+			),
+		);
+	}
+}
+
+class FastKeywordsLine extends StatefulWidget {
+	final Function(String) onTap;
+
+	FastKeywordsLine({
+		super.key,
+		required this.onTap,
+	});
+
+	@override
+	State<FastKeywordsLine> createState() => FastLineState();
+}
+
+class FastLineState extends State<FastKeywordsLine> {
+	late ScrollController _controller;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = ScrollController();
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			alignment: .centerRight,
+			margin: const EdgeInsets.only(bottom: 5, right: 10, left: 10),
+			child: Scrollbar(
+				controller: _controller,
+				interactive: true,
+				child: SingleChildScrollView(
+					scrollDirection: .horizontal,
+					controller: _controller,
+					child: Row(
+						spacing: 5,
+						children: getEditorKeywords().map((k) {
+							return FilterChip(
+								label: Text(k),
+								onSelected: (_) => widget.onTap(k),
+							);
+						}).toList(),
+					),
+				),
 			),
 		);
 	}

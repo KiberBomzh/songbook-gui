@@ -11,6 +11,9 @@ part 'song.freezed.dart';
 String getEditorHelpMsg() =>
     RustLib.instance.api.crateApiSongGetEditorHelpMsg();
 
+List<String> getEditorKeywords() =>
+    RustLib.instance.api.crateApiSongGetEditorKeywords();
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}
 
