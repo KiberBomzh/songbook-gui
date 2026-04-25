@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use std::collections::HashMap;
 
 use songbook::song_library::lib_functions::*;
 pub use songbook::song::block::{Block, Line};
@@ -151,6 +152,24 @@ impl SimpleSong {
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
         self.song.metadata.get_show_options()
     } // chords, rhythm, notes, fingerings
+    
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_fingerings(&self) -> Option<HashMap<String, String>> {
+        let fings = self.song.get_fingerings();
+        let mut fingerings: HashMap<String, String> = HashMap::new();
+        for f in fings {
+            let key = if let Some(title) = f.get_title() { title }
+            else { continue };
+            let value = f.get_text();
+            fingerings.insert(key, value);
+        }
+
+        if fingerings.is_empty() {
+            return None
+        }
+
+        return Some(fingerings);
+    }
 
 
     #[flutter_rust_bridge::frb(sync)]

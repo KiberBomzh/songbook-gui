@@ -146,6 +146,7 @@ class SongState extends State<SongScreen> {
 	void _edit() async {
 		await _navigatorPush(EditorScreen(song: _song, path: widget.path));
 		_loadSong();
+		_loadAutoscrollSpeed();
 	}
 
 	void _setShowOptions() {
@@ -315,6 +316,7 @@ class SongState extends State<SongScreen> {
 	Widget _buildBody(List<SimpleBlock> blocks) {
 		final screenWidth = MediaQuery.of(context).size.width - 20; // padding
 		final String? songNotes = _song.getNotes();
+		final Map<String, String>? songFingerings = _song.getFingerings();
 
 		return SingleChildScrollView(
 			scrollDirection: Axis.horizontal,
@@ -331,6 +333,32 @@ class SongState extends State<SongScreen> {
 					child: Column(
 						crossAxisAlignment: .start,
 						children: [
+							if (_showChords && _showFingerings && songFingerings != null) ...[
+								Center(
+									child: Wrap(
+										runSpacing: 10,
+										children: songFingerings!.keys.map((k) {
+											final String f = songFingerings[k]!;
+
+											return Column(
+												mainAxisAlignment: .start,
+												children: [
+													Text(k, style: TextStyle(
+														fontSize: _fontSize,
+													)),
+													const SizedBox(height: 5),
+
+													Text(f, style: TextStyle(
+														fontSize: _fontSize * 0.75,
+														fontFamily: 'CascadiaMono',
+													)),
+												],
+											);
+										}).toList(),
+									),
+								),
+							],
+
 							if (songNotes != null && _showNotes) ...[
 								Text(songNotes!, style: _notesStyle),
 								SizedBox(height: _fontSize * 1.5),
@@ -1004,10 +1032,15 @@ class _PopupMenuState extends State<PopupMenu> {
 	@override
 	void initState() {
 		super.initState();
+		_getOptions();
+	}
+
+	void _getOptions() {
 		_showOptions = {
 			'Chords': widget.chords,
 			'Rhythm': widget.rhythm,
 			'Notes': widget.notes,
+			'Fingerings': widget.fingerings,
 		};
 	}
 
@@ -1024,7 +1057,7 @@ class _PopupMenuState extends State<PopupMenu> {
 		final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
 		final RelativeRect position = RelativeRect.fromRect(
 			Rect.fromPoints(
-				button.localToGlobal(Offset(0, -180), ancestor: overlay),
+				button.localToGlobal(Offset(0, -200), ancestor: overlay),
 				button.localToGlobal(button.size.bottomRight(Offset(0, -200)), ancestor: overlay),
 			),
 			Offset.zero & overlay.size,
@@ -1037,6 +1070,8 @@ class _PopupMenuState extends State<PopupMenu> {
 				return PopupMenuItem<String>(
 					child: StatefulBuilder(
 						builder: (context, StateSetter setState) {
+							setState(() => _getOptions());
+
 							return CheckboxListTile(
 								title: Text(key),
 								value: _showOptions[key],

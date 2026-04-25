@@ -41,6 +41,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   int? getCapo();
 
+  Map<String, String>? getFingerings();
+
   String getForEditing();
 
   String? getKey();
