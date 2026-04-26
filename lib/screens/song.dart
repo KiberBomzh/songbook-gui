@@ -317,6 +317,8 @@ class SongState extends State<SongScreen> {
 		final screenWidth = MediaQuery.of(context).size.width - 20; // padding
 		final String? songNotes = _song.getNotes();
 		final Map<String, String>? songFingerings = _song.getFingerings();
+		final List<String>? keysSorted = songFingerings?.keys.toList();
+		keysSorted?.sort();
 
 		return SingleChildScrollView(
 			scrollDirection: Axis.horizontal,
@@ -336,8 +338,9 @@ class SongState extends State<SongScreen> {
 							if (_showChords && _showFingerings && songFingerings != null) ...[
 								Center(
 									child: Wrap(
-										runSpacing: 10,
-										children: songFingerings!.keys.map((k) {
+										spacing: _fontSize * 1.6,
+										runSpacing: _fontSize * 0.8,
+										children: keysSorted!.map((k) {
 											final String f = songFingerings[k]!;
 
 											return Column(
@@ -346,7 +349,7 @@ class SongState extends State<SongScreen> {
 													Text(k, style: TextStyle(
 														fontSize: _fontSize,
 													)),
-													const SizedBox(height: 5),
+													SizedBox(height: _fontSize * 0.3),
 
 													Text(f, style: TextStyle(
 														fontSize: _fontSize * 0.75,
@@ -357,6 +360,7 @@ class SongState extends State<SongScreen> {
 										}).toList(),
 									),
 								),
+								SizedBox(height: _fontSize * 1.5),
 							],
 
 							if (songNotes != null && _showNotes) ...[
