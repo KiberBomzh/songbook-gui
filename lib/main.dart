@@ -29,6 +29,20 @@ class MyApp extends StatelessWidget {
 		final themeMode = settings.themeMode;
 		final accentColor = settings.colorAccent;
 
+		final lightTheme = ColorScheme.fromSeed(
+			brightness: .light,
+			seedColor: accentColor,
+		);
+		final darkTheme = ColorScheme.fromSeed(
+			brightness: .dark,
+			seedColor: accentColor,
+		);
+		final amoledTheme = darkTheme.copyWith(
+			surface: Color(0xFF000000),
+			surfaceContainer: Color(0xFF0A0A0A),
+			surfaceVariant: Color(0xFF222222),
+		);
+
 		return SafeArea(
 			top: true,
 			bottom: true,
@@ -36,10 +50,7 @@ class MyApp extends StatelessWidget {
 				title: 'Songbook',
 				theme: ThemeData(
 					useMaterial3: true,
-					colorScheme: ColorScheme.fromSeed(
-						brightness: .light,
-						seedColor: accentColor,
-					),
+					colorScheme: lightTheme,
 					snackBarTheme: SnackBarThemeData(
 						shape: RoundedRectangleBorder(
 							borderRadius: .vertical(top: Radius.circular(10)),
@@ -49,10 +60,9 @@ class MyApp extends StatelessWidget {
 				),
 				darkTheme: ThemeData(
 					useMaterial3: true,
-					colorScheme: ColorScheme.fromSeed(
-						brightness: .dark,
-						seedColor: accentColor,
-					),
+					colorScheme: settings.isAmoled
+						? amoledTheme
+						: darkTheme,
 					snackBarTheme: SnackBarThemeData(
 						shape: RoundedRectangleBorder(
 							borderRadius: .vertical(top: Radius.circular(10)),

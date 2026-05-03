@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // keys
 const String IS_DARK_THEME = 'is_dark_theme';
+const String IS_AMOLED = 'is_amoled';
 const String COLOR_ACCENT = 'color_accent';
 const String EDITOR_FONT_SIZE = 'editor_font_size';
 const String SONG_FONT_SIZE = 'song_font_size';
@@ -20,6 +21,7 @@ const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 
 class SettingsProvider extends ChangeNotifier {
 	bool? _isDarkTheme;
+	bool _isAmoled = false;
 	String _colorAccent = 'blue';
 	double _editorFontSize = 14;
 	double _songFontSize = 14;
@@ -42,6 +44,7 @@ class SettingsProvider extends ChangeNotifier {
 			return ThemeMode.system;
 		}
 	}
+	bool get isAmoled => _isAmoled;
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 	double get editorFontSize => _editorFontSize;
 	double get songFontSize => _songFontSize;
@@ -103,6 +106,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	void _loadAllSettings() {
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
+		_isAmoled = Preferences.getBool(IS_AMOLED) ?? false;
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
@@ -131,6 +135,13 @@ class SettingsProvider extends ChangeNotifier {
 		} else {
 			await Preferences.remove(IS_DARK_THEME);
 		}
+
+		notifyListeners();
+	}
+
+	Future<void> setAmoled(bool value) async {
+		_isAmoled = value;
+		await Preferences.setBool(IS_AMOLED, value);
 
 		notifyListeners();
 	}

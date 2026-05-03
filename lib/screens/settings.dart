@@ -91,6 +91,15 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 
 					_buildItem(
+						text: 'Amoled',
+						child: Switch(
+							value: _settings.isAmoled,
+							onChanged: _settings.setAmoled,
+						),
+						onTap: null,
+					),
+
+					_buildItem(
 						text: 'Accent',
 						child: ListView.builder(
 							scrollDirection: Axis.horizontal,
