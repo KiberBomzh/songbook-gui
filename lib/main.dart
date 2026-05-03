@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
 		);
 		final amoledTheme = darkTheme.copyWith(
 			surface: Color(0xFF000000),
-			surfaceContainer: Color(0xFF0A0A0A),
-			surfaceVariant: Color(0xFF222222),
+			surfaceContainer: Color(0xFF151515),
+			surfaceVariant: Color(0xFF333333),
 		);
 
 		return SafeArea(
