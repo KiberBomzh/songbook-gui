@@ -17,6 +17,44 @@ const String NOTES_COLOR = 'notes_color';
 const String TITLE_COLOR = 'title_color';
 const String BACKGROUND_COLOR = 'background_color';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
+const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
+
+
+// fingering as string
+const String FINGERING_SIZE__SMALL = 'FingeringSize_small';
+const String FINGERING_SIZE__MEDIUM = 'FingeringSize_medium';
+const String FINGERING_SIZE__BIG = 'FingeringSize_big';
+
+enum FingeringSize {
+	small,
+	medium,
+	big;
+
+	String to_string() {
+		return switch (this) {
+			FingeringSize.small => FINGERING_SIZE__SMALL,
+			FingeringSize.medium => FINGERING_SIZE__MEDIUM,
+			FingeringSize.big => FINGERING_SIZE__BIG
+		};
+	}
+	static FingeringSize? from_string(String? value) {
+		return switch (value) {
+			FINGERING_SIZE__SMALL => FingeringSize.small,
+			FINGERING_SIZE__MEDIUM => FingeringSize.medium,
+			FINGERING_SIZE__BIG => FingeringSize.big,
+			_ => null
+		};
+	}
+
+
+	String display() {
+		return switch(this) {
+			FingeringSize.small => 'Small',
+			FingeringSize.medium => 'Medium',
+			FingeringSize.big => 'Big',
+		};
+	}
+}
 
 
 class SettingsProvider extends ChangeNotifier {
@@ -32,6 +70,7 @@ class SettingsProvider extends ChangeNotifier {
 	String? _titleColor;
 	String? _backgroundColor;
 	bool _lineWrapInSong = true;
+	String? _fingeringSizeInSong;
 
 	ThemeMode get themeMode {
 		if (_isDarkTheme != null) {
@@ -44,6 +83,11 @@ class SettingsProvider extends ChangeNotifier {
 			return ThemeMode.system;
 		}
 	}
+
+	FingeringSize get fingeringSizeInSong {
+		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
+	}
+
 	bool get isAmoled => _isAmoled;
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 	double get editorFontSize => _editorFontSize;
@@ -97,6 +141,18 @@ class SettingsProvider extends ChangeNotifier {
 		fontSize: _songFontSize * 1.5,
 		fontWeight: .bold,
 	);
+	TextStyle fingeringsStyle() {
+		final size = switch (fingeringSizeInSong) {
+			FingeringSize.small => _songFontSize * 0.5,
+			FingeringSize.medium => _songFontSize * 0.75,
+			FingeringSize.big => _songFontSize,
+		};
+
+		return TextStyle(
+			fontSize: size,
+			fontFamily: 'CascadiaMono',
+		);
+	}
 
 
 	SettingsProvider() {
@@ -117,6 +173,7 @@ class SettingsProvider extends ChangeNotifier {
 		_titleColor = Preferences.getString(TITLE_COLOR);
 		_backgroundColor = Preferences.getString(BACKGROUND_COLOR);
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
+		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 
 		notifyListeners();
 	}
@@ -234,6 +291,13 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 	
+	Future<void> setFingeringSizeInSong(FingeringSize value) async {
+		_fingeringSizeInSong = value.to_string();
+		await Preferences.setString(FINGERING_SIZE_IN_SONG, _fingeringSizeInSong!);
+
+		notifyListeners();
+	}
+
 
 
 	Future<void> resetToDefault() async {

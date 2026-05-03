@@ -152,6 +152,32 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 
 					_buildItem(
+						text: 'Fingerings size',
+						child: PopupMenuButton<FingeringSize>(
+							clipBehavior: .antiAlias,
+							shape: RoundedRectangleBorder(
+								borderRadius: .circular(8),
+							),
+
+							initialValue: _settings.fingeringSizeInSong,
+							onSelected: (v) => _settings.setFingeringSizeInSong(v),
+							itemBuilder: (context) => FingeringSize.values.map<PopupMenuItem<FingeringSize>>((v) {
+								return PopupMenuItem<FingeringSize>(
+									value: v,
+									child: Text(v.display()),
+								);
+							}).toList(),
+
+							borderRadius: .circular(8),
+							child: Padding(
+								padding: const EdgeInsets.all(5),
+								child: Text(_settings.fingeringSizeInSong.display()),
+							),
+						),
+						onTap: null,
+					),
+
+					_buildItem(
 						text: 'Font size',
 						child: Text(_settings.songFontSize.toString()),
 						onTap: () async {

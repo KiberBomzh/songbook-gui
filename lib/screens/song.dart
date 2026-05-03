@@ -351,10 +351,7 @@ class SongState extends State<SongScreen> {
 													)),
 													SizedBox(height: _fontSize * 0.3),
 
-													Text(f, style: TextStyle(
-														fontSize: _fontSize * 0.75,
-														fontFamily: 'CascadiaMono',
-													)),
+													Text(f, style: _settings.fingeringsStyle()),
 												],
 											);
 										}).toList(),
