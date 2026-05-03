@@ -153,6 +153,17 @@ class SettingsProvider extends ChangeNotifier {
 			fontFamily: 'CascadiaMono',
 		);
 	}
+	TextStyle fingeringsTitleStyle() {
+		final size = switch (fingeringSizeInSong) {
+			FingeringSize.small => _songFontSize * 0.75,
+			FingeringSize.medium => _songFontSize,
+			FingeringSize.big => _songFontSize * 1.25,
+		};
+
+		return TextStyle(
+			fontSize: size,
+		);
+	}
 
 
 	SettingsProvider() {

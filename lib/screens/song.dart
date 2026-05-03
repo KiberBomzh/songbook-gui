@@ -349,9 +349,7 @@ class SongState extends State<SongScreen> {
 											return Column(
 												mainAxisAlignment: .start,
 												children: [
-													Text(k, style: TextStyle(
-														fontSize: _fontSize,
-													)),
+													Text(k, style: _settings.fingeringsTitleStyle()),
 													SizedBox(height: _fontSize * 0.3),
 
 													Text(f, style: _settings.fingeringsStyle()),
