@@ -283,7 +283,10 @@ class SongState extends State<SongScreen> {
 					_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
 					_scheduleSave();
 				}),
-				startAutoscroll: _startAutoscroll,
+				startAutoscroll: () => Timer(Duration(seconds: 3), () {
+					if (mounted)
+						_startAutoscroll();
+				}),
 				stopAutoscroll: _stopAutoscroll,
 				edit: _edit,
 				popupMenuButton: PopupMenu(
