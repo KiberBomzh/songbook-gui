@@ -174,9 +174,17 @@ class _LibraryState extends State<LibraryScreen> {
 	Widget _buildScaffold() {
 		return Scaffold(
 			appBar: AppBar(
-				title: Text( (widget.path == null)
-					? 'Library'
-					: _getPathName(_currentPath),
+				title: Row(
+					children: [
+						if (_isSelectMode) ...[
+							Text(_selected.length.toString()),
+						] else ...[
+							Text( (widget.path == null)
+								? 'Library'
+								: _getPathName(_currentPath),
+							),
+						],
+					],
 				),
 
 				leading: (_isSelectMode || widget.path != null)
