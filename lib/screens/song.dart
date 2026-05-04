@@ -1048,64 +1048,53 @@ class _PopupMenuState extends State<PopupMenu> {
 
 	@override
 	Widget build(BuildContext context) {
-		return IconButton(
-			icon: Icon(Icons.more_vert),
-			onPressed: () => _showMenu(),
-		);
-	}
-
-	void _showMenu() {
-		final RenderBox button = context.findRenderObject() as RenderBox;
-		final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-		final RelativeRect position = RelativeRect.fromRect(
-			Rect.fromPoints(
-				button.localToGlobal(Offset(0, -200), ancestor: overlay),
-				button.localToGlobal(button.size.bottomRight(Offset(0, -200)), ancestor: overlay),
+		return MenuAnchor(
+			builder: (context, controller, child) => IconButton(
+				icon: Icon(Icons.more_vert),
+				onPressed: () {
+					if (controller.isOpen) {
+						controller.close();
+					} else {
+						controller.open();
+					}
+				},
 			),
-			Offset.zero & overlay.size,
-		);
+			menuChildren: _showOptions.keys.map((key) => MenuItemButton(
+				child: StatefulBuilder(
+					builder: (context, setState) {
+						setState(() => _getOptions());
 
-		showMenu<String>(
-			context: context,
-			position: position,
-			items: _showOptions.keys.map((key) {
-				return PopupMenuItem<String>(
-					child: StatefulBuilder(
-						builder: (context, StateSetter setState) {
-							setState(() => _getOptions());
+						return CheckboxListTile(
+							title: Text(key),
+							value: _showOptions[key],
+							onChanged: (bool? value) {
+								setState(() => _showOptions[key] = value!);
+								switch (key) {
+									case ('Chords'):
+										widget.switchChords();
+										break;
 
-							return CheckboxListTile(
-								title: Text(key),
-								value: _showOptions[key],
-								onChanged: (bool? value) {
-									setState(() => _showOptions[key] = value!);
-									switch (key) {
-										case ('Chords'):
-											widget.switchChords();
-											break;
+									case ('Rhythm'):
+										widget.switchRhythm();
+										break;
 
-										case ('Rhythm'):
-											widget.switchRhythm();
-											break;
+									case ('Notes'):
+										widget.switchNotes();
+										break;
 
-										case ('Notes'):
-											widget.switchNotes();
-											break;
+									case ('Fingerings'):
+										widget.switchFingerings();
+										break;
 
-										case ('Fingerings'):
-											widget.switchFingerings();
-											break;
-
-										default:
-											break;
-									}
-								},
-								controlAffinity: ListTileControlAffinity.leading,
-							);
-						},
-					),
-				);
-			}).toList(),
+									default:
+										break;
+								}
+							},
+							controlAffinity: ListTileControlAffinity.leading,
+						);
+					},
+				),
+			)).toList(),
 		);
 	}
 }
