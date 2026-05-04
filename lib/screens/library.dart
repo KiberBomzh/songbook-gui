@@ -42,15 +42,29 @@ class _LibraryState extends State<LibraryScreen> {
 	List<String> _copyBuffer = [];
 	List<String> _cutBuffer = [];
 
+	bool _isSearchMode = false;
+	late final TextEditingController _searchTextController;
+	late final FocusNode _searchFocusNode;
+
 
 	@override
 	void initState() {
 		super.initState();
 
+		_loadDirectory();
+
 		_copyBuffer = widget.copyBuffer ?? [];
 		_cutBuffer = widget.cutBuffer ?? [];
 
-		_loadDirectory();
+		_searchTextController = TextEditingController();
+		_searchFocusNode = FocusNode();
+	}
+
+	@override
+	void dispose() {
+		_searchTextController.dispose();
+		_searchFocusNode.dispose();
+		super.dispose();
 	}
 
 	Future<void> _loadDirectory() async {
@@ -62,12 +76,22 @@ class _LibraryState extends State<LibraryScreen> {
 		}
 		var (d, f, p) = readDirectory(pathStr: widget.path);
 		setState(() {
+			_isSearchMode = false;
 			_dirs = d;
 			_files = f;
 			_currentPath = p;
 			_isCurrentDirEmpty = (_dirs.isEmpty && _files.isEmpty);
 		});
 	}
+
+	void _search(String query) => setState(() {
+		setState(() => _isCurrentDirEmpty = false);
+
+		_dirs.clear();
+		_files = search(pathStr: _currentPath, query: query);
+		if (_files.isEmpty)
+			setState(() => _isCurrentDirEmpty = true);
+	});
 
 	// Может быть сделаю ассинхронным
 	void _paste() {
@@ -158,13 +182,21 @@ class _LibraryState extends State<LibraryScreen> {
 	@override
 	Widget build(BuildContext context) {
 		return PopScope(
-			canPop: !_isSelectMode,
-			onPopInvokedWithResult: (didPop, result) async {
+			canPop: !(_isSelectMode || _isSearchMode),
+			onPopInvokedWithResult: (didPop, result) {
 				if (_isSelectMode) {
 					setState(() {
 						_selected.clear();
 						_isSelectMode = false;
 					});
+					return;
+				}
+
+				if (_isSearchMode) {
+					setState(() => _isSearchMode = false);
+					_searchTextController.text = '';
+					_loadDirectory();
+					return;
 				}
 			},
 			child: _buildScaffold()
@@ -178,6 +210,22 @@ class _LibraryState extends State<LibraryScreen> {
 					children: [
 						if (_isSelectMode) ...[
 							Text(_selected.length.toString()),
+						] else if (_isSearchMode) ...[
+							Expanded(
+								child: TextField(
+									controller: _searchTextController,
+									focusNode: _searchFocusNode,
+									decoration: InputDecoration(
+										constraints: BoxConstraints(maxHeight: 40),
+										contentPadding: const EdgeInsets.all(5),
+										hintText: (widget.path == null)
+											? 'Library'
+											: _getPathName(_currentPath),
+										border: OutlineInputBorder(borderSide: .none),
+									),
+									onSubmitted: _search,
+								),
+							),
 						] else ...[
 							Text( (widget.path == null)
 								? 'Library'
@@ -187,15 +235,27 @@ class _LibraryState extends State<LibraryScreen> {
 					],
 				),
 
-				leading: (_isSelectMode || widget.path != null)
+				leading: (_isSelectMode || _isSearchMode || widget.path != null)
 					? BackButton()
 					: null,
 				actions: [
-					if (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty)
+					if ( (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty) && !_isSearchMode)
 						IconButton(
 							icon: Icon(Icons.paste),
 							tooltip: 'Paste',
 							onPressed: _paste,
+						),
+
+					if (!_isSearchMode)
+						IconButton(
+							icon: Icon(Icons.search),
+							tooltip: 'Search',
+							onPressed: () => setState(() {
+								_isSearchMode = true;
+								_files.clear();
+								_dirs.clear();
+								_searchFocusNode.requestFocus();
+							}),
 						),
 
 					if (_isSelectMode)
@@ -364,7 +424,9 @@ class _LibraryState extends State<LibraryScreen> {
 										},
 									),
 								);
-								_loadDirectory();
+
+								if (!_isSearchMode)
+									_loadDirectory();
 							} else
 								_switchSelectionForPath(itemPath);
 						},

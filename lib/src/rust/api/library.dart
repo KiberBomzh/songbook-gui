@@ -10,6 +10,9 @@ import 'song.dart';
 (List<String>, List<String>, String) readDirectory({String? pathStr}) =>
     RustLib.instance.api.crateApiLibraryReadDirectory(pathStr: pathStr);
 
+List<String> search({required String pathStr, required String query}) =>
+    RustLib.instance.api.crateApiLibrarySearch(pathStr: pathStr, query: query);
+
 void createDirectory({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryCreateDirectory(pathStr: pathStr);
 

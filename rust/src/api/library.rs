@@ -37,6 +37,20 @@ pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<Stri
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn search(path_str: String, query: String) -> Result<Vec<String>> {
+    let path = PathBuf::from(path_str);
+    let search_results: Vec<(String, PathBuf)> = find_in(&path, &query)?;
+    let mut out_paths: Vec<String> = Vec::new();
+    for (_file_name, path) in search_results {
+        if let Some(s) = path.to_str() {
+            out_paths.push(s.to_string());
+        }
+    }
+
+    return Ok(out_paths)
+}
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn create_directory(path_str: String) -> Result<()> {
     let path = PathBuf::from(path_str);
     mkdir(&path)?;

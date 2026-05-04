@@ -67,7 +67,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.12.0';
 
   @override
-  int get rustContentHash => 2087443467;
+  int get rustContentHash => 1490002181;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -200,6 +200,11 @@ abstract class RustLibApi extends BaseApi {
   });
 
   void crateApiLibraryRemoveFromLibrary({required String pathStr});
+
+  List<String> crateApiLibrarySearch({
+    required String pathStr,
+    required String query,
+  });
 
   Future<SimpleBlock> crateApiSongSimpleBlockNew({required Block block});
 
@@ -1307,6 +1312,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  List<String> crateApiLibrarySearch({
+    required String pathStr,
+    required String query,
+  }) {
+    return handler.executeSync(
+      SyncTask(
+        callFfi: () {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(pathStr, serializer);
+          sse_encode_String(query, serializer);
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 39)!;
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_list_String,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiLibrarySearchConstMeta,
+        argValues: [pathStr, query],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiLibrarySearchConstMeta =>
+      const TaskConstMeta(debugName: "search", argNames: ["pathStr", "query"]);
+
+  @override
   Future<SimpleBlock> crateApiSongSimpleBlockNew({required Block block}) {
     return handler.executeNormal(
       NormalTask(
@@ -1319,7 +1351,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 39,
+            funcId: 40,
             port: port_,
           );
         },
