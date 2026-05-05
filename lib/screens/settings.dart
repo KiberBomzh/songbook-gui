@@ -53,380 +53,448 @@ class _SettingsState extends State<SettingsScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return Scaffold(
-			appBar: AppBar( title: Text('Settings') ),
-			body: _buildBody(),
+		return Container(
+			decoration: BoxDecoration(
+				image: (_settings.backgroundImage != null)
+					? DecorationImage(
+						image: FileImage(_settings.backgroundImage!),
+						fit: .cover,
+					)
+					: null,
+			),
+			child: Scaffold(
+				appBar: AppBar( title: Text('Settings') ),
+				body: _buildBody(),
+			),
 		);
 	}
 
 	Widget _buildBody() {
 		return Material(
-			color: Theme.of(context).colorScheme.surfaceContainer,
+			color: Color(0x00000000),
 			child: ListView(
 				children: [
-					_buildTitle('Global'),
+					_buildSection(_globalSection()),
+					_buildSection(_editorSection()),
+					_buildSection(_songSection()),
+					_buildSection(_otherSection()),
+				],
+			),
+		);
+	}
 
-					_buildItem(
-						text: 'Theme',
-						child: SegmentedButton<ThemeMode>(
-							segments: const <ButtonSegment<ThemeMode>>[
-								ButtonSegment<ThemeMode>(
-									value: ThemeMode.light,
-									label: Icon(Icons.light_mode),
-								),
-								ButtonSegment<ThemeMode>(
-									value: ThemeMode.system,
-									label: Text('Auto'),
-								),
-								ButtonSegment<ThemeMode>(
-									value: ThemeMode.dark,
-									label: Icon(Icons.dark_mode),
-								),
-							],
-							selected: <ThemeMode>{_settings.themeMode},
-							onSelectionChanged: (newSelection) => _settings.setThemeMode(newSelection.first),
-							selectedIcon: Container(),
-						),
-						onTap: null,
+	List<Widget> _globalSection() => <Widget>[
+		_buildTitle('Global'),
+
+		_buildItem(
+			text: 'Theme',
+			child: SegmentedButton<ThemeMode>(
+				segments: const <ButtonSegment<ThemeMode>>[
+					ButtonSegment<ThemeMode>(
+						value: ThemeMode.light,
+						label: Icon(Icons.light_mode),
 					),
-
-					_buildItem(
-						text: 'Amoled',
-						child: Switch(
-							value: _settings.isAmoled,
-							onChanged: _settings.setAmoled,
-						),
-						onTap: null,
+					ButtonSegment<ThemeMode>(
+						value: ThemeMode.system,
+						label: Text('A'),
 					),
-
-					_buildItem(
-						text: 'Accent',
-						child: ListView.builder(
-							scrollDirection: Axis.horizontal,
-							shrinkWrap: true,
-							itemCount: _colors.length,
-							itemBuilder: (context, index) {
-								final colorItem = _colors[index];
-
-								return colorItem.build(
-									context: context,
-									isSelected: (colorItem.color == _settings.colorAccent),
-									onTap: _settings.setColorAccent,
-								);
-							},
-						),
-						onTap: null,
-					),
-
-
-					_buildTitle('Editor'),
-
-					_buildItem(
-						text: 'Font size',
-						child: Text(_settings.editorFontSize.toString()),
-						onTap: () async {
-							final String? newSizeStr = await _askDialog(
-								context: context,
-								validator: _fontSizeValidator,
-								title: 'Song font size',
-								initialValue: _settings.editorFontSize.toString(),
-								hintText: 'Font size...',
-							);
-							if (newSizeStr != null) {
-								final newSize = double.parse(newSizeStr);
-								await _settings.setEditorFontSize(newSize!);
-							}
-						},
-					),
-
-					
-					_buildTitle('Song'),
-
-					_buildItem(
-						text: 'Line wrap',
-						child: Switch(
-							value: _settings.lineWrapInSong,
-							onChanged: _settings.setLineWrapInSong,
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Fingerings size',
-						child: PopupMenuButton<FingeringSize>(
-							clipBehavior: .antiAlias,
-							shape: RoundedRectangleBorder(
-								borderRadius: .circular(8),
-							),
-
-							initialValue: _settings.fingeringSizeInSong,
-							onSelected: (v) => _settings.setFingeringSizeInSong(v),
-							itemBuilder: (context) => FingeringSize.values.map<PopupMenuItem<FingeringSize>>((v) {
-								return PopupMenuItem<FingeringSize>(
-									value: v,
-									child: Text(v.display()),
-								);
-							}).toList(),
-
-							borderRadius: .circular(8),
-							child: Padding(
-								padding: const EdgeInsets.all(5),
-								child: Text(_settings.fingeringSizeInSong.display()),
-							),
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Font size',
-						child: Text(_settings.songFontSize.toString()),
-						onTap: () async {
-							final String? newSizeStr = await _askDialog(
-								context: context,
-								validator: _fontSizeValidator,
-								title: 'Song font size',
-								initialValue: _settings.songFontSize.toString(),
-								hintText: 'Font size...',
-							);
-							if (newSizeStr != null) {
-								final newSize = double.parse(newSizeStr);
-								await _settings.setSongFontSize(newSize!);
-							}
-						},
-					),
-
-					_buildItem(
-						text: 'Chords color',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(CHORDS_COLOR) != null)
-										? () => _settings.setChordsColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.chordsColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.chordsColor(context),
-										);
-										await _settings.setChordsColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Rhythm color',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
-										? () => _settings.setRhythmColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.rhythmColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.rhythmColor(context),
-										);
-										await _settings.setRhythmColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Text color',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(TEXT_COLOR) != null)
-										? () => _settings.setTextColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.textColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.textColor(context),
-										);
-										await _settings.setTextColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Notes color',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(NOTES_COLOR) != null)
-										? () => _settings.setNotesColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.notesColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.notesColor(context),
-										);
-										await _settings.setNotesColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Title color',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(TITLE_COLOR) != null)
-										? () => _settings.setTitleColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.titleColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.titleColor(context),
-										);
-										await _settings.setTitleColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-					_buildItem(
-						text: 'Background',
-						child: Row(
-							mainAxisAlignment: .end,
-							children: [
-								ElevatedButton(
-									child: Text('Reset'),
-									onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
-										? () => _settings.setBackgroundColor(null)
-										: null,
-									style: ElevatedButton.styleFrom(
-										backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-									),
-								),
-
-								const SizedBox(width: 5),
-
-								ColorItem(
-									color: _settings.backgroundColor(context),
-									value: '',
-								).build(
-									context: context,
-									isSelected: false,
-									onTap: (_) async {
-										final String? newColor = await _showColorPickerDialog(
-											context: context,
-											initialColor: _settings.backgroundColor(context),
-										);
-										await _settings.setBackgroundColor(newColor);
-									}
-								)
-							],
-						),
-						onTap: null,
-					),
-
-
-					_buildTitle('Other'),
-
-					_buildItem(
-						text: 'Reset',
-						child: null,
-						onTap: () => _settings.resetToDefault(),
+					ButtonSegment<ThemeMode>(
+						value: ThemeMode.dark,
+						label: Icon(Icons.dark_mode),
 					),
 				],
+				selected: <ThemeMode>{_settings.themeMode},
+				onSelectionChanged: (newSelection) => _settings.setThemeMode(newSelection.first),
+				selectedIcon: Container(),
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Amoled',
+			child: Switch(
+				value: _settings.isAmoled,
+				onChanged: _settings.setAmoled,
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Accent',
+			child: ListView.builder(
+				scrollDirection: Axis.horizontal,
+				shrinkWrap: true,
+				itemCount: _colors.length,
+				itemBuilder: (context, index) {
+					final colorItem = _colors[index];
+
+					return colorItem.build(
+						context: context,
+						isSelected: (colorItem.color == _settings.colorAccent),
+						onTap: _settings.setColorAccent,
+					);
+				},
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Background opacity',
+			child: Text(_settings.backgroundOpacity.toString()),
+			onTap: () async {
+				final String? newOpacityStr = await _askDialog(
+					context: context,
+					validator: _backgroundOpacityValidator,
+					title: 'Background opacity',
+					initialValue: _settings.backgroundOpacity.toString(),
+					hintText: 'Opacity...',
+				);
+				if (newOpacityStr != null) {
+					final newOpacity = double.parse(newOpacityStr);
+					await _settings.setBackgroundOpacity(newOpacity!);
+				}
+			},
+		),
+
+		_buildItem(
+			text: 'Background image',
+			child: ElevatedButton(
+				child: Text('Reset'),
+				onPressed: (_settings.backgroundImage != null)
+					? _settings.resetBackgroundImage
+					: null,
+				style: ElevatedButton.styleFrom(
+					backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+				),
+			),
+			onTap: _settings.setBackgroundImage,
+		),
+	];
+
+	List<Widget> _editorSection() => [
+		_buildTitle('Editor'),
+
+		_buildItem(
+			text: 'Font size',
+			child: Text(_settings.editorFontSize.toString()),
+			onTap: () async {
+				final String? newSizeStr = await _askDialog(
+					context: context,
+					validator: _fontSizeValidator,
+					title: 'Song font size',
+					initialValue: _settings.editorFontSize.toString(),
+					hintText: 'Font size...',
+				);
+				if (newSizeStr != null) {
+					final newSize = double.parse(newSizeStr);
+					await _settings.setEditorFontSize(newSize!);
+				}
+			},
+		),
+	];
+
+	List<Widget> _songSection() => [
+		_buildTitle('Song'),
+
+		_buildItem(
+			text: 'Line wrap',
+			child: Switch(
+				value: _settings.lineWrapInSong,
+				onChanged: _settings.setLineWrapInSong,
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Fingerings size',
+			child: PopupMenuButton<FingeringSize>(
+				clipBehavior: .antiAlias,
+				shape: RoundedRectangleBorder(
+					borderRadius: .circular(8),
+				),
+
+				initialValue: _settings.fingeringSizeInSong,
+				onSelected: (v) => _settings.setFingeringSizeInSong(v),
+				itemBuilder: (context) => FingeringSize.values.map<PopupMenuItem<FingeringSize>>((v) {
+					return PopupMenuItem<FingeringSize>(
+						value: v,
+						child: Text(v.display()),
+					);
+				}).toList(),
+
+				borderRadius: .circular(8),
+				child: Padding(
+					padding: const EdgeInsets.all(5),
+					child: Text(_settings.fingeringSizeInSong.display()),
+				),
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Font size',
+			child: Text(_settings.songFontSize.toString()),
+			onTap: () async {
+				final String? newSizeStr = await _askDialog(
+					context: context,
+					validator: _fontSizeValidator,
+					title: 'Song font size',
+					initialValue: _settings.songFontSize.toString(),
+					hintText: 'Font size...',
+				);
+				if (newSizeStr != null) {
+					final newSize = double.parse(newSizeStr);
+					await _settings.setSongFontSize(newSize!);
+				}
+			},
+		),
+
+		_buildItem(
+			text: 'Chords color',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(CHORDS_COLOR) != null)
+							? () => _settings.setChordsColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.chordsColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.chordsColor(context),
+							);
+							await _settings.setChordsColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Rhythm color',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
+							? () => _settings.setRhythmColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.rhythmColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.rhythmColor(context),
+							);
+							await _settings.setRhythmColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Text color',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(TEXT_COLOR) != null)
+							? () => _settings.setTextColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.textColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.textColor(context),
+							);
+							await _settings.setTextColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Notes color',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(NOTES_COLOR) != null)
+							? () => _settings.setNotesColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.notesColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.notesColor(context),
+							);
+							await _settings.setNotesColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Title color',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(TITLE_COLOR) != null)
+							? () => _settings.setTitleColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.titleColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.titleColor(context),
+							);
+							await _settings.setTitleColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+
+		_buildItem(
+			text: 'Background',
+			child: Row(
+				mainAxisAlignment: .end,
+				children: [
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
+							? () => _settings.setBackgroundColor(null)
+							: null,
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+
+					const SizedBox(width: 5),
+
+					ColorItem(
+						color: _settings.backgroundColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.backgroundColor(context),
+							);
+							await _settings.setBackgroundColor(newColor);
+						}
+					)
+				],
+			),
+			onTap: null,
+		),
+	];
+
+	List<Widget> _otherSection() => [
+		_buildTitle('Other'),
+
+		_buildItem(
+			text: 'Reset',
+			child: null,
+			onTap: () => _settings.resetToDefault(),
+		),
+	];
+
+
+
+	Widget _buildSection(List<Widget> children) {
+		return Container(
+			margin: const EdgeInsets.all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainer,
+				borderRadius: .circular(8),
+			),
+			child: Column(
+				mainAxisAlignment: .start,
+				crossAxisAlignment: .start,
+				children: children,
 			),
 		);
 	}
 
 	Widget _buildTitle(String text) {
 		return Container(
-			color: Theme.of(context).colorScheme.surface,
 			padding: const EdgeInsets.only(
 				left: 15,
 				right: 15,
@@ -541,6 +609,22 @@ String? _fontSizeValidator(String text) {
 			return 'Value must be bigger than 0!';
 		} else if (result! >= 100) {
 			return 'Value must be smaller than 100!';
+		} else {
+			return null;
+		}
+	}
+}
+String? _backgroundOpacityValidator(String text) {
+	final value = text.trim();
+	final double? result = double.tryParse(value);
+
+	if (result == null) {
+		return 'Not valid input!';
+	} else {
+		if (result! < 0) {
+			return 'Value must be bigger than 0!';
+		} else if (result! > 1) {
+			return 'Value must be 1 or smaller!';
 		} else {
 			return null;
 		}

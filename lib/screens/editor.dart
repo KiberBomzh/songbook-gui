@@ -32,6 +32,9 @@ class EditorScreen extends StatefulWidget {
 }
 
 class _EditorState extends State<EditorScreen> {
+	late SettingsProvider _settings;
+
+
 	late EditorMode _currentMode;
 
 	String? _rawText;
@@ -163,11 +166,23 @@ class _EditorState extends State<EditorScreen> {
 
 	@override
 	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
 		return SafeArea(
 			bottom: true,
 			top: true,
-			child: Scaffold(
-				body: _buildBody(),
+			child: Container(
+				decoration: BoxDecoration(
+					image: (_settings.backgroundImage != null)
+						? DecorationImage(
+							image: FileImage(_settings.backgroundImage!),
+							fit: .cover,
+						)
+						: null,
+				),
+				child: Scaffold(
+					body: _buildBody(),
+				),
 			),
 		);
 	}
@@ -334,8 +349,7 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 	Widget _buildTextField() {
-		final settings = context.watch<SettingsProvider>();
-		final fontSize = settings.editorFontSize;
+		final fontSize = _settings.editorFontSize;
 
 		return Container(
 			padding: const EdgeInsets.symmetric(horizontal: 15),

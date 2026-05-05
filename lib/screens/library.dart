@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:provider/provider.dart';
 
 import 'package:songbook/screens/song.dart';
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/screens/settings.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
+import 'package:songbook/services/settings.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
 import 'package:songbook/src/rust/api/song.dart';
@@ -31,6 +33,8 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryState extends State<LibraryScreen> {
+	late SettingsProvider _settings;
+
 	List<String> _dirs = [];
 	List<String> _files = [];
 	late String _currentPath;
@@ -181,6 +185,8 @@ class _LibraryState extends State<LibraryScreen> {
 
 	@override
 	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
 		return PopScope(
 			canPop: !(_isSelectMode || _isSearchMode),
 			onPopInvokedWithResult: (didPop, result) {
@@ -199,7 +205,17 @@ class _LibraryState extends State<LibraryScreen> {
 					return;
 				}
 			},
-			child: _buildScaffold()
+			child: Container(
+				decoration: BoxDecoration(
+					image: (_settings.backgroundImage != null)
+						? DecorationImage(
+							image: FileImage(_settings.backgroundImage!),
+							fit: .cover,
+						)
+						: null,
+				),
+				child: _buildScaffold(),
+			),
 		);
 	}
 

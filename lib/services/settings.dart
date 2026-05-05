@@ -1,7 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 
 // keys
@@ -18,6 +21,7 @@ const String TITLE_COLOR = 'title_color';
 const String BACKGROUND_COLOR = 'background_color';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
+const String BACKGROUND_OPACITY = 'background_opacity';
 
 
 // fingering as string
@@ -71,6 +75,8 @@ class SettingsProvider extends ChangeNotifier {
 	String? _backgroundColor;
 	bool _lineWrapInSong = true;
 	String? _fingeringSizeInSong;
+	File? _backgroundImage;
+	double _backgroundOpacity = 1.0;
 
 	ThemeMode get themeMode {
 		if (_isDarkTheme != null) {
@@ -93,6 +99,8 @@ class SettingsProvider extends ChangeNotifier {
 	double get editorFontSize => _editorFontSize;
 	double get songFontSize => _songFontSize;
 	bool get lineWrapInSong => _lineWrapInSong;
+	File? get backgroundImage => _backgroundImage;
+	double get backgroundOpacity => _backgroundOpacity;
 
 	Color chordsColor(BuildContext context) =>
 		_stringToColor(_chordsColor) ?? Theme.of(context).colorScheme.primary;
@@ -109,8 +117,16 @@ class SettingsProvider extends ChangeNotifier {
 	Color titleColor(BuildContext context) =>
 		_stringToColor(_titleColor) ?? Theme.of(context).colorScheme.secondary;
 
-	Color backgroundColor(BuildContext context) =>
-		_stringToColor(_backgroundColor) ?? Theme.of(context).colorScheme.surface;
+	Color backgroundColor(BuildContext context) {
+		final color = _stringToColor(_backgroundColor);
+		if (color != null) {
+			return color!;
+		} else if (_backgroundOpacity == 1.0) {
+			return Theme.of(context).colorScheme.surface;
+		} else {
+			return Color(0x00000000);
+		}
+	}
 
 
 	TextStyle chordsStyle(BuildContext context) => TextStyle(
@@ -187,18 +203,36 @@ class SettingsProvider extends ChangeNotifier {
 		surfaceVariant: Color(0xFF333333),
 	);
 
-	ThemeData ligthTheme() => ThemeData(
-		useMaterial3: true,
-		colorScheme: lightColorScheme(),
-		snackBarTheme: snackBarTheme(),
-	);
-	ThemeData darkTheme() => ThemeData(
-		useMaterial3: true,
-		colorScheme: _isAmoled
+	ThemeData ligthTheme() {
+		final colorScheme = lightColorScheme();
+		final surface = colorScheme.surface.withOpacity(_backgroundOpacity);
+
+
+		return ThemeData(
+			useMaterial3: true,
+			colorScheme: colorScheme.copyWith(surface: surface),
+			snackBarTheme: snackBarTheme(),
+		);
+	}
+	ThemeData darkTheme() {
+		final colorScheme = _isAmoled
 			? amoledColorScheme()
-			: darkColorScheme(),
-		snackBarTheme: snackBarTheme(),
-	);
+			: darkColorScheme();
+		final surface = colorScheme.surface.withOpacity(_backgroundOpacity);
+		final surfaceContainer = colorScheme.surfaceContainer.withOpacity(_calculateOpacity());
+		final surfaceVariant = colorScheme.surfaceVariant.withOpacity(_calculateOpacity());
+
+
+		return ThemeData(
+			useMaterial3: true,
+			colorScheme: colorScheme.copyWith(
+				surface: surface,
+				surfaceContainer: surfaceContainer,
+				surfaceVariant: surfaceVariant,
+			),
+			snackBarTheme: snackBarTheme(),
+		);
+	}
 
 
 	SettingsProvider() {
@@ -206,7 +240,7 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	void _loadAllSettings() {
+	void _loadAllSettings() async {
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
 		_isAmoled = Preferences.getBool(IS_AMOLED) ?? false;
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
@@ -220,9 +254,22 @@ class SettingsProvider extends ChangeNotifier {
 		_backgroundColor = Preferences.getString(BACKGROUND_COLOR);
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
+		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
+
+		await _loadBackgroundImage();
+
 
 		notifyListeners();
 	}
+	Future<void> _loadBackgroundImage() async {
+		final dir = await getApplicationSupportDirectory();
+		final savedFile = File(dir.path + '/background_img');
+		if (savedFile.existsSync()) {
+			_backgroundImage = savedFile;
+		}
+	}
+
+
 
 	Future<void> setThemeMode(ThemeMode value) async {
 		final isDark = switch (value) {
@@ -343,6 +390,38 @@ class SettingsProvider extends ChangeNotifier {
 
 		notifyListeners();
 	}
+	
+	Future<void> setBackgroundOpacity(double value) async {
+		_backgroundOpacity = value;
+		await Preferences.setDouble(BACKGROUND_OPACITY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setBackgroundImage() async {
+		PaintingBinding.instance.imageCache.clear();
+		PaintingBinding.instance.imageCache.clearLiveImages();
+
+		final FilePickerResult? result = await FilePicker.pickFiles(
+			type: FileType.image,
+		);
+
+		if (result != null && result.files.single.path != null) {
+			final dir = await getApplicationSupportDirectory();
+			final savedPath = dir.path + '/background_img';
+
+			await File(result.files.single.path!).copy(savedPath);
+			_backgroundImage = File(savedPath);
+
+			notifyListeners();
+		}
+	}
+	Future<void> resetBackgroundImage() async {
+		await _backgroundImage?.delete();
+		_backgroundImage = null;
+
+		notifyListeners();
+	}
 
 
 
@@ -380,6 +459,14 @@ class SettingsProvider extends ChangeNotifier {
 			'brown' => Colors.brown,
 			_ => null
 		};
+	}
+
+	double _calculateOpacity() {
+		final opacity = _backgroundOpacity + ((_backgroundOpacity + 0.2) * 0.25);
+		if (opacity > 1)
+			return _backgroundOpacity;
+		else
+			return opacity;
 	}
 }
 

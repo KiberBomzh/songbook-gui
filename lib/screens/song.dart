@@ -43,6 +43,7 @@ class SongState extends State<SongScreen> {
 
 	late ScrollController _scrollController;
 	Timer? _autoscrollTimer;
+	Timer? _postponedAutoscrollTimer;
 	bool _isAutoscrolling = false;
 	late double _lineHeight;
 
@@ -138,6 +139,7 @@ class SongState extends State<SongScreen> {
 	}
 	void _stopAutoscroll() {
 		_isAutoscrolling = false;
+		_postponedAutoscrollTimer?.cancel();
 		_autoscrollTimer?.cancel();
 		_autoscrollTimer = null;
 	}
@@ -171,7 +173,6 @@ class SongState extends State<SongScreen> {
 
 	@override
 	Widget build(BuildContext context) {
-		final List<SimpleBlock> blocks = _song.getBlocks();
 		_settings = context.watch<SettingsProvider>();
 		_chordsStyle = _settings.chordsStyle(context);
 		_textStyle = _settings.textStyle(context);
@@ -181,6 +182,89 @@ class SongState extends State<SongScreen> {
 
 		_calculateLineHeight();
 		_loadAutoscrollSpeed();
+
+
+		return Container(
+			decoration: BoxDecoration(
+				image: (_settings.backgroundImage != null)
+					? DecorationImage(
+						image: FileImage(_settings.backgroundImage!),
+						fit: .cover,
+					)
+					: null,
+			),
+			child: Stack(
+				children: [
+					_buildScaffold(),
+					Align(
+						alignment: .bottomCenter,
+						child: _buildBottomBar(),
+					),
+				],
+			),
+		);
+	}
+
+	Widget _buildBottomBar() {
+		return BottomBar(
+			songCapo: _capo ?? 0,
+			songKey: _key,
+			autoscrollSpeed: _autoscrollSpeed,
+			transposeSong: (steps) => setState(() {
+				_song.transpose(steps: steps);
+				_key = _song.getKey();
+				_scheduleSave();
+			}),
+			setCapo: (newCapo) => setState(() {
+				_song.setCapo(capo: newCapo);
+				_capo = _song.getCapo();
+				_key = _song.getKey();
+				_scheduleSave();
+			}),
+			setAutoscrollSpeed: (newSpeed) => setState(() {
+				_autoscrollSpeed = newSpeed;
+				_startAutoscroll();
+
+				final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
+				_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
+				_scheduleSave();
+			}),
+			startAutoscroll: () {
+				_postponedAutoscrollTimer = Timer(Duration(seconds: 3), () {
+					if (mounted)
+						_startAutoscroll();
+				});
+			},
+			stopAutoscroll: _stopAutoscroll,
+			edit: _edit,
+			popupMenuButton: PopupMenu(
+				chords: _showChords,
+				rhythm: _showRhythm,
+				notes: _showNotes,
+				fingerings: _showFingerings,
+
+				switchChords: () => setState(() {
+					_showChords = !_showChords;
+					_setShowOptions();
+				}),
+				switchRhythm: () => setState(() {
+					_showRhythm = !_showRhythm;
+					_setShowOptions();
+				}),
+				switchNotes: () => setState(() {
+					_showNotes = !_showNotes;
+					_setShowOptions();
+				}),
+				switchFingerings: () => setState(() {
+					_showFingerings = !_showFingerings;
+					_setShowOptions();
+				}),
+			),
+		);
+	}
+
+	Widget _buildScaffold() {
+		final List<SimpleBlock> blocks = _song.getBlocks();
 
 		return Scaffold(
 			appBar: AppBar(
@@ -260,59 +344,6 @@ class SongState extends State<SongScreen> {
 				: Center(
 					child: Text('The song is empty...')
 				),
-			bottomSheet: BottomBar(
-				songCapo: _capo ?? 0,
-				songKey: _key,
-				autoscrollSpeed: _autoscrollSpeed,
-				transposeSong: (steps) => setState(() {
-					_song.transpose(steps: steps);
-					_key = _song.getKey();
-					_scheduleSave();
-				}),
-				setCapo: (newCapo) => setState(() {
-					_song.setCapo(capo: newCapo);
-					_capo = _song.getCapo();
-					_key = _song.getKey();
-					_scheduleSave();
-				}),
-				setAutoscrollSpeed: (newSpeed) => setState(() {
-					_autoscrollSpeed = newSpeed;
-					_startAutoscroll();
-
-					final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
-					_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
-					_scheduleSave();
-				}),
-				startAutoscroll: () => Timer(Duration(seconds: 3), () {
-					if (mounted)
-						_startAutoscroll();
-				}),
-				stopAutoscroll: _stopAutoscroll,
-				edit: _edit,
-				popupMenuButton: PopupMenu(
-					chords: _showChords,
-					rhythm: _showRhythm,
-					notes: _showNotes,
-					fingerings: _showFingerings,
-
-					switchChords: () => setState(() {
-						_showChords = !_showChords;
-						_setShowOptions();
-					}),
-					switchRhythm: () => setState(() {
-						_showRhythm = !_showRhythm;
-						_setShowOptions();
-					}),
-					switchNotes: () => setState(() {
-						_showNotes = !_showNotes;
-						_setShowOptions();
-					}),
-					switchFingerings: () => setState(() {
-						_showFingerings = !_showFingerings;
-						_setShowOptions();
-					}),
-				),
-			),
 		);
 	}
 
@@ -666,9 +697,13 @@ class _BarState extends State<BottomBar> {
 	@override
 	Widget build(BuildContext context) {
 		_foregroundColor = Theme.of(context).colorScheme.onPrimaryContainer;
+		final screenWidth = MediaQuery.of(context).size.width;
 
 		return Container(
 			height: 80,
+			width: (screenWidth > 600)
+				? 400
+				: screenWidth,
 			decoration: BoxDecoration(
 				borderRadius: .only(
 					topRight: .circular(20),
