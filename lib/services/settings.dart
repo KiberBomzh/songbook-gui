@@ -166,6 +166,41 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
+	SnackBarThemeData snackBarTheme() => SnackBarThemeData(
+		shape: RoundedRectangleBorder(
+			borderRadius: .vertical(top: Radius.circular(10)),
+		),
+		elevation: 4,
+	);
+
+	ColorScheme lightColorScheme() => ColorScheme.fromSeed(
+		brightness: .light,
+		seedColor: colorAccent,
+	);
+	ColorScheme darkColorScheme() => ColorScheme.fromSeed(
+		brightness: .dark,
+		seedColor: colorAccent,
+	);
+	ColorScheme amoledColorScheme() => darkColorScheme().copyWith(
+		surface: Color(0xFF000000),
+		surfaceContainer: Color(0xFF151515),
+		surfaceVariant: Color(0xFF333333),
+	);
+
+	ThemeData ligthTheme() => ThemeData(
+		useMaterial3: true,
+		colorScheme: lightColorScheme(),
+		snackBarTheme: snackBarTheme(),
+	);
+	ThemeData darkTheme() => ThemeData(
+		useMaterial3: true,
+		colorScheme: _isAmoled
+			? amoledColorScheme()
+			: darkColorScheme(),
+		snackBarTheme: snackBarTheme(),
+	);
+
+
 	SettingsProvider() {
 		_loadAllSettings();
 	}

@@ -26,51 +26,15 @@ class MyApp extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		final settings = context.watch<SettingsProvider>();
-		final themeMode = settings.themeMode;
-		final accentColor = settings.colorAccent;
-
-		final lightTheme = ColorScheme.fromSeed(
-			brightness: .light,
-			seedColor: accentColor,
-		);
-		final darkTheme = ColorScheme.fromSeed(
-			brightness: .dark,
-			seedColor: accentColor,
-		);
-		final amoledTheme = darkTheme.copyWith(
-			surface: Color(0xFF000000),
-			surfaceContainer: Color(0xFF151515),
-			surfaceVariant: Color(0xFF333333),
-		);
 
 		return SafeArea(
 			top: true,
 			bottom: true,
 			child: MaterialApp(
 				title: 'Songbook',
-				theme: ThemeData(
-					useMaterial3: true,
-					colorScheme: lightTheme,
-					snackBarTheme: SnackBarThemeData(
-						shape: RoundedRectangleBorder(
-							borderRadius: .vertical(top: Radius.circular(10)),
-						),
-						elevation: 4,
-					),
-				),
-				darkTheme: ThemeData(
-					useMaterial3: true,
-					colorScheme: settings.isAmoled
-						? amoledTheme
-						: darkTheme,
-					snackBarTheme: SnackBarThemeData(
-						shape: RoundedRectangleBorder(
-							borderRadius: .vertical(top: Radius.circular(10)),
-						),
-						elevation: 4,
-					),
-				),
-				themeMode: themeMode,
+				theme: settings.ligthTheme(),
+				darkTheme: settings.darkTheme(),
+				themeMode: settings.themeMode,
 				home: LibraryScreen(),
 			),
 		);
