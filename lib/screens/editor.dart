@@ -168,20 +168,19 @@ class _EditorState extends State<EditorScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return SafeArea(
-			bottom: true,
-			top: true,
-			child: Container(
-				decoration: BoxDecoration(
-					image: (_settings.backgroundImage != null)
-						? DecorationImage(
-							image: FileImage(_settings.backgroundImage!),
-							fit: .cover,
-						)
-						: null,
-				),
-				child: Scaffold(
-					body: _buildBody(),
+		return Container(
+			decoration: BoxDecoration(
+				image: (_settings.backgroundImage != null)
+					? DecorationImage(
+						image: FileImage(_settings.backgroundImage!),
+						fit: .cover,
+					)
+					: null,
+			),
+			child: Scaffold(
+				body: Padding(
+					padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+					child: _buildBody(),
 				),
 			),
 		);
@@ -192,6 +191,7 @@ class _EditorState extends State<EditorScreen> {
 			children: [
 				Column(
 					children: [
+						SizedBox( height: MediaQuery.of(context).padding.top), // top safe area
 						Expanded(
 							child: _buildTextField(),
 						),

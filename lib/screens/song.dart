@@ -336,6 +336,7 @@ class SongState extends State<SongScreen> {
 			),
 			body: (blocks.length > 0)
 				? Container(
+					margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom), //safe area
 					padding: const EdgeInsets.all(10),
 					height: double.infinity,
 					color: _settings.backgroundColor(context),
@@ -704,6 +705,7 @@ class _BarState extends State<BottomBar> {
 			width: (screenWidth > 600)
 				? 400
 				: screenWidth,
+			margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
 			decoration: BoxDecoration(
 				borderRadius: .only(
 					topRight: .circular(20),

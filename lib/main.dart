@@ -27,16 +27,12 @@ class MyApp extends StatelessWidget {
 	Widget build(BuildContext context) {
 		final settings = context.watch<SettingsProvider>();
 
-		return SafeArea(
-			top: true,
-			bottom: true,
-			child: MaterialApp(
-				title: 'Songbook',
-				theme: settings.ligthTheme(),
-				darkTheme: settings.darkTheme(),
-				themeMode: settings.themeMode,
-				home: LibraryScreen(),
-			),
+		return MaterialApp(
+			title: 'Songbook',
+			theme: settings.ligthTheme(),
+			darkTheme: settings.darkTheme(),
+			themeMode: settings.themeMode,
+			home: LibraryScreen(),
 		);
 	}
 }
