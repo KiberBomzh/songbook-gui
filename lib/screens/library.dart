@@ -222,35 +222,7 @@ class _LibraryState extends State<LibraryScreen> {
 	Widget _buildScaffold() {
 		return Scaffold(
 			appBar: AppBar(
-				title: Row(
-					children: [
-						if (_isSelectMode) ...[
-							Text(_selected.length.toString()),
-						] else if (_isSearchMode) ...[
-							Expanded(
-								child: TextField(
-									controller: _searchTextController,
-									focusNode: _searchFocusNode,
-									decoration: InputDecoration(
-										constraints: BoxConstraints(maxHeight: 40),
-										contentPadding: const EdgeInsets.all(5),
-										hintText: (widget.path == null)
-											? 'Library'
-											: _getPathName(_currentPath),
-										border: OutlineInputBorder(borderSide: .none),
-									),
-									onSubmitted: _search,
-								),
-							),
-						] else ...[
-							Text( (widget.path == null)
-								? 'Library'
-								: _getPathName(_currentPath),
-							),
-						],
-					],
-				),
-
+				title: _buildAppBarTitle(),
 				leading: (_isSelectMode || _isSearchMode || widget.path != null)
 					? BackButton()
 					: null,
@@ -295,6 +267,31 @@ class _LibraryState extends State<LibraryScreen> {
 			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
 		);
+	}
+
+	Widget _buildAppBarTitle() {
+		if (_isSelectMode) {
+			return Text(_selected.length.toString());
+		} else if (_isSearchMode) {
+			return TextField(
+				controller: _searchTextController,
+				focusNode: _searchFocusNode,
+				decoration: InputDecoration(
+					constraints: BoxConstraints(maxHeight: 40),
+					contentPadding: const EdgeInsets.all(5),
+					hintText: (widget.path == null)
+						? 'Library'
+						: _getPathName(_currentPath),
+					border: OutlineInputBorder(borderSide: .none),
+				),
+				onSubmitted: _search,
+			);
+		} else {
+			return Text( (widget.path == null)
+				? 'Library'
+				: _getPathName(_currentPath),
+			);
+		}
 	}
 
 	Widget _buildAppBarPopupMenuButton() {
