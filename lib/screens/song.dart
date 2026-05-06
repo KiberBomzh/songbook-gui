@@ -195,6 +195,15 @@ class SongState extends State<SongScreen> {
 			),
 			child: Stack(
 				children: [
+					Align(
+						alignment: .bottomCenter,
+						child: Container(
+							color: Colors.black,
+							width: MediaQuery.of(context).size.width,
+							height: MediaQuery.of(context).padding.bottom,
+						),
+					), // for safe area
+
 					_buildScaffold(),
 					Align(
 						alignment: .bottomCenter,

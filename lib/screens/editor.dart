@@ -178,9 +178,21 @@ class _EditorState extends State<EditorScreen> {
 					: null,
 			),
 			child: Scaffold(
-				body: Padding(
-					padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-					child: _buildBody(),
+				body: Stack(
+					children: [
+						Align(
+							alignment: .bottomCenter,
+							child: Container(
+								color: Colors.black,
+								width: MediaQuery.of(context).size.width,
+								height: MediaQuery.of(context).padding.bottom,
+							),
+						), // for safe area
+						Padding(
+							padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+							child: _buildBody(),
+						),
+					],
 				),
 			),
 		);
