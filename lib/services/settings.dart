@@ -399,14 +399,15 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 	Future<void> setBackgroundImage() async {
-		PaintingBinding.instance.imageCache.clear();
-		PaintingBinding.instance.imageCache.clearLiveImages();
-
 		final FilePickerResult? result = await FilePicker.pickFiles(
 			type: FileType.image,
 		);
 
 		if (result != null && result.files.single.path != null) {
+			await resetBackgroundImage();
+			PaintingBinding.instance.imageCache.clear();
+			PaintingBinding.instance.imageCache.clearLiveImages();
+
 			final dir = await getApplicationSupportDirectory();
 			final savedPath = dir.path + '/background_img';
 
