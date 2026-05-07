@@ -337,28 +337,28 @@ class _LibraryState extends State<LibraryScreen> {
 						});
 						break;
 					case ('copy'):
-						setState(() {
-							_cutBuffer.clear();
+						_cutBuffer.clear();
 
-							for (int i = 0; i < _selected.length; i++)
-								if (!_copyBuffer.contains(_selected[i]))
-									_copyBuffer.add(_selected[i]);
+						for (int i = 0; i < _selected.length; i++)
+							if (!_copyBuffer.contains(_selected[i]))
+								_copyBuffer.add(_selected[i]);
 
-							_selected.clear();
-							_isSelectMode = false;
-						});
+						_selected.clear();
+						_isSelectMode = false;
+						_loadDirectory();
+
 						break;
 					case ('cut'):
-						setState(() {
-							_copyBuffer.clear();
+						_copyBuffer.clear();
 
-							for (int i = 0; i < _selected.length; i++)
-								if (!_cutBuffer.contains(_selected[i]))
-									_cutBuffer.add(_selected[i]);
+						for (int i = 0; i < _selected.length; i++)
+							if (!_cutBuffer.contains(_selected[i]))
+								_cutBuffer.add(_selected[i]);
 
-							_selected.clear();
-							_isSelectMode = false;
-						});
+						_selected.clear();
+						_isSelectMode = false;
+						_loadDirectory();
+
 						break;
 					case ('delete'):
 						_delete(_selected);
@@ -557,14 +557,18 @@ class _LibraryState extends State<LibraryScreen> {
 					case ('copy'):
 						_cutBuffer.clear();
 
-						if (!_copyBuffer.contains(path))
-							setState(() => _copyBuffer.add(path));
+						if (!_copyBuffer.contains(path)) {
+							_copyBuffer.add(path);
+							_loadDirectory();
+						}
 						break;
 					case ('cut'):
 						_copyBuffer.clear();
 
-						if (!_cutBuffer.contains(path))
-							setState(() => _cutBuffer.add(path));
+						if (!_cutBuffer.contains(path)) {
+							_cutBuffer.add(path);
+							_loadDirectory();
+						}
 						break;
 					case ('delete'):
 						_delete([path]);
