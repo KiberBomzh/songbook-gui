@@ -1,0 +1,12 @@
+title: G#
+fret_num: 4
+chord_size: 3
+strings:
+- !FrettedOn 4
+- !FrettedOn 4
+- !FrettedOn 5
+- !FrettedOn 6
+- !FrettedOn 6
+- !FrettedOn 4
+bars:
+  4: 5

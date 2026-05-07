@@ -1,0 +1,11 @@
+title: G5
+fret_num: 3
+chord_size: 3
+strings:
+- Muted
+- Muted
+- Muted
+- !FrettedOn 5
+- !FrettedOn 5
+- !FrettedOn 3
+bars: null

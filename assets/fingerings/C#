@@ -1,0 +1,12 @@
+title: C#
+fret_num: 4
+chord_size: 3
+strings:
+- !FrettedOn 4
+- !FrettedOn 6
+- !FrettedOn 6
+- !FrettedOn 6
+- !FrettedOn 4
+- Muted
+bars:
+  4: 4

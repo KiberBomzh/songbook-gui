@@ -1,0 +1,4055 @@
+metadata:
+  title: Русское поле экспериментов
+  artist: Егор Летов
+  key:
+    keynote: D
+    is_minor: true
+  capo: null
+  autoscroll_speed: 2750
+chord_list:
+- text: Bm
+  keynote: B
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: G
+  keynote: G
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: Em
+  keynote: E
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: F#
+  keynote: FSharp
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: A
+  keynote: A
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+blocks:
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Трогательным ножичком пытать свою плоть
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Трогательным ножичком пытать свою плоть
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: До крови прищемить добровольные пальцы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Отважно смакуя леденцы на палочке
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Целеустремлённо набивать карманы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мёртвыми мышатами, живыми хуями
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Шоколадными конфетами
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: И нерукотворными пиздюлями
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 29
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: На патриархальной свалке устаревших понятий
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 25
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Использованных образов и вежливых слов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Покончив с собою, уничтожить весь мир
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Покончить с собою — уничтожить весь мир
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Славно валится на, на, на...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: География подлости,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Орфография ненависти
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Апология невежества,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мифология оптимизма
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Законы гаубицы благонравия
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Знатное пиршество благоразумия
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Устами ребенка глаголет яма
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Устами ребенка глаголет пуля
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Славно валится на, на, на...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 28
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мастерство быть излишним, подобно мне
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 27
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мастерство быть любимым, подобно петле
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 33
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мастерство быть глобальным как печёное яблоко
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Искусство вовремя уйти в сторонку
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Искусство быть посторонним
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Искусство быть посторонним
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Новейшее средство для очистки духовок
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: От задохнувшихся по собственной воле
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Новейшее средство для очистки верёвок
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: От скверного запаха немытых шей
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Новейшее средство находить виновных
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Новейшее средство находить виновных
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: За открывшейся дверью — пустота
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 26
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это значит, что кто-то пришёл за тобой
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это значит, что теперь ты кому-то
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Понадо-понадо-пона-надобился...
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А снег всё идёт, а снег всё идёт
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле источает снег...
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Иных хоронили в упаковке глазёнок
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Иных хоронили в упаковке газет...
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А то, что на бойне умертвили бычка —
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 9
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 27
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: На то всеобщая радость, всеобщая гордость
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Всеобщая ненависть, всеобщая воля
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Всеобщая воля, да всеобщая старость...
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Набить до отказа собой могилу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это значит наследовать Землю
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Что же такое наследовать Землю?
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это значит исчерпать терпение
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Что и требовалось доказать...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Что и требовалось доказать!
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В дверной глазок, в замочную щель -
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 25
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Гениальные мыслишки, мировые войнушки
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Неофициальные пупы Земли
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 25
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Эмалированные части головных систем
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Инстинктивные добровольцы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Во имя вселенной и хлебной корочки
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Люди с большой буквы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 7
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 27
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Слово «Люди» пишется с большой буквы!
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свастика веры стянула лица
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вавилонская азбука налипла на пальцах
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Исторически оправданный метод
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Пожирания сырой земли
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это ли не то, что нам надо?!
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это ли не то, что нам надо?!
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Это ли не то, что нам надо-да-да-да,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: да-да-да-да, да-да-да-да?!
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А поутру они неизбежно проснулись
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Не простудились, не замарались
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Называли вещи своими именами
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Сеяли доброе, разумное, вечное
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Всё посеяли, всё назвали
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Кушать подано — честь по чести
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: На первое были плоды просвещения
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А на второе — кровавые мальчики
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: (8р.)
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 27
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Орденоносный Господь победоносного мира
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 29
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Заслуженный Господь красно-знамённого страха
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Праведный праздник для правильных граждан
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Отточенный серп для созревших колосьев
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Яма — как принцип движения к Солнцу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Кашу слезами не испортишь, нет
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Полные сани девичьим срамом
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Полные простыни ребячьим смрадом
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Девичьи глазки, кукушкины слёзки
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А так же всякие иные предметы...
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Так кто погиб в генеральном сражении
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Кто погиб в гениальном поражении
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: За полную чашку жалости
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 27
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В Сталинградской битве озверевшей похоти?
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Самолёт усмехнулся вдребезги
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В бугорок обетованной Земли
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Самолёт усмехнулся вдребезги
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В бугорок обетованной Землицы...
+  notes: null
+- title: Проигрыш
+  lines:
+  - !ChordsLine
+    - text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: Em
+      keynote: E
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - text: F#
+      keynote: FSharp
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+  notes: (8р.)
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А свою любовь я собственноручно
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 28
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Освободил от дальнейших неизбежных огорчений
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Подманил её пряником
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Подманил её пряником
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Изнасиловал пьяным жестоким ботинком
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: И повесил на облачке словно ребёнок
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Словно иней, сердобольный смех
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 7
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Славно валится на-на, на-на, на-на, на-на...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bm
+        keynote: B
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Русское поле экспериментов
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !UpBeat
+      text: Bm
+      keynote: B
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !UpBeat
+      text: G
+      keynote: G
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    - !OnIndex
+      index: 1
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: F#
+        keynote: FSharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Вечность пахнет нефтью...
+  notes: null
+notes: null

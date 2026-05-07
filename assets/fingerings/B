@@ -1,0 +1,12 @@
+title: B
+fret_num: 2
+chord_size: 3
+strings:
+- !FrettedOn 2
+- !FrettedOn 4
+- !FrettedOn 4
+- !FrettedOn 4
+- !FrettedOn 2
+- Muted
+bars:
+  2: 4

@@ -1,0 +1,34 @@
+# Available colors
+# black
+# red
+# green
+# yellow
+# blue
+# magenta
+# cyan
+# gray
+# dark_gray
+# light_red
+# light_green
+# light_yellow
+# light_blue
+# light_magenta
+# light_cyan
+# white
+
+# Or RGB
+# Or HEX
+
+
+[colors]
+focus = "light_green"
+unfocus = "dark_gray"
+directories = "rgb(100, 149, 237)"
+songs = "#FFFFFF"
+
+[colors.song]
+title = "green"
+chords = "cyan"
+rhythm = "yellow"
+notes = "dark_gray"
+text = "white"

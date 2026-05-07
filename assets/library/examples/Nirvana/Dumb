@@ -1,0 +1,1134 @@
+metadata:
+  title: Dumb
+  artist: Nirvana
+  key:
+    keynote: E
+    is_minor: false
+  capo: null
+  autoscroll_speed: 2500
+chord_list:
+- text: E5
+  keynote: E
+  minor: false
+  chord_type: Power
+  fifth_state: Norm
+  sus_or_add: No
+- text: A
+  keynote: A
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: G5
+  keynote: G
+  minor: false
+  chord_type: Power
+  fifth_state: Norm
+  sus_or_add: No
+- text: C5
+  keynote: C
+  minor: false
+  chord_type: Power
+  fifth_state: Norm
+  sus_or_add: No
+- text: E
+  keynote: E
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: G
+  keynote: G
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: B
+  keynote: B
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: C
+  keynote: C
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+blocks:
+- title: Verse
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Im not like them
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but i can pretend
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: the sun is gone
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but i have a light
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: the day is done
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but im having fun
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I think im dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Or maybe just happy
+  notes: null
+- title: Chorus
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Think im just happy
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Think im just happy
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Think im just happy
+  notes: null
+- title: Verse
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: My heart is broke
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but i have some glue
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Help me inhale
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: and mend it with you
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: We'll float around
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: And hang out on clouds
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: then well come down
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: and have a
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 4
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: hangover
+  notes: null
+- title: Chorus
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: have a hangover
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: have a hangover
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 10
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: have a hangover
+  notes: null
+- title: Bridge
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Skin the sun
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Fall asleep
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Wish away
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: the soul is cheap
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Lesson learned
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Wish me luck
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Soon the the burn
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Wake me up
+  notes: null
+- title: Verse
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Im not like them
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 13
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but i can pretend
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: the sun is gone
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but i have a light
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: the day is done
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    text: but im having fun
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: E5
+        keynote: E
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 12
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I think im dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: G5
+        keynote: G
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: C5
+        keynote: C
+        minor: false
+        chord_type: Power
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Or maybe just happy
+  notes: null
+- title: Chorus
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Think im just happy
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Think im just happy
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 11
+      chord:
+        text: E
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: I Think I'm dumb
+  notes: null
+notes: null

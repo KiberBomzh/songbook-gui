@@ -1,0 +1,11 @@
+title: Eb5
+fret_num: 6
+chord_size: 3
+strings:
+- Muted
+- Muted
+- !FrettedOn 8
+- !FrettedOn 8
+- !FrettedOn 6
+- Muted
+bars: null
