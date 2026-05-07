@@ -14,6 +14,10 @@ String getEditorHelpMsg() =>
 List<String> getEditorKeywords() =>
     RustLib.instance.api.crateApiSongGetEditorKeywords();
 
+String blockStart() => RustLib.instance.api.crateApiSongBlockStart();
+
+String blockEnd() => RustLib.instance.api.crateApiSongBlockEnd();
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}
 

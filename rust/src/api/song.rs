@@ -277,10 +277,35 @@ pub fn get_editor_help_msg() -> String {
     return res.trim().to_string()
 }
 
+
+use songbook::{
+    METADATA_START,
+    METADATA_END,
+    SONG_TITLE_SYMBOL,
+    SONG_ARTIST_SYMBOL,
+    SONG_KEY_SYMBOL,
+    SONG_CAPO_SYMBOL,
+    SONG_AUTOSCROLL_SPEED_SYMBOL,
+    SONG_SHOW_OPTIONS_SYMBOL,
+    BLOCK_START,
+    BLOCK_END,
+    TITLE_SYMBOL,
+    CHORDS_LINE_SYMBOL,
+    EMPTY_LINE_SYMBOL,
+    PLAIN_TEXT_START,
+    PLAIN_TEXT_END,
+    TAB_START_SYMBOL,
+    TAB_END_SYMBOL,
+    CHORDS_SYMBOL,
+    RHYTHM_SYMBOL,
+    TEXT_SYMBOL,
+    SONG_NOTE_START_SYMBOL,
+    SONG_NOTE_END_SYMBOL,
+    BLOCK_NOTE_SYMBOL,
+};
+
 #[flutter_rust_bridge::frb(sync)]
 pub fn get_editor_keywords() -> Vec<String> {
-    use songbook::*;
-
     let mut keywords = Vec::new();
     keywords.push(CHORDS_SYMBOL.to_string());
     keywords.push(RHYTHM_SYMBOL.to_string());
@@ -307,4 +332,14 @@ pub fn get_editor_keywords() -> Vec<String> {
     keywords.push(SONG_SHOW_OPTIONS_SYMBOL.to_string());
 
     return keywords
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn block_start() -> String {
+    BLOCK_START.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn block_end() -> String {
+    BLOCK_END.to_string()
 }

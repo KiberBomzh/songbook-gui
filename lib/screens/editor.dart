@@ -163,6 +163,33 @@ class _EditorState extends State<EditorScreen> {
 		_focusNode.requestFocus();
 	}
 
+	void _selectBlock() {
+		_focusNode.requestFocus();
+
+		final cursorPosition = _textController.selection.baseOffset;
+		if (cursorPosition < 0)
+			return;
+
+
+		final text = _textController.text;
+		final startMarker = blockStart();
+		final endMarker = blockEnd();
+
+		final startIndex = text.lastIndexOf(startMarker, cursorPosition);
+		if (startIndex == -1)
+			return;
+
+		final endIndex = text.indexOf(endMarker, cursorPosition);
+		if (endIndex == -1)
+			return;
+
+
+		_textController.selection = TextSelection(
+			baseOffset: startIndex,
+			extentOffset: endIndex + endMarker.length
+		);
+	}
+
 
 	@override
 	Widget build(BuildContext context) {
@@ -336,6 +363,13 @@ class _EditorState extends State<EditorScreen> {
 								tooltip: 'Help',
 								onPressed: _showHelp,
 							),
+
+							if (_currentMode == EditorMode.raw)
+								IconButton(
+									icon: Icon(Icons.article),
+									tooltip: 'Select block',
+									onPressed: _selectBlock,
+								),
 
 							IconButton(
 								icon: Icon(Icons.undo),
