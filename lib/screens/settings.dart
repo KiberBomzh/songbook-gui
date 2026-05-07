@@ -96,7 +96,7 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 					ButtonSegment<ThemeMode>(
 						value: ThemeMode.system,
-						label: Text('A'),
+						label: Icon(Icons.brightness_4),
 					),
 					ButtonSegment<ThemeMode>(
 						value: ThemeMode.dark,
