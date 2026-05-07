@@ -1,0 +1,12 @@
+title: A#
+fret_num: 1
+chord_size: 3
+strings:
+- !FrettedOn 1
+- !FrettedOn 3
+- !FrettedOn 3
+- !FrettedOn 3
+- !FrettedOn 1
+- Muted
+bars:
+  1: 4

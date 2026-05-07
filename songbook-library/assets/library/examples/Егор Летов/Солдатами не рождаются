@@ -1,0 +1,887 @@
+metadata:
+  title: Солдатами не рождаются
+  artist: Егор Летов
+  key:
+    keynote: C
+    is_minor: true
+  capo: null
+  autoscroll_speed: 2050
+chord_list:
+- text: Am
+  keynote: A
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: C
+  keynote: C
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: G
+  keynote: G
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: B
+  keynote: B
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: D
+  keynote: D
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: Em
+  keynote: E
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+blocks:
+- title: Куплет
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 7
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 32
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свято место не быва-ает в пустоте.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 28
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Лишним телом заложили котлован.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 10
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Красной тряпкой обернули катафалк.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: D
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Бравой песней заглушили злое горе;
+  notes: null
+- title: Припев
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 9
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ведь солдатами не рождаются,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Солдатами умирают.
+  notes: null
+- title: Куплет
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 7
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 32
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свято место не быва-ает без врага.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 29
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Полированным прикладом - наугад.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 10
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 33
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В непростреленной шинели - напролом.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 8
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 35
+      chord:
+        text: D
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Бравым маршем заглушив зубовный скрежет;
+  notes: null
+- title: Припев
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 9
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ведь солдатами не рождаются,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Солдатами умирают.
+  notes: null
+- title: Куплет
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 7
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 32
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свято место не быва-ает в чистоте.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 10
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 21
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Смрадным ветром затопили берега.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 10
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Гнойным прахом напитали чернозём.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 28
+      chord:
+        text: D
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Табаком закоротив хмельные ноздри;
+  notes: null
+- title: Припев
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 9
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ведь солдатами не рождаются,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Солдатами умирают.
+  notes: null
+- title: Куплет
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 7
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свято место не бывает без греха.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 5
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 30
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Закуси девичьим криком. Благодать!
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 6
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 31
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Пригубить медовой браги. Поблевать.
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 10
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 31
+      chord:
+        text: D
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Красным флагом утерев густые слёзы;
+  notes: null
+- title: Припев
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 9
+      chord:
+        text: G
+        keynote: G
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: Am
+        keynote: A
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ведь солдатами не рождаются,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 4
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 14
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Солдатами умирают.
+  notes: null
+notes: null

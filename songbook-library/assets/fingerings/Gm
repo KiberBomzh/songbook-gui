@@ -1,0 +1,12 @@
+title: Gm
+fret_num: 3
+chord_size: 3
+strings:
+- !FrettedOn 3
+- !FrettedOn 3
+- !FrettedOn 3
+- !FrettedOn 5
+- !FrettedOn 5
+- !FrettedOn 3
+bars:
+  3: 5

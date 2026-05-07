@@ -1,0 +1,11 @@
+title: Ab5
+fret_num: 4
+chord_size: 3
+strings:
+- Muted
+- Muted
+- Muted
+- !FrettedOn 6
+- !FrettedOn 6
+- !FrettedOn 4
+bars: null

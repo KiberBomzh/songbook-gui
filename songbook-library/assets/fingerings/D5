@@ -1,0 +1,11 @@
+title: D5
+fret_num: 5
+chord_size: 3
+strings:
+- Muted
+- Muted
+- !FrettedOn 7
+- !FrettedOn 7
+- !FrettedOn 5
+- Muted
+bars: null

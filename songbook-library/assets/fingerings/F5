@@ -1,0 +1,11 @@
+title: F5
+fret_num: 1
+chord_size: 3
+strings:
+- Muted
+- Muted
+- Muted
+- !FrettedOn 3
+- !FrettedOn 3
+- !FrettedOn 1
+bars: null

@@ -1,0 +1,12 @@
+title: D#m
+fret_num: 6
+chord_size: 3
+strings:
+- !FrettedOn 6
+- !FrettedOn 7
+- !FrettedOn 8
+- !FrettedOn 8
+- !FrettedOn 6
+- Muted
+bars:
+  6: 4

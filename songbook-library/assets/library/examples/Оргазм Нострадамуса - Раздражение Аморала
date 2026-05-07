@@ -1,0 +1,1013 @@
+metadata:
+  title: Раздражение Аморала
+  artist: Оргазм Нострадамуса
+  key:
+    keynote: F
+    is_minor: true
+  capo: null
+  autoscroll_speed: 2500
+chord_list:
+- text: Dm
+  keynote: D
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: Dsus2
+  keynote: D
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus2
+- text: Dsus4
+  keynote: D
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: A#
+  keynote: ASharp
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: A#5-
+  keynote: ASharp
+  minor: false
+  chord_type: Norm
+  fifth_state: Dim
+  sus_or_add: No
+- text: Asus4
+  keynote: A
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: A
+  keynote: A
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: Em
+  keynote: E
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: Esus2
+  keynote: E
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus2
+- text: Esus4
+  keynote: E
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: C
+  keynote: C
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: C5-
+  keynote: C
+  minor: false
+  chord_type: Norm
+  fifth_state: Dim
+  sus_or_add: No
+- text: Bsus4
+  keynote: B
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: B
+  keynote: B
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+blocks:
+- title: Вступление
+  lines:
+  - !PlainText |-
+    Великие вещи для великих
+    Пропасти для глубоких
+    Нежности и дрожь - ужаса для чутких
+    А в общем все редкое для редких...
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Дождик ночью шел, а я дремал
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 21
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: На столе свечи огарок догорал
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 26
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: Распахнулось тихо вдруг мое окно
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 24
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В комнатушке моей стало вдруг светло
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Хмель прошел я потрезвел в тот миг
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 24
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А в окно ко мне вошел босой старик
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: В белом рубище и с бородой седой
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 24
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: 'Наклонился и сказал: "Пошли со мной'
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 19
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: В мире том, откуда я пришел
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 24
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Обретешь ты то, чего ты здесь лишен
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: Будешь жить ты в сказочных садах
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 28
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Там всегда светло и там всегда весна
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Там летают птицы дивной красоты
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 19
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Важно бродят звери и цветут цветы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: Льется музыка волшебных флейт
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 21
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Не бывает горя и страданий нет
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 23
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Обретешь покой ты, обретешь любовь
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 22
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Никогда твоя там не остынет кровь
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 22
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: И не потеряешь ты там разум свой
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 27
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ну, давай мне руку, ну, пойдем со мной!"
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: Esus2
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Я вскочил с дивана, я схватил стакан
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: Esus4
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 22
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: В бешенстве с размаху кинул в старика
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 20
+      chord:
+        text: C5-
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: Борода взлохмачена, рубище в крови
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bsus4
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 16
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Тяжко и свирепо старика я бил
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: Esus2
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: 'Я без передыху старика пинал:'
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 1
+      chord:
+        text: Esus4
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 20
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: '"Жалкий старикашка, я тебя не звал'
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 17
+      chord:
+        text: C5-
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: Свет я ненавижу, не люблю цветы
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bsus4
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 16
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Мои звери - это слепыши-кроты
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: Esus2
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Скучен и противен мне твой пресный Рай
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Esus4
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 23
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Я люблю осенний дождь, я ненавижу май
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: C5-
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: А моя свобода - бомба из гнилья
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bsus4
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 24
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Право харкнуть кровью в морду бытия!
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 16
+      chord:
+        text: Esus2
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Ломаные линии - живопись моя!
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Esus4
+        keynote: E
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 17
+      chord:
+        text: Em
+        keynote: E
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А дрисня моя - моя стрепня
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 2
+      chord:
+        text: C
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 24
+      chord:
+        text: C5-
+        keynote: C
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: В зеркалах кривых моя любовь живёт,
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Bsus4
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 16
+      chord:
+        text: B
+        keynote: B
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: А душа моя - шершавый лёд."
+  notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 26
+      chord:
+        text: Dsus2
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus2
+    text: Уж давно старик свалил, а я все бил
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Dsus4
+        keynote: D
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 18
+      chord:
+        text: Dm
+        keynote: D
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Табуреткой полки, зеркала
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: A#
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 18
+      chord:
+        text: A#5-
+        keynote: ASharp
+        minor: false
+        chord_type: Norm
+        fifth_state: Dim
+        sus_or_add: No
+    text: За окном разбитым дождик моросил
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 0
+      chord:
+        text: Asus4
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: Sus4
+    - !OnIndex
+      index: 21
+      chord:
+        text: A
+        keynote: A
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Ну а я хуярил мебель до утра...
+  notes: null
+notes: null

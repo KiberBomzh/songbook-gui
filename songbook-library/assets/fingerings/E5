@@ -1,0 +1,11 @@
+title: E5
+fret_num: 7
+chord_size: 3
+strings:
+- Muted
+- Muted
+- !FrettedOn 9
+- !FrettedOn 9
+- !FrettedOn 7
+- Muted
+bars: null

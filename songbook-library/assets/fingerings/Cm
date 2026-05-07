@@ -1,0 +1,12 @@
+title: Cm
+fret_num: 3
+chord_size: 3
+strings:
+- !FrettedOn 3
+- !FrettedOn 4
+- !FrettedOn 5
+- !FrettedOn 5
+- !FrettedOn 3
+- Muted
+bars:
+  3: 4
