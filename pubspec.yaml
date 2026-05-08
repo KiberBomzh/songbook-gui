@@ -104,6 +104,14 @@ flutter:
           style: italic
     - family: JetBrainsMono
       fonts:
-        - asset: assets/fonts/JetBrainsMono/JetBrainsMono-Italic-VariableFont_wght.ttf
         - asset: assets/fonts/JetBrainsMono/JetBrainsMono-VariableFont_wght.ttf
+        - asset: assets/fonts/JetBrainsMono/JetBrainsMono-Italic-VariableFont_wght.ttf
           style: italic
+    - family: RobotoMono
+      fonts:
+        - asset: assets/fonts/RobotoMono/RobotoMono-VariableFont_wght.ttf
+        - asset: assets/fonts/RobotoMono/RobotoMono-Italic-VariableFont_wght.ttf
+          style: italic
+    - family: PTMono
+      fonts:
+        - asset: assets/fonts/PTMono-Regular.ttf

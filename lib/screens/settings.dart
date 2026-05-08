@@ -181,7 +181,7 @@ class _SettingsState extends State<SettingsScreen> {
 				final String? newSizeStr = await _askDialog(
 					context: context,
 					validator: _fontSizeValidator,
-					title: 'Song font size',
+					title: 'Editor font size',
 					initialValue: _settings.editorFontSize.toString(),
 					hintText: 'Font size...',
 				);
@@ -189,6 +189,19 @@ class _SettingsState extends State<SettingsScreen> {
 					final newSize = double.parse(newSizeStr);
 					await _settings.setEditorFontSize(newSize!);
 				}
+			},
+		),
+
+		_buildItem(
+			text: 'Font Family',
+			child: Text(_settings.editorFontFamily),
+			onTap: () async {
+				final String? newFontFamily = await showModalBottomSheet<String?>(
+					context: context,
+					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.editorFontFamily)
+				);
+				if (newFontFamily != null)
+					await _settings.setEditorFontFamily(newFontFamily!);
 			},
 		),
 	];
@@ -246,6 +259,19 @@ class _SettingsState extends State<SettingsScreen> {
 					final newSize = double.parse(newSizeStr);
 					await _settings.setSongFontSize(newSize!);
 				}
+			},
+		),
+
+		_buildItem(
+			text: 'Font Family',
+			child: Text(_settings.songFontFamily),
+			onTap: () async {
+				final String? newFontFamily = await showModalBottomSheet<String?>(
+					context: context,
+					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.songFontFamily)
+				);
+				if (newFontFamily != null)
+					await _settings.setSongFontFamily(newFontFamily!);
 			},
 		),
 
@@ -697,4 +723,68 @@ Future<String?> _showColorPickerDialog({
 		return null;
 	else
 		return '#${dialogPickerColor.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+}
+
+class SelectFontFamilyScreen extends StatefulWidget {
+	final String? initialValue;
+
+	const SelectFontFamilyScreen({super.key, this.initialValue});
+
+
+	@override
+	State<SelectFontFamilyScreen> createState() => SelectFontFamilyState();
+}
+
+class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
+	final List<String> _families = FONT_FAMILIES;
+	String? _selected;
+
+	@override
+	void initState() {
+		super.initState();
+		_selected = widget.initialValue;
+	}
+
+
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			height: MediaQuery.of(context).size.height * 0.5,
+			width: double.infinity,
+			padding: const EdgeInsets.all(10),
+			decoration: BoxDecoration(
+				borderRadius: .circular(8),
+				color: Theme.of(context).colorScheme.surfaceVariant,
+			),
+			child: Material(
+				color: Colors.transparent,
+				child: _buildFonts(),
+			),
+		);
+	}
+
+	Widget _buildFonts() {
+		final primary = Theme.of(context).colorScheme.primary;
+
+		return ListView.builder(
+			itemCount: _families.length,
+			itemBuilder: (context, index) => InkWell(
+				splashColor: primary.withOpacity(0.1),
+				highlightColor: primary.withOpacity(0.05),
+				child: Container(
+					padding: const EdgeInsets.all(10),
+					margin: const EdgeInsets.symmetric(vertical: 5),
+					child: Row(
+						children: [
+							if (_selected == _families[index])
+								Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
+
+							Text(_families[index]),
+						],
+					),
+				),
+				onTap: () => Navigator.of(context).pop(_families[index]),
+			),
+		);
+	}
 }

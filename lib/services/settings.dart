@@ -12,7 +12,9 @@ const String IS_DARK_THEME = 'is_dark_theme';
 const String IS_AMOLED = 'is_amoled';
 const String COLOR_ACCENT = 'color_accent';
 const String EDITOR_FONT_SIZE = 'editor_font_size';
+const String EDITOR_FONT_FAMILY = 'editor_font_family';
 const String SONG_FONT_SIZE = 'song_font_size';
+const String SONG_FONT_FAMILY = 'song_font_family';
 const String CHORDS_COLOR = 'chords_color';
 const String RHYTHM_COLOR = 'rhythm_color';
 const String TEXT_COLOR = 'text_color';
@@ -60,13 +62,22 @@ enum FingeringSize {
 	}
 }
 
+const List<String> FONT_FAMILIES = [
+	'JetBrainsMono',
+	'CascadiaMono',
+	'RobotoMono',
+	'PTMono',
+];
+
 
 class SettingsProvider extends ChangeNotifier {
 	bool? _isDarkTheme;
 	bool _isAmoled = false;
 	String _colorAccent = 'blue';
 	double _editorFontSize = 14;
+	String _editorFontFamily = 'CascadiaMono';
 	double _songFontSize = 14;
+	String _songFontFamily = 'JetBrainsMono';
 	String? _chordsColor;
 	String? _rhythmColor;
 	String? _textColor;
@@ -97,7 +108,9 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isAmoled => _isAmoled;
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
 	double get editorFontSize => _editorFontSize;
+	String get editorFontFamily => _editorFontFamily;
 	double get songFontSize => _songFontSize;
+	String get songFontFamily => _songFontFamily;
 	bool get lineWrapInSong => _lineWrapInSong;
 	File? get backgroundImage => _backgroundImage;
 	double get backgroundOpacity => _backgroundOpacity;
@@ -131,21 +144,21 @@ class SettingsProvider extends ChangeNotifier {
 
 	TextStyle chordsStyle(BuildContext context) => TextStyle(
 		color: chordsColor(context),
-		fontFamily: 'JetBrainsMono',
+		fontFamily: _songFontFamily,
 		fontSize: _songFontSize,
 		fontWeight: .bold,
 	);
 
 	TextStyle rhythmStyle(BuildContext context) => TextStyle(
 		color: rhythmColor(context),
-		fontFamily: 'JetBrainsMono',
+		fontFamily: _songFontFamily,
 		fontSize: _songFontSize,
 		fontWeight: .bold,
 	);
 
 	TextStyle textStyle(BuildContext context) => TextStyle(
 		color: textColor(context),
-		fontFamily: 'JetBrainsMono',
+		fontFamily: _songFontFamily,
 		fontSize: _songFontSize,
 	);
 	TextStyle notesStyle(BuildContext context) => TextStyle(
@@ -166,7 +179,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		return TextStyle(
 			fontSize: size,
-			fontFamily: 'CascadiaMono',
+			fontFamily: _songFontFamily,
 		);
 	}
 	TextStyle fingeringsTitleStyle() {
@@ -180,6 +193,10 @@ class SettingsProvider extends ChangeNotifier {
 			fontSize: size,
 		);
 	}
+	TextStyle editorStyle() => TextStyle(
+		fontFamily: _editorFontFamily,
+		fontSize: _editorFontSize,
+	);
 
 
 	SnackBarThemeData snackBarTheme() => SnackBarThemeData(
@@ -245,7 +262,9 @@ class SettingsProvider extends ChangeNotifier {
 		_isAmoled = Preferences.getBool(IS_AMOLED) ?? false;
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
+		_editorFontFamily = Preferences.getString(EDITOR_FONT_FAMILY) ?? 'CascadiaMono';
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
+		_songFontFamily = Preferences.getString(SONG_FONT_FAMILY) ?? 'JetBrainsMono';
 		_chordsColor = Preferences.getString(CHORDS_COLOR);
 		_rhythmColor = Preferences.getString(RHYTHM_COLOR);
 		_textColor = Preferences.getString(TEXT_COLOR);
@@ -310,9 +329,23 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	Future<void> setEditorFontFamily(String value) async {
+		_editorFontFamily = value;
+		await Preferences.setString(EDITOR_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
 	Future<void> setSongFontSize(double value) async {
 		_songFontSize = value;
 		await Preferences.setDouble(SONG_FONT_SIZE, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setSongFontFamily(String value) async {
+		_songFontFamily = value;
+		await Preferences.setString(SONG_FONT_FAMILY, value);
 
 		notifyListeners();
 	}

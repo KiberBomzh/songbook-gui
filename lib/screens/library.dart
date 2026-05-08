@@ -889,6 +889,9 @@ class SongAddScreen extends StatefulWidget {
 }
 
 class SongAddState extends State<SongAddScreen> {
+	late SettingsProvider _settings;
+
+
 	late TextEditingController _artistController;
 	late FocusNode _artistFocusNode;
 	String? _artistError;
@@ -930,6 +933,8 @@ class SongAddState extends State<SongAddScreen> {
 
 	@override
 	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
 		return Column(
 			children: [
 				Padding(
@@ -976,6 +981,7 @@ class SongAddState extends State<SongAddScreen> {
 							child: TextField(
 								controller: _artistController,
 								focusNode: _artistFocusNode,
+								style: _settings.editorStyle(),
 								decoration: InputDecoration(
 									border: OutlineInputBorder(),
 									hintText: "Artist...",
@@ -1001,6 +1007,7 @@ class SongAddState extends State<SongAddScreen> {
 							child: TextField(
 								controller: _titleController,
 								focusNode: _titleFocusNode,
+								style: _settings.editorStyle(),
 								decoration: InputDecoration(
 									border: OutlineInputBorder(),
 									hintText: "Title...",
@@ -1031,7 +1038,7 @@ class SongAddState extends State<SongAddScreen> {
 						maxLines: null,
 						expands: true,
 						textAlignVertical: .top,
-						style: TextStyle(fontFamily: 'CascadiaMono'),
+						style: _settings.editorStyle(),
 						decoration: const InputDecoration(
 							border: OutlineInputBorder(),
 							hintText: "Song's text...",

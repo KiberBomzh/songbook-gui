@@ -395,8 +395,6 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 	Widget _buildTextField() {
-		final fontSize = _settings.editorFontSize;
-
 		return Container(
 			padding: const EdgeInsets.symmetric(horizontal: 15),
 			child: SingleChildScrollView(
@@ -412,7 +410,7 @@ class _EditorState extends State<EditorScreen> {
 							maxLines: null,
 							expands: true,
 							textAlignVertical: .top,
-							style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontFamily: 'CascadiaMono', fontSize: fontSize),
+							style: _settings.editorStyle(),
 							decoration: const InputDecoration(
 								border: InputBorder.none,
 								hintText: "Song's text...",
