@@ -454,7 +454,7 @@ class _LibraryState extends State<LibraryScreen> {
 									return;
 								}
 
-								final List<String> allPaths = _files + _dirs;
+								final List<String> allPaths = _dirs + _files;
 								final int currentIndex = allPaths.indexOf(itemPath);
 								final int lastAddedIndex = allPaths.indexOf(_selected.last);
 
