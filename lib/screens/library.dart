@@ -284,6 +284,7 @@ class _LibraryState extends State<LibraryScreen> {
 						: _getPathName(_currentPath),
 					border: OutlineInputBorder(borderSide: .none),
 				),
+				onChanged: _search,
 				onSubmitted: _search,
 			);
 		} else {
