@@ -831,13 +831,21 @@ class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
 								onPressed: () async {
 									await _settings.removeCustomFont(family);
 									_loadCustomFonts();
+
+									if (_selected == family) {
+										setState(() => _selected = _fonts[0]);
+										Navigator.of(context).pop(_selected);
+									}
 								},
 							),
 						],
 					],
 				),
 			),
-			onTap: () => Navigator.of(context).pop(family),
+			onTap: () {
+				setState(() => _selected = family);
+				Navigator.of(context).pop(_selected);
+			},
 		);
 	}
 
