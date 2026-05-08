@@ -417,6 +417,10 @@ class _LibraryState extends State<LibraryScreen> {
 				return Container(
 					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
 					height: 70,
+					decoration: BoxDecoration(
+						color: Theme.of(context).colorScheme.surfaceContainer,
+						borderRadius: .circular(10),
+					),
 					child: _buildItem(
 						name: itemName,
 						path: itemPath,
@@ -489,7 +493,7 @@ class _LibraryState extends State<LibraryScreen> {
 		return Material(
 			color: (_selected.contains(path))
 				? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
-				: Theme.of(context).colorScheme.surfaceContainer,
+				: Colors.transparent,
 			clipBehavior: Clip.antiAlias,
 			shape: RoundedRectangleBorder(
 				borderRadius: .circular(10),
