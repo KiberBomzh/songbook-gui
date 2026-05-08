@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,6 +72,8 @@ const List<String> FONT_FAMILIES = [
 
 
 class SettingsProvider extends ChangeNotifier {
+	Map<String, File> _customFonts = {};
+
 	bool? _isDarkTheme;
 	bool _isAmoled = false;
 	String _colorAccent = 'blue';
@@ -114,6 +117,7 @@ class SettingsProvider extends ChangeNotifier {
 	bool get lineWrapInSong => _lineWrapInSong;
 	File? get backgroundImage => _backgroundImage;
 	double get backgroundOpacity => _backgroundOpacity;
+	List<String> get customFontFamilies => _customFonts.keys.toList();
 
 	Color chordsColor(BuildContext context) =>
 		_stringToColor(_chordsColor) ?? Theme.of(context).colorScheme.primary;
@@ -276,15 +280,77 @@ class SettingsProvider extends ChangeNotifier {
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
 
 		await _loadBackgroundImage();
+		await _loadFonts();
 
 
 		notifyListeners();
 	}
+
 	Future<void> _loadBackgroundImage() async {
 		final dir = await getApplicationSupportDirectory();
 		final savedFile = File(dir.path + '/background_img');
 		if (savedFile.existsSync()) {
 			_backgroundImage = savedFile;
+		}
+	}
+
+	Future<void> _loadFonts() async {
+		final dir = await getApplicationSupportDirectory();
+		final fontsDir = Directory(dir.path + '/fonts');
+		if (fontsDir.existsSync()) {
+			final files = fontsDir.listSync();
+			for (final file in files) {
+				if (file is File && (file.path.endsWith('.ttf') || file.path.endsWith('.otf')) ) {
+					await _loadFontFromFile(file);
+				}
+			}
+		}
+	}
+	Future<void> _loadFontFromFile(File fontFile) async {
+		final fontFamily = fontFile.uri.pathSegments.last.replaceAll(RegExp(r'\.(ttf|otf)$'), '');
+		final uniqueId = 'font_' + _customFonts.length.toString();
+
+		final fontLoader = FontLoader(uniqueId);
+		fontLoader.loadFont(await fontFile.readAsBytes(), fontFamily);
+		await fontLoader.load();
+
+		_customFonts[fontFamily] = fontFile;
+	}
+	Future<void> addNewCustomFont() async {
+		FilePickerResult? result = await FilePicker.pickFiles(
+			type: FileType.custom,
+			allowedExtensions: ['ttf', 'otf'],
+			allowMultiple: true,
+		);
+		if (result == null)
+			return;
+
+		for (final file in result.files) {
+			if (file.path != null) {
+				final sourceFile = File(file.path!);
+
+				final dir = await getApplicationSupportDirectory();
+				final fontsDir = Directory(dir.path + '/fonts');
+
+				if (!fontsDir.existsSync()) {
+					await fontsDir.create(recursive: true);
+				}
+
+
+				final savedFile = File(fontsDir.path + '/' + file.name);
+				await sourceFile.copy(savedFile.path);
+
+				await _loadFontFromFile(savedFile);
+			}
+		}
+	}
+	Future<void> removeCustomFont(String fontFamily) async {
+		final fontFile = _customFonts[fontFamily];
+		if (fontFile != null) {
+			if (fontFile.existsSync())
+				await fontFile.delete();
+
+			_customFonts.remove(fontFamily);
 		}
 	}
 
