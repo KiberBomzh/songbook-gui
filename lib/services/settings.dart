@@ -187,6 +187,7 @@ class SettingsProvider extends ChangeNotifier {
 		return TextStyle(
 			fontSize: size,
 			fontFamily: _songFontFamily,
+			fontWeight: .bold,
 		);
 	}
 	TextStyle fingeringsTitleStyle() {
