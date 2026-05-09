@@ -107,11 +107,24 @@ flutter:
         - asset: assets/fonts/JetBrainsMono/JetBrainsMono-VariableFont_wght.ttf
         - asset: assets/fonts/JetBrainsMono/JetBrainsMono-Italic-VariableFont_wght.ttf
           style: italic
+    - family: VictorMono
+      fonts:
+        - asset: assets/fonts/VictorMono/VictorMono-VariableFont_wght.ttf
+        - asset: assets/fonts/VictorMono/VictorMono-Italic-VariableFont_wght.ttf
+          style: italic
+    - family: Lilex
+      fonts:
+        - asset: assets/fonts/Lilex/Lilex-VariableFont_wght.ttf
+        - asset: assets/fonts/Lilex/Lilex-Italic-VariableFont_wght.ttf
+          style: italic
     - family: RobotoMono
       fonts:
         - asset: assets/fonts/RobotoMono/RobotoMono-VariableFont_wght.ttf
         - asset: assets/fonts/RobotoMono/RobotoMono-Italic-VariableFont_wght.ttf
           style: italic
+    - family: FiraCode
+      fonts:
+        - asset: assets/fonts/FiraCode-VariableFont_wght.ttf
     - family: PTMono
       fonts:
         - asset: assets/fonts/PTMono-Regular.ttf

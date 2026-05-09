@@ -66,7 +66,10 @@ enum FingeringSize {
 const List<String> FONT_FAMILIES = [
 	'JetBrainsMono',
 	'CascadiaMono',
+	'VictorMono',
+	'Lilex',
 	'RobotoMono',
+	'FiraCode',
 	'PTMono',
 ];
 
