@@ -350,7 +350,7 @@ class SongState extends State<SongScreen> {
 			body: (blocks.length > 0)
 				? Container(
 					margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom), //safe area
-					padding: const EdgeInsets.all(10),
+					padding: const EdgeInsets.symmetric(horizontal: 10),
 					height: double.infinity,
 					color: _settings.backgroundColor(context),
 					child: _buildBody(blocks),
@@ -383,6 +383,8 @@ class SongState extends State<SongScreen> {
 					child: Column(
 						crossAxisAlignment: .start,
 						children: [
+							const SizedBox(height: 10), // Отступ сверху
+
 							if (_showChords && _showFingerings && songFingerings != null) ...[
 								Center(
 									child: Wrap(
