@@ -16,6 +16,21 @@ const String EDITOR_FONT_SIZE = 'editor_font_size';
 const String EDITOR_FONT_FAMILY = 'editor_font_family';
 const String SONG_FONT_SIZE = 'song_font_size';
 const String SONG_FONT_FAMILY = 'song_font_family';
+const String TITLE_FONT_FAMILY = 'title_font_family';
+const String IS_TITLE_BOLD = 'is_title_bold';
+const String IS_TITLE_ITALIC = 'is_title_italic';
+const String NOTES_FONT_FAMILY = 'notes_font_family';
+const String IS_NOTES_BOLD = 'is_notes_bold';
+const String IS_NOTES_ITALIC = 'is_notes_italic';
+const String FINGERINGS_FONT_FAMILY = 'fingerings_font_family';
+const String IS_FINGERINGS_BOLD = 'is_fingerings_bold';
+const String IS_FINGERINGS_ITALIC = 'is_fingerings_italic';
+const String TAB_FONT_FAMILY = 'tab_font_family';
+const String IS_TAB_BOLD = 'is_tab_bold';
+const String IS_TAB_ITALIC = 'is_tab_italic';
+const String PLAIN_TEXT_FONT_FAMILY = 'plain_text_font_family';
+const String IS_PLAIN_TEXT_BOLD = 'is_plain_text_bold';
+const String IS_PLAIN_TEXT_ITALIC = 'is_plain_text_italic';
 const String CHORDS_COLOR = 'chords_color';
 const String RHYTHM_COLOR = 'rhythm_color';
 const String TEXT_COLOR = 'text_color';
@@ -84,6 +99,29 @@ class SettingsProvider extends ChangeNotifier {
 	String _editorFontFamily = 'CascadiaMono';
 	double _songFontSize = 14;
 	String _songFontFamily = 'JetBrainsMono';
+
+
+	String? _titleFontFamily;
+	bool _isTitleBold = true;
+	bool _isTitleItalic = false;
+
+	String? _notesFontFamily;
+	bool _isNotesBold = false;
+	bool _isNotesItalic = false;
+
+	String? _fingeringsFontFamily;
+	bool _isFingeringsBold = true;
+	bool _isFingeringsItalic = false;
+
+	String? _tabFontFamily;
+	bool _isTabBold = true;
+	bool _isTabItalic = false;
+
+	String? _plainTextFontFamily;
+	bool _isPlainTextBold = false;
+	bool _isPlainTextItalic = false;
+
+
 	String? _chordsColor;
 	String? _rhythmColor;
 	String? _textColor;
@@ -113,10 +151,59 @@ class SettingsProvider extends ChangeNotifier {
 
 	bool get isAmoled => _isAmoled;
 	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
+
 	double get editorFontSize => _editorFontSize;
 	String get editorFontFamily => _editorFontFamily;
+
 	double get songFontSize => _songFontSize;
 	String get songFontFamily => _songFontFamily;
+
+
+	String get titleFontFamily => _titleFontFamily ?? _songFontFamily;
+	bool get isTitleBold => _isTitleBold;
+	bool get isTitleItalic => _isTitleItalic;
+	bool get isTitleStyleNull => (
+		_titleFontFamily == null &&
+		Preferences.getBool(IS_TITLE_BOLD) == null &&
+		Preferences.getBool(IS_TITLE_ITALIC) == null
+	);
+
+	String get notesFontFamily => _notesFontFamily ?? _songFontFamily;
+	bool get isNotesBold => _isNotesBold;
+	bool get isNotesItalic => _isNotesItalic;
+	bool get isNotesStyleNull => (
+		_notesFontFamily == null &&
+		Preferences.getBool(IS_NOTES_BOLD) == null &&
+		Preferences.getBool(IS_NOTES_ITALIC) == null
+	);
+
+	String get fingeringsFontFamily => _fingeringsFontFamily ?? _songFontFamily;
+	bool get isFingeringsBold => _isFingeringsBold;
+	bool get isFingeringsItalic => _isFingeringsItalic;
+	bool get isFingeringsStyleNull => (
+		_fingeringsFontFamily == null &&
+		Preferences.getBool(IS_FINGERINGS_BOLD) == null &&
+		Preferences.getBool(IS_FINGERINGS_ITALIC) == null
+	);
+
+	String get tabFontFamily => _tabFontFamily ?? _songFontFamily;
+	bool get isTabBold => _isTabBold;
+	bool get isTabItalic => _isTabItalic;
+	bool get isTabStyleNull => (
+		_tabFontFamily == null &&
+		Preferences.getBool(IS_TAB_BOLD) == null &&
+		Preferences.getBool(IS_TAB_ITALIC) == null
+	);
+
+	String get plainTextFontFamily => _plainTextFontFamily ?? _songFontFamily;
+	bool get isPlainTextBold => _isPlainTextBold;
+	bool get isPlainTextItalic => _isPlainTextItalic;
+	bool get isPlainTextStyleNull => (
+		_plainTextFontFamily == null &&
+		Preferences.getBool(IS_PLAIN_TEXT_BOLD) == null &&
+		Preferences.getBool(IS_PLAIN_TEXT_ITALIC) == null
+	);
+
 	bool get lineWrapInSong => _lineWrapInSong;
 	File? get backgroundImage => _backgroundImage;
 	double get backgroundOpacity => _backgroundOpacity;
@@ -171,11 +258,24 @@ class SettingsProvider extends ChangeNotifier {
 	TextStyle notesStyle(BuildContext context) => TextStyle(
 		color: notesColor(context),
 		fontSize: _songFontSize * 0.9,
+		fontFamily: _notesFontFamily,
+		fontWeight: _isNotesBold
+			? .bold
+			: .normal,
+		fontStyle: _isNotesItalic
+			? .italic
+			: .normal,
 	);
 	TextStyle titleStyle(BuildContext context) => TextStyle(
 		color: titleColor(context),
 		fontSize: _songFontSize * 1.5,
-		fontWeight: .bold,
+		fontFamily: _titleFontFamily,
+		fontWeight: _isTitleBold
+			? .bold
+			: .normal,
+		fontStyle: _isTitleItalic
+			? .italic
+			: .normal,
 	);
 	TextStyle fingeringsStyle() {
 		final size = switch (fingeringSizeInSong) {
@@ -186,8 +286,13 @@ class SettingsProvider extends ChangeNotifier {
 
 		return TextStyle(
 			fontSize: size,
-			fontFamily: _songFontFamily,
-			fontWeight: .bold,
+			fontFamily: _fingeringsFontFamily ?? _songFontFamily,
+			fontWeight: _isFingeringsBold
+				? .bold
+				: .normal,
+			fontStyle: _isFingeringsItalic
+				? .italic
+				: .normal,
 		);
 	}
 	TextStyle fingeringsTitleStyle() {
@@ -201,6 +306,28 @@ class SettingsProvider extends ChangeNotifier {
 			fontSize: size,
 		);
 	}
+	TextStyle tabStyle(BuildContext context) => TextStyle(
+		color: textColor(context),
+		fontFamily: _tabFontFamily ?? _songFontFamily,
+		fontSize: _songFontSize,
+		fontWeight: _isTabBold
+			? .bold
+			: .normal,
+		fontStyle: _isTabItalic
+			? .italic
+			: .normal,
+	);
+	TextStyle plainTextStyle(BuildContext context) => TextStyle(
+		color: textColor(context),
+		fontFamily: _plainTextFontFamily ?? _songFontFamily,
+		fontSize: _songFontSize,
+		fontWeight: _isPlainTextBold
+			? .bold
+			: .normal,
+		fontStyle: _isPlainTextItalic
+			? .italic
+			: .normal,
+	);
 	TextStyle editorStyle() => TextStyle(
 		fontFamily: _editorFontFamily,
 		fontSize: _editorFontSize,
@@ -273,6 +400,21 @@ class SettingsProvider extends ChangeNotifier {
 		_editorFontFamily = Preferences.getString(EDITOR_FONT_FAMILY) ?? 'CascadiaMono';
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
 		_songFontFamily = Preferences.getString(SONG_FONT_FAMILY) ?? 'JetBrainsMono';
+		_titleFontFamily = Preferences.getString(TITLE_FONT_FAMILY);
+		_isTitleBold = Preferences.getBool(IS_TITLE_BOLD) ?? true;
+		_isTitleItalic = Preferences.getBool(IS_TITLE_ITALIC) ?? false;
+		_notesFontFamily = Preferences.getString(NOTES_FONT_FAMILY);
+		_isNotesBold = Preferences.getBool(IS_NOTES_BOLD) ?? false;
+		_isNotesItalic = Preferences.getBool(IS_NOTES_ITALIC) ?? false;
+		_fingeringsFontFamily = Preferences.getString(FINGERINGS_FONT_FAMILY);
+		_isFingeringsBold = Preferences.getBool(IS_FINGERINGS_BOLD) ?? true;
+		_isFingeringsItalic = Preferences.getBool(IS_FINGERINGS_ITALIC) ?? false;
+		_tabFontFamily = Preferences.getString(TAB_FONT_FAMILY);
+		_isTabBold = Preferences.getBool(IS_TAB_BOLD) ?? true;
+		_isTabItalic = Preferences.getBool(IS_TAB_ITALIC) ?? false;
+		_plainTextFontFamily = Preferences.getString(PLAIN_TEXT_FONT_FAMILY);
+		_isPlainTextBold = Preferences.getBool(IS_PLAIN_TEXT_BOLD) ?? false;
+		_isPlainTextItalic = Preferences.getBool(IS_PLAIN_TEXT_ITALIC) ?? false;
 		_chordsColor = Preferences.getString(CHORDS_COLOR);
 		_rhythmColor = Preferences.getString(RHYTHM_COLOR);
 		_textColor = Preferences.getString(TEXT_COLOR);
@@ -420,6 +562,111 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	Future<void> setTitleFontFamily(String value) async {
+		_titleFontFamily = value;
+		await Preferences.setString(TITLE_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsTitleBold(bool value) async {
+		_isTitleBold = value;
+		await Preferences.setBool(IS_TITLE_BOLD, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsTitleItalic(bool value) async {
+		_isTitleItalic = value;
+		await Preferences.setBool(IS_TITLE_ITALIC, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setNotesFontFamily(String value) async {
+		_notesFontFamily = value;
+		await Preferences.setString(NOTES_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsNotesBold(bool value) async {
+		_isNotesBold = value;
+		await Preferences.setBool(IS_NOTES_BOLD, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsNotesItalic(bool value) async {
+		_isNotesItalic = value;
+		await Preferences.setBool(IS_NOTES_ITALIC, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setFingeringsFontFamily(String value) async {
+		_fingeringsFontFamily = value;
+		await Preferences.setString(FINGERINGS_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsFingeringsBold(bool value) async {
+		_isFingeringsBold = value;
+		await Preferences.setBool(IS_FINGERINGS_BOLD, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsFingeringsItalic(bool value) async {
+		_isFingeringsItalic = value;
+		await Preferences.setBool(IS_FINGERINGS_ITALIC, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setTabFontFamily(String value) async {
+		_tabFontFamily = value;
+		await Preferences.setString(TAB_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsTabBold(bool value) async {
+		_isTabBold = value;
+		await Preferences.setBool(IS_TAB_BOLD, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsTabItalic(bool value) async {
+		_isTabItalic = value;
+		await Preferences.setBool(IS_TAB_ITALIC, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setPlainTextFontFamily(String value) async {
+		_plainTextFontFamily = value;
+		await Preferences.setString(PLAIN_TEXT_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsPlainTextBold(bool value) async {
+		_isPlainTextBold = value;
+		await Preferences.setBool(IS_PLAIN_TEXT_BOLD, value);
+
+		notifyListeners();
+	}
+
+	Future<void> setIsPlainTextItalic(bool value) async {
+		_isPlainTextItalic = value;
+		await Preferences.setBool(IS_PLAIN_TEXT_ITALIC, value);
+
+		notifyListeners();
+	}
+
 	Future<void> setChordsColor(String? value) async {
 		_chordsColor = value;
 		if (value != null)
@@ -523,6 +770,71 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> resetBackgroundImage() async {
 		await _backgroundImage?.delete();
 		_backgroundImage = null;
+
+		notifyListeners();
+	}
+
+	Future<void> resetTitleStyle() async {
+		_titleFontFamily = null;
+		await Preferences.remove(TITLE_FONT_FAMILY);
+
+		_isTitleBold = true;
+		await Preferences.remove(IS_TITLE_BOLD);
+
+		_isTitleItalic = false;
+		await Preferences.remove(IS_TITLE_ITALIC);
+
+
+		notifyListeners();
+	}
+	Future<void> resetNotesStyle() async {
+		_notesFontFamily = null;
+		await Preferences.remove(NOTES_FONT_FAMILY);
+
+		_isNotesBold = false;
+		await Preferences.remove(IS_NOTES_BOLD);
+
+		_isNotesItalic = false;
+		await Preferences.remove(IS_NOTES_ITALIC);
+
+
+		notifyListeners();
+	}
+	Future<void> resetFingeringsStyle() async {
+		_fingeringsFontFamily = null;
+		await Preferences.remove(FINGERINGS_FONT_FAMILY);
+
+		_isFingeringsBold = true;
+		await Preferences.remove(IS_FINGERINGS_BOLD);
+
+		_isFingeringsItalic = false;
+		await Preferences.remove(IS_FINGERINGS_ITALIC);
+
+
+		notifyListeners();
+	}
+	Future<void> resetTabStyle() async {
+		_tabFontFamily = null;
+		await Preferences.remove(TAB_FONT_FAMILY);
+
+		_isTabBold = true;
+		await Preferences.remove(IS_TAB_BOLD);
+
+		_isTabItalic = false;
+		await Preferences.remove(IS_TAB_ITALIC);
+
+
+		notifyListeners();
+	}
+	Future<void> resetPlainTextStyle() async {
+		_plainTextFontFamily = null;
+		await Preferences.remove(PLAIN_TEXT_FONT_FAMILY);
+
+		_isPlainTextBold = false;
+		await Preferences.remove(IS_PLAIN_TEXT_BOLD);
+
+		_isPlainTextItalic = false;
+		await Preferences.remove(IS_PLAIN_TEXT_ITALIC);
 
 		notifyListeners();
 	}

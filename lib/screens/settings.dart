@@ -193,7 +193,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Font Family',
+			text: 'Font family',
 			child: Text(_settings.editorFontFamily),
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -263,7 +263,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Font Family',
+			text: 'Font family',
 			child: Text(_settings.songFontFamily),
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -274,6 +274,267 @@ class _SettingsState extends State<SettingsScreen> {
 					await _settings.setSongFontFamily(newFontFamily!);
 			},
 		),
+
+		_buildExpansionItem(
+			title: Row(
+				mainAxisAlignment: .spaceBetween,
+				children: [
+					Flexible(
+						child: Text('Title', style: Theme.of(context).textTheme.bodyMedium),
+					),
+					const SizedBox(width: 15),
+
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (_settings.isTitleStyleNull)
+							? null
+							: () => _settings.resetTitleStyle(),
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+				],
+			),
+			children: [
+				_buildItem(
+					text: 'Font family',
+					child: Text(_settings.titleFontFamily),
+					onTap: () async {
+						final String? newFontFamily = await showModalBottomSheet<String?>(
+							context: context,
+							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.titleFontFamily)
+						);
+						if (newFontFamily != null)
+							await _settings.setTitleFontFamily(newFontFamily!);
+					},
+				),
+				_buildItem(
+					text: 'Bold',
+					child: Switch(
+						value: _settings.isTitleBold,
+						onChanged: _settings.setIsTitleBold,
+					),
+					onTap: null,
+				),
+				_buildItem(
+					text: 'Italic',
+					child: Switch(
+						value: _settings.isTitleItalic,
+						onChanged: _settings.setIsTitleItalic,
+					),
+					onTap: null,
+				),
+			],
+		),
+
+		_buildExpansionItem(
+			title: Row(
+				mainAxisAlignment: .spaceBetween,
+				children: [
+					Flexible(
+						child: Text('Notes', style: Theme.of(context).textTheme.bodyMedium),
+					),
+					const SizedBox(width: 15),
+
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (_settings.isNotesStyleNull)
+							? null
+							: () => _settings.resetNotesStyle(),
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+				],
+			),
+			children: [
+				_buildItem(
+					text: 'Font family',
+					child: Text(_settings.notesFontFamily),
+					onTap: () async {
+						final String? newFontFamily = await showModalBottomSheet<String?>(
+							context: context,
+							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.notesFontFamily)
+						);
+						if (newFontFamily != null)
+							await _settings.setNotesFontFamily(newFontFamily!);
+					},
+				),
+				_buildItem(
+					text: 'Bold',
+					child: Switch(
+						value: _settings.isNotesBold,
+						onChanged: _settings.setIsNotesBold,
+					),
+					onTap: null,
+				),
+				_buildItem(
+					text: 'Italic',
+					child: Switch(
+						value: _settings.isNotesItalic,
+						onChanged: _settings.setIsNotesItalic,
+					),
+					onTap: null,
+				),
+			],
+		),
+
+		_buildExpansionItem(
+			title: Row(
+				mainAxisAlignment: .spaceBetween,
+				children: [
+					Flexible(
+						child: Text('Fingerings', style: Theme.of(context).textTheme.bodyMedium),
+					),
+					const SizedBox(width: 15),
+
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (_settings.isFingeringsStyleNull)
+							? null
+							: () => _settings.resetFingeringsStyle(),
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+				],
+			),
+			children: [
+				_buildItem(
+					text: 'Font family',
+					child: Text(_settings.fingeringsFontFamily),
+					onTap: () async {
+						final String? newFontFamily = await showModalBottomSheet<String?>(
+							context: context,
+							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.fingeringsFontFamily)
+						);
+						if (newFontFamily != null)
+							await _settings.setFingeringsFontFamily(newFontFamily!);
+					},
+				),
+				_buildItem(
+					text: 'Bold',
+					child: Switch(
+						value: _settings.isFingeringsBold,
+						onChanged: _settings.setIsFingeringsBold,
+					),
+					onTap: null,
+				),
+				_buildItem(
+					text: 'Italic',
+					child: Switch(
+						value: _settings.isFingeringsItalic,
+						onChanged: _settings.setIsFingeringsItalic,
+					),
+					onTap: null,
+				),
+			],
+		),
+
+		_buildExpansionItem(
+			title: Row(
+				mainAxisAlignment: .spaceBetween,
+				children: [
+					Flexible(
+						child: Text('Tab', style: Theme.of(context).textTheme.bodyMedium),
+					),
+					const SizedBox(width: 15),
+
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (_settings.isTabStyleNull)
+							? null
+							: () => _settings.resetTabStyle(),
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+				],
+			),
+			children: [
+				_buildItem(
+					text: 'Font family',
+					child: Text(_settings.tabFontFamily),
+					onTap: () async {
+						final String? newFontFamily = await showModalBottomSheet<String?>(
+							context: context,
+							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.tabFontFamily)
+						);
+						if (newFontFamily != null)
+							await _settings.setTabFontFamily(newFontFamily!);
+					},
+				),
+				_buildItem(
+					text: 'Bold',
+					child: Switch(
+						value: _settings.isTabBold,
+						onChanged: _settings.setIsTabBold,
+					),
+					onTap: null,
+				),
+				_buildItem(
+					text: 'Italic',
+					child: Switch(
+						value: _settings.isTabItalic,
+						onChanged: _settings.setIsTabItalic,
+					),
+					onTap: null,
+				),
+			],
+		),
+
+		_buildExpansionItem(
+			title: Row(
+				mainAxisAlignment: .spaceBetween,
+				children: [
+					Flexible(
+						child: Text('Plain text', style: Theme.of(context).textTheme.bodyMedium),
+					),
+					const SizedBox(width: 15),
+
+					ElevatedButton(
+						child: Text('Reset'),
+						onPressed: (_settings.isPlainTextStyleNull)
+							? null
+							: () => _settings.resetPlainTextStyle(),
+						style: ElevatedButton.styleFrom(
+							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+						),
+					),
+				],
+			),
+			children: [
+				_buildItem(
+					text: 'Font family',
+					child: Text(_settings.plainTextFontFamily),
+					onTap: () async {
+						final String? newFontFamily = await showModalBottomSheet<String?>(
+							context: context,
+							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.plainTextFontFamily)
+						);
+						if (newFontFamily != null)
+							await _settings.setPlainTextFontFamily(newFontFamily!);
+					},
+				),
+				_buildItem(
+					text: 'Bold',
+					child: Switch(
+						value: _settings.isPlainTextBold,
+						onChanged: _settings.setIsPlainTextBold,
+					),
+					onTap: null,
+				),
+				_buildItem(
+					text: 'Italic',
+					child: Switch(
+						value: _settings.isPlainTextItalic,
+						onChanged: _settings.setIsPlainTextItalic,
+					),
+					onTap: null,
+				),
+			],
+		),
+
 
 		_buildItem(
 			text: 'Chords color',
@@ -558,6 +819,19 @@ class _SettingsState extends State<SettingsScreen> {
 						],
 					),
 				),
+			),
+		);
+	}
+
+	Widget _buildExpansionItem({
+		required Widget title,
+		required List<Widget> children,
+	}) {
+		return Padding(
+			padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+			child: ExpansionTile(
+				title: title,
+				children: children,
 			),
 		);
 	}

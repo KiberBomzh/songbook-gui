@@ -55,6 +55,8 @@ class SongState extends State<SongScreen> {
 	late TextStyle _textStyle;
 	late TextStyle _notesStyle;
 	late TextStyle _titleStyle;
+	late TextStyle _plainTextStyle;
+	late TextStyle _tabStyle;
 	late double _fontSize;
 
 
@@ -178,6 +180,8 @@ class SongState extends State<SongScreen> {
 		_textStyle = _settings.textStyle(context);
 		_notesStyle = _settings.notesStyle(context);
 		_titleStyle = _settings.titleStyle(context);
+		_plainTextStyle = _settings.plainTextStyle(context);
+		_tabStyle = _settings.tabStyle(context);
 		_fontSize = _settings.songFontSize;
 
 		_calculateLineHeight();
@@ -460,9 +464,9 @@ class SongState extends State<SongScreen> {
 						SimpleLine_ChordsLine(field0: String chords) => (_showChords)
 							? Text(chords, style: _chordsStyle)
 							: SizedBox(),
-						SimpleLine_PlainText(field0: String text) => Text(text, style: _textStyle),
+						SimpleLine_PlainText(field0: String text) => Text(text, style: _plainTextStyle),
 						SimpleLine_Tab(field0: String tab) => TabWidget(
-							text: Text(tab, style: _textStyle),
+							text: Text(tab, style: _tabStyle),
 						),
 						SimpleLine_EmptyLine() => Text('', style: _textStyle),
 					};
