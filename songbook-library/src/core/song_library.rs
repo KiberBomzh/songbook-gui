@@ -2,7 +2,7 @@ pub mod lib_functions;
 
 use std::path::{PathBuf, Path};
 use std::fs::{self, File};
-use std::io::{BufWriter, BufReader, Write, Error, ErrorKind, stdout};
+use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind, stdout};
 use std::process::{Command, Stdio};
 
 use include_dir::{include_dir, Dir};
@@ -10,6 +10,11 @@ use anyhow::Result;
 use crossterm::{
     execute,
     style::{Color, Print, ResetColor, SetForegroundColor}
+};
+use zip::{
+    write::FileOptions,
+    ZipWriter,
+    ZipArchive,
 };
 
 use crate::{Song, Fingering};
@@ -111,6 +116,112 @@ pub fn add(song: &Song) -> Result<()> {
 
     serde_yaml::to_writer(writer, &song)?;
 
+
+    Ok(())
+}
+
+
+pub fn export_backup(out_path: &Path) -> Result<()> {
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow::anyhow!("Cannot get base path!"));
+    };
+    let lib_path = base_path.join("library");
+    let fingerings_path = base_path.join("fingerings");
+
+
+    let file = File::create(out_path)?;
+    let mut zip = ZipWriter::new(file);
+
+    add_in_zip_recursive(&mut zip, &base_path, &lib_path)?;
+    add_in_zip_recursive(&mut zip, &base_path, &fingerings_path)?;
+    zip.finish()?;
+
+    Ok(())
+}
+fn add_in_zip_recursive(
+    zip: &mut ZipWriter<File>,
+    base_path: &Path,
+    current_path: &Path
+) -> Result<()> {
+    for entry in fs::read_dir(current_path)? {
+        let path = entry?.path();
+        let rel_path = path.strip_prefix(base_path)?;
+        if path.is_dir() {
+            let dir_name = rel_path.to_string_lossy();
+            if !dir_name.is_empty() {
+                zip.add_directory::<_, ()>(
+                    format!("{}/", dir_name),
+                    FileOptions::default(),
+                )?;
+            }
+
+            add_in_zip_recursive(zip, base_path, &path)?;
+        } else if path.is_file() {
+            let file_name = rel_path.to_string_lossy();
+            zip.start_file::<_, ()>(file_name, FileOptions::default())?;
+
+            let mut file = File::open(&path)?;
+            let mut buffer = Vec::new();
+            file.read_to_end(&mut buffer)?;
+            zip.write_all(&buffer)?;
+        }
+    }
+
+    Ok(())
+}
+
+pub fn import_backup(path: &Path) -> Result<()> {
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow::anyhow!("Cannot get base path!"));
+    };
+    let lib_path = base_path.join("library");
+    let fingerings_path = base_path.join("fingerings");
+
+    let temp_dir = base_path.join("temp");
+    fs::create_dir_all(&temp_dir)?;
+
+    extract_zip(path, &temp_dir)?;
+
+    let temp_fingerings_dir = temp_dir.join("fingerings");
+    let temp_lib_dir = temp_dir.join("library");
+
+    fs::remove_dir_all(&fingerings_path)?;
+    fs::rename(&temp_fingerings_dir, &fingerings_path)?;
+    
+    fs::remove_dir_all(&lib_path)?;
+    fs::rename(&temp_lib_dir, &lib_path)?;
+
+    fs::remove_dir_all(&temp_dir)?;
+
+
+    Ok(())
+}
+fn extract_zip(archive_path: &Path, output_dir: &Path) -> Result<()> {
+    let file = File::open(archive_path)?;
+    let mut archive = ZipArchive::new(file)?;
+
+    for i in 0..archive.len() {
+        let mut entry = archive.by_index(i)?;
+        let entry_name = entry.name().to_string();
+
+        let output_path = output_dir.join(&entry_name);
+        if entry.is_dir() {
+            fs::create_dir_all(&output_path)?;
+        } else if entry.is_file() {
+            if let Some(parent) = output_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+
+            let mut output_file = File::create(output_path)?;
+            let mut buffer = Vec::new();
+            entry.read_to_end(&mut buffer)?;
+            output_file.write_all(&buffer)?;
+        }
+    }
 
     Ok(())
 }

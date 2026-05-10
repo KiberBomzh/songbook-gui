@@ -87,6 +87,10 @@ enum Command {
     #[command(subcommand)]
     Add(AddSubcommand),
 
+    /// Backup commands
+    #[command(subcommand)]
+    Backup(BackupSubcommand),
+
     /// Sort songs in folders: artist/song
     Sort,
 
@@ -139,6 +143,12 @@ enum AddSubcommand {
         #[arg(long, short)]
         title: String,
     }
+}
+
+#[derive(Subcommand, Debug, Clone)]
+enum BackupSubcommand {
+    Export { path: PathBuf },
+    Import { path: PathBuf },
 }
 
 
@@ -259,6 +269,12 @@ fn main() {
                     song_library::add(&song)
                         .expect("Error during adding a song!");
                 }
+            },
+            Command::Backup(subcommand) => match subcommand {
+                BackupSubcommand::Export { path } => song_library::export_backup(&path)
+                    .expect("Error during bakcup export"),
+                BackupSubcommand::Import { path } => song_library::import_backup(&path)
+                    .expect("Error during backup import"),
             },
             Command::Sort => song_library::sort()
                 .expect("Error during sorting!"),
