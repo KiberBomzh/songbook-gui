@@ -777,6 +777,9 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> resetCustomFonts() async {
 		final dir = await getApplicationSupportDirectory();
 		final fontsDir = Directory(dir.path + '/fonts');
+		if (!fontsDir.existsSync())
+			return;
+
 		await fontsDir.delete(recursive: true);
 		_customFonts = {};
 	}
