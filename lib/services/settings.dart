@@ -164,8 +164,8 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isTitleItalic => _isTitleItalic;
 	bool get isTitleStyleNull => (
 		_titleFontFamily == null &&
-		Preferences.getBool(IS_TITLE_BOLD) == null &&
-		Preferences.getBool(IS_TITLE_ITALIC) == null
+		_isTitleBold == true &&
+		_isTitleItalic == false
 	);
 
 	String get notesFontFamily => _notesFontFamily ?? _songFontFamily;
@@ -173,8 +173,8 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isNotesItalic => _isNotesItalic;
 	bool get isNotesStyleNull => (
 		_notesFontFamily == null &&
-		Preferences.getBool(IS_NOTES_BOLD) == null &&
-		Preferences.getBool(IS_NOTES_ITALIC) == null
+		_isNotesBold == false &&
+		_isNotesItalic == false
 	);
 
 	String get fingeringsFontFamily => _fingeringsFontFamily ?? _songFontFamily;
@@ -182,8 +182,8 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isFingeringsItalic => _isFingeringsItalic;
 	bool get isFingeringsStyleNull => (
 		_fingeringsFontFamily == null &&
-		Preferences.getBool(IS_FINGERINGS_BOLD) == null &&
-		Preferences.getBool(IS_FINGERINGS_ITALIC) == null
+		_isFingeringsBold == true &&
+		_isFingeringsItalic == false
 	);
 
 	String get tabFontFamily => _tabFontFamily ?? _songFontFamily;
@@ -191,8 +191,8 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isTabItalic => _isTabItalic;
 	bool get isTabStyleNull => (
 		_tabFontFamily == null &&
-		Preferences.getBool(IS_TAB_BOLD) == null &&
-		Preferences.getBool(IS_TAB_ITALIC) == null
+		_isTabBold == true &&
+		_isTabItalic == false
 	);
 
 	String get plainTextFontFamily => _plainTextFontFamily ?? _songFontFamily;
@@ -200,8 +200,8 @@ class SettingsProvider extends ChangeNotifier {
 	bool get isPlainTextItalic => _isPlainTextItalic;
 	bool get isPlainTextStyleNull => (
 		_plainTextFontFamily == null &&
-		Preferences.getBool(IS_PLAIN_TEXT_BOLD) == null &&
-		Preferences.getBool(IS_PLAIN_TEXT_ITALIC) == null
+		_isPlainTextBold == false &&
+		_isPlainTextItalic == false
 	);
 
 	bool get lineWrapInSong => _lineWrapInSong;
@@ -774,6 +774,13 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	Future<void> resetCustomFonts() async {
+		final dir = await getApplicationSupportDirectory();
+		final fontsDir = Directory(dir.path + '/fonts');
+		await fontsDir.delete(recursive: true);
+		_customFonts = {};
+	}
+
 	Future<void> resetTitleStyle() async {
 		_titleFontFamily = null;
 		await Preferences.remove(TITLE_FONT_FAMILY);
@@ -842,6 +849,8 @@ class SettingsProvider extends ChangeNotifier {
 
 
 	Future<void> resetToDefault() async {
+		await resetBackgroundImage();
+		await resetCustomFonts();
 		await Preferences.clear();
 		_loadAllSettings();
 	}
