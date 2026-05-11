@@ -7,6 +7,28 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'song.dart';
 
+void exportBackup({
+  required String outputPathStr,
+  required Map<String, String> settings,
+  String? fontsPath,
+  String? backgroundPath,
+}) => RustLib.instance.api.crateApiLibraryExportBackup(
+  outputPathStr: outputPathStr,
+  settings: settings,
+  fontsPath: fontsPath,
+  backgroundPath: backgroundPath,
+);
+
+Map<String, String> importBackup({
+  required String backupPathStr,
+  required String fontsPathStr,
+  required String backgroundPathStr,
+}) => RustLib.instance.api.crateApiLibraryImportBackup(
+  backupPathStr: backupPathStr,
+  fontsPathStr: fontsPathStr,
+  backgroundPathStr: backgroundPathStr,
+);
+
 (List<String>, List<String>, String) readDirectory({String? pathStr}) =>
     RustLib.instance.api.crateApiLibraryReadDirectory(pathStr: pathStr);
 

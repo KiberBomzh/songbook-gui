@@ -1,10 +1,208 @@
 use std::path::PathBuf;
+use std::collections::HashMap;
 
 use anyhow::{Result, anyhow};
 use songbook::song_library::lib_functions::*;
 use songbook::song_library::*;
 use songbook::{Song, Metadata};
 
+
+
+const LIB_BACKUP_NAME: &str = "lib_backup.zip";
+const SETTINGS_BACKUP_NAME: &str = "settings.txt";
+const BACKGROUND_BACKUP_NAME: &str = "background_image";
+const FONTS_BACKUP_DIR_NAME: &str = "fonts";
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn export_backup(
+    output_path_str: String,
+    settings: HashMap<String, String>,
+    fonts_path: Option<String>,
+    background_path: Option<String>,
+) -> Result<()> {
+    use std::fs;
+    use std::io::{self, Write, Read};
+    use songbook::song_library;
+    use zip::{
+        write::FileOptions,
+        ZipWriter,
+    };
+
+    let output_path = PathBuf::from(output_path_str);
+
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow!("Cannot get base path!"));
+    };
+    let temp_dir = base_path.join("temp");
+    fs::create_dir_all(&temp_dir)?;
+
+    let library_backup = temp_dir.join(LIB_BACKUP_NAME);
+    song_library::export_backup(&library_backup)?;
+
+    let settings_backup = temp_dir.join(SETTINGS_BACKUP_NAME);
+    let file = fs::File::create(&settings_backup)?;
+    let mut writer = io::BufWriter::new(file);
+    for (key, value) in settings {
+        writeln!(writer, "{key} {value}")?;
+    }
+    writer.flush()?;
+
+
+    let file = fs::File::create(output_path)?;
+    let mut zip = ZipWriter::new(file);
+    let mut buffer = Vec::new();
+
+    zip.start_file::<_, ()>(LIB_BACKUP_NAME, FileOptions::default())?;
+    let mut file = fs::File::open(library_backup)?;
+    file.read_to_end(&mut buffer)?;
+    zip.write_all(&buffer)?;
+    buffer.clear();
+
+    zip.start_file::<_, ()>(SETTINGS_BACKUP_NAME, FileOptions::default())?;
+    let mut file = fs::File::open(settings_backup)?;
+    file.read_to_end(&mut buffer)?;
+    zip.write_all(&buffer)?;
+    buffer.clear();
+
+    if let Some(background_path_str) = background_path {
+        let background_path = PathBuf::from(background_path_str);
+
+        zip.start_file::<_, ()>(BACKGROUND_BACKUP_NAME, FileOptions::default())?;
+        let mut file = fs::File::open(background_path)?;
+        file.read_to_end(&mut buffer)?;
+        zip.write_all(&buffer)?;
+        buffer.clear();
+    }
+
+    if let Some(dir) = fonts_path {
+        let fonts_dir = PathBuf::from(dir);
+        zip.add_directory::<_, ()>(FONTS_BACKUP_DIR_NAME, FileOptions::default())?;
+        for entry in fs::read_dir(&fonts_dir)? {
+            let path = entry?.path();
+            if !path.is_file() { continue }
+
+            let font_name = path
+                .strip_prefix(&fonts_dir)?
+                .to_string_lossy();
+
+            zip.start_file::<_, ()>(font_name, FileOptions::default())?;
+            let mut file = fs::File::open(path)?;
+            file.read_to_end(&mut buffer)?;
+            zip.write_all(&buffer)?;
+            buffer.clear();
+        }
+    }
+    
+
+    zip.finish()?;
+    fs::remove_dir_all(&temp_dir)?;
+
+
+    Ok(())
+}
+#[flutter_rust_bridge::frb(sync)]
+pub fn import_backup(
+    backup_path_str: String,
+    fonts_path_str: String,
+    background_path_str: String,
+) -> Result<HashMap<String, String>> {
+    use std::fs::{self, File};
+    use std::io::{Write, Read};
+    use zip::ZipArchive;
+    use songbook::song_library;
+
+    let backup = PathBuf::from(backup_path_str);
+    let fonts_dir = PathBuf::from(fonts_path_str);
+    let background_path = PathBuf::from(background_path_str);
+
+    let mut settings = HashMap::new();
+
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow!("Cannot get base path!"));
+    };
+    let temp_dir = base_path.join("temp_dir");
+    fs::create_dir_all(&temp_dir)?;
+
+    let temp_fonts_dir = temp_dir.join(FONTS_BACKUP_DIR_NAME);
+    let temp_background_path = temp_dir.join(BACKGROUND_BACKUP_NAME);
+    let temp_lib_backup_path = temp_dir.join(LIB_BACKUP_NAME);
+
+
+    let file = File::open(backup)?;
+    let mut archive = ZipArchive::new(file)?;
+    let mut buffer = Vec::new();
+
+    {
+        let mut settings_entry = archive.by_name(SETTINGS_BACKUP_NAME)?;
+        let mut settings_buffer = String::new();
+        settings_entry.read_to_string(&mut settings_buffer)?;
+        for line in settings_buffer.lines() {
+            if let Some(key_end_index) = line.find(" ") {
+                let key = line[..key_end_index].trim().to_string();
+                let value = line[key_end_index..].trim().to_string();
+                settings.insert(key, value);
+            }
+        }
+    }
+
+    {
+        let mut lib_backup_entry = archive.by_name(LIB_BACKUP_NAME)?;
+        let mut output_file = File::create(&temp_lib_backup_path)?;
+        lib_backup_entry.read_to_end(&mut buffer)?;
+        output_file.write_all(&buffer)?;
+        buffer.clear();
+    }
+
+    if let Ok(mut background_entry) = archive.by_name(BACKGROUND_BACKUP_NAME) {
+        let mut output_file = File::create(&temp_background_path)?;
+        background_entry.read_to_end(&mut buffer)?;
+        output_file.write_all(&buffer)?;
+        buffer.clear();
+    }
+
+    for i in 0..archive.len() {
+        let mut entry = archive.by_index(i)?;
+        let entry_name = entry.name().to_string();
+        if entry_name.starts_with(FONTS_BACKUP_DIR_NAME) {
+            let rel_path = if let Some(n) =
+                entry_name.strip_prefix(FONTS_BACKUP_DIR_NAME) { n }
+                else { continue };
+            if rel_path.is_empty() && entry.is_dir() { continue }
+
+            let output_path = temp_fonts_dir.join(rel_path);
+            if entry.is_file() {
+                let mut output_file = File::create(output_path)?;
+                entry.read_to_end(&mut buffer)?;
+                output_file.write_all(&buffer)?;
+                buffer.clear();
+            }
+            if !temp_fonts_dir.exists() {
+                fs::create_dir(&temp_fonts_dir)?;
+            }
+        }
+    }
+
+
+    if temp_fonts_dir.exists() {
+        fs::remove_dir_all(&fonts_dir)?;
+        fs::rename(temp_fonts_dir, fonts_dir)?;
+    }
+
+    if temp_background_path.exists() {
+        fs::rename(temp_background_path, background_path)?;
+    }
+
+
+    song_library::import_backup(&temp_lib_backup_path)?;
+    fs::remove_dir_all(&temp_dir)?;
+
+
+    Ok(settings)
+}
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn read_directory(path_str: Option<String>) -> Result<(Vec<String>, Vec<String>, String)> {
