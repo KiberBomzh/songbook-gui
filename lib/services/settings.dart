@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:songbook/src/rust/api/library.dart' as rust_lib;
 
 
 // keys
@@ -847,6 +848,300 @@ class SettingsProvider extends ChangeNotifier {
 		await Preferences.remove(IS_PLAIN_TEXT_ITALIC);
 
 		notifyListeners();
+	}
+
+
+	Future<void> exportBackup() async {
+		final now = DateTime.now();
+		final String date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+		String? outputPath = await FilePicker.saveFile(
+			dialogTitle: 'Save backup as...',
+			fileName: 'songbook_backup_$date.zip',
+		);
+		if (outputPath == null)
+			return;
+
+		final settings = _exportAllSettingsToMap();
+
+		String? fontsPath;
+		if (!_customFonts.isEmpty) {
+			final dir = await getApplicationSupportDirectory();
+			fontsPath = dir.path + '/fonts';
+		}
+
+		String? backgroundPath = _backgroundImage?.path;
+
+
+		rust_lib.exportBackup(
+			outputPathStr: outputPath,
+			settings: settings,
+			fontsPath: fontsPath,
+			backgroundPath: backgroundPath,
+		);
+	}
+	Map<String, String> _exportAllSettingsToMap() {
+		Map<String, String> settings = {};
+
+		settings[IS_DARK_THEME] = _isDarkTheme.toString();
+		settings[IS_AMOLED] = _isAmoled.toString();
+		settings[COLOR_ACCENT] = _colorAccent;
+		settings[EDITOR_FONT_SIZE] = _editorFontSize.toString();
+		settings[EDITOR_FONT_FAMILY] = _editorFontFamily;
+		settings[SONG_FONT_SIZE] = _songFontSize.toString();
+		settings[SONG_FONT_FAMILY] = _songFontFamily;
+
+		if (_titleFontFamily != null)
+			settings[TITLE_FONT_FAMILY] = _titleFontFamily!;
+		settings[IS_TITLE_BOLD] = _isTitleBold.toString();
+		settings[IS_TITLE_ITALIC] = _isTitleItalic.toString();
+
+		if (_notesFontFamily != null)
+			settings[NOTES_FONT_FAMILY] = _notesFontFamily!;
+		settings[IS_NOTES_BOLD] = _isNotesBold.toString();
+		settings[IS_NOTES_ITALIC] = _isNotesItalic.toString();
+
+		if (_fingeringsFontFamily != null)
+			settings[FINGERINGS_FONT_FAMILY] = _fingeringsFontFamily!;
+		settings[IS_FINGERINGS_BOLD] = _isFingeringsBold.toString();
+		settings[IS_FINGERINGS_ITALIC] = _isFingeringsItalic.toString();
+
+		if (_tabFontFamily != null)
+			settings[TAB_FONT_FAMILY] = _tabFontFamily!;
+		settings[IS_TAB_BOLD] = _isTabBold.toString();
+		settings[IS_TAB_ITALIC] = _isTabItalic.toString();
+
+		if (_plainTextFontFamily != null)
+			settings[PLAIN_TEXT_FONT_FAMILY] = _plainTextFontFamily!;
+		settings[IS_PLAIN_TEXT_BOLD] = _isPlainTextBold.toString();
+		settings[IS_PLAIN_TEXT_ITALIC] = _isPlainTextItalic.toString();
+
+		if (_chordsColor != null)
+			settings[CHORDS_COLOR] = _chordsColor!;
+
+		if (_rhythmColor != null)
+			settings[RHYTHM_COLOR] = _rhythmColor!;
+
+		if (_textColor != null)
+			settings[TEXT_COLOR] = _textColor!;
+
+		if (_notesColor != null)
+			settings[NOTES_COLOR] = _notesColor!;
+
+		if (_titleColor != null)
+			settings[TITLE_COLOR] = _titleColor!;
+
+		if (_backgroundColor != null)
+			settings[BACKGROUND_COLOR] = _backgroundColor!;
+
+		settings[LINE_WRAP_IN_SONG] = _lineWrapInSong.toString();
+
+		if (_fingeringSizeInSong != null)
+			settings[FINGERING_SIZE_IN_SONG] = _fingeringSizeInSong!;
+
+		settings[BACKGROUND_OPACITY] = _backgroundOpacity.toString();
+
+		return settings;
+	}
+
+	Future<void> importBackup() async {
+		final FilePickerResult? result = await FilePicker.pickFiles(
+			type: FileType.custom,
+			allowedExtensions: ['zip'],
+		);
+		if (result == null || result.files.single.path == null)
+			return;
+		final String backupPath = result.files.single.path!;
+
+		final dir = await getApplicationSupportDirectory();
+		final fontsPath = dir.path + '/fonts';
+		final backgroundImagePath = dir.path + '/background_img';
+		final settings = rust_lib.importBackup(
+			backupPathStr: backupPath,
+			fontsPathStr: fontsPath,
+			backgroundPathStr: backgroundImagePath,
+		);
+		await _importAllSettingsFromMap(settings);
+	}
+	Future<void> _importAllSettingsFromMap(Map<String, String> settings) async {
+		_isDarkTheme = _boolFromString(settings[IS_DARK_THEME]);
+		if (_isDarkTheme != null)
+			await Preferences.setBool(IS_DARK_THEME, _isDarkTheme!);
+		else
+			await Preferences.remove(IS_DARK_THEME);
+
+
+		_isAmoled = _boolFromString(settings[IS_AMOLED]) ?? false;
+		await Preferences.setBool(IS_AMOLED, _isAmoled);
+		
+
+		_colorAccent = settings[COLOR_ACCENT] ?? 'blue';
+		await Preferences.setString(COLOR_ACCENT, _colorAccent);
+
+
+		_editorFontSize = _doubleFromString(settings[EDITOR_FONT_SIZE]) ?? 14;
+		await Preferences.setDouble(EDITOR_FONT_SIZE, _editorFontSize);
+
+
+		_editorFontFamily = settings[EDITOR_FONT_FAMILY] ?? 'CascadiaMono';
+		await Preferences.setString(EDITOR_FONT_FAMILY, _editorFontFamily);
+
+
+		_songFontSize = _doubleFromString(settings[SONG_FONT_SIZE]) ?? 14;
+		await Preferences.setDouble(SONG_FONT_SIZE, _songFontSize);
+
+
+		_songFontFamily = settings[SONG_FONT_FAMILY] ?? 'JetBrainsMono';
+		await Preferences.setString(SONG_FONT_FAMILY, _songFontFamily);
+
+
+		_titleFontFamily = settings[TITLE_FONT_FAMILY];
+		if (_titleFontFamily != null)
+			await Preferences.setString(TITLE_FONT_FAMILY, _titleFontFamily!);
+		else
+			await Preferences.remove(TITLE_FONT_FAMILY);
+
+
+		_isTitleBold = _boolFromString(settings[IS_TITLE_BOLD]) ?? true;
+		await Preferences.setBool(IS_TITLE_BOLD, _isTitleBold);
+
+
+		_isTitleItalic = _boolFromString(settings[IS_TITLE_ITALIC]) ?? false;
+		await Preferences.setBool(IS_TITLE_ITALIC, _isTitleItalic);
+
+
+		_notesFontFamily = settings[NOTES_FONT_FAMILY];
+		if (_notesFontFamily != null)
+			await Preferences.setString(NOTES_FONT_FAMILY, _notesFontFamily!);
+		else
+			await Preferences.remove(NOTES_FONT_FAMILY);
+
+
+		_isNotesBold = _boolFromString(settings[IS_NOTES_BOLD]) ?? false;
+		await Preferences.setBool(IS_NOTES_BOLD, _isNotesBold);
+
+
+		_isNotesItalic = _boolFromString(settings[IS_NOTES_ITALIC]) ?? false;
+		await Preferences.setBool(IS_NOTES_ITALIC, _isNotesItalic);
+
+
+		_fingeringsFontFamily = settings[FINGERINGS_FONT_FAMILY];
+		if (_fingeringsFontFamily != null)
+			await Preferences.setString(FINGERINGS_FONT_FAMILY, _fingeringsFontFamily!);
+		else
+			await Preferences.remove(FINGERINGS_FONT_FAMILY);
+
+
+		_isFingeringsBold = _boolFromString(settings[IS_FINGERINGS_BOLD]) ?? true;
+		await Preferences.setBool(IS_FINGERINGS_BOLD, _isFingeringsBold);
+
+
+		_isFingeringsItalic = _boolFromString(settings[IS_FINGERINGS_ITALIC]) ?? false;
+		await Preferences.setBool(IS_FINGERINGS_ITALIC, _isFingeringsItalic);
+
+
+		_tabFontFamily = settings[TAB_FONT_FAMILY];
+		if (_tabFontFamily != null)
+			await Preferences.setString(TAB_FONT_FAMILY, _tabFontFamily!);
+		else
+			await Preferences.remove(TAB_FONT_FAMILY);
+
+
+		_isTabBold = _boolFromString(settings[IS_TAB_BOLD]) ?? true;
+		await Preferences.setBool(IS_TAB_BOLD, _isTabBold);
+
+
+		_isTabItalic = _boolFromString(settings[IS_TAB_ITALIC]) ?? false;
+		await Preferences.setBool(IS_TAB_ITALIC, _isTabItalic);
+
+
+		_plainTextFontFamily = settings[PLAIN_TEXT_FONT_FAMILY];
+		if (_plainTextFontFamily != null)
+			await Preferences.setString(PLAIN_TEXT_FONT_FAMILY, _plainTextFontFamily!);
+		else
+			await Preferences.remove(PLAIN_TEXT_FONT_FAMILY);
+
+
+		_isPlainTextBold = _boolFromString(settings[IS_PLAIN_TEXT_BOLD]) ?? false;
+		await Preferences.setBool(IS_PLAIN_TEXT_BOLD, _isPlainTextBold);
+
+
+		_isPlainTextItalic = _boolFromString(settings[IS_PLAIN_TEXT_ITALIC]) ?? false;
+		await Preferences.setBool(IS_PLAIN_TEXT_ITALIC, _isPlainTextItalic);
+
+
+		_chordsColor = settings[CHORDS_COLOR];
+		if (_chordsColor != null)
+			await Preferences.setString(CHORDS_COLOR, _chordsColor!);
+		else
+			await Preferences.remove(CHORDS_COLOR);
+
+
+		_rhythmColor = settings[RHYTHM_COLOR];
+		if (_rhythmColor != null)
+			await Preferences.setString(RHYTHM_COLOR, _rhythmColor!);
+		else
+			await Preferences.remove(RHYTHM_COLOR);
+
+
+		_textColor = settings[TEXT_COLOR];
+		if (_textColor != null)
+			await Preferences.setString(TEXT_COLOR, _textColor!);
+		else
+			await Preferences.remove(TEXT_COLOR);
+
+
+		_notesColor = settings[NOTES_COLOR];
+		if (_notesColor != null)
+			await Preferences.setString(NOTES_COLOR, _notesColor!);
+		else
+			await Preferences.remove(NOTES_COLOR);
+
+
+		_titleColor = settings[TITLE_COLOR];
+		if (_titleColor != null)
+			await Preferences.setString(TITLE_COLOR, _titleColor!);
+		else
+			await Preferences.remove(TITLE_COLOR);
+
+
+		_backgroundColor = settings[BACKGROUND_COLOR];
+		if (_backgroundColor != null)
+			await Preferences.setString(BACKGROUND_COLOR, _backgroundColor!);
+		else
+			await Preferences.remove(BACKGROUND_COLOR);
+
+
+		_lineWrapInSong = _boolFromString(settings[LINE_WRAP_IN_SONG]) ?? true;
+		await Preferences.setBool(LINE_WRAP_IN_SONG, _lineWrapInSong);
+
+
+		_fingeringSizeInSong = settings[FINGERING_SIZE_IN_SONG];
+		if (_fingeringSizeInSong != null)
+			await Preferences.setString(FINGERING_SIZE_IN_SONG, _fingeringSizeInSong!);
+		else
+			await Preferences.remove(FINGERING_SIZE_IN_SONG);
+
+
+		_backgroundOpacity = _doubleFromString(settings[BACKGROUND_OPACITY]) ?? 1.0;
+		await Preferences.setDouble(BACKGROUND_OPACITY, _backgroundOpacity);
+
+
+		notifyListeners();
+	}
+	bool? _boolFromString(String? value) {
+		if (value == 'true') {
+			return true;
+		} else if (value == 'false') {
+			return false;
+		} else {
+			return null;
+		}
+	}
+	double? _doubleFromString(String? value) {
+		if (value == null)
+			return null;
+		else
+			return double.tryParse(value!);
 	}
 
 

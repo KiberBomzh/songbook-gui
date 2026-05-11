@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
+import 'package:restart_app/restart_app.dart';
 
 import 'package:songbook/services/settings.dart';
 
@@ -757,9 +758,57 @@ class _SettingsState extends State<SettingsScreen> {
 		_buildTitle('Other'),
 
 		_buildItem(
+			text: 'Export backup',
+			child: null,
+			onTap: () async {
+				try {
+					await _settings.exportBackup();
+					ScaffoldMessenger.of(context).showSnackBar(
+						const SnackBar(
+							content: Text('Succes!'),
+							duration: Duration(seconds: 1),
+						),
+					);
+				} catch (e) {
+					ScaffoldMessenger.of(context).showSnackBar(
+						SnackBar(
+							content: Text('Error: $e!'),
+							duration: Duration(seconds: 3),
+						),
+					);
+				}
+			},
+		),
+		_buildItem(
+			text: 'Import backup',
+			child: null,
+			onTap: () async {
+				try {
+					await _settings.importBackup();
+					ScaffoldMessenger.of(context).showSnackBar(
+						const SnackBar(
+							content: Text('Succes, songbook needs to restart!'),
+							duration: Duration(seconds: 1),
+						),
+					);
+				} catch (e) {
+					debugPrint(e.toString());
+					ScaffoldMessenger.of(context).showSnackBar(
+						SnackBar(
+							content: Text('Error!'),
+							duration: Duration(seconds: 3),
+						),
+					);
+				}
+
+				Restart.restartApp();
+			},
+		),
+
+		_buildItem(
 			text: 'Reset',
 			child: null,
-			onTap: () => _settings.resetToDefault(),
+			onTap: _settings.resetToDefault,
 		),
 	];
 
