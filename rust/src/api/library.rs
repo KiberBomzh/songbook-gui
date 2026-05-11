@@ -78,13 +78,16 @@ pub fn export_backup(
 
     if let Some(dir) = fonts_path {
         let fonts_dir = PathBuf::from(dir);
+        let parent_dir = if let Some(dir) =
+            fonts_dir.parent() { dir }
+            else { return Err(anyhow!("Cannot get parent dir for fonts!")) };
         zip.add_directory::<_, ()>(FONTS_BACKUP_DIR_NAME, FileOptions::default())?;
         for entry in fs::read_dir(&fonts_dir)? {
             let path = entry?.path();
             if !path.is_file() { continue }
 
             let font_name = path
-                .strip_prefix(&fonts_dir)?
+                .strip_prefix(&parent_dir)?
                 .to_string_lossy();
 
             zip.start_file::<_, ()>(font_name, FileOptions::default())?;
@@ -169,26 +172,30 @@ pub fn import_backup(
         let entry_name = entry.name().to_string();
         if entry_name.starts_with(FONTS_BACKUP_DIR_NAME) {
             let rel_path = if let Some(n) =
-                entry_name.strip_prefix(FONTS_BACKUP_DIR_NAME) { n }
+                entry_name.strip_prefix(
+                    &format!("{}/", FONTS_BACKUP_DIR_NAME)
+                ) { n }
                 else { continue };
             if rel_path.is_empty() && entry.is_dir() { continue }
 
             let output_path = temp_fonts_dir.join(rel_path);
+            if !temp_fonts_dir.exists() {
+                fs::create_dir(&temp_fonts_dir)?;
+            }
             if entry.is_file() {
                 let mut output_file = File::create(output_path)?;
                 entry.read_to_end(&mut buffer)?;
                 output_file.write_all(&buffer)?;
                 buffer.clear();
             }
-            if !temp_fonts_dir.exists() {
-                fs::create_dir(&temp_fonts_dir)?;
-            }
         }
     }
 
 
     if temp_fonts_dir.exists() {
-        fs::remove_dir_all(&fonts_dir)?;
+        if fonts_dir.exists() {
+            fs::remove_dir_all(&fonts_dir)?;
+        }
         fs::rename(temp_fonts_dir, fonts_dir)?;
     }
 
