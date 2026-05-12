@@ -762,13 +762,14 @@ class _SettingsState extends State<SettingsScreen> {
 			child: null,
 			onTap: () async {
 				try {
-					await _settings.exportBackup();
-					ScaffoldMessenger.of(context).showSnackBar(
-						const SnackBar(
-							content: Text('Succes!'),
-							duration: Duration(seconds: 1),
-						),
-					);
+					final bool result = await _settings.exportBackup();
+					if (result)
+						ScaffoldMessenger.of(context).showSnackBar(
+							const SnackBar(
+								content: Text('Succes!'),
+								duration: Duration(seconds: 1),
+							),
+						);
 				} catch (e) {
 					ScaffoldMessenger.of(context).showSnackBar(
 						SnackBar(
@@ -784,13 +785,16 @@ class _SettingsState extends State<SettingsScreen> {
 			child: null,
 			onTap: () async {
 				try {
-					await _settings.importBackup();
-					ScaffoldMessenger.of(context).showSnackBar(
-						const SnackBar(
-							content: Text('Succes, songbook needs to restart!'),
-							duration: Duration(seconds: 1),
-						),
-					);
+					final bool result = await _settings.importBackup();
+					if (result) {
+						ScaffoldMessenger.of(context).showSnackBar(
+							const SnackBar(
+								content: Text('Succes, songbook needs to restart!'),
+								duration: Duration(seconds: 1),
+							),
+						);
+						Restart.restartApp();
+					}
 				} catch (e) {
 					debugPrint(e.toString());
 					ScaffoldMessenger.of(context).showSnackBar(
@@ -800,8 +804,6 @@ class _SettingsState extends State<SettingsScreen> {
 						),
 					);
 				}
-
-				Restart.restartApp();
 			},
 		),
 

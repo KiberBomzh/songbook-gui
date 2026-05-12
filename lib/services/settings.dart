@@ -851,7 +851,7 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	Future<void> exportBackup() async {
+	Future<bool> exportBackup() async {
 		final dir = await getApplicationSupportDirectory();
 		final tempBackup = File(dir.path + '/backup.zip');
 		final settings = _exportAllSettingsToMap();
@@ -882,6 +882,7 @@ class SettingsProvider extends ChangeNotifier {
 		);
 		if (outputPath == null) {
 			await tempBackup.delete();
+			return false;
 		} else {
 			if (Platform.isAndroid) {
 				await tempBackup.delete();
@@ -889,6 +890,8 @@ class SettingsProvider extends ChangeNotifier {
 				await tempBackup.rename(outputPath!);
 			}
 		}
+
+		return true;
 	}
 	Map<String, String> _exportAllSettingsToMap() {
 		Map<String, String> settings = {};
@@ -954,13 +957,14 @@ class SettingsProvider extends ChangeNotifier {
 		return settings;
 	}
 
-	Future<void> importBackup() async {
+	Future<bool> importBackup() async {
 		final FilePickerResult? result = await FilePicker.pickFiles(
 			type: FileType.custom,
 			allowedExtensions: ['zip'],
 		);
 		if (result == null || result.files.single.path == null)
-			return;
+			return false;
+
 		final String backupPath = result.files.single.path!;
 
 		final dir = await getApplicationSupportDirectory();
@@ -972,6 +976,7 @@ class SettingsProvider extends ChangeNotifier {
 			backgroundPathStr: backgroundImagePath,
 		);
 		await _importAllSettingsFromMap(settings);
+		return true;
 	}
 	Future<void> _importAllSettingsFromMap(Map<String, String> settings) async {
 		_isDarkTheme = _boolFromString(settings[IS_DARK_THEME]);
