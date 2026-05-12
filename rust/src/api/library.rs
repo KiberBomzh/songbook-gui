@@ -167,6 +167,7 @@ pub fn import_backup(
         buffer.clear();
     }
 
+    let mut temp_fonts_paths: Vec<(PathBuf, String)> = Vec::new();
     for i in 0..archive.len() {
         let mut entry = archive.by_index(i)?;
         let entry_name = entry.name().to_string();
@@ -183,10 +184,12 @@ pub fn import_backup(
                 fs::create_dir(&temp_fonts_dir)?;
             }
             if entry.is_file() {
-                let mut output_file = File::create(output_path)?;
+                let mut output_file = File::create(&output_path)?;
                 entry.read_to_end(&mut buffer)?;
                 output_file.write_all(&buffer)?;
                 buffer.clear();
+
+                temp_fonts_paths.push((output_path, rel_path.to_string()));
             }
         }
     }
@@ -196,11 +199,22 @@ pub fn import_backup(
         if fonts_dir.exists() {
             fs::remove_dir_all(&fonts_dir)?;
         }
-        fs::rename(temp_fonts_dir, fonts_dir)?;
+        fs::create_dir_all(&fonts_dir)?;
+        for (font_path, font_name) in temp_fonts_paths {
+            let output_path = fonts_dir.join(font_name);
+            dbg!(fonts_dir.exists());
+            dbg!(font_path.exists());
+            dbg!(&font_path);
+            dbg!(output_path.exists());
+            dbg!(&output_path);
+            fs::copy(font_path, output_path)?;
+        }
+        fs::remove_dir_all(temp_fonts_dir)?;
     }
 
     if temp_background_path.exists() {
-        fs::rename(temp_background_path, background_path)?;
+        fs::copy(&temp_background_path, background_path)?;
+        fs::remove_file(temp_background_path)?;
     }
 
 
