@@ -852,32 +852,43 @@ class SettingsProvider extends ChangeNotifier {
 
 
 	Future<void> exportBackup() async {
-		final now = DateTime.now();
-		final String date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
-		String? outputPath = await FilePicker.saveFile(
-			dialogTitle: 'Save backup as...',
-			fileName: 'songbook_backup_$date.zip',
-		);
-		if (outputPath == null)
-			return;
-
+		final dir = await getApplicationSupportDirectory();
+		final tempBackup = File(dir.path + '/backup.zip');
 		final settings = _exportAllSettingsToMap();
 
 		String? fontsPath;
 		if (!_customFonts.isEmpty) {
-			final dir = await getApplicationSupportDirectory();
 			fontsPath = dir.path + '/fonts';
 		}
 
 		String? backgroundPath = _backgroundImage?.path;
 
-
 		rust_lib.exportBackup(
-			outputPathStr: outputPath,
+			outputPathStr: tempBackup.path,
 			settings: settings,
 			fontsPath: fontsPath,
 			backgroundPath: backgroundPath,
 		);
+
+
+		final now = DateTime.now();
+		final String date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
+		String? outputPath = await FilePicker.saveFile(
+			dialogTitle: 'Save backup as...',
+			fileName: 'songbook_backup_$date.zip',
+			bytes: (Platform.isAndroid)
+				? await tempBackup.readAsBytes()
+				: null,
+		);
+		if (outputPath == null) {
+			await tempBackup.delete();
+		} else {
+			if (Platform.isAndroid) {
+				await tempBackup.delete();
+			} else {
+				await tempBackup.rename(outputPath!);
+			}
+		}
 	}
 	Map<String, String> _exportAllSettingsToMap() {
 		Map<String, String> settings = {};
