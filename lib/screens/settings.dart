@@ -18,6 +18,55 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsState extends State<SettingsScreen> {
 	late SettingsProvider _settings;
 
+
+	bool _isLoading = false;
+
+
+	void _exportBackup() async {
+		setState(() => _isLoading = true);
+		try {
+			final bool result = await _settings.exportBackup();
+			if (result)
+				ScaffoldMessenger.of(context).showSnackBar(
+					const SnackBar(
+						content: Text('Succes!'),
+						duration: Duration(seconds: 1),
+					),
+				);
+		} catch (e) {
+			debugPrint(e.toString());
+			ScaffoldMessenger.of(context).showSnackBar(
+				SnackBar(
+					content: Text('Error!'),
+					duration: Duration(seconds: 3),
+				),
+			);
+		}
+		setState(() => _isLoading = false);
+	}
+	void _importBackup() async {
+		try {
+			final bool result = await _settings.importBackup();
+			if (result) {
+				ScaffoldMessenger.of(context).showSnackBar(
+					const SnackBar(
+						content: Text('Succes, songbook needs to restart!'),
+						duration: Duration(seconds: 1),
+					),
+				);
+				Restart.restartApp();
+			}
+		} catch (e) {
+			debugPrint(e.toString());
+			ScaffoldMessenger.of(context).showSnackBar(
+				SnackBar(
+					content: Text('Error!'),
+					duration: Duration(seconds: 3),
+				),
+			);
+		}
+	}
+
 	List<ColorItem> _colors = [
 		ColorItem(
 			color: Colors.red,
@@ -54,19 +103,31 @@ class _SettingsState extends State<SettingsScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return Container(
-			decoration: BoxDecoration(
-				image: (_settings.backgroundImage != null)
-					? DecorationImage(
-						image: FileImage(_settings.backgroundImage!),
-						fit: .cover,
-					)
-					: null,
-			),
-			child: Scaffold(
-				appBar: AppBar( title: Text('Settings') ),
-				body: _buildBody(),
-			),
+		return Stack(
+			children: [
+				Container(
+					decoration: BoxDecoration(
+						image: (_settings.backgroundImage != null)
+							? DecorationImage(
+								image: FileImage(_settings.backgroundImage!),
+								fit: .cover,
+							)
+							: null,
+					),
+					child: Scaffold(
+						appBar: AppBar( title: Text('Settings') ),
+						body: _buildBody(),
+					),
+				),
+
+				if (_isLoading)
+					Container(
+						color: Colors.black.withOpacity(0.5),
+						child: Center(
+							child: CircularProgressIndicator(),
+						),
+					),
+			],
 		);
 	}
 
@@ -760,51 +821,12 @@ class _SettingsState extends State<SettingsScreen> {
 		_buildItem(
 			text: 'Export backup',
 			child: null,
-			onTap: () async {
-				try {
-					final bool result = await _settings.exportBackup();
-					if (result)
-						ScaffoldMessenger.of(context).showSnackBar(
-							const SnackBar(
-								content: Text('Succes!'),
-								duration: Duration(seconds: 1),
-							),
-						);
-				} catch (e) {
-					ScaffoldMessenger.of(context).showSnackBar(
-						SnackBar(
-							content: Text('Error: $e!'),
-							duration: Duration(seconds: 3),
-						),
-					);
-				}
-			},
+			onTap: _exportBackup,
 		),
 		_buildItem(
 			text: 'Import backup',
 			child: null,
-			onTap: () async {
-				try {
-					final bool result = await _settings.importBackup();
-					if (result) {
-						ScaffoldMessenger.of(context).showSnackBar(
-							const SnackBar(
-								content: Text('Succes, songbook needs to restart!'),
-								duration: Duration(seconds: 1),
-							),
-						);
-						Restart.restartApp();
-					}
-				} catch (e) {
-					debugPrint(e.toString());
-					ScaffoldMessenger.of(context).showSnackBar(
-						SnackBar(
-							content: Text('Error!'),
-							duration: Duration(seconds: 3),
-						),
-					);
-				}
-			},
+			onTap: _importBackup,
 		),
 
 		_buildItem(
