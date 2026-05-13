@@ -202,11 +202,6 @@ pub fn import_backup(
         fs::create_dir_all(&fonts_dir)?;
         for (font_path, font_name) in temp_fonts_paths {
             let output_path = fonts_dir.join(font_name);
-            dbg!(fonts_dir.exists());
-            dbg!(font_path.exists());
-            dbg!(&font_path);
-            dbg!(output_path.exists());
-            dbg!(&output_path);
             fs::copy(font_path, output_path)?;
         }
         fs::remove_dir_all(temp_fonts_dir)?;
