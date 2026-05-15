@@ -172,14 +172,12 @@ pub fn import_backup(
         let mut entry = archive.by_index(i)?;
         let entry_name = entry.name().to_string();
         if entry_name.starts_with(FONTS_BACKUP_DIR_NAME) {
-            let rel_path = if let Some(n) =
-                entry_name.strip_prefix(
-                    &format!("{}/", FONTS_BACKUP_DIR_NAME)
-                ) { n }
+            let file_name: String = if let Some(name) =
+                PathBuf::from(entry_name).file_name().and_then(|n| n.to_str()) { name.to_string() }
                 else { continue };
-            if rel_path.is_empty() && entry.is_dir() { continue }
+            if file_name.is_empty() && entry.is_dir() { continue }
 
-            let output_path = temp_fonts_dir.join(rel_path);
+            let output_path = temp_fonts_dir.join(&file_name);
             if !temp_fonts_dir.exists() {
                 fs::create_dir(&temp_fonts_dir)?;
             }
@@ -189,7 +187,7 @@ pub fn import_backup(
                 output_file.write_all(&buffer)?;
                 buffer.clear();
 
-                temp_fonts_paths.push((output_path, rel_path.to_string()));
+                temp_fonts_paths.push((output_path, file_name));
             }
         }
     }

@@ -20,7 +20,7 @@ use zip::{
 use crate::{Song, Fingering};
 
 
-pub const FORBIDDEN_CHARS: [char; 9] = ['<', '>', ':', '/', '\\', '|', '?', '*', '`'];
+pub const FORBIDDEN_CHARS: [char; 10] = ['<', '>', ':', '/', '\\', '|', '?', '*', '`', '"'];
 
 
 

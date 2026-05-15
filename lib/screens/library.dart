@@ -7,6 +7,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
 
+import 'package:songbook/main.dart';
 import 'package:songbook/screens/song.dart';
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/screens/settings.dart';
@@ -697,8 +698,8 @@ class _LibraryState extends State<LibraryScreen> {
 		);
 
 		if (newName != null) {
-			final String i_path = _currentPath + '/' + name;
-			final String o_path = _currentPath + '/' + newName;
+			final String i_path = _currentPath + pathDivider + name;
+			final String o_path = _currentPath + pathDivider + newName;
 			moveFileOrDir(inputPathStr: i_path, outputPathStr: o_path);
 			_loadDirectory();
 		}
@@ -799,7 +800,7 @@ class _LibraryState extends State<LibraryScreen> {
 		);
 
 		if (folderName != null) {
-			final String path = _currentPath + '/' + folderName;
+			final String path = _currentPath + pathDivider + folderName;
 			createDirectory(pathStr: path);
 			_loadDirectory();
 		}
@@ -819,7 +820,7 @@ class _LibraryState extends State<LibraryScreen> {
 					return;
 
 
-				final String path = _currentPath + '/' + songName!;
+				final String path = _currentPath + pathDivider + songName!;
 				addNewSong(
 					artist: artist,
 					title: title,
@@ -857,14 +858,14 @@ class _LibraryState extends State<LibraryScreen> {
 
 
 	bool checkExistence(String name) {
-		final String path = _currentPath + '/' + name;
+		final String path = _currentPath + pathDivider + name;
 		
 		return existenceCheck(pathStr: path);
 	}
 
 
 	String _getPathName(String path) {
-		return path.substring(path.lastIndexOf('/') + 1);
+		return path.substring(path.lastIndexOf(pathDivider) + 1);
 	}
 
 	void _switchSelectionForPath(String path) => setState(() {

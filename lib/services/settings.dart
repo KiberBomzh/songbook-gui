@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+
+import 'package:songbook/main.dart';
 import 'package:songbook/src/rust/api/library.dart' as rust_lib;
 
 
@@ -435,7 +437,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<void> _loadBackgroundImage() async {
 		final dir = await getApplicationSupportDirectory();
-		final savedFile = File(dir.path + '/background_img');
+		final savedFile = File(dir.path + pathDivider + 'background_img');
 		if (savedFile.existsSync()) {
 			_backgroundImage = savedFile;
 		}
@@ -443,7 +445,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<void> _loadFonts() async {
 		final dir = await getApplicationSupportDirectory();
-		final fontsDir = Directory(dir.path + '/fonts');
+		final fontsDir = Directory(dir.path + pathDivider + 'fonts');
 		if (fontsDir.existsSync()) {
 			final files = fontsDir.listSync();
 			for (final file in files) {
@@ -477,14 +479,14 @@ class SettingsProvider extends ChangeNotifier {
 				final sourceFile = File(file.path!);
 
 				final dir = await getApplicationSupportDirectory();
-				final fontsDir = Directory(dir.path + '/fonts');
+				final fontsDir = Directory(dir.path + pathDivider + 'fonts');
 
 				if (!fontsDir.existsSync()) {
 					await fontsDir.create(recursive: true);
 				}
 
 
-				final savedFile = File(fontsDir.path + '/' + file.name);
+				final savedFile = File(fontsDir.path + pathDivider + file.name);
 				await sourceFile.copy(savedFile.path);
 
 				await _loadFontFromFile(savedFile);
@@ -760,7 +762,7 @@ class SettingsProvider extends ChangeNotifier {
 			PaintingBinding.instance.imageCache.clearLiveImages();
 
 			final dir = await getApplicationSupportDirectory();
-			final savedPath = dir.path + '/background_img';
+			final savedPath = dir.path + pathDivider + 'background_img';
 
 			await File(result.files.single.path!).copy(savedPath);
 			_backgroundImage = File(savedPath);
@@ -777,7 +779,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<void> resetCustomFonts() async {
 		final dir = await getApplicationSupportDirectory();
-		final fontsDir = Directory(dir.path + '/fonts');
+		final fontsDir = Directory(dir.path + pathDivider + 'fonts');
 		if (!fontsDir.existsSync())
 			return;
 
@@ -853,12 +855,12 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<bool> exportBackup() async {
 		final dir = await getApplicationSupportDirectory();
-		final tempBackup = File(dir.path + '/backup.zip');
+		final tempBackup = File(dir.path + pathDivider + 'backup.zip');
 		final settings = _exportAllSettingsToMap();
 
 		String? fontsPath;
 		if (!_customFonts.isEmpty) {
-			fontsPath = dir.path + '/fonts';
+			fontsPath = dir.path + pathDivider + 'fonts';
 		}
 
 		String? backgroundPath = _backgroundImage?.path;
@@ -968,8 +970,8 @@ class SettingsProvider extends ChangeNotifier {
 		final String backupPath = result.files.single.path!;
 
 		final dir = await getApplicationSupportDirectory();
-		final fontsPath = dir.path + '/fonts';
-		final backgroundImagePath = dir.path + '/background_img';
+		final fontsPath = dir.path + pathDivider + 'fonts';
+		final backgroundImagePath = dir.path + pathDivider + 'background_img';
 		final settings = rust_lib.importBackup(
 			backupPathStr: backupPath,
 			fontsPathStr: fontsPath,
