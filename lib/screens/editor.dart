@@ -472,21 +472,26 @@ class FastLineState extends State<FastKeywordsLine> {
 	Widget build(BuildContext context) {
 		return Container(
 			alignment: .centerRight,
-			margin: const EdgeInsets.only(bottom: 5, right: 10, left: 10),
+			margin: const .symmetric(horizontal: 10),
 			child: Scrollbar(
 				controller: _controller,
 				interactive: true,
+				thickness: 5.0,
+				radius: const .circular(8),
 				child: SingleChildScrollView(
 					scrollDirection: .horizontal,
 					controller: _controller,
-					child: Row(
-						spacing: 5,
-						children: getEditorKeywords().map((k) {
-							return FilterChip(
-								label: Text(k),
-								onSelected: (_) => widget.onTap(k),
-							);
-						}).toList(),
+					child: Padding(
+						padding: const .only(bottom: 10),
+						child: Row(
+							spacing: 5,
+							children: getEditorKeywords().map((k) {
+								return FilterChip(
+									label: Text(k),
+									onSelected: (_) => widget.onTap(k),
+								);
+							}).toList(),
+						),
 					),
 				),
 			),
