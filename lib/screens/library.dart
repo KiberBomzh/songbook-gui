@@ -326,7 +326,6 @@ class _LibraryState extends State<LibraryScreen> {
 						Navigator.push(context,
 							MaterialPageRoute(
 								builder: (context) => EditorScreen(
-									song: SimpleSong.open(pathStr: path),
 									path: path,
 									mode: EditorMode.source,
 								),
@@ -553,7 +552,6 @@ class _LibraryState extends State<LibraryScreen> {
 						Navigator.push(context,
 							MaterialPageRoute(
 								builder: (context) => EditorScreen(
-									song: SimpleSong.open(pathStr: path),
 									path: path,
 									mode: EditorMode.source,
 								),

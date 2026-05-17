@@ -15,14 +15,14 @@ enum EditorMode {
 
 
 class EditorScreen extends StatefulWidget {
-	SimpleSong song;
+	SimpleSong? song;
 	final String path;
 	final EditorMode? mode;
 
 	EditorScreen({
 		super.key,
-		required this.song,
 		required this.path,
+		this.song,
 		this.mode,
 	});
 
@@ -84,20 +84,25 @@ class _EditorState extends State<EditorScreen> {
 		if (_currentMode == EditorMode.source) {
 			_textController.text = await File(widget.path).readAsString();
 		} else {
-			_textController.text = widget.song.getForEditing();
+			_textController.text = widget.song?.getForEditing() ?? '';
 		};
 	}
 
 	void _save() async {
 		if (_currentMode == EditorMode.source) {
 			await File(widget.path).writeAsString(_textController.text);
-			widget.song = SimpleSong.open(pathStr: widget.path);
+			try {
+				widget.song = SimpleSong.open(pathStr: widget.path);
+			} catch (e) {
+				widget.song = null;
+				debugPrint(e.toString());
+			}
 			_rawText = null;
 			_rawHistory = [];
 			_rawHistoryIndex = -1;
 			_rawSelection = null;
 		} else {
-			widget.song.changeFromEdited(s: _textController.text);
+			widget.song?.changeFromEdited(s: _textController.text);
 			_sourceText = null;
 			_sourceHistory = [];
 			_sourceHistoryIndex = -1;
@@ -273,6 +278,35 @@ class _EditorState extends State<EditorScreen> {
 						onSelectionChanged: (newSelection) => setState(() {
 							switch (_currentMode) {
 								case (EditorMode.source):
+									if (widget.song == null) {
+										try {
+											widget.song = SimpleSong.open(pathStr: widget.path);
+										} catch (e) {
+											showDialog(
+												context: context,
+												builder: (context) => AlertDialog(
+													title: const Text("Error whil opening song..."),
+													content: SizedBox(
+														height: MediaQuery.of(context).size.height * 0.8,
+														child: SingleChildScrollView(
+															child: Padding(
+																padding: const .all(5),
+																child: Text(e.toString()),
+															),
+														),
+													),
+													actions: [
+														TextButton(
+															child: Text("Ok"),
+															onPressed: () => Navigator.of(context).pop(),
+														),
+													],
+												),
+											);
+											return;
+										}
+									}
+
 									_sourceText = _textController.text;
 									_sourceHistory = _history;
 									_sourceHistoryIndex = _historyIndex;

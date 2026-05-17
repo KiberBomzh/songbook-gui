@@ -59,6 +59,9 @@ class SongState extends State<SongScreen> {
 	late TextStyle _tabStyle;
 	late double _fontSize;
 
+	bool _isError = false;
+	String _errorMessage = '';
+
 
 	@override
 	void initState() {
@@ -86,7 +89,15 @@ class SongState extends State<SongScreen> {
 	}
 
 	void _loadSong() => setState(() {
-		_song = SimpleSong.open(pathStr: widget.path);
+		_isError = false;
+		_errorMessage = '';
+		try {
+			_song = SimpleSong.open(pathStr: widget.path);
+		} catch (e) {
+			_isError = true;
+			_errorMessage = e.toString();
+			return;
+		}
 		_capo = _song.getCapo();
 
 		String? checkKey = _song.getKey();
@@ -175,6 +186,37 @@ class SongState extends State<SongScreen> {
 
 	@override
 	Widget build(BuildContext context) {
+		if (_isError)
+			return Scaffold(
+				appBar: AppBar(
+					title: Text("Error while opening song..."),
+					actions: [
+						IconButton(
+							icon: Icon(Icons.edit),
+							onPressed: () async {
+								await _navigatorPush(EditorScreen(
+									path: widget.path,
+									mode: EditorMode.source,
+								));
+								_loadSong();
+								if (!_isError)
+									_loadAutoscrollSpeed();
+							},
+						),
+					]
+				),
+				body: Container(
+					width: double.infinity,
+					child: SingleChildScrollView(
+						child: Padding(
+							padding: const .all(5),
+							child: Text(_errorMessage),
+						),
+					),
+				),
+			);
+
+
 		_settings = context.watch<SettingsProvider>();
 		_chordsStyle = _settings.chordsStyle(context);
 		_textStyle = _settings.textStyle(context);
