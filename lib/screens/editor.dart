@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
@@ -438,21 +439,10 @@ class _EditorState extends State<EditorScreen> {
 						minWidth: MediaQuery.of(context).size.width,
 					),
 					child: IntrinsicWidth(
-						child: TextField(
+						child: EditorField(
 							controller: _textController,
 							focusNode: _focusNode,
-							maxLines: null,
-							expands: true,
-							textAlignVertical: .top,
-							style: _settings.editorStyle(),
-							decoration: const InputDecoration(
-								border: InputBorder.none,
-								hintText: "Song's text...",
-								hintStyle: TextStyle(color: Colors.grey),
-							),
-							onChanged: (text) {
-								_saveToHistory();
-							}
+							onChanged: (_) => _saveToHistory(),
 						),
 					),
 				),
@@ -471,6 +461,123 @@ class _EditorState extends State<EditorScreen> {
 					Text(getEditorHelpMsg()),
 				],
 			),
+		);
+	}
+}
+
+class EditorField extends StatefulWidget {
+	final TextEditingController controller;
+	final FocusNode focusNode;
+	final Function(String) onChanged;
+
+	EditorField({
+		super.key,
+		required this.controller,
+		required this.focusNode,
+		required this.onChanged,
+	});
+
+
+	@override
+	State<EditorField> createState() => EditorFieldState();
+}
+class EditorFieldState extends State<EditorField> {
+	late SettingsProvider _settings;
+
+
+	List<String> _lineNumbers = [];
+
+	late final LinkedScrollControllerGroup _controllers;
+	late final ScrollController _textFieldScrollController;
+	late final ScrollController _lineNumbersScrollController;
+
+	@override
+	void initState() {
+		super.initState();
+		_updateLineNumbers();
+		widget.controller.addListener(_updateLineNumbers);
+
+		_controllers = LinkedScrollControllerGroup();
+		_textFieldScrollController = _controllers.addAndGet();
+		_lineNumbersScrollController = _controllers.addAndGet();
+	}
+
+	@override
+	void dispose() {
+		widget.controller.removeListener(_updateLineNumbers);
+
+		_textFieldScrollController.dispose();
+		_lineNumbersScrollController.dispose();
+		super.dispose();
+	}
+
+	void _updateLineNumbers() {
+		final lineCount = '\n'.allMatches(widget.controller.text).length + 1;
+		setState(() => _lineNumbers = List.generate(lineCount, (index) => '${index + 1}'));
+	}
+
+	double _calculateLineNumbersWidth() {
+		final textPainter = TextPainter(
+			text: TextSpan(
+				text: _lineNumbers[_lineNumbers.length - 1],
+				style: _settings.editorStyle()
+			),
+			textDirection: .ltr
+		)..layout();
+		return textPainter.width + 10;
+	}
+
+
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return Row(
+			children: [
+				Container(
+					width: _calculateLineNumbersWidth(),
+					padding: const .only(top: 4, right: 5),
+					margin: const .only(right: 5),
+					decoration: BoxDecoration(
+						border: Border(
+							right: BorderSide(
+								color: Colors.grey,
+								width: 2,
+							)
+						),
+					),
+					child: ScrollConfiguration(
+						behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+						child: ListView.builder(
+							controller: _lineNumbersScrollController,
+							itemCount: _lineNumbers.length,
+							itemBuilder: (context, index) => Text(
+								_lineNumbers[index],
+								maxLines: 1,
+								style: _settings.editorStyle()
+									.copyWith(color: Colors.grey, fontWeight: .bold),
+							),
+						),
+					),
+				),
+
+				Expanded(
+					child: TextField(
+						controller: widget.controller,
+						scrollController: _textFieldScrollController,
+						focusNode: widget.focusNode,
+						maxLines: null,
+						expands: true,
+						textAlignVertical: .top,
+						style: _settings.editorStyle(),
+						decoration: const InputDecoration(
+							border: InputBorder.none,
+							hintText: "Song's text...",
+							hintStyle: TextStyle(color: Colors.grey),
+						),
+						onChanged: widget.onChanged,
+					),
+				),
+			],
 		);
 	}
 }

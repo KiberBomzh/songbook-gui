@@ -334,6 +334,7 @@ class SettingsProvider extends ChangeNotifier {
 	TextStyle editorStyle() => TextStyle(
 		fontFamily: _editorFontFamily,
 		fontSize: _editorFontSize,
+		height: 1.6,
 	);
 
 
