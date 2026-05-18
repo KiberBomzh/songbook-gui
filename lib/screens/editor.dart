@@ -567,6 +567,7 @@ class EditorFieldState extends State<EditorField> {
 						focusNode: widget.focusNode,
 						maxLines: null,
 						expands: true,
+						selectionWidthStyle: .tight,
 						textAlignVertical: .top,
 						style: _settings.editorStyle(),
 						decoration: const InputDecoration(
