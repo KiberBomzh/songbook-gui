@@ -132,16 +132,13 @@ class _SettingsState extends State<SettingsScreen> {
 	}
 
 	Widget _buildBody() {
-		return Material(
-			color: Color(0x00000000),
-			child: ListView(
-				children: [
-					_buildSection(_globalSection()),
-					_buildSection(_editorSection()),
-					_buildSection(_songSection()),
-					_buildSection(_otherSection()),
-				],
-			),
+		return ListView(
+			children: [
+				_buildSection(_globalSection()),
+				_buildSection(_editorSection()),
+				_buildSection(_songSection()),
+				_buildSection(_otherSection()),
+			],
 		);
 	}
 
@@ -841,14 +838,17 @@ class _SettingsState extends State<SettingsScreen> {
 	Widget _buildSection(List<Widget> children) {
 		return Container(
 			margin: const EdgeInsets.all(10),
-			decoration: BoxDecoration(
+			child: Material(
 				color: Theme.of(context).colorScheme.surfaceContainer,
-				borderRadius: .circular(8),
-			),
-			child: Column(
-				mainAxisAlignment: .start,
-				crossAxisAlignment: .start,
-				children: children,
+				clipBehavior: .antiAlias,
+				shape: RoundedRectangleBorder(
+					borderRadius: .circular(8),
+				),
+				child: Column(
+					mainAxisAlignment: .start,
+					crossAxisAlignment: .start,
+					children: children,
+				),
 			),
 		);
 	}
