@@ -238,13 +238,17 @@ class _EditorState extends State<EditorScreen> {
 					children: [
 						SizedBox( height: MediaQuery.of(context).padding.top), // top safe area
 						Expanded(
-							child: _buildTextField(),
+							child: EditorField(
+								controller: _textController,
+								focusNode: _focusNode,
+								onChanged: (_) => _saveToHistory(),
+							),
 						),
 
 						if (_currentMode == EditorMode.raw)
 							SizedBox(height: 50),
 
-						const SizedBox(height: 60),
+						const SizedBox(height: 70),
 					],
 				),
 
@@ -429,27 +433,6 @@ class _EditorState extends State<EditorScreen> {
 		);
 	}
 
-	Widget _buildTextField() {
-		return Container(
-			padding: const EdgeInsets.symmetric(horizontal: 15),
-			child: SingleChildScrollView(
-				scrollDirection: Axis.horizontal,
-				child: ConstrainedBox(
-					constraints: BoxConstraints(
-						minWidth: MediaQuery.of(context).size.width,
-					),
-					child: IntrinsicWidth(
-						child: EditorField(
-							controller: _textController,
-							focusNode: _focusNode,
-							onChanged: (_) => _saveToHistory(),
-						),
-					),
-				),
-			),
-		);
-	}
-
 
 	void _showHelp() {
 		showDialog(
@@ -524,60 +507,73 @@ class EditorFieldState extends State<EditorField> {
 			),
 			textDirection: .ltr
 		)..layout();
-		return textPainter.width + 10;
+		return textPainter.width + 15;
+	}
+	double _calculateLineHeight() {
+		final textPainter = TextPainter(
+			text: TextSpan(
+				text: _lineNumbers[0],
+				style: _settings.editorStyle()
+			),
+			textDirection: .ltr
+		)..layout();
+		return textPainter.height;
 	}
 
 
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
+		final lineHeight = _calculateLineHeight();
+		final lineNumbersWidth = _calculateLineNumbersWidth();
 
 		return Row(
+			mainAxisAlignment: .start,
 			children: [
 				Container(
-					width: _calculateLineNumbersWidth(),
-					padding: const .only(top: 4, right: 5),
-					margin: const .only(right: 5),
-					decoration: BoxDecoration(
-						border: Border(
-							right: BorderSide(
-								color: Colors.grey,
-								width: 2,
-							)
-						),
-					),
+					width: lineNumbersWidth,
+					padding: const .symmetric(horizontal: 5),
 					child: ScrollConfiguration(
 						behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-						child: ListView.builder(
+						child: SingleChildScrollView(
 							controller: _lineNumbersScrollController,
-							itemCount: _lineNumbers.length,
-							itemBuilder: (context, index) => Text(
-								_lineNumbers[index],
-								maxLines: 1,
-								style: _settings.editorStyle()
-									.copyWith(color: Colors.grey, fontWeight: .bold),
+							child: Column(
+								children: _lineNumbers.map((n) => Text(n,
+									maxLines: 1,
+									style: _settings.editorStyle()
+										.copyWith(color: Colors.grey, fontWeight: .bold),
+								)).toList(),
 							),
 						),
 					),
 				),
 
 				Expanded(
-					child: TextField(
-						controller: widget.controller,
-						scrollController: _textFieldScrollController,
-						focusNode: widget.focusNode,
-						maxLines: null,
-						expands: true,
-						selectionWidthStyle: .tight,
-						textAlignVertical: .top,
-						style: _settings.editorStyle(),
-						decoration: const InputDecoration(
-							border: InputBorder.none,
-							hintText: "Song's text...",
-							hintStyle: TextStyle(color: Colors.grey),
+					child: SingleChildScrollView(
+						scrollDirection: Axis.horizontal,
+						child: ConstrainedBox(
+							constraints: BoxConstraints(
+								minWidth: MediaQuery.of(context).size.width - lineNumbersWidth - 10,
+							),
+							child: IntrinsicWidth(
+								child: TextField(
+									controller: widget.controller,
+									scrollController: _textFieldScrollController,
+									focusNode: widget.focusNode,
+									maxLines: null,
+									expands: true,
+									selectionWidthStyle: .tight,
+									style: _settings.editorStyle(),
+									decoration: const InputDecoration(
+										border: InputBorder.none,
+										contentPadding: .all(0),
+									),
+									onChanged: widget.onChanged,
+								),
+							),
 						),
-						onChanged: widget.onChanged,
 					),
 				),
+				const SizedBox(width: 10),
 			],
 		);
 	}
