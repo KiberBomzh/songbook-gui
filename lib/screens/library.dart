@@ -179,6 +179,7 @@ class _LibraryState extends State<LibraryScreen> {
 				removeFromLibrary(pathStr: path);
 			}
 			_deleted.clear();
+			_loadDirectory();
 		});
 	}
 
