@@ -285,7 +285,7 @@ class _EditorState extends State<EditorScreen> {
 					alignment: .centerRight,
 					child: SegmentedButton<EditorMode>(
 						style: SegmentedButton.styleFrom(
-							backgroundColor: Colors.black.withOpacity(0.7),
+							backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.7),
 						),
 						segments: const <ButtonSegment<EditorMode>>[
 							ButtonSegment(
