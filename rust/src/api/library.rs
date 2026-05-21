@@ -366,6 +366,20 @@ pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: String) -> 
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn reset_library() -> Result<()> {
+    let lib_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow!("Cannot get base path!"));
+    };
+    std::fs::remove_dir_all(lib_path)?;
+    init()?;
+
+
+    Ok(())
+}
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn existence_check(path_str: String) -> bool {
     let path = PathBuf::from(path_str);
     

@@ -827,9 +827,15 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Reset',
+			text: 'Reset settings',
 			child: null,
 			onTap: _settings.resetToDefault,
+		),
+
+		_buildItem(
+			text: 'Reset library',
+			child: null,
+			onTap: _settings.resetLibrary,
 		),
 	];
 

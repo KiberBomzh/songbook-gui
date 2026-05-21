@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:restart_app/restart_app.dart';
 
 import 'package:songbook/main.dart';
 import 'package:songbook/src/rust/api/library.dart' as rust_lib;
@@ -1176,6 +1177,10 @@ class SettingsProvider extends ChangeNotifier {
 		await resetCustomFonts();
 		await Preferences.clear();
 		_loadAllSettings();
+	}
+	Future<void> resetLibrary() async {
+		rust_lib.resetLibrary();
+		Restart.restartApp();
 	}
 
 

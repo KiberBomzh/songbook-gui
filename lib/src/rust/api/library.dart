@@ -90,6 +90,8 @@ void importSong({required SimpleSong song, required String dirPath}) => RustLib
     .api
     .crateApiLibraryImportSong(song: song, dirPath: dirPath);
 
+void resetLibrary() => RustLib.instance.api.crateApiLibraryResetLibrary();
+
 bool existenceCheck({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryExistenceCheck(pathStr: pathStr);
 
