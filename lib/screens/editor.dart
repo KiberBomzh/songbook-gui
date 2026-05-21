@@ -55,6 +55,8 @@ class _EditorState extends State<EditorScreen> {
 
 
 	late TextEditingController _textController;
+	bool _isSelection = false;
+
 	late FocusNode _focusNode;
 
 	List<String> _history = [];
@@ -88,6 +90,10 @@ class _EditorState extends State<EditorScreen> {
 			_textController.text = widget.song?.getForEditing() ?? '';
 		};
 	}
+
+	void _updateSelection() => setState(
+		() => _isSelection = _textController.selection.isCollapsed
+	);
 
 	void _save() async {
 		if (_currentMode == EditorMode.source) {
@@ -201,31 +207,42 @@ class _EditorState extends State<EditorScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return Container(
-			decoration: BoxDecoration(
-				image: (_settings.backgroundImage != null)
-					? DecorationImage(
-						image: FileImage(_settings.backgroundImage!),
-						fit: .cover,
-					)
-					: null,
-			),
-			child: Scaffold(
-				body: Stack(
-					children: [
-						Align(
-							alignment: .bottomCenter,
-							child: Container(
-								color: Colors.black,
-								width: MediaQuery.of(context).size.width,
-								height: MediaQuery.of(context).padding.bottom,
+		return PopScope(
+			canPop: !_isSelection,
+			onPopInvokedWithResult: (didPop, result) {
+				final baseOffset = _textController.selection.baseOffset;
+				_textController.selection = TextSelection(
+					baseOffset: baseOffset,
+					extentOffset: baseOffset,
+				);
+				setState(() => _isSelection = false);
+			},
+			child: Container(
+				decoration: BoxDecoration(
+					image: (_settings.backgroundImage != null)
+						? DecorationImage(
+							image: FileImage(_settings.backgroundImage!),
+							fit: .cover,
+						)
+						: null,
+				),
+				child: Scaffold(
+					body: Stack(
+						children: [
+							Align(
+								alignment: .bottomCenter,
+								child: Container(
+									color: Colors.black,
+									width: MediaQuery.of(context).size.width,
+									height: MediaQuery.of(context).padding.bottom,
+								),
+							), // for safe area
+							Padding(
+								padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+								child: _buildBody(),
 							),
-						), // for safe area
-						Padding(
-							padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-							child: _buildBody(),
-						),
-					],
+						],
+					),
 				),
 			),
 		);
@@ -242,6 +259,7 @@ class _EditorState extends State<EditorScreen> {
 								controller: _textController,
 								focusNode: _focusNode,
 								onChanged: (_) => _saveToHistory(),
+								onTap: _updateSelection,
 							),
 						),
 
@@ -452,12 +470,14 @@ class EditorField extends StatefulWidget {
 	final TextEditingController controller;
 	final FocusNode focusNode;
 	final Function(String) onChanged;
+	final VoidCallback onTap;
 
 	EditorField({
 		super.key,
 		required this.controller,
 		required this.focusNode,
 		required this.onChanged,
+		required this.onTap,
 	});
 
 
@@ -567,6 +587,7 @@ class EditorFieldState extends State<EditorField> {
 										border: InputBorder.none,
 										contentPadding: .all(0),
 									),
+									onTap: widget.onTap,
 									onChanged: widget.onChanged,
 								),
 							),
