@@ -208,7 +208,7 @@ class _EditorState extends State<EditorScreen> {
 		_settings = context.watch<SettingsProvider>();
 
 		return PopScope(
-			canPop: !_isSelection,
+			canPop: !(_isSelection && _focusNode.hasFocus),
 			onPopInvokedWithResult: (didPop, result) {
 				final baseOffset = _textController.selection.baseOffset;
 				_textController.selection = TextSelection(
@@ -216,6 +216,7 @@ class _EditorState extends State<EditorScreen> {
 					extentOffset: baseOffset,
 				);
 				setState(() => _isSelection = false);
+				_focusNode.unfocus();
 			},
 			child: Container(
 				decoration: BoxDecoration(
