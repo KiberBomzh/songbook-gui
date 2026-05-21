@@ -376,6 +376,7 @@ class _LibraryState extends State<LibraryScreen> {
 						value: 'rename',
 						child: Text('Rename'),
 					),
+					if (!_dirs.contains(_selected[0]))
 					PopupMenuItem(
 						value: 'edit',
 						child: Text('Edit'),
@@ -521,7 +522,7 @@ class _LibraryState extends State<LibraryScreen> {
 							const SizedBox(width: 10),
 
 							if (!_isSelectMode)
-								_buildPopupMenuButton(path, name),
+								_buildPopupMenuButton(path, name, isDir),
 						],
 					),
 				),
@@ -529,7 +530,7 @@ class _LibraryState extends State<LibraryScreen> {
 		);
 	}
 
-	Widget _buildPopupMenuButton(String path, String name) {
+	Widget _buildPopupMenuButton(String path, String name, bool isDir) {
 		return PopupMenuButton<String>(
 			icon: Icon(Icons.more_vert),
 			tooltip: 'Options',
@@ -584,10 +585,11 @@ class _LibraryState extends State<LibraryScreen> {
 					value: 'rename',
 					child: Text('Rename'),
 				),
-				const PopupMenuItem(
-					value: 'edit',
-					child: Text('Edit'),
-				),
+				if (!isDir)
+					PopupMenuItem(
+						value: 'edit',
+						child: Text('Edit'),
+					),
 				const PopupMenuItem(
 					value: 'copy',
 					child: Text('Copy'),
