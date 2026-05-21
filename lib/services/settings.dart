@@ -362,11 +362,17 @@ class SettingsProvider extends ChangeNotifier {
 	ThemeData ligthTheme() {
 		final colorScheme = lightColorScheme();
 		final surface = colorScheme.surface.withOpacity(_backgroundOpacity);
+		final surfaceContainer = colorScheme.surfaceContainer.withOpacity(_calculateOpacity());
+		final surfaceVariant = colorScheme.surfaceVariant.withOpacity(_calculateOpacity());
 
 
 		return ThemeData(
 			useMaterial3: true,
-			colorScheme: colorScheme.copyWith(surface: surface),
+			colorScheme: colorScheme.copyWith(
+				surface: surface,
+				surfaceContainer: surfaceContainer,
+				surfaceVariant: surfaceVariant,
+			),
 			snackBarTheme: snackBarTheme(),
 		);
 	}
