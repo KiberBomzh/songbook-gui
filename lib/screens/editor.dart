@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
+import 'package:syntax_highlight/syntax_highlight.dart';
 
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
@@ -54,7 +55,7 @@ class _EditorState extends State<EditorScreen> {
 
 
 
-	late TextEditingController _textController;
+	late CustomTextController _textController;
 	bool _isSelection = false;
 
 	late FocusNode _focusNode;
@@ -68,7 +69,9 @@ class _EditorState extends State<EditorScreen> {
 	void initState() {
 		super.initState();
 		_currentMode = widget.mode ?? EditorMode.raw;
-		_textController = TextEditingController();
+		_textController = CustomTextController(
+			isSourceMode: _currentMode == EditorMode.source,
+		);
 		_loadText();
 
 		_focusNode = FocusNode();
@@ -331,6 +334,8 @@ class _EditorState extends State<EditorScreen> {
 										}
 									}
 
+									_textController.isSourceMode = false;
+
 									_sourceText = _textController.text;
 									_sourceHistory = _history;
 									_sourceHistoryIndex = _historyIndex;
@@ -383,6 +388,8 @@ class _EditorState extends State<EditorScreen> {
 											_historyIndex = _sourceHistoryIndex;
 											if (_historyIndex < 0)
 												_saveToHistory();
+
+											_textController.isSourceMode = true;
 											break;
 
 										default:
@@ -657,4 +664,238 @@ class FastLineState extends State<FastKeywordsLine> {
 			),
 		);
 	}
+}
+
+class CustomTextController extends TextEditingController {
+	late SettingsProvider _settings;
+
+	Highlighter? _highlighter;
+	bool isSourceMode;
+
+	final Map<RegExp, TextStyle> _patterns = {};
+  
+
+	CustomTextController({
+		required this.isSourceMode,
+		String? text,
+	}) : super(text: text) {
+		_initHighlighter();
+	}
+
+	Future<void> _initHighlighter() async {
+		final language = 'yaml';
+		await Highlighter.initialize([language]);
+		final theme = await HighlighterTheme.loadDarkTheme();
+		_highlighter = Highlighter(
+			language: language,
+			theme: theme,
+		);
+
+		notifyListeners();
+	}
+
+	void _setPatterns(BuildContext context) {
+		_patterns.clear();
+		_setMetadataPatterns();
+		
+		final blockColor = Colors.orange;
+
+		_addBlockPattern(blockStart(), blockEnd(), blockColor);
+		_addKeyValuePattern(titleSymbol(), _settings.titleColor(context));
+		_addKeyValuePattern(blockNoteSymbol(), _settings.notesColor(context));
+		_addKeyValuePattern(chordsLineSymbol(), _settings.chordsColor(context));
+
+		_addBlockPattern(plainTextStart(), plainTextEnd(), Colors.green);
+		_addInBlockPattern(
+			plainTextStart(),
+			plainTextEnd(),
+			TextStyle(fontStyle: .italic, fontWeight: .bold)
+		);
+
+		_addBlockPattern(tabStartSymbol(), tabEndSymbol(), Colors.purpleAccent);
+		_addInBlockPattern(
+			tabStartSymbol(),
+			tabEndSymbol(),
+			TextStyle(fontWeight: .bold),
+		);
+
+		_addBlockPattern(songNoteStartSymbol(), songNoteEndSymbol(), _settings.notesColor(context));
+		_addInBlockPattern(
+			songNoteStartSymbol(),
+			songNoteEndSymbol(),
+			TextStyle(
+				color: _settings.notesColor(context),
+				fontStyle: .italic,
+			),
+		);
+
+
+		_patterns[RegExp(
+			'^' + RegExp.escape(emptyLineSymbol()) + '\$',
+			multiLine: true,
+		)] = TextStyle(color: Colors.grey);
+
+
+		final chordsColor = _settings.chordsColor(context);
+		final rhythmColor = _settings.rhythmColor(context);
+		final textColor = _settings.textColor(context);
+
+		_patterns[RegExp(
+			'^' + RegExp.escape(chordsSymbol()),
+			multiLine: true,
+		)] = TextStyle(color: chordsColor, fontWeight: .bold);
+
+		_patterns[RegExp(
+			'^' + RegExp.escape(rhythmSymbol()),
+			multiLine: true,
+		)] = TextStyle(color: rhythmColor, fontWeight: .bold);
+
+		_patterns[RegExp(
+			'^' + RegExp.escape(textSymbol()),
+			multiLine: true,
+		)] = TextStyle(color: textColor, fontWeight: .bold);
+	}
+	void _setMetadataPatterns() {
+		final metadataPrimaryColor = Colors.blue;
+		final metadataSecondaryColor = Colors.cyan;
+		final metadataBlockColor = Colors.limeAccent;
+
+
+		_addBlockPattern(metadataStart(), metadataEnd(), metadataBlockColor);
+		_addKeyValuePattern(songTitleSymbol(), metadataPrimaryColor);
+		_addKeyValuePattern(songArtistSymbol(), metadataPrimaryColor);
+		_addKeyValuePattern(songKeySymbol(), metadataSecondaryColor);
+		_addKeyValuePattern(songCapoSymbol(), metadataSecondaryColor);
+		_addKeyValuePattern(songAutoscrollSpeedSymbol(), metadataSecondaryColor);
+		_addKeyValuePattern(songShowOptionsSymbol(), metadataSecondaryColor);
+	}
+	void _addKeyValuePattern(String key, Color color) {
+		key = RegExp.escape(key);
+
+		_patterns[RegExp('^' + key, multiLine: true)] = TextStyle(color: color);
+		_patterns[RegExp('(?<=^${key}).*.+', multiLine: true)] = TextStyle(fontStyle: .italic);
+	}
+	void _addBlockPattern(String start, String end, Color color) {
+		start = RegExp.escape(start);
+		end = RegExp.escape(end);
+
+		_patterns[RegExp('^${start}|^${end}', multiLine: true)] = TextStyle(color: color, fontWeight: .bold);
+	}
+	void _addInBlockPattern(String start, String end, TextStyle style) {
+		start = RegExp.escape(start);
+		end = RegExp.escape(end);
+
+		_patterns[ 
+			RegExp( '(?<=^${start}\n).*?(?=^${end}\$)',
+				multiLine: true,
+				dotAll: true,
+			)
+		] = style;
+	}
+  
+  
+	@override
+	TextSpan buildTextSpan({
+		required BuildContext context,
+		TextStyle? style,
+		required bool withComposing,
+	}) {
+		_settings = context.watch<SettingsProvider>();
+		_setPatterns(context);
+
+
+		if (isSourceMode && _highlighter != null && !text.isEmpty) {
+			final highlighted = _highlighter!.highlight(text);
+			if (style != null) {
+				return TextSpan(
+					style: style,
+					children: highlighted.children,
+				);
+			}
+
+			return highlighted;
+		}
+
+		if (text.isEmpty || _patterns.isEmpty || isSourceMode) {
+			return TextSpan(text: text, style: style);
+		}
+    
+		final matches = <_HighlightMatch>[];
+    
+		for (final entry in _patterns.entries) {
+			final pattern = entry.key;
+			final textStyle = entry.value;
+      
+			for (final match in pattern.allMatches(text)) {
+				if (match.group(0)!.isNotEmpty) {
+					matches.add(_HighlightMatch(
+						start: match.start,
+						end: match.end,
+						style: textStyle,
+					));
+				}
+			}
+		}
+    
+		if (matches.isEmpty) {
+			return TextSpan(text: text, style: style);
+		}
+    
+		matches.sort((a, b) => a.start.compareTo(b.start));
+		final filtered = <_HighlightMatch>[];
+		var lastEnd = 0;
+    
+		for (final match in matches) {
+			if (match.start >= lastEnd) {
+				filtered.add(match);
+				lastEnd = match.end;
+			}
+		}
+    
+		final spans = <TextSpan>[];
+		var currentPos = 0;
+    
+		for (final match in filtered) {
+			if (match.start > currentPos) {
+				spans.add(TextSpan(
+					text: text.substring(currentPos, match.start),
+					style: style,
+				));
+			}
+      
+			spans.add(TextSpan(
+				text: text.substring(match.start, match.end),
+				style: style?.merge(match.style) ?? match.style,
+			));
+      
+			currentPos = match.end;
+		}
+    
+		if (currentPos < text.length) {
+			spans.add(TextSpan(
+				text: text.substring(currentPos),
+				style: style,
+			));
+		}
+    
+		return TextSpan(children: spans);
+	}
+  
+	@override
+	void dispose() {
+		_patterns.clear();
+		super.dispose();
+	}
+}
+
+class _HighlightMatch {
+	final int start;
+	final int end;
+	final TextStyle style;
+  
+	_HighlightMatch({
+		required this.start,
+		required this.end,
+		required this.style,
+	});
 }
