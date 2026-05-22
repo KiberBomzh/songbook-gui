@@ -14,9 +14,57 @@ String getEditorHelpMsg() =>
 List<String> getEditorKeywords() =>
     RustLib.instance.api.crateApiSongGetEditorKeywords();
 
+String chordsSymbol() => RustLib.instance.api.crateApiSongChordsSymbol();
+
+String rhythmSymbol() => RustLib.instance.api.crateApiSongRhythmSymbol();
+
+String textSymbol() => RustLib.instance.api.crateApiSongTextSymbol();
+
+String titleSymbol() => RustLib.instance.api.crateApiSongTitleSymbol();
+
+String blockNoteSymbol() => RustLib.instance.api.crateApiSongBlockNoteSymbol();
+
+String chordsLineSymbol() =>
+    RustLib.instance.api.crateApiSongChordsLineSymbol();
+
+String emptyLineSymbol() => RustLib.instance.api.crateApiSongEmptyLineSymbol();
+
 String blockStart() => RustLib.instance.api.crateApiSongBlockStart();
 
 String blockEnd() => RustLib.instance.api.crateApiSongBlockEnd();
+
+String plainTextStart() => RustLib.instance.api.crateApiSongPlainTextStart();
+
+String plainTextEnd() => RustLib.instance.api.crateApiSongPlainTextEnd();
+
+String tabStartSymbol() => RustLib.instance.api.crateApiSongTabStartSymbol();
+
+String tabEndSymbol() => RustLib.instance.api.crateApiSongTabEndSymbol();
+
+String songNoteStartSymbol() =>
+    RustLib.instance.api.crateApiSongSongNoteStartSymbol();
+
+String songNoteEndSymbol() =>
+    RustLib.instance.api.crateApiSongSongNoteEndSymbol();
+
+String metadataStart() => RustLib.instance.api.crateApiSongMetadataStart();
+
+String metadataEnd() => RustLib.instance.api.crateApiSongMetadataEnd();
+
+String songTitleSymbol() => RustLib.instance.api.crateApiSongSongTitleSymbol();
+
+String songArtistSymbol() =>
+    RustLib.instance.api.crateApiSongSongArtistSymbol();
+
+String songKeySymbol() => RustLib.instance.api.crateApiSongSongKeySymbol();
+
+String songCapoSymbol() => RustLib.instance.api.crateApiSongSongCapoSymbol();
+
+String songAutoscrollSpeedSymbol() =>
+    RustLib.instance.api.crateApiSongSongAutoscrollSpeedSymbol();
+
+String songShowOptionsSymbol() =>
+    RustLib.instance.api.crateApiSongSongShowOptionsSymbol();
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}

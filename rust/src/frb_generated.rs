@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1919900746;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2022950090;
 
 // Section: executor
 
@@ -1189,6 +1189,35 @@ fn wire__crate__api__song__block_end_impl(
         },
     )
 }
+fn wire__crate__api__song__block_note_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "block_note_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::block_note_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__song__block_start_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1213,6 +1242,64 @@ fn wire__crate__api__song__block_start_impl(
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok = Result::<_, ()>::Ok(crate::api::song::block_start())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__chords_line_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "chords_line_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::chords_line_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__chords_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "chords_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::chords_symbol())?;
                 Ok(output_ok)
             })())
         },
@@ -1317,6 +1404,35 @@ fn wire__crate__api__library__create_directory_impl(
                     Ok(output_ok)
                 })(),
             )
+        },
+    )
+}
+fn wire__crate__api__song__empty_line_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "empty_line_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::empty_line_symbol())?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -1616,6 +1732,64 @@ fn wire__crate__api__library__init_library_impl(
         },
     )
 }
+fn wire__crate__api__song__metadata_end_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "metadata_end",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::metadata_end())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__metadata_start_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "metadata_start",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::metadata_start())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__library__move_file_or_dir_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1683,6 +1857,64 @@ fn wire__crate__api__library__move_path_list_in_impl(
                     Ok(output_ok)
                 })(),
             )
+        },
+    )
+}
+fn wire__crate__api__song__plain_text_end_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "plain_text_end",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::plain_text_end())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__plain_text_start_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "plain_text_start",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::plain_text_start())?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -1781,6 +2013,35 @@ fn wire__crate__api__library__reset_library_impl(
         },
     )
 }
+fn wire__crate__api__song__rhythm_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "rhythm_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::rhythm_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__library__search_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1861,6 +2122,355 @@ fn wire__crate__api__song__simple_block_new_impl(
                     Ok(output_ok)
                 })())
             }
+        },
+    )
+}
+fn wire__crate__api__song__song_artist_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_artist_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_artist_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_autoscroll_speed_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_autoscroll_speed_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok =
+                    Result::<_, ()>::Ok(crate::api::song::song_autoscroll_speed_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_capo_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_capo_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_capo_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_key_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_key_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_key_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_note_end_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_note_end_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_note_end_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_note_start_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_note_start_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_note_start_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_show_options_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_show_options_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_show_options_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__song_title_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "song_title_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::song_title_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__tab_end_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "tab_end_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::tab_end_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__tab_start_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "tab_start_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::tab_start_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__text_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "text_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::text_symbol())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__title_symbol_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "title_symbol",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::title_symbol())?;
+                Ok(output_ok)
+            })())
         },
     )
 }
@@ -2195,8 +2805,8 @@ fn pde_ffi_dispatcher_primary_impl(
         13 => {
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
-        37 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
-        45 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        41 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
+        54 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -2243,24 +2853,47 @@ fn pde_ffi_dispatcher_sync_impl(
         23 => wire__crate__api__song__SimpleSong_transpose_impl(ptr, rust_vec_len, data_len),
         24 => wire__crate__api__library__add_new_song_impl(ptr, rust_vec_len, data_len),
         25 => wire__crate__api__song__block_end_impl(ptr, rust_vec_len, data_len),
-        26 => wire__crate__api__song__block_start_impl(ptr, rust_vec_len, data_len),
-        27 => wire__crate__api__library__copy_file_or_dir_impl(ptr, rust_vec_len, data_len),
-        28 => wire__crate__api__library__copy_path_list_in_impl(ptr, rust_vec_len, data_len),
-        29 => wire__crate__api__library__create_directory_impl(ptr, rust_vec_len, data_len),
-        30 => wire__crate__api__library__existence_check_impl(ptr, rust_vec_len, data_len),
-        31 => wire__crate__api__library__export_backup_impl(ptr, rust_vec_len, data_len),
-        32 => wire__crate__api__song__get_editor_help_msg_impl(ptr, rust_vec_len, data_len),
-        33 => wire__crate__api__song__get_editor_keywords_impl(ptr, rust_vec_len, data_len),
-        34 => wire__crate__api__library__get_forbidden_chars_impl(ptr, rust_vec_len, data_len),
-        35 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
-        36 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
-        38 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
-        39 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
-        40 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
-        41 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
-        42 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
-        43 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
-        44 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
+        26 => wire__crate__api__song__block_note_symbol_impl(ptr, rust_vec_len, data_len),
+        27 => wire__crate__api__song__block_start_impl(ptr, rust_vec_len, data_len),
+        28 => wire__crate__api__song__chords_line_symbol_impl(ptr, rust_vec_len, data_len),
+        29 => wire__crate__api__song__chords_symbol_impl(ptr, rust_vec_len, data_len),
+        30 => wire__crate__api__library__copy_file_or_dir_impl(ptr, rust_vec_len, data_len),
+        31 => wire__crate__api__library__copy_path_list_in_impl(ptr, rust_vec_len, data_len),
+        32 => wire__crate__api__library__create_directory_impl(ptr, rust_vec_len, data_len),
+        33 => wire__crate__api__song__empty_line_symbol_impl(ptr, rust_vec_len, data_len),
+        34 => wire__crate__api__library__existence_check_impl(ptr, rust_vec_len, data_len),
+        35 => wire__crate__api__library__export_backup_impl(ptr, rust_vec_len, data_len),
+        36 => wire__crate__api__song__get_editor_help_msg_impl(ptr, rust_vec_len, data_len),
+        37 => wire__crate__api__song__get_editor_keywords_impl(ptr, rust_vec_len, data_len),
+        38 => wire__crate__api__library__get_forbidden_chars_impl(ptr, rust_vec_len, data_len),
+        39 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
+        40 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
+        42 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
+        43 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),
+        44 => wire__crate__api__song__metadata_start_impl(ptr, rust_vec_len, data_len),
+        45 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
+        46 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
+        47 => wire__crate__api__song__plain_text_end_impl(ptr, rust_vec_len, data_len),
+        48 => wire__crate__api__song__plain_text_start_impl(ptr, rust_vec_len, data_len),
+        49 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
+        50 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
+        51 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
+        52 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
+        53 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
+        56 => {
+            wire__crate__api__song__song_autoscroll_speed_symbol_impl(ptr, rust_vec_len, data_len)
+        }
+        57 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
+        65 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }

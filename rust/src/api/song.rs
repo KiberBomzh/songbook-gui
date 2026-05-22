@@ -335,6 +335,41 @@ pub fn get_editor_keywords() -> Vec<String> {
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn chords_symbol() -> String {
+    CHORDS_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn rhythm_symbol() -> String {
+    RHYTHM_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn text_symbol() -> String {
+    TEXT_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn title_symbol() -> String {
+    TITLE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn block_note_symbol() -> String {
+    BLOCK_NOTE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn chords_line_symbol() -> String {
+    CHORDS_LINE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn empty_line_symbol() -> String {
+    EMPTY_LINE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn block_start() -> String {
     BLOCK_START.to_string()
 }
@@ -342,4 +377,74 @@ pub fn block_start() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn block_end() -> String {
     BLOCK_END.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn plain_text_start() -> String {
+    PLAIN_TEXT_START.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn plain_text_end() -> String {
+    PLAIN_TEXT_END.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn tab_start_symbol() -> String {
+    TAB_START_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn tab_end_symbol() -> String {
+    TAB_END_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_note_start_symbol() -> String {
+    SONG_NOTE_START_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_note_end_symbol() -> String {
+    SONG_NOTE_END_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn metadata_start() -> String {
+    METADATA_START.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn metadata_end() -> String {
+    METADATA_END.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_title_symbol() -> String {
+    SONG_TITLE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_artist_symbol() -> String {
+    SONG_ARTIST_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_key_symbol() -> String {
+    SONG_KEY_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_capo_symbol() -> String {
+    SONG_CAPO_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_autoscroll_speed_symbol() -> String {
+    SONG_AUTOSCROLL_SPEED_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_show_options_symbol() -> String {
+    SONG_SHOW_OPTIONS_SYMBOL.to_string()
 }
