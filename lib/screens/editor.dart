@@ -831,7 +831,7 @@ class CustomTextController extends TextEditingController {
 		end = RegExp.escape(end);
 
 		_patterns[ 
-			RegExp( '(?<=^${start}\n).*?(?=^${end}\$)',
+			RegExp( '(?<=^${start}\$).*?(?=^${end}\$)',
 				multiLine: true,
 				dotAll: true,
 			)
