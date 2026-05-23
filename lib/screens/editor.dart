@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
-import 'package:syntax_highlight/syntax_highlight.dart';
 
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
@@ -668,34 +667,71 @@ class FastLineState extends State<FastKeywordsLine> {
 
 class CustomTextController extends TextEditingController {
 	late SettingsProvider _settings;
+	late BuildContext context;
 
-	Highlighter? _highlighter;
 	bool isSourceMode;
-
 	final Map<RegExp, TextStyle> _patterns = {};
   
 
 	CustomTextController({
 		required this.isSourceMode,
 		String? text,
-	}) : super(text: text) {
-		_initHighlighter();
+	}) : super(text: text);
+
+
+	void _setPatterns() {
+		_patterns.clear();
+		if (isSourceMode)
+			_setYamlPatterns();
+		else
+			_setRawPatterns();
 	}
 
-	Future<void> _initHighlighter() async {
-		final language = 'yaml';
-		await Highlighter.initialize([language]);
-		final theme = await HighlighterTheme.loadDarkTheme();
-		_highlighter = Highlighter(
-			language: language,
-			theme: theme,
+	void _setYamlPatterns() {
+		// Ключи (слова перед двоеточием)
+		_patterns[RegExp(r'(?<=^[ \t]*(?:- )?)[\w\-\.]+(?=\s*:)', multiLine: true)] =
+		TextStyle(
+			color: Colors.blue,
+			fontWeight: FontWeight.bold,
 		);
 
-		notifyListeners();
+		// Строковые значения в кавычках
+		_patterns[RegExp('"[^"]*"|\'[^\']*\'')] = TextStyle(
+			color: Colors.yellow,
+		);
+
+		// Числовые значения
+		_patterns[RegExp(r'(?<![a-zA-Z0-9_#])\d+\.?\d*(?![a-zA-Z0-9_])')] = TextStyle(
+			color: Colors.orange,
+		);
+
+		// Булевы значения и null
+		_patterns[RegExp(r'\b(true|false|yes|no|on|off|null|~)\b', caseSensitive: true)] =
+		TextStyle(
+			color: Colors.orange,
+			fontWeight: FontWeight.bold,
+		);
+
+		// Списки (элементы с дефисом)
+		_patterns[RegExp(r'^(\s*)-\s', multiLine: true)] = TextStyle(
+			color: Colors.redAccent,
+			fontWeight: FontWeight.bold,
+		);
+
+		// Якоря и ссылки
+		_patterns[RegExp(r'&[\w]+|\*[\w]+')] = TextStyle(
+			color: Colors.teal,
+			fontWeight: FontWeight.bold,
+		);
+
+		// Теги YAML
+		_patterns[RegExp(r'![\w]+')] = TextStyle(
+			color: Colors.pink,
+			fontWeight: FontWeight.bold,
+		);
 	}
 
-	void _setPatterns(BuildContext context) {
-		_patterns.clear();
+	_setRawPatterns() {
 		_setMetadataPatterns();
 		
 		final blockColor = Colors.orange;
@@ -800,23 +836,12 @@ class CustomTextController extends TextEditingController {
 		TextStyle? style,
 		required bool withComposing,
 	}) {
+		this.context = context;
 		_settings = context.watch<SettingsProvider>();
-		_setPatterns(context);
+		_setPatterns();
 
 
-		if (isSourceMode && _highlighter != null && !text.isEmpty) {
-			final highlighted = _highlighter!.highlight(text);
-			if (style != null) {
-				return TextSpan(
-					style: style,
-					children: highlighted.children,
-				);
-			}
-
-			return highlighted;
-		}
-
-		if (text.isEmpty || _patterns.isEmpty || isSourceMode) {
+		if (text.isEmpty || _patterns.isEmpty) {
 			return TextSpan(text: text, style: style);
 		}
     
@@ -899,3 +924,4 @@ class _HighlightMatch {
 		required this.style,
 	});
 }
+

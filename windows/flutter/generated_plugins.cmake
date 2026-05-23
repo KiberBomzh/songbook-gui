@@ -3,10 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  irondash_engine_context
   restart_app
   share_plus
-  super_native_extensions
   url_launcher_windows
 )
 
