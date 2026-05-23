@@ -666,7 +666,6 @@ class FastLineState extends State<FastKeywordsLine> {
 }
 
 class CustomTextController extends TextEditingController {
-	late SettingsProvider _settings;
 	late BuildContext context;
 
 	bool isSourceMode;
@@ -732,12 +731,21 @@ class CustomTextController extends TextEditingController {
 	}
 
 	_setRawPatterns() {
+		final notesColor = Colors.grey;
+		final chordsColor = Colors.lime;
+		final rhythmColor = Colors.orange;
+		final textColor = Theme.of(context).colorScheme.onSurface;
+
+		final keywordOpacity = 0.5;
+
+
+
 		_setMetadataPatterns();
 		
-		_addBlockPattern(blockStart(), blockEnd(), Colors.indigo);
-		_addKeyValuePattern(titleSymbol(), _settings.titleColor(context));
-		_addKeyValuePattern(blockNoteSymbol(), _settings.notesColor(context));
-		_addKeyValuePattern(chordsLineSymbol(), _settings.chordsColor(context));
+		_addBlockPattern(blockStart(), blockEnd(), Colors.indigoAccent);
+		_addKeyValuePattern(titleSymbol(), Colors.lightGreen);
+		_addKeyValuePattern(blockNoteSymbol(), notesColor);
+		_addKeyValuePattern(chordsLineSymbol(), chordsColor);
 
 		_addBlockPattern(plainTextStart(), plainTextEnd(), Colors.green);
 		_addInBlockPattern(
@@ -753,12 +761,12 @@ class CustomTextController extends TextEditingController {
 			TextStyle(fontWeight: .bold),
 		);
 
-		_addBlockPattern(songNoteStartSymbol(), songNoteEndSymbol(), _settings.notesColor(context));
+		_addBlockPattern(songNoteStartSymbol(), songNoteEndSymbol(), notesColor);
 		_addInBlockPattern(
 			songNoteStartSymbol(),
 			songNoteEndSymbol(),
 			TextStyle(
-				color: _settings.notesColor(context),
+				color: notesColor,
 				fontStyle: .italic,
 			),
 		);
@@ -767,14 +775,8 @@ class CustomTextController extends TextEditingController {
 		_patterns[RegExp(
 			'^' + RegExp.escape(emptyLineSymbol()) + '\$',
 			multiLine: true,
-		)] = TextStyle(color: Colors.grey);
+		)] = TextStyle(color: notesColor);
 
-
-		final chordsColor = _settings.chordsColor(context);
-		final rhythmColor = _settings.rhythmColor(context);
-		final textColor = _settings.textColor(context);
-
-		final keywordOpacity = 0.5;
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(chordsSymbol()),
@@ -782,7 +784,7 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: chordsColor.withOpacity(keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
 			'(?<=' + RegExp.escape(chordsSymbol()) + ')\s*.+',
-		)] = _settings.chordsStyle(context);
+		)] = TextStyle(color: chordsColor);
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(rhythmSymbol()),
@@ -790,7 +792,7 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: rhythmColor.withOpacity(keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
 			'(?<=' + RegExp.escape(rhythmSymbol()) + ')\s*.+',
-		)] = _settings.rhythmStyle(context);
+		)] = TextStyle(color: rhythmColor);
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(textSymbol()),
@@ -798,12 +800,12 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: textColor.withOpacity(keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
 			'(?<=' + RegExp.escape(textSymbol()) + ')\s*.+',
-		)] = _settings.textStyle(context);
+		)] = TextStyle(color: textColor);
 	}
 	void _setMetadataPatterns() {
 		final metadataPrimaryColor = Colors.blue;
 		final metadataSecondaryColor = Colors.cyan;
-		final metadataBlockColor = Colors.indigo;
+		final metadataBlockColor = Colors.indigoAccent;
 
 
 		_addBlockPattern(metadataStart(), metadataEnd(), metadataBlockColor);
@@ -846,7 +848,6 @@ class CustomTextController extends TextEditingController {
 		required bool withComposing,
 	}) {
 		this.context = context;
-		_settings = context.watch<SettingsProvider>();
 		_setPatterns();
 
 
