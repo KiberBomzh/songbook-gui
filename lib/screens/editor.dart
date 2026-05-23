@@ -734,9 +734,7 @@ class CustomTextController extends TextEditingController {
 	_setRawPatterns() {
 		_setMetadataPatterns();
 		
-		final blockColor = Colors.orange;
-
-		_addBlockPattern(blockStart(), blockEnd(), blockColor);
+		_addBlockPattern(blockStart(), blockEnd(), Colors.indigo);
 		_addKeyValuePattern(titleSymbol(), _settings.titleColor(context));
 		_addKeyValuePattern(blockNoteSymbol(), _settings.notesColor(context));
 		_addKeyValuePattern(chordsLineSymbol(), _settings.chordsColor(context));
@@ -748,7 +746,7 @@ class CustomTextController extends TextEditingController {
 			TextStyle(fontStyle: .italic, fontWeight: .bold)
 		);
 
-		_addBlockPattern(tabStartSymbol(), tabEndSymbol(), Colors.purpleAccent);
+		_addBlockPattern(tabStartSymbol(), tabEndSymbol(), Colors.lightBlue);
 		_addInBlockPattern(
 			tabStartSymbol(),
 			tabEndSymbol(),
@@ -776,25 +774,36 @@ class CustomTextController extends TextEditingController {
 		final rhythmColor = _settings.rhythmColor(context);
 		final textColor = _settings.textColor(context);
 
+		final keywordOpacity = 0.5;
+
 		_patterns[RegExp(
 			'^' + RegExp.escape(chordsSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: chordsColor, fontWeight: .bold);
+		)] = TextStyle(color: chordsColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		_patterns[RegExp(
+			'(?<=' + RegExp.escape(chordsSymbol()) + ')\s*.+',
+		)] = _settings.chordsStyle(context);
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(rhythmSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: rhythmColor, fontWeight: .bold);
+		)] = TextStyle(color: rhythmColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		_patterns[RegExp(
+			'(?<=' + RegExp.escape(rhythmSymbol()) + ')\s*.+',
+		)] = _settings.rhythmStyle(context);
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(textSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: textColor, fontWeight: .bold);
+		)] = TextStyle(color: textColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		_patterns[RegExp(
+			'(?<=' + RegExp.escape(textSymbol()) + ')\s*.+',
+		)] = _settings.textStyle(context);
 	}
 	void _setMetadataPatterns() {
 		final metadataPrimaryColor = Colors.blue;
 		final metadataSecondaryColor = Colors.cyan;
-		final metadataBlockColor = Colors.limeAccent;
+		final metadataBlockColor = Colors.indigo;
 
 
 		_addBlockPattern(metadataStart(), metadataEnd(), metadataBlockColor);
