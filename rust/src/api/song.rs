@@ -296,6 +296,8 @@ use songbook::{
     PLAIN_TEXT_END,
     TAB_START_SYMBOL,
     TAB_END_SYMBOL,
+    ROW_START,
+    ROW_END,
     CHORDS_SYMBOL,
     RHYTHM_SYMBOL,
     TEXT_SYMBOL,
@@ -310,6 +312,8 @@ pub fn get_editor_keywords() -> Vec<String> {
     keywords.push(CHORDS_SYMBOL.to_string());
     keywords.push(RHYTHM_SYMBOL.to_string());
     keywords.push(TEXT_SYMBOL.to_string());
+    keywords.push(ROW_START.to_string());
+    keywords.push(ROW_END.to_string());
     keywords.push(TITLE_SYMBOL.to_string());
     keywords.push(BLOCK_NOTE_SYMBOL.to_string());
     keywords.push(CHORDS_LINE_SYMBOL.to_string());
@@ -347,6 +351,16 @@ pub fn rhythm_symbol() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn text_symbol() -> String {
     TEXT_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn row_start() -> String {
+    ROW_START.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn row_end() -> String {
+    ROW_END.to_string()
 }
 
 #[flutter_rust_bridge::frb(sync)]

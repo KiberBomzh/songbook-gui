@@ -779,6 +779,8 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: notesColor);
 
 
+		_addBlockPattern(rowStart(), rowEnd(), Colors.yellow);
+
 		_patterns[RegExp(
 			'^' + RegExp.escape(chordsSymbol()),
 			multiLine: true,

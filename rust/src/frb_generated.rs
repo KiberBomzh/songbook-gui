@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2022950090;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1171648948;
 
 // Section: executor
 
@@ -2042,6 +2042,64 @@ fn wire__crate__api__song__rhythm_symbol_impl(
         },
     )
 }
+fn wire__crate__api__song__row_end_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "row_end",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::row_end())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__song__row_start_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "row_start",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::song::row_start())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__library__search_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -2806,7 +2864,7 @@ fn pde_ffi_dispatcher_primary_impl(
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
         41 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
-        54 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        56 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -2879,21 +2937,23 @@ fn pde_ffi_dispatcher_sync_impl(
         50 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
         51 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
         52 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
-        55 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
-        56 => {
+        53 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
+        54 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
+        57 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
+        58 => {
             wire__crate__api__song__song_autoscroll_speed_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        57 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
-        58 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
-        59 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
-        60 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
-        61 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
-        62 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
-        64 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
-        65 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
-        66 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
+        65 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
+        67 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }

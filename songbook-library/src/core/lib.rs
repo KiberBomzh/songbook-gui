@@ -48,6 +48,9 @@ pub const PLAIN_TEXT_END: &str = "{:plain_text}";
 pub const TAB_START_SYMBOL: &str = "{tab:}";
 pub const TAB_END_SYMBOL: &str = "{:tab}";
 
+pub const ROW_START: &str = "{row:}";
+pub const ROW_END: &str = "{:row}";
+
 pub const CHORDS_SYMBOL: &str = "{C}|";
 pub const RHYTHM_SYMBOL: &str = "{R}|";
 pub const TEXT_SYMBOL: &str = "{T}|";

@@ -20,6 +20,10 @@ String rhythmSymbol() => RustLib.instance.api.crateApiSongRhythmSymbol();
 
 String textSymbol() => RustLib.instance.api.crateApiSongTextSymbol();
 
+String rowStart() => RustLib.instance.api.crateApiSongRowStart();
+
+String rowEnd() => RustLib.instance.api.crateApiSongRowEnd();
+
 String titleSymbol() => RustLib.instance.api.crateApiSongTitleSymbol();
 
 String blockNoteSymbol() => RustLib.instance.api.crateApiSongBlockNoteSymbol();

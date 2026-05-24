@@ -7,9 +7,8 @@ use crate::{
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
-    CHORDS_SYMBOL,
-    RHYTHM_SYMBOL,
-    TEXT_SYMBOL,
+    ROW_START,
+    ROW_END,
     EMPTY_LINE_SYMBOL,
     CHORDS_LINE_SYMBOL,
     PLAIN_TEXT_START,
@@ -84,7 +83,13 @@ impl Block {
             if is_first_row { is_first_row = false }
             else { s.push('\n') }
             match line {
-                Line::TextBlock(row) => row.get_for_editing(s),
+                Line::TextBlock(row) => {
+                    s.push_str(ROW_START);
+                    s.push('\n');
+                    row.get_for_editing(s);
+                    s.push_str(ROW_END);
+                    s.push('\n');
+                },
                 Line::ChordsLine(chords) => {
                     s.push_str(CHORDS_LINE_SYMBOL);
                     for chord in chords {
@@ -137,7 +142,7 @@ impl Block {
         let mut is_tab = false;
         let mut tab_buf = String::new();
 
-        
+        let mut is_row = false;
         let mut row_buf = String::new();
         for line in text.lines() {
             if line.starts_with(PLAIN_TEXT_END) {
@@ -164,6 +169,18 @@ impl Block {
             } else if line.starts_with(TAB_START_SYMBOL) {
                 is_tab = true;
 
+            } else if line.starts_with(ROW_END) {
+                is_row = false;
+                lines.push( Line::TextBlock(Row::from_edited(&row_buf)) );
+                row_buf.clear();
+            } else if is_row {
+                if !row_buf.is_empty() {
+                    row_buf.push('\n');
+                }
+                row_buf.push_str(line);
+            } else if line.starts_with(ROW_START) {
+                is_row = true;
+
             } else if line.starts_with(TITLE_SYMBOL) {
                 let t = line[TITLE_SYMBOL.len()..].trim().to_string();
                 if !t.is_empty() { title = Some(t) }
@@ -180,13 +197,6 @@ impl Block {
                     }
                 }
                 lines.push( Line::ChordsLine(chords) );
-            } else if line.starts_with(CHORDS_SYMBOL) || line.starts_with(RHYTHM_SYMBOL) {
-                row_buf.push_str(line);
-                row_buf.push('\n');
-            } else if line.starts_with(TEXT_SYMBOL) {
-                row_buf.push_str(line);
-                lines.push( Line::TextBlock(Row::from_edited(&row_buf)) );
-                row_buf.clear();
             }
         }
 
