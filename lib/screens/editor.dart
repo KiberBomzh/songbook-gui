@@ -1201,11 +1201,7 @@ class BlockState extends State<Block> {
 		_settings = context.watch<SettingsProvider>();
 
 		return Padding(
-			padding: const .only(
-				top: 10,
-				left: 10,
-				right: 10,
-			),
+			padding: const .all(10),
 			child: Column(
 				crossAxisAlignment: .start,
 				children: [
