@@ -1313,12 +1313,16 @@ class TextBlockState extends State<TextBlock> {
 	late final TextEditingController _rhythmController;
 	late final TextEditingController _textController;
 
+	late final ScrollController _scrollController;
+
+
 	@override
 	void initState() {
 		super.initState();
 		_chordsController = TextEditingController(text: widget.chords);
 		_rhythmController = TextEditingController(text: widget.rhythm);
 		_textController = TextEditingController(text: widget.text);
+		_scrollController = ScrollController();
 	}
 
 	@override
@@ -1326,6 +1330,7 @@ class TextBlockState extends State<TextBlock> {
 		_chordsController.dispose();
 		_rhythmController.dispose();
 		_textController.dispose();
+		_scrollController.dispose();
 		super.dispose();
 	}
 
@@ -1350,7 +1355,17 @@ class TextBlockState extends State<TextBlock> {
 				children: [
 					_buildLinesHelp(),
 					Expanded(
-						child: _buildLines(),
+						child: Scrollbar(
+							controller: _scrollController,
+							interactive: true,
+							thickness: 5.0,
+							radius: const .circular(8),
+							child: SingleChildScrollView(
+								controller: _scrollController,
+								scrollDirection: .horizontal,
+								child: _buildLines(),
+							),
+						),
 					),
 				],
 			),
@@ -1388,6 +1403,8 @@ class TextBlockState extends State<TextBlock> {
 						height: _lineHeight,
 						child: Text('T', style: textStyle),
 					),
+
+					const SizedBox(height: 10),
 				],
 			),
 		);
@@ -1397,38 +1414,47 @@ class TextBlockState extends State<TextBlock> {
 		crossAxisAlignment: .start,
 		mainAxisAlignment: .start,
 		children: [
-			SizedBox(
-				height: _lineHeight,
-				child: TextField(
-					controller: _chordsController,
-					style: _settings.chordsStyle(context),
-					selectionWidthStyle: .tight,
-					decoration: _buildInputDecoration(),
-					onChanged: (value) => widget.chords = value,
+			IntrinsicWidth(
+				child: SizedBox(
+					height: _lineHeight,
+					child: TextField(
+						controller: _chordsController,
+						style: _settings.chordsStyle(context),
+						selectionWidthStyle: .tight,
+						decoration: _buildInputDecoration(),
+						onChanged: (value) => widget.chords = value,
+					),
 				),
 			),
 
-			SizedBox(
-				height: _lineHeight,
-				child: TextField(
-					controller: _rhythmController,
-					style: _settings.rhythmStyle(context),
-					selectionWidthStyle: .tight,
-					decoration: _buildInputDecoration(),
-					onChanged: (value) => widget.rhythm = value,
+			IntrinsicWidth(
+				child: SizedBox(
+					height: _lineHeight,
+					child: TextField(
+						controller: _rhythmController,
+						style: _settings.rhythmStyle(context),
+						selectionWidthStyle: .tight,
+						decoration: _buildInputDecoration(),
+						onChanged: (value) => widget.rhythm = value,
+					),
 				),
 			),
 
-			SizedBox(
-				height: _lineHeight,
-				child: TextField(
-					controller: _textController,
-					style: _settings.textStyle(context),
-					selectionWidthStyle: .tight,
-					decoration: _buildInputDecoration(),
-					onChanged: (value) => widget.text = value,
+			IntrinsicWidth(
+				child: SizedBox(
+					height: _lineHeight,
+					child: TextField(
+						controller: _textController,
+						style: _settings.textStyle(context),
+						selectionWidthStyle: .tight,
+						decoration: _buildInputDecoration(),
+						onChanged: (value) => widget.text = value,
+					),
 				),
 			),
+
+
+			const SizedBox(height: 10),
 		],
 	);
 
