@@ -1508,7 +1508,6 @@ class ChordsLineState extends State<ChordsLine> {
 				controller: _controller,
 				style: _settings.chordsStyle(context),
 				onChanged: (value) => widget.chords = value,
-				label: 'ChordsLine',
 			),
 		);
 	}
