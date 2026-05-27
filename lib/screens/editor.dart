@@ -1632,9 +1632,9 @@ class EmptyLine extends Line {
 class EmptyLineState extends State<EmptyLine> {
 	@override
 	Widget build(BuildContext context) {
-		return Container(
-			margin: const .all(20),
-			child: Center(child: Text('EmptyLine')),
+		return LineContainer(
+			title: Text('EmptyLine'),
+			child: Text(''),
 		);
 	}
 }
