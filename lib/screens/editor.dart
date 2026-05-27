@@ -1311,6 +1311,7 @@ class TextBlock extends Line {
 }
 class TextBlockState extends State<TextBlock> {
 	late SettingsProvider _settings;
+	late double _lineHeight;
 
 	late final TextEditingController _chordsController;
 	late final TextEditingController _rhythmController;
@@ -1332,44 +1333,114 @@ class TextBlockState extends State<TextBlock> {
 		super.dispose();
 	}
 
+	void _calculateLineHeight() {
+		final textPainter = TextPainter(
+			text: TextSpan(text: 'I', style: _settings.textStyle(context)),
+			textDirection: .ltr
+		)..layout();
+		_lineHeight = textPainter.height;
+	}
+
 
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
+		_calculateLineHeight();
 
 
 		return LineContainer(
 			title: Text('Row'),
-			child: Column(
-				crossAxisAlignment: .start,
+			child: Row(
 				children: [
-					OneLineTextField(
-						controller: _chordsController,
-						style: _settings.chordsStyle(context),
-						onChanged: (value) => widget.chords = value,
-						label: 'Chords',
+					_buildLinesHelp(),
+					Expanded(
+						child: _buildLines(),
 					),
-					const SizedBox(height: 5),
-
-					OneLineTextField(
-						controller: _rhythmController,
-						style: _settings.rhythmStyle(context),
-						onChanged: (value) => widget.rhythm = value,
-						label: 'Rhythm',
-					),
-					const SizedBox(height: 5),
-
-					OneLineTextField(
-						controller: _textController,
-						style: _settings.textStyle(context),
-						onChanged: (value) => widget.text = value,
-						label: 'Text',
-					),
-					const SizedBox(height: 5),
 				],
 			),
 		);
 	}
+
+	Widget _buildLinesHelp() {
+		final textStyle = _settings.textStyle(context);
+
+		return Container(
+			padding: const .only(right: 2),
+			margin: const .only(right: 5),
+			decoration: BoxDecoration(
+				border: Border(
+					right: BorderSide(
+						width: 2,
+						color: Theme.of(context).colorScheme.outline,
+					),
+				),
+			),
+			child: Column(
+				mainAxisAlignment: .start,
+				children: [
+					SizedBox(
+						height: _lineHeight,
+						child: Text('C', style: textStyle),
+					),
+
+					SizedBox(
+						height: _lineHeight,
+						child: Text('R', style: textStyle),
+					),
+
+					SizedBox(
+						height: _lineHeight,
+						child: Text('T', style: textStyle),
+					),
+				],
+			),
+		);
+	}
+
+	Widget _buildLines() => Column(
+		crossAxisAlignment: .start,
+		mainAxisAlignment: .start,
+		children: [
+			SizedBox(
+				height: _lineHeight,
+				child: TextField(
+					controller: _chordsController,
+					style: _settings.chordsStyle(context),
+					selectionWidthStyle: .tight,
+					decoration: _buildInputDecoration(),
+					onChanged: (value) => widget.chords = value,
+				),
+			),
+
+			SizedBox(
+				height: _lineHeight,
+				child: TextField(
+					controller: _rhythmController,
+					style: _settings.rhythmStyle(context),
+					selectionWidthStyle: .tight,
+					decoration: _buildInputDecoration(),
+					onChanged: (value) => widget.rhythm = value,
+				),
+			),
+
+			SizedBox(
+				height: _lineHeight,
+				child: TextField(
+					controller: _textController,
+					style: _settings.textStyle(context),
+					selectionWidthStyle: .tight,
+					decoration: _buildInputDecoration(),
+					onChanged: (value) => widget.text = value,
+				),
+			),
+		],
+	);
+
+	InputDecoration _buildInputDecoration() => InputDecoration(
+		border: .none,
+		contentPadding: .all(0),
+		isCollapsed: true,
+	);
 }
 
 class ChordsLine extends Line {
@@ -1768,9 +1839,7 @@ class LineContainer extends StatelessWidget {
 					),
 
 					const SizedBox(height: 10),
-					Expanded(
-						child: child,
-					),
+					child,
 				],
 			),
 		);
