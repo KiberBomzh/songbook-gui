@@ -1266,17 +1266,11 @@ class TextBlock extends Line {
 		
 		for (final line in lines.split('\n')) {
 			if (line.startsWith(chordsSymbol())) {
-				final c = line.substring(chordsSymbol().length);
-				if (c.trim().isNotEmpty)
-					chords = c;
+				chords = line.substring(chordsSymbol().length);
 			} else if (line.startsWith(rhythmSymbol())) {
-				final r = line.substring(rhythmSymbol().length);
-				if (r.trim().isNotEmpty)
-					rhythm = r;
+				rhythm = line.substring(rhythmSymbol().length);
 			} else if (line.startsWith(textSymbol())) {
-				final t = line.substring(textSymbol().length);
-				if (t.trim().isNotEmpty)
-					text = t;
+				text = line.substring(textSymbol().length);
 			}
 		}
 
