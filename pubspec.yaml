@@ -48,6 +48,7 @@ dependencies:
   wakelock_plus: ^1.5.2
   restart_app: ^1.8.3
   linked_scroll_controller: ^0.2.0
+  drag_and_drop_lists: ^0.4.2
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_test:

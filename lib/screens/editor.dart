@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
@@ -11,7 +12,8 @@ import 'package:songbook/src/rust/api/song.dart';
 
 enum EditorMode {
 	source,
-	raw
+	raw,
+	normal
 }
 
 
@@ -36,6 +38,7 @@ class _EditorState extends State<EditorScreen> {
 	late SettingsProvider _settings;
 
 
+	final GlobalKey<SongEditorState> _graphicalEditorKey = GlobalKey<SongEditorState>();
 	late EditorMode _currentMode;
 
 	String? _rawText;
@@ -67,7 +70,7 @@ class _EditorState extends State<EditorScreen> {
 	@override
 	void initState() {
 		super.initState();
-		_currentMode = widget.mode ?? EditorMode.raw;
+		_currentMode = widget.mode ?? EditorMode.normal;
 		_textController = CustomTextController(
 			isSourceMode: _currentMode == EditorMode.source,
 		);
@@ -111,6 +114,8 @@ class _EditorState extends State<EditorScreen> {
 			_rawHistoryIndex = -1;
 			_rawSelection = null;
 		} else {
+			if (_currentMode == EditorMode.normal)
+				await _graphicalEditorKey.currentState?.writeInMainTextController();
 			widget.song?.changeFromEdited(s: _textController.text);
 			_sourceText = null;
 			_sourceHistory = [];
@@ -258,12 +263,17 @@ class _EditorState extends State<EditorScreen> {
 					children: [
 						SizedBox( height: MediaQuery.of(context).padding.top), // top safe area
 						Expanded(
-							child: EditorField(
-								controller: _textController,
-								focusNode: _focusNode,
-								onChanged: (_) => _saveToHistory(),
-								onTap: _updateSelection,
-							),
+							child: (_currentMode == EditorMode.normal)
+								? GraphicalSongEditor(
+									key: _graphicalEditorKey,
+									mainTextController: _textController,
+								)
+								: EditorField(
+									controller: _textController,
+									focusNode: _focusNode,
+									onChanged: (_) => _saveToHistory(),
+									onTap: _updateSelection,
+								),
 						),
 
 						if (_currentMode == EditorMode.raw)
@@ -299,104 +309,98 @@ class _EditorState extends State<EditorScreen> {
 								value: EditorMode.raw,
 								label: Text('Raw'),
 							),
+							ButtonSegment(
+								value: EditorMode.normal,
+								label: Text('Normal'),
+							),
 						],
 						selected: <EditorMode>{_currentMode},
-						onSelectionChanged: (newSelection) => setState(() {
-							switch (_currentMode) {
-								case (EditorMode.source):
-									if (widget.song == null) {
-										try {
-											widget.song = SimpleSong.open(pathStr: widget.path);
-										} catch (e) {
-											showDialog(
-												context: context,
-												builder: (context) => AlertDialog(
-													title: const Text("Error whil opening song..."),
-													content: SizedBox(
-														height: MediaQuery.of(context).size.height * 0.8,
-														child: SingleChildScrollView(
-															child: Padding(
-																padding: const .all(5),
-																child: Text(e.toString()),
-															),
+						onSelectionChanged: (newSelection) async {
+							if (_currentMode == EditorMode.source) {
+								if (widget.song == null) {
+									try {
+										widget.song = SimpleSong.open(pathStr: widget.path);
+									} catch (e) {
+										showDialog(
+											context: context,
+											builder: (context) => AlertDialog(
+												title: const Text("Error whil opening song..."),
+												content: SizedBox(
+													height: MediaQuery.of(context).size.height * 0.8,
+													child: SingleChildScrollView(
+														child: Padding(
+															padding: const .all(5),
+															child: Text(e.toString()),
 														),
 													),
-													actions: [
-														TextButton(
-															child: Text("Ok"),
-															onPressed: () => Navigator.of(context).pop(),
-														),
-													],
 												),
-											);
-											return;
-										}
+												actions: [
+													TextButton(
+														child: Text("Ok"),
+														onPressed: () => Navigator.of(context).pop(),
+													),
+												],
+											),
+										);
+										return;
 									}
+								}
 
-									_textController.isSourceMode = false;
+								_textController.isSourceMode = false;
 
-									_sourceText = _textController.text;
-									_sourceHistory = _history;
-									_sourceHistoryIndex = _historyIndex;
-									_sourceSelection = _textController.selection;
-									_historyTimer?.cancel();
+								_sourceText = _textController.text;
+								_sourceHistory = _history;
+								_sourceHistoryIndex = _historyIndex;
+								_sourceSelection = _textController.selection;
+								_historyTimer?.cancel();
 
-									_currentMode = newSelection.first;
+								_currentMode = newSelection.first;
 
-									switch (newSelection.first) {
-										case (EditorMode.raw):
-											if (_rawText != null) {
-												_textController.text = _rawText!;
-											} else {
-												_loadText();
-											}
 
-											_textController.selection = _rawSelection ?? TextSelection.collapsed(offset: 0);
 
-											_history = _rawHistory;
-											_historyIndex = _rawHistoryIndex;
-											if (_historyIndex < 0)
-												_saveToHistory();
-											break;
+								if (_rawText != null) {
+									_textController.text = _rawText!;
+								} else {
+									_loadText();
+								}
 
-										default:
-											break;
-									}
-									break;
+								_textController.selection = _rawSelection ?? TextSelection.collapsed(offset: 0);
 
-								case (EditorMode.raw):
+								_history = _rawHistory;
+								_historyIndex = _rawHistoryIndex;
+								if (_historyIndex < 0)
+									_saveToHistory();
+							} else {
+								if (_currentMode == EditorMode.normal)
+									await _graphicalEditorKey.currentState?.writeInMainTextController();
+
+								_currentMode = newSelection.first;
+								if (newSelection.first == EditorMode.source) {
 									_rawText = _textController.text;
 									_rawHistory = _history;
 									_rawHistoryIndex = _historyIndex;
 									_rawSelection = _textController.selection;
 									_historyTimer?.cancel();
 
-									_currentMode = newSelection.first;
-
-									switch (newSelection.first) {
-										case (EditorMode.source):
-											if (_sourceText != null) {
-												_textController.text = _sourceText!;
-											} else {
-												_loadText();
-											}
-
-											_textController.selection = _sourceSelection ?? TextSelection.collapsed(offset: 0);
-
-											_history = _sourceHistory;
-											_historyIndex = _sourceHistoryIndex;
-											if (_historyIndex < 0)
-												_saveToHistory();
-
-											_textController.isSourceMode = true;
-											break;
-
-										default:
-											break;
+									if (_sourceText != null) {
+										_textController.text = _sourceText!;
+									} else {
+										_loadText();
 									}
-									break;
+
+									_textController.selection = _sourceSelection ?? TextSelection.collapsed(offset: 0);
+
+									_history = _sourceHistory;
+									_historyIndex = _sourceHistoryIndex;
+									if (_historyIndex < 0)
+										_saveToHistory();
+
+									_textController.isSourceMode = true;
+								}
 							}
-						}),
+
+							setState(() {});
+						},
 					),
 				),
 
@@ -422,18 +426,19 @@ class _EditorState extends State<EditorScreen> {
 								onPressed: _save,
 							),
 
-							IconButton(
-								icon: Icon(Icons.help),
-								tooltip: 'Help',
-								onPressed: _showHelp,
-							),
 
-							if (_currentMode == EditorMode.raw)
+							if (_currentMode == EditorMode.raw) ...[
+								IconButton(
+									icon: Icon(Icons.help),
+									tooltip: 'Help',
+									onPressed: _showHelp,
+								),
 								IconButton(
 									icon: Icon(Icons.article),
 									tooltip: 'Select block',
 									onPressed: _selectBlock,
 								),
+							],
 
 							IconButton(
 								icon: Icon(Icons.undo),
@@ -938,3 +943,894 @@ class _HighlightMatch {
 	});
 }
 
+
+class GraphicalSongEditor extends StatefulWidget {
+	final CustomTextController mainTextController;
+
+	GraphicalSongEditor({
+		super.key,
+		required this.mainTextController,
+	});
+
+
+	@override
+	State<GraphicalSongEditor> createState() => SongEditorState();
+}
+class SongEditorState extends State<GraphicalSongEditor> {
+	late Metadata _metadata;
+	String songNote = '';
+	List<DragAndDropList> _contents = [];
+
+	@override
+	initState() {
+		super.initState();
+		readFromMainTextController();
+
+	}
+
+	void readFromMainTextController() {
+		_metadata = Metadata.from_string(widget.mainTextController.text);
+		_parseBlocks();
+	}
+	void _parseBlocks() {
+		String blockText = '';
+		bool inBlock = false;
+		bool inSongNote = false;
+		for (final line in widget.mainTextController.text.split('\n')) {
+			if (inBlock) {
+				if (line.startsWith(blockEnd())) {
+					inBlock = false;
+					final (block, lines) = Block.from_string(blockText, 'block_${_contents.length + 1}');
+					_contents.add(
+						DragAndDropList(
+							header: block,
+							children: lines.map((line) => DragAndDropItem(child: line)).toList(),
+							leftSide: const SizedBox(width: 20),
+							rightSide: const SizedBox(width: 20),
+						),
+					);
+					blockText = '';
+				} else {
+					blockText += line + '\n';
+				}
+			} else if (inSongNote) {
+				if (line.startsWith(songNoteEndSymbol())) {
+					inSongNote = false;
+				} else {
+					songNote += line + '\n';
+				}
+			} else {
+				if (line.startsWith(songNoteStartSymbol())) {
+					inSongNote = true;
+				} else if (line.startsWith(blockStart())) {
+					inBlock = true;
+				}
+			}
+		}
+	}
+
+	Future<void> writeInMainTextController() async {
+		String text = '';
+
+		text += _metadata.to_string();
+		if (songNote.isNotEmpty) {
+			text += songNoteStartSymbol() + '\n';
+			text += songNote;
+			if (!text.endsWith('\n'))
+				text += '\n';
+			text += songNoteEndSymbol() + '\n\n';
+		}
+
+		for (final list in _contents) {
+			final Block block = list.header! as Block;
+			final lines = list.children.map((item) => item.child as Line).toList();
+			text += block.to_string(lines);
+		}
+
+		widget.mainTextController.text = text;
+	}
+
+
+	@override
+	Widget build(BuildContext context) {
+		return DragAndDropLists(
+			children: _contents,
+			onItemReorder: _onItemReorder,
+			onListReorder: _onListReorder,
+			listDecoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainer,
+				borderRadius: .circular(10),
+			),
+			listPadding: .all(10),
+			itemDivider: const SizedBox(height: 10),
+		);
+	}
+
+	_onItemReorder(int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+		setState(() {
+			var movedItem = _contents[oldListIndex].children.removeAt(oldItemIndex);
+			_contents[newListIndex].children.insert(newItemIndex, movedItem);
+		});
+	}
+
+	_onListReorder(int oldListIndex, int newListIndex) {
+		setState(() {
+			var movedList = _contents.removeAt(oldListIndex);
+			_contents.insert(newListIndex, movedList);
+		});
+	}
+}
+
+class Block extends StatefulWidget {
+	String? title;
+	String? note;
+
+	Block({
+		super.key,
+		this.title,
+		this.note,
+	});
+
+	static (Block, List<Line>) from_string(String text, String key_str) {
+		List<Line> lines = [];
+		String plainText = '';
+		String tab = '';
+		String? title;
+		String? note;
+
+		String textBlockBuf = '';
+
+		bool inPlainText = false;
+		bool inTab = false;
+		bool inTextBlock = false;
+		for (final line in text.split('\n')) {
+			if (line.startsWith(plainTextEnd())) {
+				inPlainText = false;
+				if (plainText.isNotEmpty) {
+					lines.add(PlainText(
+						text: plainText.trim(),
+						key: Key('${key_str}-line${lines.length + 1}'),
+					));
+					plainText = '';
+				}
+			} else if (inPlainText) {
+				plainText += line + '\n';
+			} else if (line.startsWith(plainTextStart())) {
+				inPlainText = true;
+
+			} else if (line.startsWith(tabEndSymbol())) {
+				inTab = false;
+				if (tab.isNotEmpty) {
+					lines.add(Tab(
+						tab: tab.trim(),
+						key: Key('${key_str}-line${lines.length + 1}'),
+					));
+					tab = '';
+				}
+			} else if (inTab) {
+				tab += line + '\n';
+			} else if (line.startsWith(tabStartSymbol())) {
+				inTab = true;
+
+			} else if (line.startsWith(rowEnd())) {
+				inTextBlock = false;
+				lines.add(TextBlock.from_string(
+					textBlockBuf, 
+					Key('${key_str}-line${lines.length + 1}'),
+				));
+				textBlockBuf = '';
+			} else if (inTextBlock) {
+				textBlockBuf += line + '\n';
+			} else if (line.startsWith(rowStart())) {
+				inTextBlock = true;
+
+			} else if (line.startsWith(chordsLineSymbol())) {
+				final chords = _parseKeyValueLine(line);
+				if (chords != null)
+					lines.add(ChordsLine(
+						chords: chords!,
+						key: Key('${key_str}-line${lines.length + 1}'),
+					));
+			} else if (line.startsWith(emptyLineSymbol())) {
+				lines.add(EmptyLine(
+					key: Key('${key_str}-line${lines.length + 1}'),
+				));
+
+			} else if (line.startsWith(titleSymbol())) {
+				title = _parseKeyValueLine(line);
+			} else if (line.startsWith(blockNoteSymbol())) {
+				note = _parseKeyValueLine(line);
+			}
+		}
+
+
+		return ( Block(
+			key: Key(key_str),
+			title: title,
+			note: note,
+		), lines);
+	}
+
+	String to_string(List<Line> lines) {
+		String result = '';
+
+		result += blockStart() + '\n';
+
+		if (title != null)
+			result += titleSymbol() + title! + '\n';
+
+		if (note != null)
+			result += blockNoteSymbol() + note! + '\n';
+		
+		for (final line in lines) {
+			result += line.to_string() + '\n';
+		}
+		result = result.trim() + '\n';
+
+		result += blockEnd() + '\n\n';
+
+
+		return result;
+	}
+
+	@override
+	State<Block> createState() => BlockState();
+}
+class BlockState extends State<Block> {
+	late SettingsProvider _settings;
+
+	late final TextEditingController _titleController;
+	late final TextEditingController _noteController;
+
+	@override
+	void initState() {
+		super.initState();
+		_titleController = TextEditingController(text: widget.title);
+		_noteController = TextEditingController(text: widget.note);
+	}
+
+	@override
+	void dispose() {
+		_titleController.dispose();
+		_noteController.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return Padding(
+			padding: const .only(
+				top: 10,
+				left: 10,
+				right: 10,
+			),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					Align(
+						alignment: .centerRight,
+						child: Text('Block',
+							style: Theme.of(context).textTheme.titleSmall,
+						),
+					),
+					const SizedBox(height: 5),
+
+					OneLineTextField(
+						controller: _titleController,
+						style: _settings.titleStyle(context),
+						onChanged: (value) => widget.title = value,
+						label: 'Title'
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						controller: _noteController,
+						style: _settings.notesStyle(context),
+						onChanged: (value) => widget.note = value,
+						label: 'Note',
+					),
+					const SizedBox(height: 10),
+				],
+			),
+		);
+	}
+}
+
+sealed class Line extends StatefulWidget {
+	const Line({super.key});
+
+	String to_string() => '';
+
+	@override
+	State<Line> createState() => LineState();
+}
+class LineState extends State<Line> {
+	@override
+	Widget build(BuildContext context) => Text('Base class Line');
+}
+
+class TextBlock extends Line {
+	String? chords;
+	String? rhythm;
+	String? text;
+
+	TextBlock({
+		super.key,
+		this.chords,
+		this.rhythm,
+		this.text
+	});
+
+	static TextBlock from_string(String lines, Key key) {
+		String? chords;
+		String? rhythm;
+		String? text;
+		
+		for (final line in lines.split('\n')) {
+			if (line.startsWith(chordsSymbol())) {
+				final c = line.substring(chordsSymbol().length);
+				if (c.trim().isNotEmpty)
+					chords = c;
+			} else if (line.startsWith(rhythmSymbol())) {
+				final r = line.substring(rhythmSymbol().length);
+				if (r.trim().isNotEmpty)
+					rhythm = r;
+			} else if (line.startsWith(textSymbol())) {
+				final t = line.substring(textSymbol().length);
+				if (t.trim().isNotEmpty)
+					text = t;
+			}
+		}
+
+
+		return TextBlock(
+			key: key,
+			chords: chords,
+			rhythm: rhythm,
+			text: text,
+		);
+	}
+
+	String to_string() {
+		String result = '';
+
+		result += rowStart() + '\n';
+		result += chordsSymbol() + (chords ?? '') + '\n';
+		result += rhythmSymbol() + (rhythm ?? '') + '\n';
+		result += textSymbol() + (text ?? '') + '\n';
+		result += rowEnd() + '\n';
+
+		return result;
+	}
+
+
+	@override
+	State<TextBlock> createState() => TextBlockState();
+}
+class TextBlockState extends State<TextBlock> {
+	late SettingsProvider _settings;
+
+	late final TextEditingController _chordsController;
+	late final TextEditingController _rhythmController;
+	late final TextEditingController _textController;
+
+	@override
+	void initState() {
+		super.initState();
+		_chordsController = TextEditingController(text: widget.chords);
+		_rhythmController = TextEditingController(text: widget.rhythm);
+		_textController = TextEditingController(text: widget.text);
+	}
+
+	@override
+	void dispose() {
+		_chordsController.dispose();
+		_rhythmController.dispose();
+		_textController.dispose();
+		super.dispose();
+	}
+
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+
+		return LineContainer(
+			title: Text('Row'),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					OneLineTextField(
+						controller: _chordsController,
+						style: _settings.chordsStyle(context),
+						onChanged: (value) => widget.chords = value,
+						label: 'Chords',
+					),
+					const SizedBox(height: 5),
+
+					OneLineTextField(
+						controller: _rhythmController,
+						style: _settings.rhythmStyle(context),
+						onChanged: (value) => widget.rhythm = value,
+						label: 'Rhythm',
+					),
+					const SizedBox(height: 5),
+
+					OneLineTextField(
+						controller: _textController,
+						style: _settings.textStyle(context),
+						onChanged: (value) => widget.text = value,
+						label: 'Text',
+					),
+					const SizedBox(height: 5),
+				],
+			),
+		);
+	}
+}
+
+class ChordsLine extends Line {
+	String chords;
+
+	ChordsLine({
+		super.key,
+		required this.chords,
+	});
+
+	String to_string() {
+		return chordsLineSymbol() + chords + '\n';
+	}
+
+	@override
+	State<ChordsLine> createState() => ChordsLineState();
+}
+class ChordsLineState extends State<ChordsLine> {
+	late SettingsProvider _settings;
+
+	late final TextEditingController _controller;
+
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController(text: widget.chords);
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return LineContainer(
+			title: Text('ChordsLine'),
+			child: OneLineTextField(
+				controller: _controller,
+				style: _settings.chordsStyle(context),
+				onChanged: (value) => widget.chords = value,
+				label: 'ChordsLine',
+			),
+		);
+	}
+}
+
+class PlainText extends Line {
+	String text;
+
+	PlainText({
+		super.key,
+		required this.text,
+	});
+
+	String to_string() {
+		String result = '';
+
+		result += plainTextStart() + '\n';
+		result += text;
+		if (!text.endsWith('\n'))
+			result += '\n';
+		result += plainTextEnd() + '\n';
+
+		return result;
+	}
+
+	@override
+	State<PlainText> createState() => PlainTextState();
+}
+class PlainTextState extends State<PlainText> {
+	late SettingsProvider _settings;
+	late final TextEditingController _controller;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController(text: widget.text);
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return LineContainer(
+			title: Text('PlainText'),
+			child: IntrinsicHeight(
+				child: ManyLineTextField(
+					controller: _controller,
+					style: _settings.plainTextStyle(context),
+					onChanged: (value) => widget.text = value,
+				),
+			),
+		);
+	}
+}
+
+class Tab extends Line {
+	String tab;
+
+	Tab({
+		super.key,
+		required this.tab,
+	});
+
+	String to_string() {
+		String result = '';
+
+		result += tabStartSymbol() + '\n';
+		result += tab;
+		if (!tab.endsWith('\n'))
+			result += '\n';
+		result += tabEndSymbol() + '\n';
+
+		return result;
+	}
+
+	@override
+	State<Tab> createState() => TabState();
+}
+class TabState extends State<Tab> {
+	late SettingsProvider _settings;
+	late final TextEditingController _controller;
+	late final ScrollController _scrollController;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController(text: widget.tab);
+		_scrollController = ScrollController();
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		_scrollController.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return LineContainer(
+			title: Text('Tab'),
+			child: Scrollbar(
+				controller: _scrollController,
+				interactive: true,
+				thickness: 5.0,
+				radius: const .circular(8),
+				child: SingleChildScrollView(
+					controller: _scrollController,
+					scrollDirection: .horizontal,
+					child: IntrinsicWidth(
+						child: IntrinsicHeight(
+							child: ManyLineTextField(
+								controller: _controller,
+								style: _settings.tabStyle(context),
+								onChanged: (value) => widget.tab = value,
+							),
+						),
+					),
+				),
+			),
+		);
+	}
+}
+
+class EmptyLine extends Line {
+	const EmptyLine({super.key});
+
+	String to_string() {
+		return emptyLineSymbol() + '\n';
+	}
+
+	@override
+	State<EmptyLine> createState() => EmptyLineState();
+}
+class EmptyLineState extends State<EmptyLine> {
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			margin: const .all(20),
+			child: Center(child: Text('EmptyLine')),
+		);
+	}
+}
+
+
+class Metadata extends StatefulWidget {
+	String title;
+	String artist;
+	String? Key;
+	int? capo;
+	int? autoscrollSpeed;
+	ShowOptions showOptions;
+
+	Metadata({
+		super.key,
+		required this.title,
+		required this.artist,
+		required this.showOptions,
+		this.Key,
+		this.capo,
+		this.autoscrollSpeed,
+	});
+
+	static Metadata from_string(String text) {
+		String title = '';
+		String artist = '';
+		String? key;
+		int? capo;
+		int? autoscrollSpeed;
+		ShowOptions options = ShowOptions();
+
+		bool inMetadata = false;
+		for (final line in text.split('\n')) {
+			if (inMetadata) {
+				if ( line.startsWith(metadataEnd()) ) {
+					break;
+				} else if ( line.startsWith(songTitleSymbol()) ) {
+					title = _parseKeyValueLine(line) ?? 'some title';
+				} else if ( line.startsWith(songArtistSymbol()) ) {
+					artist = _parseKeyValueLine(line) ?? 'some artist';
+				} else if ( line.startsWith(songKeySymbol()) ) {
+					key = _parseKeyValueLine(line);
+				} else if ( line.startsWith(songCapoSymbol()) ) {
+					final result = _parseKeyValueLine(line);
+					if (result != null)
+						capo = int.tryParse(result!);
+				} else if ( line.startsWith(songAutoscrollSpeedSymbol()) ) {
+					final result = _parseKeyValueLine(line);
+					if (result != null)
+						autoscrollSpeed = int.tryParse(result!);
+				} else if ( line.startsWith(songShowOptionsSymbol()) ) {
+					options.from_string(line);
+				}
+			} else {
+				if ( line.startsWith(metadataStart()) )
+					inMetadata = true;
+			}
+		}
+
+		return Metadata(
+			title: title,
+			artist: artist,
+			Key: key,
+			capo: capo,
+			autoscrollSpeed: autoscrollSpeed,
+			showOptions: options
+		);
+	}
+
+	String to_string() {
+		String result = '';
+
+		result += metadataStart() + '\n';
+
+		result += songTitleSymbol() + title + '\n';
+		result += songArtistSymbol() + artist + '\n';
+
+		result += songKeySymbol();
+		if (Key != null)
+			result += Key.toString();
+		result += '\n';
+
+		result += songCapoSymbol();
+		if (capo != null)
+			result += capo.toString();
+		result += '\n';
+
+		result += songAutoscrollSpeedSymbol();
+		if (autoscrollSpeed != null)
+			result += autoscrollSpeed.toString();
+		result += '\n';
+
+		result += songShowOptionsSymbol() + showOptions.to_string() + '\n';
+
+		result += metadataEnd() + '\n\n';
+
+
+		return result;
+	}
+
+
+	@override
+	State<Metadata> createState() => MetadataState();
+}
+class MetadataState extends State<Metadata> {
+	@override
+	Widget build(BuildContext context) {
+		return Column(
+			children: [
+				Text(widget.title),
+				Text(widget.artist),
+				Text(widget.Key.toString()),
+				Text(widget.capo.toString()),
+				Text(widget.autoscrollSpeed.toString()),
+				Text(widget.showOptions.to_string()),
+			],
+		);
+	}
+}
+class ShowOptions {
+	bool chords;
+	bool rhythm;
+	bool notes;
+	bool fingerings;
+
+	ShowOptions({
+		this.chords = true,
+		this.rhythm = true,
+		this.notes = true,
+		this.fingerings = false,
+	});
+
+	String to_string() {
+		String result = '';
+
+		if (chords)
+			result += 'c ';
+
+		if (rhythm)
+			result += 'r ';
+
+		if (notes)
+			result += 'n ';
+
+		if (fingerings)
+			result += 'f ';
+
+		return result;
+	}
+
+	void from_string(String line) {
+		final result = _parseKeyValueLine(line);
+		if (result == null)
+			return;
+
+		final opts = result!;
+		this.chords = opts.contains('c');
+		this.rhythm = opts.contains('r');
+		this.notes = opts.contains('n');
+		this.fingerings = opts.contains('f');
+	}
+}
+
+
+String? _parseKeyValueLine(String line) {
+	final i = line.indexOf(':');
+	if (i == -1)
+		return null;
+
+	final result = line.substring(i + 1).trim();
+	if (result.isEmpty)
+		return null;
+	else
+		return result;
+}
+
+class LineContainer extends StatelessWidget {
+	final Widget child;
+	final Widget title;
+
+	LineContainer({
+		super.key,
+		required this.child,
+		required this.title,
+	});
+
+
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			padding: const .all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceVariant,
+				borderRadius: .circular(8),
+			),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					Align(
+						alignment: .centerRight,
+						child: title,
+					),
+
+					const SizedBox(height: 10),
+					Expanded(
+						child: child,
+					),
+				],
+			),
+		);
+	}
+}
+
+class ManyLineTextField extends StatelessWidget {
+	final TextEditingController controller;
+	final TextStyle style;
+	final Function(String) onChanged;
+
+	ManyLineTextField({
+		super.key,
+		required this.controller,
+		required this.style,
+		required this.onChanged,
+	});
+
+	@override
+	Widget build(BuildContext context) {
+		return TextField(
+			controller: controller,
+			style: style,
+			maxLines: null,
+			expands: true,
+			selectionWidthStyle: .tight,
+			decoration: const InputDecoration(
+				border: InputBorder.none,
+			),
+			onChanged: onChanged,
+		);
+	}
+}
+class OneLineTextField extends StatelessWidget {
+	final TextEditingController controller;
+	final TextStyle style;
+	final Function(String) onChanged;
+	final String? label;
+
+	OneLineTextField({
+		super.key,
+		required this.controller,
+		required this.style,
+		required this.onChanged,
+		this.label,
+	});
+
+	@override
+	Widget build(BuildContext context) {
+		return TextField(
+			controller: controller,
+			style: style,
+			selectionWidthStyle: .tight,
+			decoration: InputDecoration(
+				border: OutlineInputBorder(
+					borderRadius: .circular(8),
+				),
+				labelText: label,
+			),
+			onChanged: onChanged,
+		);
+	}
+}
