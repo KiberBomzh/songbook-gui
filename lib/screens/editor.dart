@@ -1555,10 +1555,13 @@ class PlainTextState extends State<PlainText> {
 		return LineContainer(
 			title: Text('PlainText'),
 			child: IntrinsicHeight(
-				child: ManyLineTextField(
-					controller: _controller,
-					style: _settings.plainTextStyle(context),
-					onChanged: (value) => widget.text = value,
+				child: Padding(
+					padding: const .only(bottom: 10),
+					child: ManyLineTextField(
+						controller: _controller,
+						style: _settings.plainTextStyle(context),
+						onChanged: (value) => widget.text = value,
+					),
 				),
 			),
 		);
