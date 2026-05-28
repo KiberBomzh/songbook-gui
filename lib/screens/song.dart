@@ -62,6 +62,8 @@ class SongState extends State<SongScreen> {
 	bool _isError = false;
 	String _errorMessage = '';
 
+	final GlobalKey<_BarState> _barKey = GlobalKey<_BarState>();
+
 
 	@override
 	void initState() {
@@ -140,6 +142,7 @@ class SongState extends State<SongScreen> {
 				final newOffset = _scrollController.offset + 1;
 				final maxExtent = _scrollController.position.maxScrollExtent;
 				if (newOffset >= maxExtent) {
+					_barKey.currentState?.switchModeToDefault();
 					_stopAutoscroll();
 				} else {
 					_scrollController.animateTo(newOffset,
@@ -262,6 +265,7 @@ class SongState extends State<SongScreen> {
 
 	Widget _buildBottomBar() {
 		return BottomBar(
+			key: _barKey,
 			songCapo: _capo ?? 0,
 			songKey: _key,
 			autoscrollSpeed: _autoscrollSpeed,
@@ -750,6 +754,8 @@ class BottomBar extends StatefulWidget {
 class _BarState extends State<BottomBar> {
 	BarMode _currentMode = BarMode.none;
 	late Color _foregroundColor;
+
+	void switchModeToDefault() => setState(() => _currentMode = BarMode.none);
 
 
 	@override
