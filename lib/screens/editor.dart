@@ -560,6 +560,7 @@ class EditorFieldState extends State<EditorField> {
 
 		return Row(
 			mainAxisAlignment: .start,
+			crossAxisAlignment: .start,
 			children: [
 				Container(
 					width: lineNumbersWidth,
@@ -569,6 +570,7 @@ class EditorFieldState extends State<EditorField> {
 						child: SingleChildScrollView(
 							controller: _lineNumbersScrollController,
 							child: Column(
+								mainAxisAlignment: .start,
 								children: _lineNumbers.map((n) => Text(n,
 									maxLines: 1,
 									style: _settings.editorStyle()
