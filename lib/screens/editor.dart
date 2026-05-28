@@ -1593,6 +1593,9 @@ class TabState extends State<Tab> {
 	late final TextEditingController _controller;
 	late final ScrollController _scrollController;
 
+	late double _lineHeight;
+	late double _textFieldHeight;
+
 	@override
 	void initState() {
 		super.initState();
@@ -1607,9 +1610,24 @@ class TabState extends State<Tab> {
 		super.dispose();
 	}
 
+	void _calculateLineHeight() {
+		final textPainter = TextPainter(
+			text: TextSpan(text: 'I', style: _settings.tabStyle(context)),
+			textDirection: .ltr
+		)..layout();
+		_lineHeight = textPainter.height;
+	}
+
+	void _calculateTextFieldHeight() {
+		final lineCount = '\n'.allMatches(_controller.text).length + 1;
+		setState(() => _textFieldHeight = (_lineHeight + (_lineHeight / 6)) * lineCount + 10);
+	}
+
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
+		_calculateLineHeight();
+		_calculateTextFieldHeight();
 
 		return LineContainer(
 			title: Text('Tab'),
@@ -1622,11 +1640,15 @@ class TabState extends State<Tab> {
 					controller: _scrollController,
 					scrollDirection: .horizontal,
 					child: IntrinsicWidth(
-						child: IntrinsicHeight(
+						child: SizedBox(
+							height: _textFieldHeight,
 							child: ManyLineTextField(
 								controller: _controller,
 								style: _settings.tabStyle(context),
-								onChanged: (value) => widget.tab = value,
+								onChanged: (value) {
+									widget.tab = value;
+									setState(() {});
+								},
 							),
 						),
 					),
@@ -1885,6 +1907,8 @@ class ManyLineTextField extends StatelessWidget {
 			selectionWidthStyle: .tight,
 			decoration: const InputDecoration(
 				border: InputBorder.none,
+				contentPadding: .all(0),
+				isCollapsed: true,
 			),
 			onChanged: onChanged,
 		);
