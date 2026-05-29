@@ -1150,6 +1150,7 @@ class _PopupMenuState extends State<PopupMenu> {
 	@override
 	Widget build(BuildContext context) {
 		return MenuAnchor(
+			animated: true,
 			builder: (context, controller, child) => IconButton(
 				icon: Icon(Icons.more_vert),
 				onPressed: () {
