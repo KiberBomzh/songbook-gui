@@ -253,13 +253,10 @@ class SongState extends State<SongScreen> {
 						),
 					), // for safe area
 
-					Column(
-						children: [
-							Expanded(
-								child: _buildScaffold(),
-							),
-							_buildBottomBar(),
-						],
+					_buildScaffold(),
+					Align(
+						alignment: .bottomCenter,
+						child: _buildBottomBar(),
 					),
 				],
 			),
@@ -463,6 +460,8 @@ class SongState extends State<SongScreen> {
 							],
 
 							...blocks.map((block) => _buildBlock(block)),
+
+							const SizedBox(height: 80), // отступ для нижней панели
 						],
 					),
 				),
