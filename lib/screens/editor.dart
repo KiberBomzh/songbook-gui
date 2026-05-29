@@ -1103,12 +1103,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			_contents.insert(newListIndex, movedList);
 
 
-			final block = movedList.header! as Block;
-			final lines = movedList.children.map((item) => item.child as Line).toList();
+			for (int i = 0; i < _contents.length; i++) {
+				final block = _contents[i].header! as Block;
+				block.index = i;
 
-			block.index = newListIndex;
-			for (final line in lines) {
-				line.parentIndex = newListIndex;
+				for (int j = 0; j < _contents[i].children.length; j++) {
+					final line = _contents[i].children[j].child as Line;
+					line.index = j;
+					line.parentIndex = i;
+				}
 			}
 		});
 	}
