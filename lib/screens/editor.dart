@@ -1304,6 +1304,7 @@ class TextBlock extends Line {
 class TextBlockState extends State<TextBlock> {
 	late SettingsProvider _settings;
 	late double _lineHeight;
+	late double _charWidth;
 
 	late final TextEditingController _chordsController;
 	late final TextEditingController _rhythmController;
@@ -1330,19 +1331,20 @@ class TextBlockState extends State<TextBlock> {
 		super.dispose();
 	}
 
-	void _calculateLineHeight() {
+	void _calculateCharSize() {
 		final textPainter = TextPainter(
-			text: TextSpan(text: 'I', style: _settings.textStyle(context)),
+			text: TextSpan(text: 'W', style: _settings.textStyle(context)),
 			textDirection: .ltr
 		)..layout();
 		_lineHeight = textPainter.height;
+		_charWidth = textPainter.width;
 	}
 
 
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
-		_calculateLineHeight();
+		_calculateCharSize();
 
 
 		return LineContainer(
@@ -1458,6 +1460,9 @@ class TextBlockState extends State<TextBlock> {
 		border: .none,
 		contentPadding: .all(0),
 		isCollapsed: true,
+		constraints: BoxConstraints(
+			minWidth: MediaQuery.of(context).size.width - 20 - 40 - 20 - 10 - _charWidth,
+		),
 	);
 }
 
