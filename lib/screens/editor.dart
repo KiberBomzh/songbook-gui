@@ -982,7 +982,13 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			if (inBlock) {
 				if (line.startsWith(blockEnd())) {
 					inBlock = false;
-					final (block, lines) = Block.from_string(blockText, 'block_${_contents.length + 1}');
+					final (block, lines) = Block.from_string(
+						blockText,
+						'block_${_contents.length + 1}',
+						_contents.length,
+						_deleteBlock,
+						_deleteLine,
+					);
 					_contents.add(
 						DragAndDropList(
 							header: block,
@@ -1032,6 +1038,33 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		widget.mainTextController.text = text;
 	}
 
+	void _deleteBlock(int index) => setState(() {
+		_contents.removeAt(index);
+		_updateBlocksIndexesAfter(index);
+	});
+	void _deleteLine(int index, int parentIndex) => setState(() {
+		_contents[parentIndex].children.removeAt(index);
+		_updateLinesIndexesAfter(index, parentIndex);
+	});
+
+	void _updateBlocksIndexesAfter(int index) {
+		for (int i = index; i < _contents.length; i++) {
+			final block = _contents[i].header! as Block;
+			final lines = _contents[i].children.map((item) => item.child as Line).toList();
+
+			block.index = i;
+			for (final line in lines) {
+				line.parentIndex = i;
+			}
+		}
+	}
+	void _updateLinesIndexesAfter(int index, int parentIndex) {
+		for (int i = index; i < _contents[parentIndex].children.length; i++) {
+			final line = _contents[parentIndex].children[i].child as Line;
+			line.index = i;
+		}
+	}
+
 
 	@override
 	Widget build(BuildContext context) {
@@ -1052,6 +1085,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			var movedItem = _contents[oldListIndex].children.removeAt(oldItemIndex);
 			_contents[newListIndex].children.insert(newItemIndex, movedItem);
+
+
+			final line = movedItem.child as Line;
+			line.parentIndex = newListIndex;
+
+			for (int i = 0; i < _contents[newListIndex].children.length; i++) {
+				final line = _contents[newListIndex].children[i].child as Line;
+				line.index = i;
+			}
 		});
 	}
 
@@ -1059,6 +1101,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			var movedList = _contents.removeAt(oldListIndex);
 			_contents.insert(newListIndex, movedList);
+
+
+			final block = movedList.header! as Block;
+			final lines = movedList.children.map((item) => item.child as Line).toList();
+
+			block.index = newListIndex;
+			for (final line in lines) {
+				line.parentIndex = newListIndex;
+			}
 		});
 	}
 }
@@ -1067,13 +1118,24 @@ class Block extends StatefulWidget {
 	String? title;
 	String? note;
 
+	int index;
+	final Function(int) onDelete;
+
 	Block({
 		super.key,
 		this.title,
 		this.note,
+		required this.index,
+		required this.onDelete,
 	});
 
-	static (Block, List<Line>) from_string(String text, String key_str) {
+	static (Block, List<Line>) from_string(
+		String text,
+		String key_str,
+		int index,
+		Function(int) onDelete,
+		Function(int, int) onDeleteChild,
+	) {
 		List<Line> lines = [];
 		String plainText = '';
 		String tab = '';
@@ -1092,6 +1154,9 @@ class Block extends StatefulWidget {
 					lines.add(PlainText(
 						text: plainText.trim(),
 						key: Key('${key_str}-line${lines.length + 1}'),
+						index: lines.length,
+						parentIndex: index,
+						onDelete: onDeleteChild,
 					));
 					plainText = '';
 				}
@@ -1106,6 +1171,9 @@ class Block extends StatefulWidget {
 					lines.add(Tab(
 						tab: tab.trim(),
 						key: Key('${key_str}-line${lines.length + 1}'),
+						index: lines.length,
+						parentIndex: index,
+						onDelete: onDeleteChild,
 					));
 					tab = '';
 				}
@@ -1119,6 +1187,9 @@ class Block extends StatefulWidget {
 				lines.add(TextBlock.from_string(
 					textBlockBuf, 
 					Key('${key_str}-line${lines.length + 1}'),
+					lines.length,
+					index,
+					onDeleteChild,
 				));
 				textBlockBuf = '';
 			} else if (inTextBlock) {
@@ -1132,10 +1203,16 @@ class Block extends StatefulWidget {
 					lines.add(ChordsLine(
 						chords: chords!,
 						key: Key('${key_str}-line${lines.length + 1}'),
+						index: lines.length,
+						parentIndex: index,
+						onDelete: onDeleteChild,
 					));
 			} else if (line.startsWith(emptyLineSymbol())) {
 				lines.add(EmptyLine(
 					key: Key('${key_str}-line${lines.length + 1}'),
+					index: lines.length,
+					parentIndex: index,
+					onDelete: onDeleteChild,
 				));
 
 			} else if (line.startsWith(titleSymbol())) {
@@ -1150,6 +1227,8 @@ class Block extends StatefulWidget {
 			key: Key(key_str),
 			title: title,
 			note: note,
+			index: index,
+			onDelete: onDelete,
 		), lines);
 	}
 
@@ -1209,8 +1288,9 @@ class BlockState extends State<Block> {
 				children: [
 					Align(
 						alignment: .centerRight,
-						child: Text('Block',
-							style: Theme.of(context).textTheme.titleSmall,
+						child: MenuButton(
+							label: 'Block',
+							options: { 'Delete': () => widget.onDelete(widget.index) }
 						),
 					),
 					const SizedBox(height: 5),
@@ -1237,7 +1317,16 @@ class BlockState extends State<Block> {
 }
 
 sealed class Line extends StatefulWidget {
-	const Line({super.key});
+	int index;
+	int parentIndex;
+	final Function(int, int) onDelete;
+
+	Line({
+		super.key,
+		required this.index,
+		required this.parentIndex,
+		required this.onDelete,
+	});
 
 	String to_string() => '';
 
@@ -1258,10 +1347,19 @@ class TextBlock extends Line {
 		super.key,
 		this.chords,
 		this.rhythm,
-		this.text
+		this.text,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
 	});
 
-	static TextBlock from_string(String lines, Key key) {
+	static TextBlock from_string(
+		String lines,
+		Key key,
+		int index,
+		int parentIndex,
+		Function(int, int) onDelete,
+	) {
 		String? chords;
 		String? rhythm;
 		String? text;
@@ -1282,6 +1380,9 @@ class TextBlock extends Line {
 			chords: chords,
 			rhythm: rhythm,
 			text: text,
+			index: index,
+			parentIndex: parentIndex,
+			onDelete: onDelete,
 		);
 	}
 
@@ -1348,7 +1449,10 @@ class TextBlockState extends State<TextBlock> {
 
 
 		return LineContainer(
-			title: Text('Row'),
+			title: MenuButton(
+				label: 'Row',
+				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+			),
 			child: Row(
 				children: [
 					_buildLinesHelp(),
@@ -1472,6 +1576,9 @@ class ChordsLine extends Line {
 	ChordsLine({
 		super.key,
 		required this.chords,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
 	});
 
 	String to_string() {
@@ -1504,7 +1611,10 @@ class ChordsLineState extends State<ChordsLine> {
 		_settings = context.watch<SettingsProvider>();
 
 		return LineContainer(
-			title: Text('ChordsLine'),
+			title: MenuButton(
+				label: 'ChordsLine',
+				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+			),
 			child: OneLineTextField(
 				controller: _controller,
 				style: _settings.chordsStyle(context),
@@ -1520,6 +1630,9 @@ class PlainText extends Line {
 	PlainText({
 		super.key,
 		required this.text,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
 	});
 
 	String to_string() {
@@ -1558,7 +1671,10 @@ class PlainTextState extends State<PlainText> {
 		_settings = context.watch<SettingsProvider>();
 
 		return LineContainer(
-			title: Text('PlainText'),
+			title: MenuButton(
+				label: 'PlainText',
+				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+			),
 			child: IntrinsicHeight(
 				child: Padding(
 					padding: const .only(bottom: 10),
@@ -1579,6 +1695,9 @@ class Tab extends Line {
 	Tab({
 		super.key,
 		required this.tab,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
 	});
 
 	String to_string() {
@@ -1638,7 +1757,10 @@ class TabState extends State<Tab> {
 		_calculateTextFieldHeight();
 
 		return LineContainer(
-			title: Text('Tab'),
+			title: MenuButton(
+				label: 'Tab',
+				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+			),
 			child: Scrollbar(
 				controller: _scrollController,
 				interactive: true,
@@ -1667,7 +1789,12 @@ class TabState extends State<Tab> {
 }
 
 class EmptyLine extends Line {
-	const EmptyLine({super.key});
+	EmptyLine({
+		super.key,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
+	});
 
 	String to_string() {
 		return emptyLineSymbol() + '\n';
@@ -1680,7 +1807,10 @@ class EmptyLineState extends State<EmptyLine> {
 	@override
 	Widget build(BuildContext context) {
 		return LineContainer(
-			title: Text('EmptyLine'),
+			title: MenuButton(
+				label: 'EmptyLine',
+				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+			),
 			child: Text(''),
 		);
 	}
@@ -1951,4 +2081,38 @@ class OneLineTextField extends StatelessWidget {
 			onChanged: onChanged,
 		);
 	}
+}
+
+class MenuButton extends StatelessWidget {
+	final String label;
+	final Map<String, VoidCallback> options;
+
+	MenuButton({
+		super.key,
+		required this.label,
+		required this.options,
+	});
+
+
+	@override
+	Widget build(BuildContext context) => MenuAnchor(
+		animated: true,
+		builder: (context, controller, child) => TextButton(
+			child: Text(label),
+			onPressed: () {
+				if (controller.isOpen) {
+					controller.close();
+				} else {
+					controller.open();
+				}
+			},
+			style: TextButton.styleFrom(
+				foregroundColor: Theme.of(context).colorScheme.onSurface,
+			),
+		),
+		menuChildren: options.entries.map((entry) => MenuItemButton(
+			child: Text(entry.key),
+			onPressed: entry.value,
+		)).toList(),
+	);
 }
