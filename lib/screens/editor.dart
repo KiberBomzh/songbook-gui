@@ -1226,10 +1226,20 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 			context: context,
 			builder: (context) => Container(
-				child: ListView(
+				height: MediaQuery.of(context).size.height * 0.9,
+				child: Column(
 					children: [
-						_metadata,
-						_buildSongNoteField(),
+						Expanded(
+							child: ListView(
+								children: [
+									_metadata,
+									_buildSongNoteField(),
+								],
+							),
+						),
+
+						SizedBox(height: MediaQuery.of(context).viewInsets.bottom), // для клавиатуры
+						SizedBox(height: MediaQuery.of(context).padding.bottom), // safe area
 					],
 				),
 			),
