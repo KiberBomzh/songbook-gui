@@ -959,15 +959,28 @@ class GraphicalSongEditor extends StatefulWidget {
 	State<GraphicalSongEditor> createState() => SongEditorState();
 }
 class SongEditorState extends State<GraphicalSongEditor> {
+	late SettingsProvider _settings;
+
 	late Metadata _metadata;
 	String songNote = '';
 	List<DragAndDropList> _contents = [];
 
+	late final TextEditingController _songNoteController;
+
+
 	@override
-	initState() {
+	void initState() {
 		super.initState();
 		readFromMainTextController();
 
+		_songNoteController = TextEditingController(text: songNote);
+	}
+
+	@override
+	void dispose() {
+		_songNoteController.dispose();
+		_contents.clear();
+		super.dispose();
 	}
 
 	void readFromMainTextController() {
@@ -1016,22 +1029,6 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			}
 		}
 	}
-	DragAndDropList _buildDragAndDropList({
-		required Block block,
-		List<DragAndDropItem>? lines,
-	}) => DragAndDropList(
-		header: block,
-		children: lines ?? [],
-
-		leftSide: const SizedBox(width: 20),
-		rightSide: const SizedBox(width: 20),
-
-		contentsWhenEmpty: TextButton.icon(
-			icon: Icon(Icons.add),
-			label: Text('Add new line'),
-			onPressed: () => _addNewLineInBlockAfter(block.index, -1),
-		),
-	);
 
 	Future<void> writeInMainTextController() async {
 		String text = '';
@@ -1173,29 +1170,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	}
 
 
-	@override
-	Widget build(BuildContext context) {
-		return DragAndDropLists(
-			children: _contents,
-			contentsWhenEmpty: TextButton.icon(
-				icon: Icon(Icons.add),
-				label: Text('Add new Block'),
-				onPressed: () => _addNewBlockAfter(-1),
-			),
-
-			onItemReorder: _onItemReorder,
-			onListReorder: _onListReorder,
-
-			listDecoration: BoxDecoration(
-				color: Theme.of(context).colorScheme.surfaceContainer,
-				borderRadius: .circular(10),
-			),
-			listPadding: .all(10),
-			itemDivider: const SizedBox(height: 10),
-		);
-	}
-
-	_onItemReorder(int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+	void _onItemReorder(int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
 		setState(() {
 			var movedItem = _contents[oldListIndex].children.removeAt(oldItemIndex);
 			_contents[newListIndex].children.insert(newItemIndex, movedItem);
@@ -1203,13 +1178,92 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		});
 	}
 
-	_onListReorder(int oldListIndex, int newListIndex) {
+	void _onListReorder(int oldListIndex, int newListIndex) {
 		setState(() {
 			var movedList = _contents.removeAt(oldListIndex);
 			_contents.insert(newListIndex, movedList);
 			_updateAllBlocksIndexes();
 		});
 	}
+
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return Column(
+			children: [
+				_metadata,
+				_buildSongNoteField(),
+
+				Expanded(
+					child: DragAndDropLists(
+						children: _contents,
+						contentsWhenEmpty: TextButton.icon(
+							icon: Icon(Icons.add),
+							label: Text('Add new Block'),
+							onPressed: () => _addNewBlockAfter(-1),
+						),
+
+						onItemReorder: _onItemReorder,
+						onListReorder: _onListReorder,
+
+						listDecoration: BoxDecoration(
+							color: Theme.of(context).colorScheme.surfaceContainer,
+							borderRadius: .circular(10),
+						),
+						listPadding: .all(10),
+						itemDivider: const SizedBox(height: 10),
+					),
+				),
+			],
+		);
+	}
+
+	Widget _buildSongNoteField() => Container(
+		margin: const .all(10),
+		padding: const .all(10),
+		decoration: BoxDecoration(
+			color: Theme.of(context).colorScheme.surfaceContainer,
+			borderRadius: .circular(8),
+		),
+		child: Column(
+			children: [
+				Align(
+					alignment: .centerRight,
+					child: Text('SongNote'),
+				),
+				
+				Padding(
+				padding: const .all(10),
+					child: IntrinsicHeight(
+						child: ManyLineTextField(
+							controller: _songNoteController,
+							style: _settings.notesStyle(context),
+							onChanged: (value) => songNote = value,
+						),
+					),
+				),
+			],
+		),
+	);
+
+	DragAndDropList _buildDragAndDropList({
+		required Block block,
+		List<DragAndDropItem>? lines,
+	}) => DragAndDropList(
+		header: block,
+		children: lines ?? [],
+
+		leftSide: const SizedBox(width: 20),
+		rightSide: const SizedBox(width: 20),
+
+		contentsWhenEmpty: TextButton.icon(
+			icon: Icon(Icons.add),
+			label: Text('Add new line'),
+			onPressed: () => _addNewLineInBlockAfter(block.index, -1),
+		),
+	);
 }
 
 class Block extends StatefulWidget {
@@ -2057,27 +2111,111 @@ class Metadata extends StatefulWidget {
 	State<Metadata> createState() => MetadataState();
 }
 class MetadataState extends State<Metadata> {
+	late final TextEditingController _titleController;
+	late final TextEditingController _artistController;
+	late final TextEditingController _keyController;
+	late final TextEditingController _capoController;
+	late final TextEditingController _autoscrollSpeedController;
+
+
+	@override
+	void initState() {
+		super.initState();
+		_titleController = TextEditingController(text: widget.title);
+		_artistController = TextEditingController(text: widget.artist);
+		_keyController = TextEditingController(text: widget.Key);
+		_capoController = TextEditingController(text: widget.capo?.toString());
+		_autoscrollSpeedController = TextEditingController(text: widget.autoscrollSpeed?.toString());
+	}
+
+	@override
+	void dispose() {
+		_titleController.dispose();
+		_artistController.dispose();
+		_keyController.dispose();
+		_capoController.dispose();
+		_autoscrollSpeedController.dispose();
+		super.dispose();
+	}
+
+
 	@override
 	Widget build(BuildContext context) {
-		return Column(
-			children: [
-				Text(widget.title),
-				Text(widget.artist),
-				Text(widget.Key.toString()),
-				Text(widget.capo.toString()),
-				Text(widget.autoscrollSpeed.toString()),
-				Text(widget.showOptions.to_string()),
-			],
+		final style = TextStyle();
+
+		return Container(
+			padding: const .all(10),
+			margin: const .all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainer,
+				borderRadius: .circular(8),
+			),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					Align(
+						alignment: .centerRight,
+						child: Text('Metadata'),
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: 'Title',
+						controller: _titleController,
+						style: style,
+						onChanged: (value) => widget.title = value,
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: 'Artist',
+						controller: _artistController,
+						style: style,
+						onChanged: (value) => widget.artist = value,
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: 'Key',
+						controller: _keyController,
+						style: style,
+						onChanged: (value) => widget.Key = (value.trim().isEmpty)
+							? null
+							: value,
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: 'Capo',
+						controller: _capoController,
+						style: style,
+						onChanged: (value) => widget.capo = int.tryParse(value),
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: 'Autoscroll speed',
+						controller: _autoscrollSpeedController,
+						style: style,
+						onChanged: (value) => widget.autoscrollSpeed = int.tryParse(value),
+					),
+					const SizedBox(height: 10),
+					
+
+					widget.showOptions,
+				],
+			),
 		);
 	}
 }
-class ShowOptions {
+class ShowOptions extends StatefulWidget {
 	bool chords;
 	bool rhythm;
 	bool notes;
 	bool fingerings;
 
 	ShowOptions({
+		super.key,
 		this.chords = true,
 		this.rhythm = true,
 		this.notes = true,
@@ -2112,6 +2250,70 @@ class ShowOptions {
 		this.rhythm = opts.contains('r');
 		this.notes = opts.contains('n');
 		this.fingerings = opts.contains('f');
+	}
+
+
+	@override
+	State<ShowOptions> createState() => ShowOptionsState();
+}
+class ShowOptionsState extends State<ShowOptions> {
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			width: double.infinity,
+			margin: const .all(10),
+			padding: const .all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceVariant,
+				borderRadius: .circular(8),
+			),
+			child: Material(
+				color: Theme.of(context).colorScheme.surfaceVariant,
+				child: Column(
+					children: [
+						Align(
+							alignment: .centerRight,
+							child: Text('Show options'),
+						),
+						const SizedBox(height: 10),
+
+
+						CheckboxListTile(
+							title: Text('Chords'),
+							value: widget.chords,
+							onChanged: (bool? value) {
+								if (value != null)
+									setState(() => widget.chords = value!);
+							}
+						),
+						CheckboxListTile(
+							title: Text('Rhythm'),
+							value: widget.rhythm,
+							onChanged: (bool? value) {
+								if (value != null)
+									setState(() => widget.rhythm = value!);
+							}
+						),
+						CheckboxListTile(
+							title: Text('Notes'),
+							value: widget.notes,
+							onChanged: (bool? value) {
+								if (value != null)
+									setState(() => widget.notes = value!);
+							}
+						),
+						CheckboxListTile(
+							title: Text('Fingerings'),
+							value: widget.fingerings,
+							onChanged: (bool? value) {
+								if (value != null)
+									setState(() => widget.fingerings = value!);
+							}
+						),
+					],
+				),
+			),
+		);
 	}
 }
 
