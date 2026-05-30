@@ -1110,8 +1110,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	Widget build(BuildContext context) {
 		return DragAndDropLists(
 			children: _contents,
+			contentsWhenEmpty: TextButton.icon(
+				icon: Icon(Icons.add),
+				label: Text('Add new Block'),
+				onPressed: () => _addNewBlockAfter(-1),
+			),
+
 			onItemReorder: _onItemReorder,
 			onListReorder: _onListReorder,
+
 			listDecoration: BoxDecoration(
 				color: Theme.of(context).colorScheme.surfaceContainer,
 				borderRadius: .circular(10),
