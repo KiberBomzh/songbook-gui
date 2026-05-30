@@ -440,22 +440,30 @@ class _EditorState extends State<EditorScreen> {
 								),
 							],
 
-							IconButton(
-								icon: Icon(Icons.undo),
-								tooltip: 'Undo',
-								onPressed: _undo,
-								color: (_historyIndex > 0)
-									? Theme.of(context).colorScheme.primary
-									: Colors.grey,
-							),
-							IconButton(
-								icon: Icon(Icons.redo),
-								tooltip: 'Redo',
-								onPressed: _redo,
-								color: (_historyIndex < _history.length - 1)
-									? Theme.of(context).colorScheme.primary
-									: Colors.grey,
-							),
+							if (_currentMode == EditorMode.normal) ...[
+								IconButton(
+									icon: Icon(Icons.abc),
+									tooltip: 'Edit metadata',
+									onPressed: () => _graphicalEditorKey.currentState?.showMetadataEditor(),
+								),
+							] else ...[
+								IconButton(
+									icon: Icon(Icons.undo),
+									tooltip: 'Undo',
+									onPressed: _undo,
+									color: (_historyIndex > 0)
+										? Theme.of(context).colorScheme.primary
+										: Colors.grey,
+								),
+								IconButton(
+									icon: Icon(Icons.redo),
+									tooltip: 'Redo',
+									onPressed: _redo,
+									color: (_historyIndex < _history.length - 1)
+										? Theme.of(context).colorScheme.primary
+										: Colors.grey,
+								),
+							],
 						]
 					),
 				),
@@ -1191,32 +1199,40 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return Column(
-			children: [
-				_metadata,
-				_buildSongNoteField(),
+		return DragAndDropLists(
+			children: _contents,
+			contentsWhenEmpty: TextButton.icon(
+				icon: Icon(Icons.add),
+				label: Text('Add new Block'),
+				onPressed: () => _addNewBlockAfter(-1),
+			),
 
-				Expanded(
-					child: DragAndDropLists(
-						children: _contents,
-						contentsWhenEmpty: TextButton.icon(
-							icon: Icon(Icons.add),
-							label: Text('Add new Block'),
-							onPressed: () => _addNewBlockAfter(-1),
-						),
+			onItemReorder: _onItemReorder,
+			onListReorder: _onListReorder,
 
-						onItemReorder: _onItemReorder,
-						onListReorder: _onListReorder,
+			listDecoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainer,
+				borderRadius: .circular(10),
+			),
+			listPadding: .all(10),
+			itemDivider: const SizedBox(height: 10),
+		);
+	}
 
-						listDecoration: BoxDecoration(
-							color: Theme.of(context).colorScheme.surfaceContainer,
-							borderRadius: .circular(10),
-						),
-						listPadding: .all(10),
-						itemDivider: const SizedBox(height: 10),
-					),
+	void showMetadataEditor() {
+		showModalBottomSheet(
+			backgroundColor: Theme.of(context).colorScheme.surface,
+			isScrollControlled: true,
+
+			context: context,
+			builder: (context) => Container(
+				child: ListView(
+					children: [
+						_metadata,
+						_buildSongNoteField(),
+					],
 				),
-			],
+			),
 		);
 	}
 
