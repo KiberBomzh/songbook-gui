@@ -989,6 +989,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_deleteBlock,
 						_addNewBlockAfter,
 						_deleteLine,
+						_addNewLineInBlockAfter,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1021,8 +1022,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	}) => DragAndDropList(
 		header: block,
 		children: lines ?? [],
+
 		leftSide: const SizedBox(width: 20),
 		rightSide: const SizedBox(width: 20),
+
+		contentsWhenEmpty: TextButton.icon(
+			icon: Icon(Icons.add),
+			label: Text('Add new line'),
+			onPressed: () => _addNewLineInBlockAfter(block.index, -1),
+		),
 	);
 
 	Future<void> writeInMainTextController() async {
@@ -1058,7 +1066,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	void _addNewBlockAfter(int index) => setState(() {
 		final int newIndex = index + 1;
 		final block = Block(
-			key: Key('block_${_contents.length + 1}'),
+			key: UniqueKey(),
 			index: newIndex,
 			onDelete: _deleteBlock,
 			onAddNewBlock: _addNewBlockAfter,
@@ -1069,6 +1077,65 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 		_updateBlocksIndexesAfter(newIndex + 1);
 	});
+
+	void _addNewLineInBlockAfter(int parentIndex, int index) async {
+		final LineType? lineType = await showModalBottomSheet<LineType?>(
+			context: context,
+			builder: (context) => SelectLineTypeScreen(),
+		);
+		if (lineType == null)
+			return;
+
+		final newIndex = index + 1;
+		final line = switch (lineType!) {
+			LineType.textBlock => TextBlock(
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+			),
+			LineType.chordsLine => ChordsLine(
+				chords: '',
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+			),
+			LineType.plainText => PlainText(
+				text: '',
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+			),
+			LineType.tab => Tab(
+				tab: '',
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+			),
+			LineType.emptyLine => EmptyLine(
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+			),
+		};
+
+		setState(() {
+			_contents[parentIndex].children.insert(newIndex,
+				DragAndDropItem(child: line),
+			);
+
+			_updateLinesIndexesAfter(newIndex, parentIndex);
+		});
+	}
 
 
 	void _updateBlocksIndexesAfter(int index) {
@@ -1169,6 +1236,7 @@ class Block extends StatefulWidget {
 		Function(int) onDelete,
 		Function(int) onAddNewBlock,
 		Function(int, int) onDeleteChild,
+		Function(int, int) onAddNewLine,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1191,6 +1259,7 @@ class Block extends StatefulWidget {
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
+						onAddNewLine: onAddNewLine,
 					));
 					plainText = '';
 				}
@@ -1208,6 +1277,7 @@ class Block extends StatefulWidget {
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
+						onAddNewLine: onAddNewLine,
 					));
 					tab = '';
 				}
@@ -1224,6 +1294,7 @@ class Block extends StatefulWidget {
 					lines.length,
 					index,
 					onDeleteChild,
+					onAddNewLine,
 				));
 				textBlockBuf = '';
 			} else if (inTextBlock) {
@@ -1240,6 +1311,7 @@ class Block extends StatefulWidget {
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
+						onAddNewLine: onAddNewLine,
 					));
 			} else if (line.startsWith(emptyLineSymbol())) {
 				lines.add(EmptyLine(
@@ -1247,6 +1319,7 @@ class Block extends StatefulWidget {
 					index: lines.length,
 					parentIndex: index,
 					onDelete: onDeleteChild,
+					onAddNewLine: onAddNewLine,
 				));
 
 			} else if (line.startsWith(titleSymbol())) {
@@ -1358,12 +1431,14 @@ sealed class Line extends StatefulWidget {
 	int index;
 	int parentIndex;
 	final Function(int, int) onDelete;
+	final Function(int, int) onAddNewLine;
 
 	Line({
 		super.key,
 		required this.index,
 		required this.parentIndex,
 		required this.onDelete,
+		required this.onAddNewLine,
 	});
 
 	String to_string() => '';
@@ -1389,6 +1464,7 @@ class TextBlock extends Line {
 		required super.index,
 		required super.parentIndex,
 		required super.onDelete,
+		required super.onAddNewLine,
 	});
 
 	static TextBlock from_string(
@@ -1397,6 +1473,7 @@ class TextBlock extends Line {
 		int index,
 		int parentIndex,
 		Function(int, int) onDelete,
+		Function(int, int) onAddNewLine,
 	) {
 		String? chords;
 		String? rhythm;
@@ -1421,6 +1498,7 @@ class TextBlock extends Line {
 			index: index,
 			parentIndex: parentIndex,
 			onDelete: onDelete,
+			onAddNewLine: onAddNewLine,
 		);
 	}
 
@@ -1489,7 +1567,10 @@ class TextBlockState extends State<TextBlock> {
 		return LineContainer(
 			title: MenuButton(
 				label: 'Row',
-				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+				options: {
+					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
+					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
+				},
 			),
 			child: Row(
 				children: [
@@ -1617,6 +1698,7 @@ class ChordsLine extends Line {
 		required super.index,
 		required super.parentIndex,
 		required super.onDelete,
+		required super.onAddNewLine,
 	});
 
 	String to_string() {
@@ -1651,7 +1733,10 @@ class ChordsLineState extends State<ChordsLine> {
 		return LineContainer(
 			title: MenuButton(
 				label: 'ChordsLine',
-				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+				options: {
+					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
+					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
+				},
 			),
 			child: OneLineTextField(
 				controller: _controller,
@@ -1671,6 +1756,7 @@ class PlainText extends Line {
 		required super.index,
 		required super.parentIndex,
 		required super.onDelete,
+		required super.onAddNewLine,
 	});
 
 	String to_string() {
@@ -1711,7 +1797,10 @@ class PlainTextState extends State<PlainText> {
 		return LineContainer(
 			title: MenuButton(
 				label: 'PlainText',
-				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+				options: {
+					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
+					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
+				},
 			),
 			child: IntrinsicHeight(
 				child: Padding(
@@ -1736,6 +1825,7 @@ class Tab extends Line {
 		required super.index,
 		required super.parentIndex,
 		required super.onDelete,
+		required super.onAddNewLine,
 	});
 
 	String to_string() {
@@ -1797,7 +1887,10 @@ class TabState extends State<Tab> {
 		return LineContainer(
 			title: MenuButton(
 				label: 'Tab',
-				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+				options: {
+					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
+					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
+				},
 			),
 			child: Scrollbar(
 				controller: _scrollController,
@@ -1832,6 +1925,7 @@ class EmptyLine extends Line {
 		required super.index,
 		required super.parentIndex,
 		required super.onDelete,
+		required super.onAddNewLine,
 	});
 
 	String to_string() {
@@ -1847,7 +1941,10 @@ class EmptyLineState extends State<EmptyLine> {
 		return LineContainer(
 			title: MenuButton(
 				label: 'EmptyLine',
-				options: { 'Delete': () => widget.onDelete(widget.index, widget.parentIndex) },
+				options: {
+					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
+					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
+				},
 			),
 			child: Text(''),
 		);
@@ -2153,4 +2250,50 @@ class MenuButton extends StatelessWidget {
 			onPressed: entry.value,
 		)).toList(),
 	);
+}
+
+enum LineType {
+	textBlock,
+	chordsLine,
+	plainText,
+	tab,
+	emptyLine;
+
+	String to_string() {
+		return switch(this) {
+			LineType.textBlock => 'Row',
+			LineType.chordsLine => 'ChordsLine',
+			LineType.plainText => 'PlainText',
+			LineType.tab => 'Tab',
+			LineType.emptyLine => 'EmptyLine',
+		};
+	}
+}
+class SelectLineTypeScreen extends StatelessWidget {
+	SelectLineTypeScreen({super.key});
+
+	@override
+	Widget build(BuildContext context) {
+		final colorScheme = Theme.of(context).colorScheme;
+
+		return Material(
+			color: colorScheme.surfaceVariant,
+			shape: RoundedRectangleBorder(
+				borderRadius: .circular(12),
+			),
+			clipBehavior: .antiAlias,
+			child: Column(
+				mainAxisAlignment: .start,
+				children: LineType.values.map((value) => InkWell(
+					onTap: () => Navigator.of(context).pop(value),
+					child: Container(
+						width: double.infinity,
+						padding: const .all(10),
+						margin: const .all(5),
+						child: Text(value.to_string()),
+					),
+				)).toList(),
+			),
+		);
+	}
 }
