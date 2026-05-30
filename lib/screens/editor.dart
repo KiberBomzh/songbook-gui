@@ -987,14 +987,13 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						'block_${_contents.length + 1}',
 						_contents.length,
 						_deleteBlock,
+						_addNewBlockAfter,
 						_deleteLine,
 					);
 					_contents.add(
-						DragAndDropList(
-							header: block,
-							children: lines.map((line) => DragAndDropItem(child: line)).toList(),
-							leftSide: const SizedBox(width: 20),
-							rightSide: const SizedBox(width: 20),
+						_buildDragAndDropList(
+							block: block,
+							lines: lines.map((line) => DragAndDropItem(child: line)).toList(),
 						),
 					);
 					blockText = '';
@@ -1016,6 +1015,15 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			}
 		}
 	}
+	DragAndDropList _buildDragAndDropList({
+		required Block block,
+		List<DragAndDropItem>? lines,
+	}) => DragAndDropList(
+		header: block,
+		children: lines ?? [],
+		leftSide: const SizedBox(width: 20),
+		rightSide: const SizedBox(width: 20),
+	);
 
 	Future<void> writeInMainTextController() async {
 		String text = '';
@@ -1046,6 +1054,22 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		_contents[parentIndex].children.removeAt(index);
 		_updateLinesIndexesAfter(index, parentIndex);
 	});
+
+	void _addNewBlockAfter(int index) => setState(() {
+		final int newIndex = index + 1;
+		final block = Block(
+			key: Key('block_${_contents.length + 1}'),
+			index: newIndex,
+			onDelete: _deleteBlock,
+			onAddNewBlock: _addNewBlockAfter,
+		);
+		_contents.insert(newIndex,
+			_buildDragAndDropList(block: block),
+		);
+
+		_updateBlocksIndexesAfter(newIndex + 1);
+	});
+
 
 	void _updateBlocksIndexesAfter(int index) {
 		for (int i = index; i < _contents.length; i++) {
@@ -1120,6 +1144,7 @@ class Block extends StatefulWidget {
 
 	int index;
 	final Function(int) onDelete;
+	final Function(int) onAddNewBlock;
 
 	Block({
 		super.key,
@@ -1127,6 +1152,7 @@ class Block extends StatefulWidget {
 		this.note,
 		required this.index,
 		required this.onDelete,
+		required this.onAddNewBlock,
 	});
 
 	static (Block, List<Line>) from_string(
@@ -1134,6 +1160,7 @@ class Block extends StatefulWidget {
 		String key_str,
 		int index,
 		Function(int) onDelete,
+		Function(int) onAddNewBlock,
 		Function(int, int) onDeleteChild,
 	) {
 		List<Line> lines = [];
@@ -1229,6 +1256,7 @@ class Block extends StatefulWidget {
 			note: note,
 			index: index,
 			onDelete: onDelete,
+			onAddNewBlock: onAddNewBlock,
 		), lines);
 	}
 
@@ -1290,7 +1318,10 @@ class BlockState extends State<Block> {
 						alignment: .centerRight,
 						child: MenuButton(
 							label: 'Block',
-							options: { 'Delete': () => widget.onDelete(widget.index) }
+							options: { 
+								'Delete': () => widget.onDelete(widget.index),
+								'Add new Block': () => widget.onAddNewBlock(widget.index),
+							},
 						),
 					),
 					const SizedBox(height: 5),
