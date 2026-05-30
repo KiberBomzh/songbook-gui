@@ -1900,16 +1900,21 @@ class TabState extends State<Tab> {
 				child: SingleChildScrollView(
 					controller: _scrollController,
 					scrollDirection: .horizontal,
-					child: IntrinsicWidth(
-						child: SizedBox(
-							height: _textFieldHeight,
-							child: ManyLineTextField(
-								controller: _controller,
-								style: _settings.tabStyle(context),
-								onChanged: (value) {
-									widget.tab = value;
-									setState(() {});
-								},
+					child: ConstrainedBox(
+						constraints: BoxConstraints(
+							minWidth: MediaQuery.of(context).size.width - 20 - 40 - 20,
+						),
+						child: IntrinsicWidth(
+							child: SizedBox(
+								height: _textFieldHeight,
+								child: ManyLineTextField(
+									controller: _controller,
+									style: _settings.tabStyle(context),
+									onChanged: (value) {
+										widget.tab = value;
+										setState(() {});
+									},
+								),
 							),
 						),
 					),
