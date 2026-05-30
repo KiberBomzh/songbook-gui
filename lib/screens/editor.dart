@@ -2242,8 +2242,13 @@ class ShowOptions extends StatefulWidget {
 
 	void from_string(String line) {
 		final result = _parseKeyValueLine(line);
-		if (result == null)
+		if (result == null) {
+			this.chords = false;
+			this.rhythm = false;
+			this.notes = false;
+			this.fingerings = false;
 			return;
+		}
 
 		final opts = result!;
 		this.chords = opts.contains('c');
