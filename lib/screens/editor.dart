@@ -1085,6 +1085,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 	void _addNewLineInBlockAfter(int parentIndex, int index) async {
 		final LineType? lineType = await showModalBottomSheet<LineType?>(
+			isScrollControlled: true,
 			context: context,
 			builder: (context) => SelectLineTypeScreen(),
 		);
@@ -2514,23 +2515,29 @@ class SelectLineTypeScreen extends StatelessWidget {
 	Widget build(BuildContext context) {
 		final colorScheme = Theme.of(context).colorScheme;
 
-		return Material(
-			color: colorScheme.surfaceVariant,
-			shape: RoundedRectangleBorder(
-				borderRadius: .circular(12),
-			),
-			clipBehavior: .antiAlias,
-			child: Column(
-				mainAxisAlignment: .start,
-				children: LineType.values.map((value) => InkWell(
-					onTap: () => Navigator.of(context).pop(value),
-					child: Container(
-						width: double.infinity,
-						padding: const .all(10),
-						margin: const .all(5),
-						child: Text(value.to_string()),
-					),
-				)).toList(),
+		return IntrinsicHeight(
+			child: Material(
+				color: colorScheme.surfaceVariant,
+				shape: RoundedRectangleBorder(
+					borderRadius: .circular(12),
+				),
+				clipBehavior: .antiAlias,
+				child: Column(
+					mainAxisAlignment: .start,
+					children: [
+						...LineType.values.map((value) => InkWell(
+							onTap: () => Navigator.of(context).pop(value),
+							child: Container(
+								width: double.infinity,
+								padding: const .all(10),
+								margin: const .all(5),
+								child: Text(value.to_string()),
+							),
+						)).toList(),
+
+						SizedBox(height: MediaQuery.of(context).padding.bottom), // safe area
+					],
+				),
 			),
 		);
 	}
