@@ -1065,6 +1065,22 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		}
 	}
 
+	void _updateAllBlocksIndexes() {
+		for (int i = 0; i < _contents.length; i++) {
+			final block = _contents[i].header! as Block;
+			block.index = i;
+
+			_updateAllLinesIndexesInBlock(i);
+		}
+	}
+	void _updateAllLinesIndexesInBlock(int index) {
+		for (int i = 0; i < _contents[index].children.length; i++) {
+			final line = _contents[index].children[i].child as Line;
+			line.index = i;
+			line.parentIndex = index;
+		}
+	}
+
 
 	@override
 	Widget build(BuildContext context) {
@@ -1085,15 +1101,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			var movedItem = _contents[oldListIndex].children.removeAt(oldItemIndex);
 			_contents[newListIndex].children.insert(newItemIndex, movedItem);
-
-
-			final line = movedItem.child as Line;
-			line.parentIndex = newListIndex;
-
-			for (int i = 0; i < _contents[newListIndex].children.length; i++) {
-				final line = _contents[newListIndex].children[i].child as Line;
-				line.index = i;
-			}
+			_updateAllLinesIndexesInBlock(newListIndex);
 		});
 	}
 
@@ -1101,18 +1109,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			var movedList = _contents.removeAt(oldListIndex);
 			_contents.insert(newListIndex, movedList);
-
-
-			for (int i = 0; i < _contents.length; i++) {
-				final block = _contents[i].header! as Block;
-				block.index = i;
-
-				for (int j = 0; j < _contents[i].children.length; j++) {
-					final line = _contents[i].children[j].child as Line;
-					line.index = j;
-					line.parentIndex = i;
-				}
-			}
+			_updateAllBlocksIndexes();
 		});
 	}
 }
