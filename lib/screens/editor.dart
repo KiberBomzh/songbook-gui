@@ -788,27 +788,27 @@ class CustomTextController extends TextEditingController {
 		_addBlockPattern(rowStart(), rowEnd(), Colors.yellow);
 
 		_patterns[RegExp(
-			r'^' + RegExp.escape(chordsSymbol()),
+			'^' + RegExp.escape(chordsSymbol()),
 			multiLine: true,
 		)] = TextStyle(color: chordsColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			r'(?<=' + RegExp.escape(chordsSymbol()) + r')\s*.+',
+			'(?<=' + RegExp.escape(chordsSymbol()) + ')s*.+',
 		)] = TextStyle(color: chordsColor);
 
 		_patterns[RegExp(
-			r'^' + RegExp.escape(rhythmSymbol()),
+			'^' + RegExp.escape(rhythmSymbol()),
 			multiLine: true,
 		)] = TextStyle(color: rhythmColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			r'(?<=' + RegExp.escape(rhythmSymbol()) + r')\s*.+',
+			'(?<=' + RegExp.escape(rhythmSymbol()) + ')s*.+',
 		)] = TextStyle(color: rhythmColor);
 
 		_patterns[RegExp(
-			r'^' + RegExp.escape(textSymbol()),
+			'^' + RegExp.escape(textSymbol()),
 			multiLine: true,
 		)] = TextStyle(color: textColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			r'(?<=' + RegExp.escape(textSymbol()) + r')\s*.+',
+			'(?<=' + RegExp.escape(textSymbol()) + ')s*.+',
 		)] = TextStyle(color: textColor);
 	}
 	void _setMetadataPatterns() {
