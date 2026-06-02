@@ -1005,6 +1005,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_copyBlockAfter,
 						_copyLineInBlockAfter,
 						_splitBlockBefore,
+						_mergeBlockWithNext,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1070,6 +1071,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			onDelete: _deleteBlock,
 			onAddNewBlock: _addNewBlockAfter,
 			onCopy: _addNewBlockAfter,
+			onMergeBlock: _mergeBlockWithNext,
 		);
 		_contents.insert(newIndex,
 			_buildDragAndDropList(block: block),
@@ -1212,6 +1214,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			onDelete: _deleteBlock,
 			onAddNewBlock: _addNewBlockAfter,
 			onCopy: _addNewBlockAfter,
+			onMergeBlock: _mergeBlockWithNext,
 		);
 
 		final newItem = _buildDragAndDropList(
@@ -1225,6 +1228,42 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			_contents.insert(newIndex, newItem);
 
 			_updateBlocksIndexesAfter(blockIndex);
+		});
+	}
+
+	void _mergeBlockWithNext(int index) {
+		if (index == _contents.length - 1) {
+			ScaffoldMessenger.of(context).showSnackBar(
+				const SnackBar(
+					content: Text('This is the last Block!'),
+					duration: Duration(seconds: 1),
+				),
+			);
+
+
+			return;
+		}
+
+
+		final nextItem = _contents.removeAt(index + 1);
+		final item = _contents.removeAt(index);
+
+		final block = item.header! as Block;
+		final lines = item.children;
+		final nextLines = nextItem.children;
+
+		final newBlock = block.copyWith(key: UniqueKey());
+		final newLines = [...lines, ...nextLines];
+
+		final newItem = _buildDragAndDropList(
+			block: newBlock,
+			lines: newLines,
+		);
+
+
+		setState(() {
+			_contents.insert(index, newItem);
+			_updateBlocksIndexesAfter(index);
 		});
 	}
 
@@ -1386,6 +1425,7 @@ class Block extends StatefulWidget {
 	final Function(int) onDelete;
 	final Function(int) onAddNewBlock;
 	final Function(int) onCopy;
+	final Function(int) onMergeBlock;
 
 	Block({
 		super.key,
@@ -1395,6 +1435,7 @@ class Block extends StatefulWidget {
 		required this.onDelete,
 		required this.onAddNewBlock,
 		required this.onCopy,
+		required this.onMergeBlock,
 	});
 
 	static (Block, List<Line>) from_string(
@@ -1408,6 +1449,7 @@ class Block extends StatefulWidget {
 		Function(int) onCopy,
 		Function(int, int, Line) onCopyChild,
 		Function(int, int) onSplitBlock,
+		Function(int) onMergeBlock,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1519,6 +1561,7 @@ class Block extends StatefulWidget {
 			onDelete: onDelete,
 			onAddNewBlock: onAddNewBlock,
 			onCopy: onCopy,
+			onMergeBlock: onMergeBlock,
 		), lines);
 	}
 
@@ -1550,19 +1593,16 @@ class Block extends StatefulWidget {
 		String? note,
 
 		int? index,
-
-		Function(int)? onDelete,
-		Function(int)? onAddNewBlock,
-		Function(int)? onCopy,
 	}) => Block(
 		key: key,
 		title: title ?? this.title,
 		note: note ?? this.note,
 		index: index ?? this.index,
 
-		onDelete: onDelete ?? this.onDelete,
-		onAddNewBlock: onAddNewBlock ?? this.onAddNewBlock,
-		onCopy: onCopy ?? this.onCopy,
+		onDelete: onDelete,
+		onAddNewBlock: onAddNewBlock,
+		onCopy: onCopy,
+		onMergeBlock: onMergeBlock,
 	);
 
 
@@ -1606,6 +1646,7 @@ class BlockState extends State<Block> {
 								'Delete': () => widget.onDelete(widget.index),
 								'Add new Block': () => widget.onAddNewBlock(widget.index),
 								'Copy': () => widget.onCopy(widget.index),
+								'Merge with next': () => widget.onMergeBlock(widget.index),
 							},
 						),
 					),
