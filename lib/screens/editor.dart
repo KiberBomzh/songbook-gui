@@ -1011,6 +1011,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_addNewBlockAfter,
 						_deleteLine,
 						_addNewLineInBlockAfter,
+						_copyBlockAfter,
 						_copyLineInBlockAfter,
 					);
 					_contents.add(
@@ -1076,6 +1077,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			index: newIndex,
 			onDelete: _deleteBlock,
 			onAddNewBlock: _addNewBlockAfter,
+			onCopy: _addNewBlockAfter,
 		);
 		_contents.insert(newIndex,
 			_buildDragAndDropList(block: block),
@@ -1161,6 +1163,35 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			);
 
 			_updateLinesIndexesAfter(newIndex, parentIndex);
+		});
+	}
+	void _copyBlockAfter(int index) {
+		final item = _contents[index];
+		final block = item.header! as Block;
+		final lines = item.children.map((item) => item.child as Line).toList();
+
+		final newIndex = index + 1;
+		final newBlock = block.copyWith(
+			key: UniqueKey(),
+			index: newIndex,
+		);
+		final newLines = lines.map((line) {
+			return DragAndDropItem(
+				child: line.copyWith(
+					key: UniqueKey(),
+					parentIndex: newIndex,
+				),
+			);
+		}).toList();
+
+		final newItem = _buildDragAndDropList(
+			block: newBlock,
+			lines: newLines,
+		);
+		
+		setState(() {
+			_contents.insert(newIndex, newItem);
+			_updateBlocksIndexesAfter(newIndex);
 		});
 	}
 
@@ -1321,6 +1352,7 @@ class Block extends StatefulWidget {
 	int index;
 	final Function(int) onDelete;
 	final Function(int) onAddNewBlock;
+	final Function(int) onCopy;
 
 	Block({
 		super.key,
@@ -1329,6 +1361,7 @@ class Block extends StatefulWidget {
 		required this.index,
 		required this.onDelete,
 		required this.onAddNewBlock,
+		required this.onCopy,
 	});
 
 	static (Block, List<Line>) from_string(
@@ -1339,6 +1372,7 @@ class Block extends StatefulWidget {
 		Function(int) onAddNewBlock,
 		Function(int, int) onDeleteChild,
 		Function(int, int) onAddNewLine,
+		Function(int) onCopy,
 		Function(int, int, Line) onCopyChild,
 	) {
 		List<Line> lines = [];
@@ -1445,6 +1479,7 @@ class Block extends StatefulWidget {
 			index: index,
 			onDelete: onDelete,
 			onAddNewBlock: onAddNewBlock,
+			onCopy: onCopy,
 		), lines);
 	}
 
@@ -1469,6 +1504,28 @@ class Block extends StatefulWidget {
 
 		return result;
 	}
+
+	Block copyWith({
+		Key? key,
+		String? title,
+		String? note,
+
+		int? index,
+
+		Function(int)? onDelete,
+		Function(int)? onAddNewBlock,
+		Function(int)? onCopy,
+	}) => Block(
+		key: key,
+		title: title ?? this.title,
+		note: note ?? this.note,
+		index: index ?? this.index,
+
+		onDelete: onDelete ?? this.onDelete,
+		onAddNewBlock: onAddNewBlock ?? this.onAddNewBlock,
+		onCopy: onCopy ?? this.onCopy,
+	);
+
 
 	@override
 	State<Block> createState() => BlockState();
@@ -1509,6 +1566,7 @@ class BlockState extends State<Block> {
 							options: { 
 								'Delete': () => widget.onDelete(widget.index),
 								'Add new Block': () => widget.onAddNewBlock(widget.index),
+								'Copy': () => widget.onCopy(widget.index),
 							},
 						),
 					),
