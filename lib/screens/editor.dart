@@ -93,7 +93,7 @@ class _EditorState extends State<EditorScreen> {
 			_textController.text = await File(widget.path).readAsString();
 		} else {
 			_textController.text = widget.song?.getForEditing() ?? '';
-		};
+		}
 	}
 
 	void _updateSelection() => setState(
@@ -123,12 +123,13 @@ class _EditorState extends State<EditorScreen> {
 			_sourceSelection = null;
 		}
 
-		ScaffoldMessenger.of(context).showSnackBar(
-			const SnackBar(
-				content: Text('Saved!'),
-				duration: Duration(seconds: 1),
-			),
-		);
+		if (mounted)
+			ScaffoldMessenger.of(context).showSnackBar(
+				const SnackBar(
+					content: Text('Saved!'),
+					duration: Duration(seconds: 1),
+				),
+			);
 	}
 
 
@@ -298,7 +299,7 @@ class _EditorState extends State<EditorScreen> {
 					alignment: .centerRight,
 					child: SegmentedButton<EditorMode>(
 						style: SegmentedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.7),
+							backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.7),
 						),
 						segments: const <ButtonSegment<EditorMode>>[
 							ButtonSegment(
@@ -411,7 +412,7 @@ class _EditorState extends State<EditorScreen> {
 					height: 70,
 					padding: const EdgeInsets.symmetric(horizontal: 20),
 					decoration: BoxDecoration(
-						color: Theme.of(context).colorScheme.surfaceVariant,
+						color: Theme.of(context).colorScheme.surfaceContainerHighest,
 						borderRadius: .vertical(top: Radius.circular(10)),
 					),
 					child: Row(
@@ -492,7 +493,7 @@ class EditorField extends StatefulWidget {
 	final Function(String) onChanged;
 	final VoidCallback onTap;
 
-	EditorField({
+	const EditorField({
 		super.key,
 		required this.controller,
 		required this.focusNode,
@@ -549,21 +550,11 @@ class EditorFieldState extends State<EditorField> {
 		)..layout();
 		return textPainter.width + 15;
 	}
-	double _calculateLineHeight() {
-		final textPainter = TextPainter(
-			text: TextSpan(
-				text: _lineNumbers[0],
-				style: _settings.editorStyle()
-			),
-			textDirection: .ltr
-		)..layout();
-		return textPainter.height;
-	}
 
 
+	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
-		final lineHeight = _calculateLineHeight();
 		final lineNumbersWidth = _calculateLineNumbersWidth();
 
 		return Row(
@@ -626,7 +617,7 @@ class EditorFieldState extends State<EditorField> {
 class FastKeywordsLine extends StatefulWidget {
 	final Function(String) onTap;
 
-	FastKeywordsLine({
+	const FastKeywordsLine({
 		super.key,
 		required this.onTap,
 	});
@@ -690,8 +681,8 @@ class CustomTextController extends TextEditingController {
 
 	CustomTextController({
 		required this.isSourceMode,
-		String? text,
-	}) : super(text: text);
+		super.text,
+	});
 
 
 	void _setPatterns() {
@@ -746,7 +737,7 @@ class CustomTextController extends TextEditingController {
 		);
 	}
 
-	_setRawPatterns() {
+	void _setRawPatterns() {
 		final notesColor = Colors.grey;
 		final chordsColor = Colors.lime;
 		final rhythmColor = Colors.orange;
@@ -797,27 +788,27 @@ class CustomTextController extends TextEditingController {
 		_addBlockPattern(rowStart(), rowEnd(), Colors.yellow);
 
 		_patterns[RegExp(
-			'^' + RegExp.escape(chordsSymbol()),
+			r'^' + RegExp.escape(chordsSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: chordsColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		)] = TextStyle(color: chordsColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			'(?<=' + RegExp.escape(chordsSymbol()) + ')\s*.+',
+			r'(?<=' + RegExp.escape(chordsSymbol()) + r')\s*.+',
 		)] = TextStyle(color: chordsColor);
 
 		_patterns[RegExp(
-			'^' + RegExp.escape(rhythmSymbol()),
+			r'^' + RegExp.escape(rhythmSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: rhythmColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		)] = TextStyle(color: rhythmColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			'(?<=' + RegExp.escape(rhythmSymbol()) + ')\s*.+',
+			r'(?<=' + RegExp.escape(rhythmSymbol()) + r')\s*.+',
 		)] = TextStyle(color: rhythmColor);
 
 		_patterns[RegExp(
-			'^' + RegExp.escape(textSymbol()),
+			r'^' + RegExp.escape(textSymbol()),
 			multiLine: true,
-		)] = TextStyle(color: textColor.withOpacity(keywordOpacity), fontWeight: .bold);
+		)] = TextStyle(color: textColor.withValues(alpha: keywordOpacity), fontWeight: .bold);
 		_patterns[RegExp(
-			'(?<=' + RegExp.escape(textSymbol()) + ')\s*.+',
+			r'(?<=' + RegExp.escape(textSymbol()) + r')\s*.+',
 		)] = TextStyle(color: textColor);
 	}
 	void _setMetadataPatterns() {
@@ -838,20 +829,20 @@ class CustomTextController extends TextEditingController {
 		key = RegExp.escape(key);
 
 		_patterns[RegExp('^' + key, multiLine: true)] = TextStyle(color: color);
-		_patterns[RegExp('(?<=^${key}).*.+', multiLine: true)] = TextStyle(fontStyle: .italic);
+		_patterns[RegExp('(?<=^$key).*.+', multiLine: true)] = TextStyle(fontStyle: .italic);
 	}
 	void _addBlockPattern(String start, String end, Color color) {
 		start = RegExp.escape(start);
 		end = RegExp.escape(end);
 
-		_patterns[RegExp('^${start}|^${end}', multiLine: true)] = TextStyle(color: color, fontWeight: .bold);
+		_patterns[RegExp('^$start|^$end', multiLine: true)] = TextStyle(color: color, fontWeight: .bold);
 	}
 	void _addInBlockPattern(String start, String end, TextStyle style) {
 		start = RegExp.escape(start);
 		end = RegExp.escape(end);
 
 		_patterns[ 
-			RegExp( '(?<=^${start}\$).*?(?=^${end}\$)',
+			RegExp( '(?<=^$start\$).*?(?=^$end\$)',
 				multiLine: true,
 				dotAll: true,
 			)
@@ -957,7 +948,7 @@ class _HighlightMatch {
 class GraphicalSongEditor extends StatefulWidget {
 	final CustomTextController mainTextController;
 
-	GraphicalSongEditor({
+	const GraphicalSongEditor({
 		super.key,
 		required this.mainTextController,
 	});
@@ -971,7 +962,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 	late Metadata _metadata;
 	String songNote = '';
-	List<DragAndDropList> _contents = [];
+	final List<DragAndDropList> _contents = [];
 
 	late final TextEditingController _songNoteController;
 
@@ -1096,7 +1087,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			return;
 
 		final newIndex = index + 1;
-		final line = switch (lineType!) {
+		final line = switch (lineType) {
 			LineType.textBlock => TextBlock(
 				key: UniqueKey(),
 				index: newIndex,
@@ -1278,7 +1269,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			isScrollControlled: true,
 
 			context: context,
-			builder: (context) => Container(
+			builder: (context) => SizedBox(
 				height: MediaQuery.of(context).size.height * 0.9,
 				child: Column(
 					children: [
@@ -1392,7 +1383,7 @@ class Block extends StatefulWidget {
 				if (plainText.isNotEmpty) {
 					lines.add(PlainText(
 						text: plainText.trim(),
-						key: Key('${key_str}-line${lines.length + 1}'),
+						key: Key('$key_str-line${lines.length + 1}'),
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
@@ -1411,7 +1402,7 @@ class Block extends StatefulWidget {
 				if (tab.isNotEmpty) {
 					lines.add(Tab(
 						tab: tab.trim(),
-						key: Key('${key_str}-line${lines.length + 1}'),
+						key: Key('$key_str-line${lines.length + 1}'),
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
@@ -1429,7 +1420,7 @@ class Block extends StatefulWidget {
 				inTextBlock = false;
 				lines.add(TextBlock.from_string(
 					textBlockBuf, 
-					Key('${key_str}-line${lines.length + 1}'),
+					Key('$key_str-line${lines.length + 1}'),
 					lines.length,
 					index,
 					onDeleteChild,
@@ -1446,8 +1437,8 @@ class Block extends StatefulWidget {
 				final chords = _parseKeyValueLine(line);
 				if (chords != null)
 					lines.add(ChordsLine(
-						chords: chords!,
-						key: Key('${key_str}-line${lines.length + 1}'),
+						chords: chords,
+						key: Key('$key_str-line${lines.length + 1}'),
 						index: lines.length,
 						parentIndex: index,
 						onDelete: onDeleteChild,
@@ -1456,7 +1447,7 @@ class Block extends StatefulWidget {
 					));
 			} else if (line.startsWith(emptyLineSymbol())) {
 				lines.add(EmptyLine(
-					key: Key('${key_str}-line${lines.length + 1}'),
+					key: Key('$key_str-line${lines.length + 1}'),
 					index: lines.length,
 					parentIndex: index,
 					onDelete: onDeleteChild,
@@ -1683,6 +1674,7 @@ class TextBlock extends Line {
 		);
 	}
 
+	@override
 	String to_string() {
 		String result = '';
 
@@ -1909,6 +1901,7 @@ class ChordsLine extends Line {
 		required super.onCopy,
 	});
 
+	@override
 	String to_string() {
 		return chordsLineSymbol() + chords + '\n';
 	}
@@ -1993,6 +1986,7 @@ class PlainText extends Line {
 		required super.onCopy,
 	});
 
+	@override
 	String to_string() {
 		String result = '';
 
@@ -2086,6 +2080,7 @@ class Tab extends Line {
 		required super.onCopy,
 	});
 
+	@override
 	String to_string() {
 		String result = '';
 
@@ -2214,6 +2209,7 @@ class EmptyLine extends Line {
 		required super.onCopy,
 	});
 
+	@override
 	String to_string() {
 		return emptyLineSymbol() + '\n';
 	}
@@ -2279,11 +2275,11 @@ class Metadata extends StatefulWidget {
 				} else if ( line.startsWith(songCapoSymbol()) ) {
 					final result = _parseKeyValueLine(line);
 					if (result != null)
-						capo = int.tryParse(result!);
+						capo = int.tryParse(result);
 				} else if ( line.startsWith(songAutoscrollSpeedSymbol()) ) {
 					final result = _parseKeyValueLine(line);
 					if (result != null)
-						autoscrollSpeed = int.tryParse(result!);
+						autoscrollSpeed = int.tryParse(result);
 				} else if ( line.startsWith(songShowOptionsSymbol()) ) {
 					options.from_string(line);
 				}
@@ -2478,7 +2474,7 @@ class ShowOptions extends StatefulWidget {
 			return;
 		}
 
-		final opts = result!;
+		final opts = result;
 		this.chords = opts.contains('c');
 		this.rhythm = opts.contains('r');
 		this.notes = opts.contains('n');
@@ -2497,11 +2493,11 @@ class ShowOptionsState extends State<ShowOptions> {
 			margin: const .all(10),
 			padding: const .all(10),
 			decoration: BoxDecoration(
-				color: Theme.of(context).colorScheme.surfaceVariant,
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
 				borderRadius: .circular(8),
 			),
 			child: Material(
-				color: Theme.of(context).colorScheme.surfaceVariant,
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
 				child: Column(
 					children: [
 						Align(
@@ -2516,7 +2512,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							value: widget.chords,
 							onChanged: (bool? value) {
 								if (value != null)
-									setState(() => widget.chords = value!);
+									setState(() => widget.chords = value);
 							}
 						),
 						CheckboxListTile(
@@ -2524,7 +2520,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							value: widget.rhythm,
 							onChanged: (bool? value) {
 								if (value != null)
-									setState(() => widget.rhythm = value!);
+									setState(() => widget.rhythm = value);
 							}
 						),
 						CheckboxListTile(
@@ -2532,7 +2528,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							value: widget.notes,
 							onChanged: (bool? value) {
 								if (value != null)
-									setState(() => widget.notes = value!);
+									setState(() => widget.notes = value);
 							}
 						),
 						CheckboxListTile(
@@ -2540,7 +2536,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							value: widget.fingerings,
 							onChanged: (bool? value) {
 								if (value != null)
-									setState(() => widget.fingerings = value!);
+									setState(() => widget.fingerings = value);
 							}
 						),
 					],
@@ -2567,7 +2563,7 @@ class LineContainer extends StatelessWidget {
 	final Widget child;
 	final Widget title;
 
-	LineContainer({
+	const LineContainer({
 		super.key,
 		required this.child,
 		required this.title,
@@ -2579,7 +2575,7 @@ class LineContainer extends StatelessWidget {
 		return Container(
 			padding: const .all(10),
 			decoration: BoxDecoration(
-				color: Theme.of(context).colorScheme.surfaceVariant,
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
 				borderRadius: .circular(8),
 			),
 			child: Column(
@@ -2603,7 +2599,7 @@ class ManyLineTextField extends StatelessWidget {
 	final TextStyle style;
 	final Function(String) onChanged;
 
-	ManyLineTextField({
+	const ManyLineTextField({
 		super.key,
 		required this.controller,
 		required this.style,
@@ -2633,7 +2629,7 @@ class OneLineTextField extends StatelessWidget {
 	final Function(String) onChanged;
 	final String? label;
 
-	OneLineTextField({
+	const OneLineTextField({
 		super.key,
 		required this.controller,
 		required this.style,
@@ -2662,7 +2658,7 @@ class MenuButton extends StatelessWidget {
 	final String label;
 	final Map<String, VoidCallback> options;
 
-	MenuButton({
+	const MenuButton({
 		super.key,
 		required this.label,
 		required this.options,
@@ -2710,7 +2706,7 @@ enum LineType {
 	}
 }
 class SelectLineTypeScreen extends StatelessWidget {
-	SelectLineTypeScreen({super.key});
+	const SelectLineTypeScreen({super.key});
 
 	@override
 	Widget build(BuildContext context) {
@@ -2718,7 +2714,7 @@ class SelectLineTypeScreen extends StatelessWidget {
 
 		return IntrinsicHeight(
 			child: Material(
-				color: colorScheme.surfaceVariant,
+				color: colorScheme.surfaceContainerHighest,
 				shape: RoundedRectangleBorder(
 					borderRadius: .circular(12),
 				),
@@ -2734,7 +2730,7 @@ class SelectLineTypeScreen extends StatelessWidget {
 								margin: const .all(5),
 								child: Text(value.to_string()),
 							),
-						)).toList(),
+						)),
 
 						SizedBox(height: MediaQuery.of(context).padding.bottom), // safe area
 					],

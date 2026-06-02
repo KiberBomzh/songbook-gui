@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import 'package:songbook/services/settings.dart';
 
 
 class SettingsScreen extends StatefulWidget {
-	SettingsScreen({super.key});
+	const SettingsScreen({super.key});
 
 	@override
 	State<SettingsScreen> createState() => _SettingsState();
@@ -26,7 +25,7 @@ class _SettingsState extends State<SettingsScreen> {
 		setState(() => _isLoading = true);
 		try {
 			final bool result = await _settings.exportBackup();
-			if (result)
+			if (result && mounted)
 				ScaffoldMessenger.of(context).showSnackBar(
 					const SnackBar(
 						content: Text('Succes!'),
@@ -35,19 +34,20 @@ class _SettingsState extends State<SettingsScreen> {
 				);
 		} catch (e) {
 			debugPrint(e.toString());
-			ScaffoldMessenger.of(context).showSnackBar(
-				SnackBar(
-					content: Text('Error!'),
-					duration: Duration(seconds: 3),
-				),
-			);
+			if (mounted)
+				ScaffoldMessenger.of(context).showSnackBar(
+					SnackBar(
+						content: Text('Error!'),
+						duration: Duration(seconds: 3),
+					),
+				);
 		}
 		setState(() => _isLoading = false);
 	}
 	void _importBackup() async {
 		try {
 			final bool result = await _settings.importBackup();
-			if (result) {
+			if (result && mounted) {
 				ScaffoldMessenger.of(context).showSnackBar(
 					const SnackBar(
 						content: Text('Succes, songbook needs to restart!'),
@@ -58,16 +58,17 @@ class _SettingsState extends State<SettingsScreen> {
 			}
 		} catch (e) {
 			debugPrint(e.toString());
-			ScaffoldMessenger.of(context).showSnackBar(
-				SnackBar(
-					content: Text('Error!'),
-					duration: Duration(seconds: 3),
-				),
-			);
+			if (mounted)
+				ScaffoldMessenger.of(context).showSnackBar(
+					SnackBar(
+						content: Text('Error!'),
+						duration: Duration(seconds: 3),
+					),
+				);
 		}
 	}
 
-	List<ColorItem> _colors = [
+	final List<ColorItem> _colors = [
 		ColorItem(
 			color: Colors.red,
 			value: 'red',
@@ -122,7 +123,7 @@ class _SettingsState extends State<SettingsScreen> {
 
 				if (_isLoading)
 					Container(
-						color: Colors.black.withOpacity(0.5),
+						color: Colors.black.withValues(alpha: 0.5),
 						child: Center(
 							child: CircularProgressIndicator(),
 						),
@@ -210,7 +211,7 @@ class _SettingsState extends State<SettingsScreen> {
 				);
 				if (newOpacityStr != null) {
 					final newOpacity = double.parse(newOpacityStr);
-					await _settings.setBackgroundOpacity(newOpacity!);
+					await _settings.setBackgroundOpacity(newOpacity);
 				}
 			},
 		),
@@ -223,7 +224,7 @@ class _SettingsState extends State<SettingsScreen> {
 					? _settings.resetBackgroundImage
 					: null,
 				style: ElevatedButton.styleFrom(
-					backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+					backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 				),
 			),
 			onTap: _settings.setBackgroundImage,
@@ -246,7 +247,7 @@ class _SettingsState extends State<SettingsScreen> {
 				);
 				if (newSizeStr != null) {
 					final newSize = double.parse(newSizeStr);
-					await _settings.setEditorFontSize(newSize!);
+					await _settings.setEditorFontSize(newSize);
 				}
 			},
 		),
@@ -260,7 +261,7 @@ class _SettingsState extends State<SettingsScreen> {
 					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.editorFontFamily)
 				);
 				if (newFontFamily != null)
-					await _settings.setEditorFontFamily(newFontFamily!);
+					await _settings.setEditorFontFamily(newFontFamily);
 			},
 		),
 	];
@@ -316,7 +317,7 @@ class _SettingsState extends State<SettingsScreen> {
 				);
 				if (newSizeStr != null) {
 					final newSize = double.parse(newSizeStr);
-					await _settings.setSongFontSize(newSize!);
+					await _settings.setSongFontSize(newSize);
 				}
 			},
 		),
@@ -330,7 +331,7 @@ class _SettingsState extends State<SettingsScreen> {
 					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.songFontFamily)
 				);
 				if (newFontFamily != null)
-					await _settings.setSongFontFamily(newFontFamily!);
+					await _settings.setSongFontFamily(newFontFamily);
 			},
 		),
 
@@ -349,7 +350,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? null
 							: () => _settings.resetTitleStyle(),
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 				],
@@ -364,7 +365,7 @@ class _SettingsState extends State<SettingsScreen> {
 							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.titleFontFamily)
 						);
 						if (newFontFamily != null)
-							await _settings.setTitleFontFamily(newFontFamily!);
+							await _settings.setTitleFontFamily(newFontFamily);
 					},
 				),
 				_buildItem(
@@ -401,7 +402,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? null
 							: () => _settings.resetNotesStyle(),
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 				],
@@ -416,7 +417,7 @@ class _SettingsState extends State<SettingsScreen> {
 							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.notesFontFamily)
 						);
 						if (newFontFamily != null)
-							await _settings.setNotesFontFamily(newFontFamily!);
+							await _settings.setNotesFontFamily(newFontFamily);
 					},
 				),
 				_buildItem(
@@ -453,7 +454,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? null
 							: () => _settings.resetFingeringsStyle(),
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 				],
@@ -468,7 +469,7 @@ class _SettingsState extends State<SettingsScreen> {
 							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.fingeringsFontFamily)
 						);
 						if (newFontFamily != null)
-							await _settings.setFingeringsFontFamily(newFontFamily!);
+							await _settings.setFingeringsFontFamily(newFontFamily);
 					},
 				),
 				_buildItem(
@@ -505,7 +506,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? null
 							: () => _settings.resetTabStyle(),
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+				 			backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 				],
@@ -520,7 +521,7 @@ class _SettingsState extends State<SettingsScreen> {
 							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.tabFontFamily)
 						);
 						if (newFontFamily != null)
-							await _settings.setTabFontFamily(newFontFamily!);
+							await _settings.setTabFontFamily(newFontFamily);
 					},
 				),
 				_buildItem(
@@ -557,7 +558,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? null
 							: () => _settings.resetPlainTextStyle(),
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 				],
@@ -572,7 +573,7 @@ class _SettingsState extends State<SettingsScreen> {
 							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.plainTextFontFamily)
 						);
 						if (newFontFamily != null)
-							await _settings.setPlainTextFontFamily(newFontFamily!);
+							await _settings.setPlainTextFontFamily(newFontFamily);
 					},
 				),
 				_buildItem(
@@ -606,7 +607,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setChordsColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -642,7 +643,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setRhythmColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -678,7 +679,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setTextColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -714,7 +715,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setNotesColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -750,7 +751,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setTitleColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -786,7 +787,7 @@ class _SettingsState extends State<SettingsScreen> {
 							? () => _settings.setBackgroundColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
 						),
 					),
 
@@ -879,8 +880,8 @@ class _SettingsState extends State<SettingsScreen> {
 		final primary = Theme.of(context).colorScheme.primary;
 		return InkWell(
 			onTap: onTap,
-			splashColor: primary.withOpacity(0.1),
-			highlightColor: primary.withOpacity(0.05),
+			splashColor: primary.withValues(alpha: 0.1),
+			highlightColor: primary.withValues(alpha: 0.05),
 			child: Padding(
 				padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
 				child: SizedBox(
@@ -894,7 +895,7 @@ class _SettingsState extends State<SettingsScreen> {
 							),
 							const SizedBox(width: 20),
 							if (child != null)
-								Flexible(child: child!),
+								Flexible(child: child),
 						],
 					),
 				),
@@ -984,9 +985,9 @@ String? _fontSizeValidator(String text) {
 	if (result == null) {
 		return 'Not valid input!';
 	} else {
-		if (result! < 1) {
+		if (result < 1) {
 			return 'Value must be bigger than 0!';
-		} else if (result! >= 100) {
+		} else if (result >= 100) {
 			return 'Value must be smaller than 100!';
 		} else {
 			return null;
@@ -1000,9 +1001,9 @@ String? _backgroundOpacityValidator(String text) {
 	if (result == null) {
 		return 'Not valid input!';
 	} else {
-		if (result! < 0) {
+		if (result < 0) {
 			return 'Value must be bigger than 0!';
-		} else if (result! > 1) {
+		} else if (result > 1) {
 			return 'Value must be 1 or smaller!';
 		} else {
 			return null;
@@ -1075,7 +1076,7 @@ Future<String?> _showColorPickerDialog({
 	if (!result)
 		return null;
 	else
-		return '#${dialogPickerColor.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+		return '#${dialogPickerColor.toARGB32().toRadixString(16).padLeft(8, '0').toUpperCase()}';
 }
 
 class SelectFontFamilyScreen extends StatefulWidget {
@@ -1117,7 +1118,7 @@ class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
 			padding: const EdgeInsets.all(10),
 			decoration: BoxDecoration(
 				borderRadius: .circular(8),
-				color: Theme.of(context).colorScheme.surfaceVariant,
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
 			),
 			child: Material(
 				color: Colors.transparent,
@@ -1187,7 +1188,8 @@ class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
 
 									if (_selected == family) {
 										setState(() => _selected = _fonts[0]);
-										Navigator.of(context).pop(_selected);
+										if (mounted)
+											Navigator.of(context).pop(_selected);
 									}
 								},
 							),
@@ -1220,8 +1222,8 @@ class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
 		final primary = Theme.of(context).colorScheme.primary;
 
 		return InkWell(
-			splashColor: primary.withOpacity(0.1),
-			highlightColor: primary.withOpacity(0.05),
+			splashColor: primary.withValues(alpha: 0.1),
+			highlightColor: primary.withValues(alpha: 0.05),
 			child: child,
 			onTap: onTap,
 		);

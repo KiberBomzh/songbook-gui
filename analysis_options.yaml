@@ -7,6 +7,16 @@
 
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
+analyzer:
+  errors:
+    constant_identifier_names: ignore
+    curly_braces_in_flow_control_structures: ignore
+    must_be_immutable: ignore
+    non_constant_identifier_names: ignore
+    prefer_interpolation_to_compose_strings: ignore
+    prefer_is_not_empty: ignore
+    sort_child_properties_last: ignore
+    unnecessary_this: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

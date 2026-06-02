@@ -28,8 +28,9 @@ class LibraryScreen extends StatefulWidget {
 	final String? path;
 	final List<String>? copyBuffer;
 	final List<String>? cutBuffer;
-	LibraryScreen({super.key, this.path, this.copyBuffer, this.cutBuffer});
+	const LibraryScreen({super.key, this.path, this.copyBuffer, this.cutBuffer});
 
+	@override
 	State<LibraryScreen> createState() => _LibraryState();
 }
 
@@ -41,7 +42,7 @@ class _LibraryState extends State<LibraryScreen> {
 	late String _currentPath;
 	bool _isCurrentDirEmpty = true;
 
-	List<String> _selected = [];
+	final List<String> _selected = [];
 	bool _isSelectMode = false;
 
 	List<String> _copyBuffer = [];
@@ -495,7 +496,7 @@ class _LibraryState extends State<LibraryScreen> {
 	}) {
 		return Material(
 			color: (_selected.contains(path))
-				? Theme.of(context).colorScheme.secondary.withOpacity(0.5)
+				? Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5)
 				: Colors.transparent,
 			clipBehavior: Clip.antiAlias,
 			shape: RoundedRectangleBorder(
@@ -504,8 +505,8 @@ class _LibraryState extends State<LibraryScreen> {
 			child: InkWell(
 				onTap: onTap,
 				onLongPress: onLongPress,
-				splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-				highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+				splashColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+				highlightColor: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
 				child: Container(
 					padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
 					child: Row(
@@ -614,7 +615,7 @@ class _LibraryState extends State<LibraryScreen> {
 				type: ExpandableFabType.up,
 				distance: 70,
 				overlayStyle: ExpandableFabOverlayStyle(
-					color: Colors.white.withOpacity(0),
+					color: Colors.white.withValues(alpha: 0),
 				),
 				openButtonBuilder: RotateFloatingActionButtonBuilder(
 					child: const Icon(Icons.add),
@@ -711,7 +712,7 @@ class _LibraryState extends State<LibraryScreen> {
 		if (importFormat == null)
 			return;
 
-		final List<String> extensions = switch (importFormat!) {
+		final List<String> extensions = switch (importFormat) {
 			ImportFormat.chordPro => ['cho'],
 			ImportFormat.songBookPro => ['sbp', 'sbpbackup'],
 			ImportFormat.yaml => ['yml', 'yaml'],
@@ -726,7 +727,7 @@ class _LibraryState extends State<LibraryScreen> {
 		if (result == null)
 			return;
 
-		switch (importFormat!) {
+		switch (importFormat) {
 			case (ImportFormat.chordPro):
 				_addFromChordPro(result.paths);
 				break;
@@ -821,7 +822,7 @@ class _LibraryState extends State<LibraryScreen> {
 					return;
 
 
-				final String path = _currentPath + pathDivider + songName!;
+				final String path = _currentPath + pathDivider + songName;
 				addNewSong(
 					artist: artist,
 					title: title,
@@ -831,7 +832,8 @@ class _LibraryState extends State<LibraryScreen> {
 				_loadDirectory();
 
 
-				Navigator.of(context).pop();
+				if (mounted)
+					Navigator.of(context).pop();
 			},
 		);
 	}
@@ -849,7 +851,7 @@ class _LibraryState extends State<LibraryScreen> {
 					padding: const EdgeInsets.all(10),
 					decoration: BoxDecoration(
 						borderRadius: .vertical(top: Radius.circular(12)),
-						color: Theme.of(context).colorScheme.surfaceVariant,
+						color: Theme.of(context).colorScheme.surfaceContainerHighest,
 					),
 					child: SongAddScreen(onDone: onDone),
 				);

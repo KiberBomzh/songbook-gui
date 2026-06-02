@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
@@ -231,7 +230,7 @@ class SettingsProvider extends ChangeNotifier {
 	Color backgroundColor(BuildContext context) {
 		final color = _stringToColor(_backgroundColor);
 		if (color != null) {
-			return color!;
+			return color;
 		} else if (_backgroundOpacity == 1.0) {
 			return Theme.of(context).colorScheme.surface;
 		} else {
@@ -357,14 +356,14 @@ class SettingsProvider extends ChangeNotifier {
 	ColorScheme amoledColorScheme() => darkColorScheme().copyWith(
 		surface: Color(0xFF000000),
 		surfaceContainer: Color(0xFF151515),
-		surfaceVariant: Color(0xFF333333),
+		surfaceContainerHighest: Color(0xFF333333),
 	);
 
 	ThemeData ligthTheme() {
 		final colorScheme = lightColorScheme();
-		final surface = colorScheme.surface.withOpacity(_backgroundOpacity);
-		final surfaceContainer = colorScheme.surfaceContainer.withOpacity(_calculateOpacity());
-		final surfaceVariant = colorScheme.surfaceVariant.withOpacity(_calculateOpacity());
+		final surface = colorScheme.surface.withValues(alpha: _backgroundOpacity);
+		final surfaceContainer = colorScheme.surfaceContainer.withValues(alpha: _calculateOpacity());
+		final surfaceVariant = colorScheme.surfaceContainerHighest.withValues(alpha: _calculateOpacity());
 
 
 		return ThemeData(
@@ -372,7 +371,7 @@ class SettingsProvider extends ChangeNotifier {
 			colorScheme: colorScheme.copyWith(
 				surface: surface,
 				surfaceContainer: surfaceContainer,
-				surfaceVariant: surfaceVariant,
+				surfaceContainerHighest: surfaceVariant,
 			),
 			snackBarTheme: snackBarTheme(),
 		);
@@ -381,9 +380,9 @@ class SettingsProvider extends ChangeNotifier {
 		final colorScheme = _isAmoled
 			? amoledColorScheme()
 			: darkColorScheme();
-		final surface = colorScheme.surface.withOpacity(_backgroundOpacity);
-		final surfaceContainer = colorScheme.surfaceContainer.withOpacity(_calculateOpacity());
-		final surfaceVariant = colorScheme.surfaceVariant.withOpacity(_calculateOpacity());
+		final surface = colorScheme.surface.withValues(alpha: _backgroundOpacity);
+		final surfaceContainer = colorScheme.surfaceContainer.withValues(alpha: _calculateOpacity());
+		final surfaceVariant = colorScheme.surfaceContainerHighest.withValues(alpha: _calculateOpacity());
 
 
 		return ThemeData(
@@ -391,7 +390,7 @@ class SettingsProvider extends ChangeNotifier {
 			colorScheme: colorScheme.copyWith(
 				surface: surface,
 				surfaceContainer: surfaceContainer,
-				surfaceVariant: surfaceVariant,
+				surfaceContainerHighest: surfaceVariant,
 			),
 			snackBarTheme: snackBarTheme(),
 		);
@@ -523,7 +522,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		_isDarkTheme = isDark;
 		if (isDark != null) {
-			await Preferences.setBool(IS_DARK_THEME, isDark!);
+			await Preferences.setBool(IS_DARK_THEME, isDark);
 		} else {
 			await Preferences.remove(IS_DARK_THEME);
 		}
@@ -681,7 +680,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setChordsColor(String? value) async {
 		_chordsColor = value;
 		if (value != null)
-			await Preferences.setString(CHORDS_COLOR, value!);
+			await Preferences.setString(CHORDS_COLOR, value);
 		else
 			await Preferences.remove(CHORDS_COLOR);
 
@@ -691,7 +690,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setRhythmColor(String? value) async {
 		_rhythmColor = value;
 		if (value != null)
-			await Preferences.setString(RHYTHM_COLOR, value!);
+			await Preferences.setString(RHYTHM_COLOR, value);
 		else
 			await Preferences.remove(RHYTHM_COLOR);
 
@@ -701,7 +700,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setTextColor(String? value) async {
 		_textColor = value;
 		if (value != null)
-			await Preferences.setString(TEXT_COLOR, value!);
+			await Preferences.setString(TEXT_COLOR, value);
 		else
 			await Preferences.remove(TEXT_COLOR);
 
@@ -711,7 +710,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setNotesColor(String? value) async {
 		_notesColor = value;
 		if (value != null)
-			await Preferences.setString(NOTES_COLOR, value!);
+			await Preferences.setString(NOTES_COLOR, value);
 		else
 			await Preferences.remove(NOTES_COLOR);
 
@@ -721,7 +720,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setTitleColor(String? value) async {
 		_titleColor = value;
 		if (value != null)
-			await Preferences.setString(TITLE_COLOR, value!);
+			await Preferences.setString(TITLE_COLOR, value);
 		else
 			await Preferences.remove(TITLE_COLOR);
 
@@ -731,7 +730,7 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> setBackgroundColor(String? value) async {
 		_backgroundColor = value;
 		if (value != null)
-			await Preferences.setString(BACKGROUND_COLOR, value!);
+			await Preferences.setString(BACKGROUND_COLOR, value);
 		else
 			await Preferences.remove(BACKGROUND_COLOR);
 
@@ -897,7 +896,7 @@ class SettingsProvider extends ChangeNotifier {
 			if (Platform.isAndroid) {
 				await tempBackup.delete();
 			} else {
-				await tempBackup.rename(outputPath!);
+				await tempBackup.rename(outputPath);
 			}
 		}
 
@@ -1167,7 +1166,7 @@ class SettingsProvider extends ChangeNotifier {
 		if (value == null)
 			return null;
 		else
-			return double.tryParse(value!);
+			return double.tryParse(value);
 	}
 
 
@@ -1189,8 +1188,8 @@ class SettingsProvider extends ChangeNotifier {
 			return null;
 		}
 
-		if (colorStr!.startsWith('#')) {
-			return Color(int.parse(colorStr!.substring(1), radix: 16));
+		if (colorStr.startsWith('#')) {
+			return Color(int.parse(colorStr.substring(1), radix: 16));
 		}
 
 		return switch (colorStr) {

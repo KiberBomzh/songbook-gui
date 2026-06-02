@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ const int AutoscrollSpeedStep = 25;
 class SongScreen extends StatefulWidget {
 	final String path;
 
-	SongScreen({super.key, required this.path});
+	const SongScreen({super.key, required this.path});
 
 
 	@override
@@ -44,7 +43,6 @@ class SongState extends State<SongScreen> {
 	late ScrollController _scrollController;
 	Timer? _autoscrollTimer;
 	Timer? _postponedAutoscrollTimer;
-	bool _isAutoscrolling = false;
 	late double _lineHeight;
 
 	Timer? _saveTimer;
@@ -133,7 +131,6 @@ class SongState extends State<SongScreen> {
 	void _startAutoscroll() {
 		_stopAutoscroll();
 
-		_isAutoscrolling = true;
 		_autoscrollTimer = Timer.periodic(
 			Duration(milliseconds: _autoscrollSpeed),
 			(timer) {
@@ -154,7 +151,6 @@ class SongState extends State<SongScreen> {
 		);
 	}
 	void _stopAutoscroll() {
-		_isAutoscrolling = false;
 		_postponedAutoscrollTimer?.cancel();
 		_autoscrollTimer?.cancel();
 		_autoscrollTimer = null;
@@ -208,7 +204,7 @@ class SongState extends State<SongScreen> {
 						),
 					]
 				),
-				body: Container(
+				body: SizedBox(
 					width: double.infinity,
 					child: SingleChildScrollView(
 						child: Padding(
@@ -335,7 +331,7 @@ class SongState extends State<SongScreen> {
 						),
 						Text(_song.getArtist(),
 							style: Theme.of(context).textTheme.titleSmall?.copyWith(
-								color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)
+								color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7)
 							),
 						),
 					],
@@ -358,14 +354,14 @@ class SongState extends State<SongScreen> {
 								if (pathMaybe == null) {
 									break;
 								}
-								final String path = pathMaybe!;
+								final String path = pathMaybe;
 								final file = await File(path).rename(path + '.yml');
 
 								final params = ShareParams(
-									files: [ XFile('${file.path}')],
+									files: [ XFile(file.path)],
 								);
 								try {
-									final result = await SharePlus.instance.share(params);
+									await SharePlus.instance.share(params);
 								} finally {
 									await file.rename(path);
 								}
@@ -393,7 +389,7 @@ class SongState extends State<SongScreen> {
 					),
 				],
 			),
-			body: (blocks.length > 0)
+			body: (blocks.isNotEmpty)
 				? Container(
 					margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom), //safe area
 					padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -455,7 +451,7 @@ class SongState extends State<SongScreen> {
 							],
 
 							if (songNotes != null && _showNotes) ...[
-								Text(songNotes!, style: _notesStyle),
+								Text(songNotes, style: _notesStyle),
 								SizedBox(height: _fontSize * 1.5),
 							],
 
@@ -518,7 +514,7 @@ class SongState extends State<SongScreen> {
 						),
 						SimpleLine_EmptyLine() => Text('', style: _textStyle),
 					};
-				}).toList(),
+				}),
 
 				SizedBox(height: _fontSize * 2),
 			],
@@ -529,7 +525,7 @@ class SongState extends State<SongScreen> {
 class TabWidget extends StatefulWidget {
 	final Widget text;
 
-	TabWidget({super.key, required this.text});
+	const TabWidget({super.key, required this.text});
 
 	@override
 	State<TabWidget> createState() => TabState();
@@ -728,7 +724,7 @@ class BottomBar extends StatefulWidget {
 	final VoidCallback edit;
 	final Widget popupMenuButton;
 
-	BottomBar({
+	const BottomBar({
 		super.key,
 		required this.songKey,
 		required this.songCapo,
@@ -1091,8 +1087,8 @@ class _BarState extends State<BottomBar> {
 						),
 					),
 					onTap: onTap,
-					splashColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
-					highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.05),
+					splashColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
+					highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.05),
 				),
 			),
 		);
@@ -1111,7 +1107,7 @@ class PopupMenu extends StatefulWidget {
 	final VoidCallback switchFingerings;
 
 
-	PopupMenu({
+	const PopupMenu({
 		super.key,
 		required this.chords,
 		required this.rhythm,
