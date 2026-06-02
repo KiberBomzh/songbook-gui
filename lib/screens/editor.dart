@@ -1004,6 +1004,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_addNewLineInBlockAfter,
 						_copyBlockAfter,
 						_copyLineInBlockAfter,
+						_splitBlockBefore,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1094,6 +1095,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				parentIndex: parentIndex,
 				onDelete: _deleteLine,
 				onAddNewLine: _addNewLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
 				onCopy: _copyLineInBlockAfter,
 			),
 			LineType.chordsLine => ChordsLine(
@@ -1104,6 +1106,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onDelete: _deleteLine,
 				onAddNewLine: _addNewLineInBlockAfter,
 				onCopy: _copyLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
 			),
 			LineType.plainText => PlainText(
 				text: '',
@@ -1113,6 +1116,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onDelete: _deleteLine,
 				onAddNewLine: _addNewLineInBlockAfter,
 				onCopy: _copyLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
 			),
 			LineType.tab => Tab(
 				tab: '',
@@ -1122,6 +1126,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onDelete: _deleteLine,
 				onAddNewLine: _addNewLineInBlockAfter,
 				onCopy: _copyLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
 			),
 			LineType.emptyLine => EmptyLine(
 				key: UniqueKey(),
@@ -1130,6 +1135,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onDelete: _deleteLine,
 				onAddNewLine: _addNewLineInBlockAfter,
 				onCopy: _copyLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
 			),
 		};
 
@@ -1183,6 +1189,42 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			_contents.insert(newIndex, newItem);
 			_updateBlocksIndexesAfter(newIndex);
+		});
+	}
+
+	void _splitBlockBefore(int blockIndex, int lineIndex) {
+		final item = _contents.removeAt(blockIndex);
+
+		final block = item.header! as Block;
+		final List<DragAndDropItem> lines = item.children;
+
+		final oldBlockLines = lines.sublist(0, lineIndex);
+		final oldItem = _buildDragAndDropList(
+			block: block,
+			lines: oldBlockLines,
+		);
+
+		final newIndex = blockIndex + 1;
+		final newBlockLines = lines.sublist(lineIndex);
+		final newBlock = Block(
+			key: UniqueKey(),
+			index: newIndex,
+			onDelete: _deleteBlock,
+			onAddNewBlock: _addNewBlockAfter,
+			onCopy: _addNewBlockAfter,
+		);
+
+		final newItem = _buildDragAndDropList(
+			block: newBlock,
+			lines: newBlockLines,
+		);
+
+
+		setState(() {
+			_contents.insert(blockIndex, oldItem);
+			_contents.insert(newIndex, newItem);
+
+			_updateBlocksIndexesAfter(blockIndex);
 		});
 	}
 
@@ -1365,6 +1407,7 @@ class Block extends StatefulWidget {
 		Function(int, int) onAddNewLine,
 		Function(int) onCopy,
 		Function(int, int, Line) onCopyChild,
+		Function(int, int) onSplitBlock,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1389,6 +1432,7 @@ class Block extends StatefulWidget {
 						onDelete: onDeleteChild,
 						onAddNewLine: onAddNewLine,
 						onCopy: onCopyChild,
+						onSplitBlock: onSplitBlock,
 					));
 					plainText = '';
 				}
@@ -1408,6 +1452,7 @@ class Block extends StatefulWidget {
 						onDelete: onDeleteChild,
 						onAddNewLine: onAddNewLine,
 						onCopy: onCopyChild,
+						onSplitBlock: onSplitBlock,
 					));
 					tab = '';
 				}
@@ -1426,6 +1471,7 @@ class Block extends StatefulWidget {
 					onDeleteChild,
 					onAddNewLine,
 					onCopyChild,
+					onSplitBlock,
 				));
 				textBlockBuf = '';
 			} else if (inTextBlock) {
@@ -1444,6 +1490,7 @@ class Block extends StatefulWidget {
 						onDelete: onDeleteChild,
 						onAddNewLine: onAddNewLine,
 						onCopy: onCopyChild,
+						onSplitBlock: onSplitBlock,
 					));
 			} else if (line.startsWith(emptyLineSymbol())) {
 				lines.add(EmptyLine(
@@ -1453,6 +1500,7 @@ class Block extends StatefulWidget {
 					onDelete: onDeleteChild,
 					onAddNewLine: onAddNewLine,
 					onCopy: onCopyChild,
+					onSplitBlock: onSplitBlock,
 				));
 
 			} else if (line.startsWith(titleSymbol())) {
@@ -1590,6 +1638,7 @@ sealed class Line extends StatefulWidget {
 	final Function(int, int) onDelete;
 	final Function(int, int) onAddNewLine;
 	final Function(int, int, Line) onCopy;
+	final Function(int, int) onSplitBlock;
 
 	Line({
 		super.key,
@@ -1598,6 +1647,7 @@ sealed class Line extends StatefulWidget {
 		required this.onDelete,
 		required this.onAddNewLine,
 		required this.onCopy,
+		required this.onSplitBlock,
 	});
 
 	String to_string() => '';
@@ -1606,9 +1656,6 @@ sealed class Line extends StatefulWidget {
 		Key? key,
 		int? index,
 		int? parentIndex,
-		Function(int, int)? onDelete,
-		Function(int, int)? onAddNewLine,
-		Function(int, int, Line)? onCopy,
 	}) => this;
 
 
@@ -1635,6 +1682,7 @@ class TextBlock extends Line {
 		required super.onDelete,
 		required super.onAddNewLine,
 		required super.onCopy,
+		required super.onSplitBlock,
 	});
 
 	static TextBlock from_string(
@@ -1645,6 +1693,7 @@ class TextBlock extends Line {
 		Function(int, int) onDelete,
 		Function(int, int) onAddNewLine,
 		Function(int, int, Line) onCopy,
+		Function(int, int) onSplitBlock,
 	) {
 		String? chords;
 		String? rhythm;
@@ -1671,6 +1720,7 @@ class TextBlock extends Line {
 			onDelete: onDelete,
 			onAddNewLine: onAddNewLine,
 			onCopy: onCopy,
+			onSplitBlock: onSplitBlock,
 		);
 	}
 
@@ -1692,9 +1742,6 @@ class TextBlock extends Line {
 		Key? key,
 		int? index,
 		int? parentIndex,
-		Function(int, int)? onDelete,
-		Function(int, int)? onAddNewLine,
-		Function(int, int, Line)? onCopy,
 
 		String? chords,
 		String? rhythm,
@@ -1703,13 +1750,15 @@ class TextBlock extends Line {
 		key: key,
 		index: index ?? this.index,
 		parentIndex: parentIndex ?? this.parentIndex,
-		onDelete: onDelete ?? this.onDelete,
-		onAddNewLine: onAddNewLine ?? this.onAddNewLine,
-		onCopy: onCopy ?? this.onCopy,
 
 		chords: chords ?? this.chords,
 		rhythm: rhythm ?? this.rhythm,
 		text: text ?? this.text,
+
+		onDelete: onDelete,
+		onAddNewLine: onAddNewLine,
+		onCopy: onCopy,
+		onSplitBlock: onSplitBlock,
 	);
 
 
@@ -1769,6 +1818,7 @@ class TextBlockState extends State<TextBlock> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Row(
@@ -1899,6 +1949,7 @@ class ChordsLine extends Line {
 		required super.onDelete,
 		required super.onAddNewLine,
 		required super.onCopy,
+		required super.onSplitBlock,
 	});
 
 	@override
@@ -1911,9 +1962,6 @@ class ChordsLine extends Line {
 		Key? key,
 		int? index,
 		int? parentIndex,
-		Function(int, int)? onDelete,
-		Function(int, int)? onAddNewLine,
-		Function(int, int, Line)? onCopy,
 
 		String? chords,
 		String? rhythm,
@@ -1922,11 +1970,13 @@ class ChordsLine extends Line {
 		key: key,
 		index: index ?? this.index,
 		parentIndex: parentIndex ?? this.parentIndex,
-		onDelete: onDelete ?? this.onDelete,
-		onAddNewLine: onAddNewLine ?? this.onAddNewLine,
-		onCopy: onCopy ?? this.onCopy,
 
 		chords: chords ?? this.chords,
+
+		onDelete: onDelete,
+		onAddNewLine: onAddNewLine,
+		onCopy: onCopy,
+		onSplitBlock: onSplitBlock,
 	);
 
 
@@ -1962,6 +2012,7 @@ class ChordsLineState extends State<ChordsLine> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: OneLineTextField(
@@ -1984,6 +2035,7 @@ class PlainText extends Line {
 		required super.onDelete,
 		required super.onAddNewLine,
 		required super.onCopy,
+		required super.onSplitBlock,
 	});
 
 	@override
@@ -2004,20 +2056,19 @@ class PlainText extends Line {
 		Key? key,
 		int? index,
 		int? parentIndex,
-		Function(int, int)? onDelete,
-		Function(int, int)? onAddNewLine,
-		Function(int, int, Line)? onCopy,
 
 		String? text,
 	}) => PlainText(
 		key: key,
 		index: index ?? this.index,
 		parentIndex: parentIndex ?? this.parentIndex,
-		onDelete: onDelete ?? this.onDelete,
-		onAddNewLine: onAddNewLine ?? this.onAddNewLine,
-		onCopy: onCopy ?? this.onCopy,
 
 		text: text ?? this.text,
+
+		onDelete: onDelete,
+		onAddNewLine: onAddNewLine,
+		onCopy: onCopy,
+		onSplitBlock: onSplitBlock,
 	);
 
 
@@ -2051,6 +2102,7 @@ class PlainTextState extends State<PlainText> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: IntrinsicHeight(
@@ -2078,6 +2130,7 @@ class Tab extends Line {
 		required super.onDelete,
 		required super.onAddNewLine,
 		required super.onCopy,
+		required super.onSplitBlock,
 	});
 
 	@override
@@ -2098,20 +2151,19 @@ class Tab extends Line {
 		Key? key,
 		int? index,
 		int? parentIndex,
-		Function(int, int)? onDelete,
-		Function(int, int)? onAddNewLine,
-		Function(int, int, Line)? onCopy,
 
 		String? tab,
 	}) => Tab(
 		key: key,
 		index: index ?? this.index,
 		parentIndex: parentIndex ?? this.parentIndex,
-		onDelete: onDelete ?? this.onDelete,
-		onAddNewLine: onAddNewLine ?? this.onAddNewLine,
-		onCopy: onCopy ?? this.onCopy,
 
 		tab: tab ?? this.tab,
+
+		onDelete: onDelete,
+		onAddNewLine: onAddNewLine,
+		onCopy: onCopy,
+		onSplitBlock: onSplitBlock,
 	);
 
 	@override
@@ -2165,6 +2217,7 @@ class TabState extends State<Tab> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Scrollbar(
@@ -2207,6 +2260,7 @@ class EmptyLine extends Line {
 		required super.onDelete,
 		required super.onAddNewLine,
 		required super.onCopy,
+		required super.onSplitBlock,
 	});
 
 	@override
@@ -2227,6 +2281,7 @@ class EmptyLineState extends State<EmptyLine> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Text(''),
