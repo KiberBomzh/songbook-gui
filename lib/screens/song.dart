@@ -410,7 +410,9 @@ class SongState extends State<SongScreen> {
 			),
 			body: (blocks.isNotEmpty)
 				? Container(
-					margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom), //safe area
+					margin: (_isScreenWide)
+						? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom) //safe area
+						: null,
 					padding: const EdgeInsets.symmetric(horizontal: 10),
 					height: double.infinity,
 					color: _settings.backgroundColor(context),
