@@ -1007,6 +1007,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_splitBlockBefore,
 						_mergeBlockWithNext,
 						_splitRow,
+						_mergeRow,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1101,6 +1102,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onSplitBlock: _splitBlockBefore,
 				onCopy: _copyLineInBlockAfter,
 				onSplitRow: _splitRow,
+				onMerge: _mergeRow,
 			),
 			LineType.chordsLine => ChordsLine(
 				chords: '',
@@ -1330,6 +1332,52 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			_updateLinesIndexesAfter(lineIndex, blockIndex);
 		});
 	}
+	void _mergeRow(int blockIndex, int lineIndex) {
+		final item = _contents[blockIndex];
+		if (item.children.length == lineIndex + 1) {
+			ScaffoldMessenger.of(context).showSnackBar(
+				const SnackBar(
+					content: Text('This is the last Row in the Block!'),
+					duration: Duration(seconds: 1),
+				),
+			);
+
+
+			return;
+		}
+
+		if (item.children[lineIndex + 1].child is! TextBlock) {
+			ScaffoldMessenger.of(context).showSnackBar(
+				const SnackBar(
+					content: Text('Next Line is not a Row!'),
+					duration: Duration(seconds: 1),
+				),
+			);
+
+
+			return;
+		}
+
+
+		final row = item.children[lineIndex].child as TextBlock;
+		final nextRow = item.children[lineIndex + 1].child as TextBlock;
+
+		final newRow = row.copyWith(
+			key: UniqueKey(),
+
+			chords: (row.chords ?? '') + (nextRow.chords ?? ''),
+			rhythm: (row.rhythm ?? '') + (nextRow.rhythm ?? ''),
+			text: (row.text ?? '') + (nextRow.text ?? ''),
+		);
+
+
+		setState(() {
+			item.children.removeAt(lineIndex + 1);
+			item.children[lineIndex] = DragAndDropItem(child: newRow);
+
+			_updateLinesIndexesAfter(lineIndex, blockIndex);
+		});
+	}
 
 
 	void _updateBlocksIndexesAfter(int index) {
@@ -1515,6 +1563,7 @@ class Block extends StatefulWidget {
 		Function(int, int) onSplitBlock,
 		Function(int) onMergeBlock,
 		Function(int, int, int) onSplitRow,
+		Function(int, int) onMergeRow,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1580,6 +1629,7 @@ class Block extends StatefulWidget {
 					onCopyChild,
 					onSplitBlock,
 					onSplitRow,
+					onMergeRow,
 				));
 				textBlockBuf = '';
 			} else if (inTextBlock) {
@@ -1779,7 +1829,8 @@ class TextBlock extends Line {
 	String? rhythm;
 	String? text;
 
-	Function(int, int, int) onSplitRow;
+	final Function(int, int, int) onSplitRow;
+	final Function(int, int) onMerge;
 
 	TextBlock({
 		super.key,
@@ -1793,6 +1844,7 @@ class TextBlock extends Line {
 		required super.onCopy,
 		required super.onSplitBlock,
 		required this.onSplitRow,
+		required this.onMerge,
 	});
 
 	static TextBlock from_string(
@@ -1805,6 +1857,7 @@ class TextBlock extends Line {
 		Function(int, int, Line) onCopy,
 		Function(int, int) onSplitBlock,
 		Function(int, int, int) onSplitRow,
+		Function(int, int) onMerge,
 	) {
 		String? chords;
 		String? rhythm;
@@ -1833,6 +1886,7 @@ class TextBlock extends Line {
 			onCopy: onCopy,
 			onSplitBlock: onSplitBlock,
 			onSplitRow: onSplitRow,
+			onMerge: onMerge,
 		);
 	}
 
@@ -1872,6 +1926,7 @@ class TextBlock extends Line {
 		onCopy: onCopy,
 		onSplitBlock: onSplitBlock,
 		onSplitRow: onSplitRow,
+		onMerge: onMerge,
 	);
 
 
@@ -1960,6 +2015,7 @@ class TextBlockState extends State<TextBlock> {
 					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
 					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
 					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
+					'Merge with next': () => widget.onMerge(widget.parentIndex, widget.index),
 					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
