@@ -63,6 +63,9 @@ class SongState extends State<SongScreen> {
 	final GlobalKey<_BarState> _barKey = GlobalKey<_BarState>();
 
 
+	bool _isScreenWide = false;
+
+
 	@override
 	void initState() {
 		super.initState();
@@ -215,6 +218,8 @@ class SongState extends State<SongScreen> {
 				),
 			);
 
+		
+		_isScreenWide = _isWideScreen(context);
 
 		_settings = context.watch<SettingsProvider>();
 		_chordsStyle = _settings.chordsStyle(context);
@@ -249,11 +254,25 @@ class SongState extends State<SongScreen> {
 						),
 					), // for safe area
 
-					_buildScaffold(),
-					Align(
-						alignment: .bottomCenter,
-						child: _buildBottomBar(),
-					),
+					if (_isScreenWide) ...[
+						_buildScaffold(),
+						Align(
+							alignment: .bottomCenter,
+							child: _buildBottomBar(),
+						),
+					] else ...[
+						Column(
+							children: [
+								Expanded(
+									child: _buildScaffold(),
+								),
+								Container(
+									color: Theme.of(context).colorScheme.surface,
+									child: _buildBottomBar(),
+								),
+							],
+						),
+					],
 				],
 			),
 		);
@@ -457,7 +476,8 @@ class SongState extends State<SongScreen> {
 
 							...blocks.map((block) => _buildBlock(block)),
 
-							const SizedBox(height: 80), // отступ для нижней панели
+							if (_isScreenWide)
+								const SizedBox(height: 80), // отступ для нижней панели
 						],
 					),
 				),
@@ -761,7 +781,7 @@ class _BarState extends State<BottomBar> {
 
 		return Container(
 			height: 80,
-			width: (screenWidth > 600)
+			width: _isWideScreen(context)
 				? 400
 				: screenWidth,
 			margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
@@ -1194,4 +1214,9 @@ class _PopupMenuState extends State<PopupMenu> {
 			)).toList(),
 		);
 	}
+}
+
+
+bool _isWideScreen(BuildContext context) {
+	return (MediaQuery.of(context).size.width > 600);
 }
