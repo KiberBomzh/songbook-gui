@@ -31,6 +31,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^3.2.5
   build_runner: ^2.13.1
+  inno_bundle: ^0.11.2
 
 flutter_launcher_icons:
   android: true
@@ -41,6 +42,12 @@ flutter_launcher_icons:
   windows:
     generate: true
     icon_size: 256
+
+inno_bundle:
+  id: b5dbf060-6056-11f1-9a6a-d5b3fcc71fac
+  name: songbook
+  publisher: KiberBomzh
+
 flutter:
   uses-material-design: true
   fonts:
