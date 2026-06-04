@@ -1006,6 +1006,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_copyLineInBlockAfter,
 						_splitBlockBefore,
 						_mergeBlockWithNext,
+						_splitRow,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1099,6 +1100,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onAddNewLine: _addNewLineInBlockAfter,
 				onSplitBlock: _splitBlockBefore,
 				onCopy: _copyLineInBlockAfter,
+				onSplitRow: _splitRow,
 			),
 			LineType.chordsLine => ChordsLine(
 				chords: '',
@@ -1264,6 +1266,68 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			_contents.insert(index, newItem);
 			_updateBlocksIndexesAfter(index);
+		});
+	}
+
+	void _splitRow(int blockIndex, int lineIndex, int inlineIndex) {
+		final item = _contents[blockIndex];
+		final row = item.children[lineIndex].child as TextBlock;
+
+
+		String chords = row.chords ?? '';
+		String rhythm = row.rhythm ?? '';
+		String text = row.text ?? '';
+
+		int maxLen = chords.length;
+		if (rhythm.length > maxLen)
+			maxLen = rhythm.length;
+		if (text.length > maxLen)
+			maxLen = text.length;
+
+		if (chords.length < maxLen)
+			chords += ' ' * (maxLen - chords.length);
+		if (rhythm.length < maxLen)
+			rhythm += ' ' * (maxLen - rhythm.length);
+		if (text.length < maxLen)
+			text += ' ' * (maxLen - text.length);
+
+
+		final oldChords = chords.substring(0, inlineIndex);
+		final newChords = chords.substring(inlineIndex);
+
+		final oldRhythm = rhythm.substring(0, inlineIndex);
+		final newRhythm = rhythm.substring(inlineIndex);
+
+		final oldText = text.substring(0, inlineIndex);
+		final newText = text.substring(inlineIndex);
+
+
+		final oldRow = row.copyWith(
+			key: UniqueKey(),
+			index: lineIndex,
+			chords: oldChords,
+			rhythm: oldRhythm,
+			text: oldText,
+		);
+
+		final newIndex = lineIndex + 1;
+		final newRow = row.copyWith(
+			key: UniqueKey(),
+			index: newIndex,
+			chords: newChords,
+			rhythm: newRhythm,
+			text: newText,
+		);
+
+
+		setState(() {
+			item.children.removeAt(lineIndex);
+
+			item.children.insert(lineIndex, DragAndDropItem(child: oldRow));
+			item.children.insert(newIndex, DragAndDropItem(child: newRow));
+
+
+			_updateLinesIndexesAfter(lineIndex, blockIndex);
 		});
 	}
 
@@ -1450,6 +1514,7 @@ class Block extends StatefulWidget {
 		Function(int, int, Line) onCopyChild,
 		Function(int, int) onSplitBlock,
 		Function(int) onMergeBlock,
+		Function(int, int, int) onSplitRow,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1514,6 +1579,7 @@ class Block extends StatefulWidget {
 					onAddNewLine,
 					onCopyChild,
 					onSplitBlock,
+					onSplitRow,
 				));
 				textBlockBuf = '';
 			} else if (inTextBlock) {
@@ -1713,6 +1779,8 @@ class TextBlock extends Line {
 	String? rhythm;
 	String? text;
 
+	Function(int, int, int) onSplitRow;
+
 	TextBlock({
 		super.key,
 		this.chords,
@@ -1724,6 +1792,7 @@ class TextBlock extends Line {
 		required super.onAddNewLine,
 		required super.onCopy,
 		required super.onSplitBlock,
+		required this.onSplitRow,
 	});
 
 	static TextBlock from_string(
@@ -1735,6 +1804,7 @@ class TextBlock extends Line {
 		Function(int, int) onAddNewLine,
 		Function(int, int, Line) onCopy,
 		Function(int, int) onSplitBlock,
+		Function(int, int, int) onSplitRow,
 	) {
 		String? chords;
 		String? rhythm;
@@ -1762,6 +1832,7 @@ class TextBlock extends Line {
 			onAddNewLine: onAddNewLine,
 			onCopy: onCopy,
 			onSplitBlock: onSplitBlock,
+			onSplitRow: onSplitRow,
 		);
 	}
 
@@ -1800,6 +1871,7 @@ class TextBlock extends Line {
 		onAddNewLine: onAddNewLine,
 		onCopy: onCopy,
 		onSplitBlock: onSplitBlock,
+		onSplitRow: onSplitRow,
 	);
 
 
@@ -1815,6 +1887,10 @@ class TextBlockState extends State<TextBlock> {
 	late final TextEditingController _rhythmController;
 	late final TextEditingController _textController;
 
+	late final FocusNode _chordsFocus;
+	late final FocusNode _rhythmFocus;
+	late final FocusNode _textFocus;
+
 	late final ScrollController _scrollController;
 
 
@@ -1824,6 +1900,11 @@ class TextBlockState extends State<TextBlock> {
 		_chordsController = TextEditingController(text: widget.chords);
 		_rhythmController = TextEditingController(text: widget.rhythm);
 		_textController = TextEditingController(text: widget.text);
+		
+		_chordsFocus = FocusNode();
+		_rhythmFocus = FocusNode();
+		_textFocus = FocusNode();
+
 		_scrollController = ScrollController();
 	}
 
@@ -1832,6 +1913,11 @@ class TextBlockState extends State<TextBlock> {
 		_chordsController.dispose();
 		_rhythmController.dispose();
 		_textController.dispose();
+
+		_chordsFocus.dispose();
+		_rhythmFocus.dispose();
+		_textFocus.dispose();
+
 		_scrollController.dispose();
 		super.dispose();
 	}
@@ -1843,6 +1929,21 @@ class TextBlockState extends State<TextBlock> {
 		)..layout();
 		_lineHeight = textPainter.height;
 		_charWidth = textPainter.width;
+	}
+
+	void _split() {
+		int position = 0;
+		if (_chordsFocus.hasFocus)
+			position = _chordsController.selection.baseOffset;
+		else if (_rhythmFocus.hasFocus)
+			position = _rhythmController.selection.baseOffset;
+		else if (_textFocus.hasFocus)
+			position = _textController.selection.baseOffset;
+
+		if (position == -1)
+			position = 0;
+		
+		widget.onSplitRow(widget.parentIndex, widget.index, position);
 	}
 
 
@@ -1930,10 +2031,12 @@ class TextBlockState extends State<TextBlock> {
 					height: _lineHeight,
 					child: TextField(
 						controller: _chordsController,
+						focusNode: _chordsFocus,
 						style: _settings.chordsStyle(context),
 						selectionWidthStyle: .tight,
 						decoration: _buildInputDecoration(),
 						onChanged: (value) => widget.chords = value,
+						onSubmitted: (value) => _split(),
 					),
 				),
 			),
@@ -1943,10 +2046,12 @@ class TextBlockState extends State<TextBlock> {
 					height: _lineHeight,
 					child: TextField(
 						controller: _rhythmController,
+						focusNode: _rhythmFocus,
 						style: _settings.rhythmStyle(context),
 						selectionWidthStyle: .tight,
 						decoration: _buildInputDecoration(),
 						onChanged: (value) => widget.rhythm = value,
+						onSubmitted: (value) => _split(),
 					),
 				),
 			),
@@ -1956,10 +2061,12 @@ class TextBlockState extends State<TextBlock> {
 					height: _lineHeight,
 					child: TextField(
 						controller: _textController,
+						focusNode: _textFocus,
 						style: _settings.textStyle(context),
 						selectionWidthStyle: .tight,
 						decoration: _buildInputDecoration(),
 						onChanged: (value) => widget.text = value,
+						onSubmitted: (value) => _split(),
 					),
 				),
 			),
