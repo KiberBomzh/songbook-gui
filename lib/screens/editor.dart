@@ -1232,6 +1232,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			_contents.insert(newIndex, newItem);
 
 			_updateBlocksIndexesAfter(blockIndex);
+			_updateAllLinesIndexesInBlock(blockIndex + 1);
 		});
 	}
 
@@ -1268,6 +1269,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		setState(() {
 			_contents.insert(index, newItem);
 			_updateBlocksIndexesAfter(index);
+			_updateLinesIndexesAfter(lines.length, index);
 		});
 	}
 
