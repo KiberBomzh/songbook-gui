@@ -674,9 +674,35 @@ class FastLineState extends State<FastKeywordsLine> {
 
 class CustomTextController extends TextEditingController {
 	late BuildContext context;
+	late SettingsProvider _settings;
 
 	bool isSourceMode;
 	final Map<RegExp, TextStyle> _patterns = {};
+
+	// Colors from Tomorrow Night
+	final Map<String, Map<String, Color>> _editorTheme = {
+		'night': {
+			'blue': Color(0xff81a2be),
+			'cyan': Color(0xff7eada7),
+			'purple': Color(0xffb294bb),
+			'yellow': Color(0xfff0c674),
+			'orange': Color(0xffde935f),
+			'red': Color(0xffcc6666),
+		},
+		'day': {
+			'blue': Color(0xff0070c1),
+			'cyan': Color(0xff1e797f),
+			'purple': Color(0xff7929c8),
+			'yellow': Color(0xff7c5c20),
+			'orange': Color(0xffdf5926),
+			'red': Color(0xffa31515),
+		},
+	};
+
+	late String _brightness;
+	final String _rawKey = 'blue';
+	final String _rawStartEndPrimary = 'red';
+	final String _rawStartEndSecondary = 'purple';
   
 
 	CustomTextController({
@@ -686,6 +712,12 @@ class CustomTextController extends TextEditingController {
 
 
 	void _setPatterns() {
+		if (Theme.of(context).brightness == Brightness.dark)
+			_brightness = 'night';
+		else
+			_brightness = 'day';
+
+
 		_patterns.clear();
 		if (isSourceMode)
 			_setYamlPatterns();
@@ -697,78 +729,70 @@ class CustomTextController extends TextEditingController {
 		// Ключи (слова перед двоеточием)
 		_patterns[RegExp(r'(?<=^[ \t]*(?:- )?)[\w\-\.]+(?=\s*:)', multiLine: true)] =
 		TextStyle(
-			color: Colors.blue,
+			color: _editorTheme[_brightness]?['blue'],
 			fontWeight: FontWeight.bold,
-		);
-
-		// Строковые значения в кавычках
-		_patterns[RegExp('"[^"]*"|\'[^\']*\'')] = TextStyle(
-			color: Colors.yellow,
 		);
 
 		// Числовые значения
 		_patterns[RegExp(r'(?<![a-zA-Z0-9_#])\d+\.?\d*(?![a-zA-Z0-9_])')] = TextStyle(
-			color: Colors.orange,
+			color: _editorTheme[_brightness]?['orange'],
 		);
 
 		// Булевы значения и null
 		_patterns[RegExp(r'\b(true|false|yes|no|on|off|null|~)\b', caseSensitive: true)] =
 		TextStyle(
-			color: Colors.orange,
+			color: _editorTheme[_brightness]?['orange'],
 			fontWeight: FontWeight.bold,
 		);
 
 		// Списки (элементы с дефисом)
 		_patterns[RegExp(r'^(\s*)-\s', multiLine: true)] = TextStyle(
-			color: Colors.redAccent,
-			fontWeight: FontWeight.bold,
-		);
-
-		// Якоря и ссылки
-		_patterns[RegExp(r'&[\w]+|\*[\w]+')] = TextStyle(
-			color: Colors.teal,
+			color: _editorTheme[_brightness]?['red'],
 			fontWeight: FontWeight.bold,
 		);
 
 		// Теги YAML
 		_patterns[RegExp(r'![\w]+')] = TextStyle(
-			color: Colors.pink,
+			color: _editorTheme[_brightness]?['yellow'],
 			fontWeight: FontWeight.bold,
 		);
 	}
 
 	void _setRawPatterns() {
 		final notesColor = Colors.grey;
-		final chordsColor = Colors.lime;
-		final rhythmColor = Colors.orange;
-		final textColor = Theme.of(context).colorScheme.onSurface;
+		final chordsColor = _settings.chordsColor(context);
+		final rhythmColor = _settings.rhythmColor(context);
+		final textColor = _settings.textColor(context);
 
 		final keywordOpacity = 0.5;
+		final theme = _editorTheme[_brightness];
+		final keyColor = theme?[_rawKey];
+		final secondary = theme?[_rawStartEndSecondary];
 
 
 
 		_setMetadataPatterns();
 		
-		_addBlockPattern(blockStart(), blockEnd(), Colors.indigoAccent);
-		_addKeyValuePattern(titleSymbol(), Colors.lightGreen);
-		_addKeyValuePattern(blockNoteSymbol(), notesColor);
-		_addKeyValuePattern(chordsLineSymbol(), chordsColor);
+		_addBlockPattern(blockStart(), blockEnd(), theme?[_rawStartEndPrimary]);
+		_addKeyValuePattern(titleSymbol(), keyColor);
+		_addKeyValuePattern(blockNoteSymbol(), keyColor);
+		_addKeyValuePattern(chordsLineSymbol(), keyColor);
 
-		_addBlockPattern(plainTextStart(), plainTextEnd(), Colors.green);
+		_addBlockPattern(plainTextStart(), plainTextEnd(), secondary);
 		_addInBlockPattern(
 			plainTextStart(),
 			plainTextEnd(),
 			TextStyle(fontStyle: .italic, fontWeight: .bold)
 		);
 
-		_addBlockPattern(tabStartSymbol(), tabEndSymbol(), Colors.lightBlue);
+		_addBlockPattern(tabStartSymbol(), tabEndSymbol(), secondary);
 		_addInBlockPattern(
 			tabStartSymbol(),
 			tabEndSymbol(),
 			TextStyle(fontWeight: .bold),
 		);
 
-		_addBlockPattern(songNoteStartSymbol(), songNoteEndSymbol(), notesColor);
+		_addBlockPattern(songNoteStartSymbol(), songNoteEndSymbol(), secondary);
 		_addInBlockPattern(
 			songNoteStartSymbol(),
 			songNoteEndSymbol(),
@@ -785,7 +809,7 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: notesColor);
 
 
-		_addBlockPattern(rowStart(), rowEnd(), Colors.yellow);
+		_addBlockPattern(rowStart(), rowEnd(), secondary);
 
 		_patterns[RegExp(
 			'^' + RegExp.escape(chordsSymbol()),
@@ -812,12 +836,11 @@ class CustomTextController extends TextEditingController {
 		)] = TextStyle(color: textColor);
 	}
 	void _setMetadataPatterns() {
-		final metadataPrimaryColor = Colors.blue;
-		final metadataSecondaryColor = Colors.cyan;
-		final metadataBlockColor = Colors.indigoAccent;
+		final metadataPrimaryColor = _editorTheme[_brightness]?['blue'];
+		final metadataSecondaryColor = _editorTheme[_brightness]?['cyan'];
 
 
-		_addBlockPattern(metadataStart(), metadataEnd(), metadataBlockColor);
+		_addBlockPattern(metadataStart(), metadataEnd(), _editorTheme[_brightness]?[_rawStartEndSecondary]);
 		_addKeyValuePattern(songTitleSymbol(), metadataPrimaryColor);
 		_addKeyValuePattern(songArtistSymbol(), metadataPrimaryColor);
 		_addKeyValuePattern(songKeySymbol(), metadataSecondaryColor);
@@ -825,13 +848,13 @@ class CustomTextController extends TextEditingController {
 		_addKeyValuePattern(songAutoscrollSpeedSymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songShowOptionsSymbol(), metadataSecondaryColor);
 	}
-	void _addKeyValuePattern(String key, Color color) {
+	void _addKeyValuePattern(String key, Color? color) {
 		key = RegExp.escape(key);
 
 		_patterns[RegExp('^' + key, multiLine: true)] = TextStyle(color: color);
 		_patterns[RegExp('(?<=^$key).*.+', multiLine: true)] = TextStyle(fontStyle: .italic);
 	}
-	void _addBlockPattern(String start, String end, Color color) {
+	void _addBlockPattern(String start, String end, Color? color) {
 		start = RegExp.escape(start);
 		end = RegExp.escape(end);
 
@@ -857,6 +880,7 @@ class CustomTextController extends TextEditingController {
 		required bool withComposing,
 	}) {
 		this.context = context;
+		_settings = context.watch<SettingsProvider>();
 		_setPatterns();
 
 
