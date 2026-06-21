@@ -17,6 +17,8 @@ import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/library.dart';
 import 'package:songbook/src/rust/api/song.dart';
 
+import 'package:songbook/l10n/app_localizations.dart';
+
 
 var _isAppDirSet = false;
 const Duration _beforeDeleteDuration = Duration(seconds: 3);
@@ -104,8 +106,8 @@ class _LibraryState extends State<LibraryScreen> {
 		if (_copyBuffer.isNotEmpty) {
 			if (_copyBuffer.contains(_currentPath)) {
 				ScaffoldMessenger.of(context).showSnackBar(
-					const SnackBar(
-						content: Text('Cannot copy in current dir!'),
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.librarySnackBarPasteErrorMsg),
 						duration: Duration(seconds: 1)
 					),
 				);
@@ -150,9 +152,9 @@ class _LibraryState extends State<LibraryScreen> {
 				content: Row(
 					mainAxisAlignment: .spaceBetween,
 					children: [
-						Text('Deleted: ${_deleted.length}'),
+						Text('${AppLocalizations.of(context)!.libraryDeletedMsg}: ${_deleted.length}'),
 						TextButton(
-							child: Text('Cancel', 
+							child: Text(AppLocalizations.of(context)!.cancel, 
 								style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary)
 							),
 							onPressed: () {
@@ -233,14 +235,14 @@ class _LibraryState extends State<LibraryScreen> {
 					if ( (_copyBuffer.isNotEmpty || _cutBuffer.isNotEmpty) && !_isSearchMode)
 						IconButton(
 							icon: Icon(Icons.paste),
-							tooltip: 'Paste',
+							tooltip: AppLocalizations.of(context)!.libraryTooltipPaste,
 							onPressed: _paste,
 						),
 
 					if (!_isSearchMode)
 						IconButton(
 							icon: Icon(Icons.search),
-							tooltip: 'Search',
+							tooltip: AppLocalizations.of(context)!.libraryTooltipSearch,
 							onPressed: () => setState(() {
 								_isSearchMode = true;
 								_files.clear();
@@ -255,7 +257,7 @@ class _LibraryState extends State<LibraryScreen> {
 					if (!_isSelectMode)
 						IconButton(
 							icon: Icon(Icons.settings),
-							tooltip: 'Settings',
+							tooltip: AppLocalizations.of(context)!.libraryTooltipSettings,
 							onPressed: () => Navigator.push(context,
 								MaterialPageRoute(
 									builder: (context) => SettingsScreen()
@@ -265,7 +267,7 @@ class _LibraryState extends State<LibraryScreen> {
 				],
 			),
 			body: _isCurrentDirEmpty
-				? Center( child: Text("There's nothing to show...") )
+				? Center( child: Text(AppLocalizations.of(context)!.libraryEmpty) )
 				: _buildBody(),
 			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
@@ -283,7 +285,7 @@ class _LibraryState extends State<LibraryScreen> {
 					constraints: BoxConstraints(maxHeight: 40),
 					contentPadding: const EdgeInsets.all(5),
 					hintText: (widget.path == null)
-						? 'Library'
+						? AppLocalizations.of(context)!.libraryTitle
 						: _getPathName(_currentPath),
 					border: OutlineInputBorder(borderSide: .none),
 				),
@@ -292,7 +294,7 @@ class _LibraryState extends State<LibraryScreen> {
 			);
 		} else {
 			return Text( (widget.path == null)
-				? 'Library'
+				? AppLocalizations.of(context)!.libraryTitle
 				: _getPathName(_currentPath),
 			);
 		}
@@ -301,7 +303,7 @@ class _LibraryState extends State<LibraryScreen> {
 	Widget _buildAppBarPopupMenuButton() {
 		return PopupMenuButton<String>(
 			icon: Icon(Icons.more_vert),
-			tooltip: 'Options',
+			tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
 			offset: const Offset(0, 40),
 			shape: RoundedRectangleBorder(
 				borderRadius: .circular(12),
@@ -376,26 +378,26 @@ class _LibraryState extends State<LibraryScreen> {
 				if (_selected.length == 1) ...[
 					PopupMenuItem(
 						value: 'rename',
-						child: Text('Rename'),
+						child: Text(AppLocalizations.of(context)!.libraryOptionRename),
 					),
 					if (!_dirs.contains(_selected[0]))
 					PopupMenuItem(
 						value: 'edit',
-						child: Text('Edit'),
+						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
 					),
 				],
 
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'copy',
-					child: Text('Copy'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
 				),
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'cut',
-					child: Text('Cut'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
 				),
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'delete',
-					child: Text('Delete'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionDelete),
 				),
 			],
 		);
@@ -535,7 +537,7 @@ class _LibraryState extends State<LibraryScreen> {
 	Widget _buildPopupMenuButton(String path, String name, bool isDir) {
 		return PopupMenuButton<String>(
 			icon: Icon(Icons.more_vert),
-			tooltip: 'Options',
+			tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
 			offset: const Offset(0, 40),
 			shape: RoundedRectangleBorder(
 				borderRadius: .circular(12),
@@ -583,26 +585,26 @@ class _LibraryState extends State<LibraryScreen> {
 				}
 			},
 			itemBuilder: (context) => [
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'rename',
-					child: Text('Rename'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionRename),
 				),
 				if (!isDir)
 					PopupMenuItem(
 						value: 'edit',
-						child: Text('Edit'),
+						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
 					),
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'copy',
-					child: Text('Copy'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
 				),
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'cut',
-					child: Text('Cut'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
 				),
-				const PopupMenuItem(
+				PopupMenuItem(
 					value: 'delete',
-					child: Text('Delete'),
+					child: Text(AppLocalizations.of(context)!.libraryOptionDelete),
 				),
 			],
 		);
@@ -631,7 +633,7 @@ class _LibraryState extends State<LibraryScreen> {
 									borderRadius: .circular(10),
 									color: Theme.of(context).colorScheme.primaryContainer,
 								),
-								child: Text('Add song',
+								child: Text(AppLocalizations.of(context)!.libraryAddOptionSong,
 									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
 								),
 							),
@@ -652,7 +654,7 @@ class _LibraryState extends State<LibraryScreen> {
 									borderRadius: .circular(10),
 									color: Theme.of(context).colorScheme.primaryContainer,
 								),
-								child: Text('Add folder',
+								child: Text(AppLocalizations.of(context)!.libraryAddOptionFolder,
 									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
 								),
 							),
@@ -673,7 +675,7 @@ class _LibraryState extends State<LibraryScreen> {
 									borderRadius: .circular(10),
 									color: Theme.of(context).colorScheme.primaryContainer,
 								),
-								child: Text('Import',
+								child: Text(AppLocalizations.of(context)!.libraryAddOptionImport,
 									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
 								),
 							),
@@ -694,9 +696,9 @@ class _LibraryState extends State<LibraryScreen> {
 		final String? newName = await setName(
 			existsCheck: checkExistence,
 			context: context,
-			title: 'Rename',
+			title: AppLocalizations.of(context)!.libraryRenameDialogTitle,
 			initialValue: name,
-			hintText: 'New name...',
+			hintText: AppLocalizations.of(context)!.libraryRenameDialogHint,
 		);
 
 		if (newName != null) {
@@ -797,8 +799,8 @@ class _LibraryState extends State<LibraryScreen> {
 		final String? folderName = await setName(
 			existsCheck: checkExistence,
 			context: context,
-			title: 'Create new folder',
-			hintText: 'Folder name',
+			title: AppLocalizations.of(context)!.libraryNewFolderDialogTitle,
+			hintText: AppLocalizations.of(context)!.libraryNewFolderDialogHint,
 		);
 
 		if (folderName != null) {
@@ -814,9 +816,9 @@ class _LibraryState extends State<LibraryScreen> {
 				final String? songName = await setName(
 					existsCheck: checkExistence,
 					context: context,
-					title: 'New song name',
+					title: AppLocalizations.of(context)!.libraryAddSongDialogTitle,
 					initialValue: artist + ' - ' + title,
-					hintText: "Song's name",
+					hintText: AppLocalizations.of(context)!.libraryAddSongDialogHint,
 				);
 				if (songName == null)
 					return;
@@ -947,12 +949,12 @@ class SongAddState extends State<SongAddScreen> {
 					child: Row(
 						children: [
 							TextButton(
-								child: Text('Cancel'),
+								child: Text(AppLocalizations.of(context)!.cancel),
 								onPressed: () => Navigator.of(context).pop(),
 							),
 							Spacer(),
 							ElevatedButton(
-								child: Text('Done'),
+								child: Text(AppLocalizations.of(context)!.done),
 								onPressed: () {
 									final artist = _artistController.text.trim();
 									final artistCheckResult = _validateName(artist);
@@ -989,7 +991,7 @@ class SongAddState extends State<SongAddScreen> {
 								style: _settings.editorStyle(),
 								decoration: InputDecoration(
 									border: OutlineInputBorder(),
-									hintText: "Artist...",
+									hintText: AppLocalizations.of(context)!.newSongDialogArtistHint,
 									errorText: _artistError,
 								),
 								onChanged: (value) {
@@ -1015,7 +1017,7 @@ class SongAddState extends State<SongAddScreen> {
 								style: _settings.editorStyle(),
 								decoration: InputDecoration(
 									border: OutlineInputBorder(),
-									hintText: "Title...",
+									hintText: AppLocalizations.of(context)!.newSongDialogTitleHint,
 									errorText: _titleError,
 								),
 								onChanged: (value) {
@@ -1044,9 +1046,9 @@ class SongAddState extends State<SongAddScreen> {
 						expands: true,
 						textAlignVertical: .top,
 						style: _settings.editorStyle(),
-						decoration: const InputDecoration(
+						decoration: InputDecoration(
 							border: OutlineInputBorder(),
-							hintText: "Song's text...",
+							hintText: AppLocalizations.of(context)!.newSongDialogTextHint,
 						),
 					),
 				),
@@ -1060,11 +1062,11 @@ class SongAddState extends State<SongAddScreen> {
 		final trimmed = value.trim();
 
 		if (trimmed.isEmpty)
-			return 'Text cannot be empty!';
+			return AppLocalizations.of(context)!.nameValidatorErrorEmptyText;
 		
 		final forbiddenChars = getForbiddenChars();
 		if (trimmed.characters.any((char) => forbiddenChars.contains(char)))
-			return 'Text contains forbidden chars!';
+			return AppLocalizations.of(context)!.nameValidatorErrorForbiddenChars;
 		
 		return null;
 	}
@@ -1085,7 +1087,7 @@ Future<ImportFormat?> _importDialog({
 		barrierDismissible: true,
 		builder: (context) {
 			return SimpleDialog(
-				title: const Text('Import format'),
+				title: Text(AppLocalizations.of(context)!.libraryImportDialogTitle),
 				children: [
 					SimpleDialogOption(
 						onPressed: () => Navigator.pop(context, ImportFormat.chordPro),

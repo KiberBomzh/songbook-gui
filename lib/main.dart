@@ -2,6 +2,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:songbook/l10n/app_localizations.dart';
+
 import 'package:songbook/src/rust/frb_generated.dart';
 
 import 'package:songbook/screens/library.dart';
@@ -39,6 +42,23 @@ class MyApp extends StatelessWidget {
 			darkTheme: settings.darkTheme(),
 			themeMode: settings.themeMode,
 			home: LibraryScreen(),
+
+			supportedLocales: [
+				Locale('en'),
+				Locale('ru'),
+			],
+			localizationsDelegates: [
+				AppLocalizations.delegate,
+				GlobalMaterialLocalizations.delegate,
+				GlobalWidgetsLocalizations.delegate,
+				GlobalCupertinoLocalizations.delegate,
+			],
+			localeResolutionCallback: (locale, supportedLocales) {
+				if (supportedLocales.contains(Locale(locale!.languageCode)))
+					return locale;
+
+				return const Locale('en');
+			},
 		);
 	}
 }

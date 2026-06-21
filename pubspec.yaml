@@ -10,6 +10,9 @@ dependencies:
   rust_lib_songbook:
     path: rust_builder
   flutter_rust_bridge: 2.12.0
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   path_provider: ^2.1.5
   flutter_expandable_fab: ^2.5.2
   freezed_annotation: ^3.1.0
@@ -49,6 +52,7 @@ inno_bundle:
   publisher: KiberBomzh
 
 flutter:
+  generate: true
   uses-material-design: true
   fonts:
     - family: CascadiaMono

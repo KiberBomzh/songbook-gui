@@ -1,0 +1,42 @@
+{
+	"libraryTitle": "Library",
+	"libraryEmpty": "There's nothing to show...",
+	"@libraryEmtpy": {
+		"description": "Message when folder in library is empty"
+	},
+
+	"librarySnackBarPasteErrorMsg": "Cannot copy in current dir!",
+	"libraryDeletedMsg": "Deleted",
+
+	"libraryTooltipPaste": "Paste",
+	"libraryTooltipSearch": "Search",
+	"libraryTooltipSettings": "Settings",
+
+	"libraryTooltipOptions": "Options",
+	"libraryOptionRename": "Rename",
+	"libraryOptionEdit": "Edit",
+	"libraryOptionCopy": "Copy",
+	"libraryOptionCut": "Cut",
+	"libraryOptionDelete": "Delete",
+
+	"libraryAddOptionSong": "Add song",
+	"libraryAddOptionFolder": "Add folder",
+	"libraryAddOptionImport": "Import",
+
+	"libraryRenameDialogTitle": "Rename",
+	"libraryRenameDialogHint": "New name...",
+	"libraryImportDialogTitle": "Import",
+	"libraryNewFolderDialogTitle": "Create new folder",
+	"libraryNewFolderDialogHint": "Folder's name...",
+	"libraryAddSongDialogTitle": "New song's name",
+	"libraryAddSongDialogHint": "Song's name...",
+	"newSongDialogArtistHint": "Artist...",
+	"newSongDialogTitleHint": "Title...",
+	"newSongDialogTextHint": "Song's text...",
+
+	"nameValidatorErrorEmptyText": "Text cannot be empty!",
+	"nameValidatorErrorForbiddenChars": "Text contains forbidden chars!",
+
+	"cancel": "Cancel",
+	"done": "Done"
+}
