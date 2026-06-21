@@ -37,6 +37,63 @@
 	"nameValidatorErrorEmptyText": "Text cannot be empty!",
 	"nameValidatorErrorForbiddenChars": "Text contains forbidden chars!",
 
+	"settingsAppBarTitle": "Settings",
+	"settingsGlobalTitle": "Global",
+	"settingsEditorTitle": "Editor",
+	"settingsSongTitle": "Song",
+	"settingsOtherTitle": "Other",
+
+	"settingsTheme": "Theme",
+	"settingsAmoled": "Amoled",
+	"settingsAccent": "Accent",
+	"settingsBackgroundOpacity": "Background opacity",
+	"settingsBackgroundOpacityHint": "Opacity...",
+	"settingsBackgroundImage": "Background image",
+	"settingsReset": "Reset",
+	"settingsFontSize": "Font size",
+	"settingsFontSizeHint": "Font size...",
+	"settingsFontFamily": "Font family",
+	"settingsEditorFontSize": "Editor font size",
+	"settingsSongFontSize": "Song font size",
+	"settingsLineWrap": "Line wrap",
+	"settingsFingeringsSize": "Fingerings size",
+
+	"settingsTitles": "Titles",
+	"settingsNotes": "Notes",
+	"settingsFingerings": "Fingerings",
+	"settingsTabs": "Tabs",
+	"settingsPlainText": "Plain text",
+
+	"settingsBold": "Bold",
+	"settingsItalic": "Italic",
+
+	"settingsChordsColor": "Chords color",
+	"settingsRhythmColor": "Rhythm color",
+	"settingsTextColor": "Text color",
+	"settingsNotesColor": "Notes color",
+	"settingsTitlesColor": "Titles color",
+	"settingsBackground": "Background",
+
+	"settingsExportBackup": "Export backup",
+	"settingsImportBackup": "Import backup",
+	"settingsResetSettings": "Reset settings",
+	"settingsResetLibrary": "Reset library",
+
+	"settingsExportSuccesMsg": "Succes!",
+	"settingsImportSuccesMsg": "Succes, songbook needs to restart!",
+	"settingsErrorMsg": "Error!",
+
+	"fingeringsSizeSmall": "Small",
+	"fingeringsSizeMedium": "Medium",
+	"fingeringsSizeBig": "Big",
+
 	"cancel": "Cancel",
-	"done": "Done"
+	"ok": "OK",
+	"done": "Done",
+	"hintText": "Type something...",
+	"notValidInput": "Not valid input!",
+	"valueMustBeBiggerThan0": "Value must be bigger than 0!",
+	"valueMustBeSmallerThan100": "Value must be smaller than 100!",
+	"valueMustBe1OrSmaller": "Value must be 1 or smaller!",
+	"fontExampleText": "The quick brown fox jumps over the lazy dog."
 }

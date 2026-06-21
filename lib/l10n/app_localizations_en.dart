@@ -94,8 +94,155 @@ class AppLocalizationsEn extends AppLocalizations {
       'Text contains forbidden chars!';
 
   @override
+  String get settingsAppBarTitle => 'Settings';
+
+  @override
+  String get settingsGlobalTitle => 'Global';
+
+  @override
+  String get settingsEditorTitle => 'Editor';
+
+  @override
+  String get settingsSongTitle => 'Song';
+
+  @override
+  String get settingsOtherTitle => 'Other';
+
+  @override
+  String get settingsTheme => 'Theme';
+
+  @override
+  String get settingsAmoled => 'Amoled';
+
+  @override
+  String get settingsAccent => 'Accent';
+
+  @override
+  String get settingsBackgroundOpacity => 'Background opacity';
+
+  @override
+  String get settingsBackgroundOpacityHint => 'Opacity...';
+
+  @override
+  String get settingsBackgroundImage => 'Background image';
+
+  @override
+  String get settingsReset => 'Reset';
+
+  @override
+  String get settingsFontSize => 'Font size';
+
+  @override
+  String get settingsFontSizeHint => 'Font size...';
+
+  @override
+  String get settingsFontFamily => 'Font family';
+
+  @override
+  String get settingsEditorFontSize => 'Editor font size';
+
+  @override
+  String get settingsSongFontSize => 'Song font size';
+
+  @override
+  String get settingsLineWrap => 'Line wrap';
+
+  @override
+  String get settingsFingeringsSize => 'Fingerings size';
+
+  @override
+  String get settingsTitles => 'Titles';
+
+  @override
+  String get settingsNotes => 'Notes';
+
+  @override
+  String get settingsFingerings => 'Fingerings';
+
+  @override
+  String get settingsTabs => 'Tabs';
+
+  @override
+  String get settingsPlainText => 'Plain text';
+
+  @override
+  String get settingsBold => 'Bold';
+
+  @override
+  String get settingsItalic => 'Italic';
+
+  @override
+  String get settingsChordsColor => 'Chords color';
+
+  @override
+  String get settingsRhythmColor => 'Rhythm color';
+
+  @override
+  String get settingsTextColor => 'Text color';
+
+  @override
+  String get settingsNotesColor => 'Notes color';
+
+  @override
+  String get settingsTitlesColor => 'Titles color';
+
+  @override
+  String get settingsBackground => 'Background';
+
+  @override
+  String get settingsExportBackup => 'Export backup';
+
+  @override
+  String get settingsImportBackup => 'Import backup';
+
+  @override
+  String get settingsResetSettings => 'Reset settings';
+
+  @override
+  String get settingsResetLibrary => 'Reset library';
+
+  @override
+  String get settingsExportSuccesMsg => 'Succes!';
+
+  @override
+  String get settingsImportSuccesMsg => 'Succes, songbook needs to restart!';
+
+  @override
+  String get settingsErrorMsg => 'Error!';
+
+  @override
+  String get fingeringsSizeSmall => 'Small';
+
+  @override
+  String get fingeringsSizeMedium => 'Medium';
+
+  @override
+  String get fingeringsSizeBig => 'Big';
+
+  @override
   String get cancel => 'Cancel';
 
   @override
+  String get ok => 'OK';
+
+  @override
   String get done => 'Done';
+
+  @override
+  String get hintText => 'Type something...';
+
+  @override
+  String get notValidInput => 'Not valid input!';
+
+  @override
+  String get valueMustBeBiggerThan0 => 'Value must be bigger than 0!';
+
+  @override
+  String get valueMustBeSmallerThan100 => 'Value must be smaller than 100!';
+
+  @override
+  String get valueMustBe1OrSmaller => 'Value must be 1 or smaller!';
+
+  @override
+  String get fontExampleText => 'The quick brown fox jumps over the lazy dog.';
 }

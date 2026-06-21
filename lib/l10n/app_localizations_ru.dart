@@ -95,8 +95,157 @@ class AppLocalizationsRu extends AppLocalizations {
       'Текст содержит запрещенные символы!';
 
   @override
+  String get settingsAppBarTitle => 'Настройки';
+
+  @override
+  String get settingsGlobalTitle => 'Глобальные';
+
+  @override
+  String get settingsEditorTitle => 'Редактор';
+
+  @override
+  String get settingsSongTitle => 'Песня';
+
+  @override
+  String get settingsOtherTitle => 'Другие';
+
+  @override
+  String get settingsTheme => 'Тема';
+
+  @override
+  String get settingsAmoled => 'Амолед';
+
+  @override
+  String get settingsAccent => 'Акцент';
+
+  @override
+  String get settingsBackgroundOpacity => 'Прозрачность фона';
+
+  @override
+  String get settingsBackgroundOpacityHint => 'Прозрачность...';
+
+  @override
+  String get settingsBackgroundImage => 'Заставка';
+
+  @override
+  String get settingsReset => 'Сбросить';
+
+  @override
+  String get settingsFontSize => 'Размер текста';
+
+  @override
+  String get settingsFontSizeHint => 'Размер текста...';
+
+  @override
+  String get settingsFontFamily => 'Шрифт';
+
+  @override
+  String get settingsEditorFontSize => 'Размер текста в редакторе';
+
+  @override
+  String get settingsSongFontSize => 'Размер текста в песне';
+
+  @override
+  String get settingsLineWrap => 'Перенос строк';
+
+  @override
+  String get settingsFingeringsSize => 'Размер аппликатур';
+
+  @override
+  String get settingsTitles => 'Заголовки';
+
+  @override
+  String get settingsNotes => 'Заметки';
+
+  @override
+  String get settingsFingerings => 'Аппликатуры';
+
+  @override
+  String get settingsTabs => 'Табы';
+
+  @override
+  String get settingsPlainText => 'Простой текст';
+
+  @override
+  String get settingsBold => 'Жирный';
+
+  @override
+  String get settingsItalic => 'Курсив';
+
+  @override
+  String get settingsChordsColor => 'Цвет аккордов';
+
+  @override
+  String get settingsRhythmColor => 'Цвет ритма';
+
+  @override
+  String get settingsTextColor => 'Цвет текста';
+
+  @override
+  String get settingsNotesColor => 'Цвет заметок';
+
+  @override
+  String get settingsTitlesColor => 'Цвет заголовков';
+
+  @override
+  String get settingsBackground => 'Фон';
+
+  @override
+  String get settingsExportBackup => 'Экспортировать бэкап';
+
+  @override
+  String get settingsImportBackup => 'Импортировать бэкап';
+
+  @override
+  String get settingsResetSettings => 'Сбросить настройки';
+
+  @override
+  String get settingsResetLibrary => 'Сбросить библиотеку';
+
+  @override
+  String get settingsExportSuccesMsg => 'Готово!';
+
+  @override
+  String get settingsImportSuccesMsg =>
+      'Готово, песеннику нужно перезапуститься!';
+
+  @override
+  String get settingsErrorMsg => 'Ошибка!';
+
+  @override
+  String get fingeringsSizeSmall => 'Маленький';
+
+  @override
+  String get fingeringsSizeMedium => 'Средний';
+
+  @override
+  String get fingeringsSizeBig => 'Большой';
+
+  @override
   String get cancel => 'Отмена';
 
   @override
+  String get ok => 'ОК';
+
+  @override
   String get done => 'Завершить';
+
+  @override
+  String get hintText => 'Напечатайте что-нибудь...';
+
+  @override
+  String get notValidInput => 'Неправильное значение!';
+
+  @override
+  String get valueMustBeBiggerThan0 => 'Значение должно быть больше 0!';
+
+  @override
+  String get valueMustBeSmallerThan100 => 'Значение должно быть меньше 100!';
+
+  @override
+  String get valueMustBe1OrSmaller => 'Значение должно быть 1 или меньше!';
+
+  @override
+  String get fontExampleText =>
+      'Съешь ещё этих мягких французских булок, да выпей чаю.';
 }

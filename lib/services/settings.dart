@@ -9,6 +9,7 @@ import 'package:restart_app/restart_app.dart';
 
 import 'package:songbook/main.dart';
 import 'package:songbook/src/rust/api/library.dart' as rust_lib;
+import 'package:songbook/l10n/app_localizations.dart';
 
 
 // keys
@@ -72,11 +73,11 @@ enum FingeringSize {
 	}
 
 
-	String display() {
+	String display(BuildContext context) {
 		return switch(this) {
-			FingeringSize.small => 'Small',
-			FingeringSize.medium => 'Medium',
-			FingeringSize.big => 'Big',
+			FingeringSize.small => AppLocalizations.of(context)!.fingeringsSizeSmall,
+			FingeringSize.medium => AppLocalizations.of(context)!.fingeringsSizeMedium,
+			FingeringSize.big => AppLocalizations.of(context)!.fingeringsSizeBig,
 		};
 	}
 }
@@ -467,6 +468,7 @@ class SettingsProvider extends ChangeNotifier {
 		final uniqueId = 'font_' + _customFonts.length.toString();
 
 		final fontLoader = FontLoader(uniqueId);
+		// ignore: invalid_use_of_visible_for_testing_member, invalid_use_of_protected_member
 		fontLoader.loadFont(await fontFile.readAsBytes(), fontFamily);
 		await fontLoader.load();
 

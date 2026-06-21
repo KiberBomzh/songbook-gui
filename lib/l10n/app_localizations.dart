@@ -266,17 +266,311 @@ abstract class AppLocalizations {
   /// **'Text contains forbidden chars!'**
   String get nameValidatorErrorForbiddenChars;
 
+  /// No description provided for @settingsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsAppBarTitle;
+
+  /// No description provided for @settingsGlobalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Global'**
+  String get settingsGlobalTitle;
+
+  /// No description provided for @settingsEditorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Editor'**
+  String get settingsEditorTitle;
+
+  /// No description provided for @settingsSongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Song'**
+  String get settingsSongTitle;
+
+  /// No description provided for @settingsOtherTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get settingsOtherTitle;
+
+  /// No description provided for @settingsTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsTheme;
+
+  /// No description provided for @settingsAmoled.
+  ///
+  /// In en, this message translates to:
+  /// **'Amoled'**
+  String get settingsAmoled;
+
+  /// No description provided for @settingsAccent.
+  ///
+  /// In en, this message translates to:
+  /// **'Accent'**
+  String get settingsAccent;
+
+  /// No description provided for @settingsBackgroundOpacity.
+  ///
+  /// In en, this message translates to:
+  /// **'Background opacity'**
+  String get settingsBackgroundOpacity;
+
+  /// No description provided for @settingsBackgroundOpacityHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Opacity...'**
+  String get settingsBackgroundOpacityHint;
+
+  /// No description provided for @settingsBackgroundImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Background image'**
+  String get settingsBackgroundImage;
+
+  /// No description provided for @settingsReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get settingsReset;
+
+  /// No description provided for @settingsFontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Font size'**
+  String get settingsFontSize;
+
+  /// No description provided for @settingsFontSizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Font size...'**
+  String get settingsFontSizeHint;
+
+  /// No description provided for @settingsFontFamily.
+  ///
+  /// In en, this message translates to:
+  /// **'Font family'**
+  String get settingsFontFamily;
+
+  /// No description provided for @settingsEditorFontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Editor font size'**
+  String get settingsEditorFontSize;
+
+  /// No description provided for @settingsSongFontSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Song font size'**
+  String get settingsSongFontSize;
+
+  /// No description provided for @settingsLineWrap.
+  ///
+  /// In en, this message translates to:
+  /// **'Line wrap'**
+  String get settingsLineWrap;
+
+  /// No description provided for @settingsFingeringsSize.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerings size'**
+  String get settingsFingeringsSize;
+
+  /// No description provided for @settingsTitles.
+  ///
+  /// In en, this message translates to:
+  /// **'Titles'**
+  String get settingsTitles;
+
+  /// No description provided for @settingsNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get settingsNotes;
+
+  /// No description provided for @settingsFingerings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerings'**
+  String get settingsFingerings;
+
+  /// No description provided for @settingsTabs.
+  ///
+  /// In en, this message translates to:
+  /// **'Tabs'**
+  String get settingsTabs;
+
+  /// No description provided for @settingsPlainText.
+  ///
+  /// In en, this message translates to:
+  /// **'Plain text'**
+  String get settingsPlainText;
+
+  /// No description provided for @settingsBold.
+  ///
+  /// In en, this message translates to:
+  /// **'Bold'**
+  String get settingsBold;
+
+  /// No description provided for @settingsItalic.
+  ///
+  /// In en, this message translates to:
+  /// **'Italic'**
+  String get settingsItalic;
+
+  /// No description provided for @settingsChordsColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Chords color'**
+  String get settingsChordsColor;
+
+  /// No description provided for @settingsRhythmColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Rhythm color'**
+  String get settingsRhythmColor;
+
+  /// No description provided for @settingsTextColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Text color'**
+  String get settingsTextColor;
+
+  /// No description provided for @settingsNotesColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes color'**
+  String get settingsNotesColor;
+
+  /// No description provided for @settingsTitlesColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Titles color'**
+  String get settingsTitlesColor;
+
+  /// No description provided for @settingsBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get settingsBackground;
+
+  /// No description provided for @settingsExportBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup'**
+  String get settingsExportBackup;
+
+  /// No description provided for @settingsImportBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup'**
+  String get settingsImportBackup;
+
+  /// No description provided for @settingsResetSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset settings'**
+  String get settingsResetSettings;
+
+  /// No description provided for @settingsResetLibrary.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset library'**
+  String get settingsResetLibrary;
+
+  /// No description provided for @settingsExportSuccesMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Succes!'**
+  String get settingsExportSuccesMsg;
+
+  /// No description provided for @settingsImportSuccesMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Succes, songbook needs to restart!'**
+  String get settingsImportSuccesMsg;
+
+  /// No description provided for @settingsErrorMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Error!'**
+  String get settingsErrorMsg;
+
+  /// No description provided for @fingeringsSizeSmall.
+  ///
+  /// In en, this message translates to:
+  /// **'Small'**
+  String get fingeringsSizeSmall;
+
+  /// No description provided for @fingeringsSizeMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get fingeringsSizeMedium;
+
+  /// No description provided for @fingeringsSizeBig.
+  ///
+  /// In en, this message translates to:
+  /// **'Big'**
+  String get fingeringsSizeBig;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
   /// No description provided for @done.
   ///
   /// In en, this message translates to:
   /// **'Done'**
   String get done;
+
+  /// No description provided for @hintText.
+  ///
+  /// In en, this message translates to:
+  /// **'Type something...'**
+  String get hintText;
+
+  /// No description provided for @notValidInput.
+  ///
+  /// In en, this message translates to:
+  /// **'Not valid input!'**
+  String get notValidInput;
+
+  /// No description provided for @valueMustBeBiggerThan0.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be bigger than 0!'**
+  String get valueMustBeBiggerThan0;
+
+  /// No description provided for @valueMustBeSmallerThan100.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be smaller than 100!'**
+  String get valueMustBeSmallerThan100;
+
+  /// No description provided for @valueMustBe1OrSmaller.
+  ///
+  /// In en, this message translates to:
+  /// **'Value must be 1 or smaller!'**
+  String get valueMustBe1OrSmaller;
+
+  /// No description provided for @fontExampleText.
+  ///
+  /// In en, this message translates to:
+  /// **'The quick brown fox jumps over the lazy dog.'**
+  String get fontExampleText;
 }
 
 class _AppLocalizationsDelegate

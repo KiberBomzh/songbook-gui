@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:restart_app/restart_app.dart';
 
+import 'package:songbook/l10n/app_localizations.dart';
 import 'package:songbook/services/settings.dart';
 
 
@@ -27,8 +28,8 @@ class _SettingsState extends State<SettingsScreen> {
 			final bool result = await _settings.exportBackup();
 			if (result && mounted)
 				ScaffoldMessenger.of(context).showSnackBar(
-					const SnackBar(
-						content: Text('Succes!'),
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.settingsExportSuccesMsg),
 						duration: Duration(seconds: 1),
 					),
 				);
@@ -37,7 +38,7 @@ class _SettingsState extends State<SettingsScreen> {
 			if (mounted)
 				ScaffoldMessenger.of(context).showSnackBar(
 					SnackBar(
-						content: Text('Error!'),
+						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
 						duration: Duration(seconds: 3),
 					),
 				);
@@ -49,8 +50,8 @@ class _SettingsState extends State<SettingsScreen> {
 			final bool result = await _settings.importBackup();
 			if (result && mounted) {
 				ScaffoldMessenger.of(context).showSnackBar(
-					const SnackBar(
-						content: Text('Succes, songbook needs to restart!'),
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.settingsImportSuccesMsg),
 						duration: Duration(seconds: 1),
 					),
 				);
@@ -61,7 +62,7 @@ class _SettingsState extends State<SettingsScreen> {
 			if (mounted)
 				ScaffoldMessenger.of(context).showSnackBar(
 					SnackBar(
-						content: Text('Error!'),
+						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
 						duration: Duration(seconds: 3),
 					),
 				);
@@ -116,7 +117,7 @@ class _SettingsState extends State<SettingsScreen> {
 							: null,
 					),
 					child: Scaffold(
-						appBar: AppBar( title: Text('Settings') ),
+						appBar: AppBar( title: Text(AppLocalizations.of(context)!.settingsAppBarTitle) ),
 						body: _buildBody(),
 					),
 				),
@@ -144,10 +145,10 @@ class _SettingsState extends State<SettingsScreen> {
 	}
 
 	List<Widget> _globalSection() => <Widget>[
-		_buildTitle('Global'),
+		_buildTitle(AppLocalizations.of(context)!.settingsGlobalTitle),
 
 		_buildItem(
-			text: 'Theme',
+			text: AppLocalizations.of(context)!.settingsTheme,
 			child: SegmentedButton<ThemeMode>(
 				segments: const <ButtonSegment<ThemeMode>>[
 					ButtonSegment<ThemeMode>(
@@ -171,7 +172,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Amoled',
+			text: AppLocalizations.of(context)!.settingsAmoled,
 			child: Switch(
 				value: _settings.isAmoled,
 				onChanged: _settings.setAmoled,
@@ -180,7 +181,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Accent',
+			text: AppLocalizations.of(context)!.settingsAccent,
 			child: ListView.builder(
 				scrollDirection: Axis.horizontal,
 				shrinkWrap: true,
@@ -199,15 +200,14 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Background opacity',
+			text: AppLocalizations.of(context)!.settingsBackgroundOpacity,
 			child: Text(_settings.backgroundOpacity.toString()),
 			onTap: () async {
 				final String? newOpacityStr = await _askDialog(
-					context: context,
 					validator: _backgroundOpacityValidator,
-					title: 'Background opacity',
+					title: AppLocalizations.of(context)!.settingsBackgroundOpacity,
 					initialValue: _settings.backgroundOpacity.toString(),
-					hintText: 'Opacity...',
+					hintText: AppLocalizations.of(context)!.settingsBackgroundOpacityHint,
 				);
 				if (newOpacityStr != null) {
 					final newOpacity = double.parse(newOpacityStr);
@@ -217,9 +217,9 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Background image',
+			text: AppLocalizations.of(context)!.settingsBackgroundImage,
 			child: ElevatedButton(
-				child: Text('Reset'),
+				child: Text(AppLocalizations.of(context)!.settingsReset),
 				onPressed: (_settings.backgroundImage != null)
 					? _settings.resetBackgroundImage
 					: null,
@@ -232,18 +232,17 @@ class _SettingsState extends State<SettingsScreen> {
 	];
 
 	List<Widget> _editorSection() => [
-		_buildTitle('Editor'),
+		_buildTitle(AppLocalizations.of(context)!.settingsEditorTitle),
 
 		_buildItem(
-			text: 'Font size',
+			text: AppLocalizations.of(context)!.settingsFontSize,
 			child: Text(_settings.editorFontSize.toString()),
 			onTap: () async {
 				final String? newSizeStr = await _askDialog(
-					context: context,
 					validator: _fontSizeValidator,
-					title: 'Editor font size',
+					title: AppLocalizations.of(context)!.settingsEditorFontSize,
 					initialValue: _settings.editorFontSize.toString(),
-					hintText: 'Font size...',
+					hintText: AppLocalizations.of(context)!.settingsFontSizeHint,
 				);
 				if (newSizeStr != null) {
 					final newSize = double.parse(newSizeStr);
@@ -253,7 +252,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Font family',
+			text: AppLocalizations.of(context)!.settingsFontFamily,
 			child: Text(_settings.editorFontFamily),
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -267,10 +266,10 @@ class _SettingsState extends State<SettingsScreen> {
 	];
 
 	List<Widget> _songSection() => [
-		_buildTitle('Song'),
+		_buildTitle(AppLocalizations.of(context)!.settingsSongTitle),
 
 		_buildItem(
-			text: 'Line wrap',
+			text: AppLocalizations.of(context)!.settingsLineWrap,
 			child: Switch(
 				value: _settings.lineWrapInSong,
 				onChanged: _settings.setLineWrapInSong,
@@ -279,7 +278,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Fingerings size',
+			text: AppLocalizations.of(context)!.settingsFingeringsSize,
 			child: PopupMenuButton<FingeringSize>(
 				clipBehavior: .antiAlias,
 				shape: RoundedRectangleBorder(
@@ -291,29 +290,28 @@ class _SettingsState extends State<SettingsScreen> {
 				itemBuilder: (context) => FingeringSize.values.map<PopupMenuItem<FingeringSize>>((v) {
 					return PopupMenuItem<FingeringSize>(
 						value: v,
-						child: Text(v.display()),
+						child: Text(v.display(context)),
 					);
 				}).toList(),
 
 				borderRadius: .circular(8),
 				child: Padding(
 					padding: const EdgeInsets.all(5),
-					child: Text(_settings.fingeringSizeInSong.display()),
+					child: Text(_settings.fingeringSizeInSong.display(context)),
 				),
 			),
 			onTap: null,
 		),
 
 		_buildItem(
-			text: 'Font size',
+			text: AppLocalizations.of(context)!.settingsFontSize,
 			child: Text(_settings.songFontSize.toString()),
 			onTap: () async {
 				final String? newSizeStr = await _askDialog(
-					context: context,
 					validator: _fontSizeValidator,
-					title: 'Song font size',
+					title: AppLocalizations.of(context)!.settingsSongFontSize,
 					initialValue: _settings.songFontSize.toString(),
-					hintText: 'Font size...',
+					hintText: AppLocalizations.of(context)!.settingsFontSizeHint,
 				);
 				if (newSizeStr != null) {
 					final newSize = double.parse(newSizeStr);
@@ -323,7 +321,7 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Font family',
+			text: AppLocalizations.of(context)!.settingsFontFamily,
 			child: Text(_settings.songFontFamily),
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -340,12 +338,12 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text('Title', style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsTitles, style: Theme.of(context).textTheme.bodyMedium),
 					),
 					const SizedBox(width: 15),
 
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (_settings.isTitleStyleNull)
 							? null
 							: () => _settings.resetTitleStyle(),
@@ -357,7 +355,7 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
-					text: 'Font family',
+					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.titleFontFamily),
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -369,7 +367,7 @@ class _SettingsState extends State<SettingsScreen> {
 					},
 				),
 				_buildItem(
-					text: 'Bold',
+					text: AppLocalizations.of(context)!.settingsBold,
 					child: Switch(
 						value: _settings.isTitleBold,
 						onChanged: _settings.setIsTitleBold,
@@ -377,7 +375,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: null,
 				),
 				_buildItem(
-					text: 'Italic',
+					text: AppLocalizations.of(context)!.settingsItalic,
 					child: Switch(
 						value: _settings.isTitleItalic,
 						onChanged: _settings.setIsTitleItalic,
@@ -392,12 +390,12 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text('Notes', style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsNotes, style: Theme.of(context).textTheme.bodyMedium),
 					),
 					const SizedBox(width: 15),
 
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (_settings.isNotesStyleNull)
 							? null
 							: () => _settings.resetNotesStyle(),
@@ -409,7 +407,7 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
-					text: 'Font family',
+					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.notesFontFamily),
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -421,7 +419,7 @@ class _SettingsState extends State<SettingsScreen> {
 					},
 				),
 				_buildItem(
-					text: 'Bold',
+					text: AppLocalizations.of(context)!.settingsBold,
 					child: Switch(
 						value: _settings.isNotesBold,
 						onChanged: _settings.setIsNotesBold,
@@ -429,7 +427,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: null,
 				),
 				_buildItem(
-					text: 'Italic',
+					text: AppLocalizations.of(context)!.settingsItalic,
 					child: Switch(
 						value: _settings.isNotesItalic,
 						onChanged: _settings.setIsNotesItalic,
@@ -444,12 +442,14 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text('Fingerings', style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsFingerings,
+							style: Theme.of(context).textTheme.bodyMedium
+						),
 					),
 					const SizedBox(width: 15),
 
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (_settings.isFingeringsStyleNull)
 							? null
 							: () => _settings.resetFingeringsStyle(),
@@ -461,7 +461,7 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
-					text: 'Font family',
+					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.fingeringsFontFamily),
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -473,7 +473,7 @@ class _SettingsState extends State<SettingsScreen> {
 					},
 				),
 				_buildItem(
-					text: 'Bold',
+					text: AppLocalizations.of(context)!.settingsBold,
 					child: Switch(
 						value: _settings.isFingeringsBold,
 						onChanged: _settings.setIsFingeringsBold,
@@ -481,7 +481,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: null,
 				),
 				_buildItem(
-					text: 'Italic',
+					text: AppLocalizations.of(context)!.settingsItalic,
 					child: Switch(
 						value: _settings.isFingeringsItalic,
 						onChanged: _settings.setIsFingeringsItalic,
@@ -496,12 +496,14 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text('Tab', style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsTabs,
+							style: Theme.of(context).textTheme.bodyMedium
+						),
 					),
 					const SizedBox(width: 15),
 
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (_settings.isTabStyleNull)
 							? null
 							: () => _settings.resetTabStyle(),
@@ -513,7 +515,7 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
-					text: 'Font family',
+					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.tabFontFamily),
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -525,7 +527,7 @@ class _SettingsState extends State<SettingsScreen> {
 					},
 				),
 				_buildItem(
-					text: 'Bold',
+					text: AppLocalizations.of(context)!.settingsBold,
 					child: Switch(
 						value: _settings.isTabBold,
 						onChanged: _settings.setIsTabBold,
@@ -533,7 +535,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: null,
 				),
 				_buildItem(
-					text: 'Italic',
+					text: AppLocalizations.of(context)!.settingsItalic,
 					child: Switch(
 						value: _settings.isTabItalic,
 						onChanged: _settings.setIsTabItalic,
@@ -548,12 +550,14 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text('Plain text', style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsPlainText,
+							style: Theme.of(context).textTheme.bodyMedium
+						),
 					),
 					const SizedBox(width: 15),
 
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (_settings.isPlainTextStyleNull)
 							? null
 							: () => _settings.resetPlainTextStyle(),
@@ -565,7 +569,7 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
-					text: 'Font family',
+					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.plainTextFontFamily),
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
@@ -577,7 +581,7 @@ class _SettingsState extends State<SettingsScreen> {
 					},
 				),
 				_buildItem(
-					text: 'Bold',
+					text: AppLocalizations.of(context)!.settingsBold,
 					child: Switch(
 						value: _settings.isPlainTextBold,
 						onChanged: _settings.setIsPlainTextBold,
@@ -585,7 +589,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: null,
 				),
 				_buildItem(
-					text: 'Italic',
+					text: AppLocalizations.of(context)!.settingsItalic,
 					child: Switch(
 						value: _settings.isPlainTextItalic,
 						onChanged: _settings.setIsPlainTextItalic,
@@ -597,12 +601,12 @@ class _SettingsState extends State<SettingsScreen> {
 
 
 		_buildItem(
-			text: 'Chords color',
+			text: AppLocalizations.of(context)!.settingsChordsColor,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(CHORDS_COLOR) != null)
 							? () => _settings.setChordsColor(null)
 							: null,
@@ -633,12 +637,12 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Rhythm color',
+			text: AppLocalizations.of(context)!.settingsRhythmColor,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
 							? () => _settings.setRhythmColor(null)
 							: null,
@@ -669,12 +673,12 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Text color',
+			text: AppLocalizations.of(context)!.settingsTextColor,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(TEXT_COLOR) != null)
 							? () => _settings.setTextColor(null)
 							: null,
@@ -705,12 +709,12 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Notes color',
+			text: AppLocalizations.of(context)!.settingsNotesColor,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(NOTES_COLOR) != null)
 							? () => _settings.setNotesColor(null)
 							: null,
@@ -741,12 +745,12 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Title color',
+			text: AppLocalizations.of(context)!.settingsTitlesColor,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(TITLE_COLOR) != null)
 							? () => _settings.setTitleColor(null)
 							: null,
@@ -777,12 +781,12 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: 'Background',
+			text: AppLocalizations.of(context)!.settingsBackground,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
-						child: Text('Reset'),
+						child: Text(AppLocalizations.of(context)!.settingsReset),
 						onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
 							? () => _settings.setBackgroundColor(null)
 							: null,
@@ -814,27 +818,27 @@ class _SettingsState extends State<SettingsScreen> {
 	];
 
 	List<Widget> _otherSection() => [
-		_buildTitle('Other'),
+		_buildTitle(AppLocalizations.of(context)!.settingsOtherTitle),
 
 		_buildItem(
-			text: 'Export backup',
+			text: AppLocalizations.of(context)!.settingsExportBackup,
 			child: null,
 			onTap: _exportBackup,
 		),
 		_buildItem(
-			text: 'Import backup',
+			text: AppLocalizations.of(context)!.settingsImportBackup,
 			child: null,
 			onTap: _importBackup,
 		),
 
 		_buildItem(
-			text: 'Reset settings',
+			text: AppLocalizations.of(context)!.settingsResetSettings,
 			child: null,
 			onTap: _settings.resetToDefault,
 		),
 
 		_buildItem(
-			text: 'Reset library',
+			text: AppLocalizations.of(context)!.settingsResetLibrary,
 			child: null,
 			onTap: _settings.resetLibrary,
 		),
@@ -915,54 +919,37 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 		);
 	}
-}
 
 
-Future<String?> _askDialog({
-	required String? Function(String) validator,
-	required BuildContext context,
-	required String title,
-	String initialValue = '',
-	String hintText = 'Type something...'
-}) {
-	final controller = TextEditingController();
-	controller.text = initialValue;
+	Future<String?> _askDialog({
+		required String? Function(String) validator,
+		required String title,
+		String initialValue = '',
+		String hintText = '',
+	}) {
+		if (hintText.isEmpty)
+			hintText = AppLocalizations.of(context)!.hintText;
 
-	String? errorText;
+		final controller = TextEditingController();
+		controller.text = initialValue;
 
-	return showDialog<String>(
-		context: context,
-		builder: (context) => StatefulBuilder(
-			builder: (context, setState) => AlertDialog(
-				title: Text(title),
-				content: TextField(
-					controller: controller,
-					autofocus: true,
-					decoration: InputDecoration(
-						hintText: hintText,
-						errorText: errorText,
-						border: const OutlineInputBorder(),
-					),
-					onChanged: (value) => setState(() => errorText = validator(value)),
-					onSubmitted: (value) {
-						final checkResult = validator(value);
+		String? errorText;
 
-						if (checkResult != null) {
-							setState(() => errorText = checkResult);
-						} else {
-							Navigator.of(context).pop(value.trim());
-						}
-					},
-				),
-				actions: [
-					TextButton(
-						child: Text('Cancel'),
-						onPressed: () => Navigator.of(context).pop(),
-					),
-					ElevatedButton(
-						child: Text('Ok'),
-						onPressed: () {
-							final value = controller.text;
+		return showDialog<String>(
+			context: context,
+			builder: (context) => StatefulBuilder(
+				builder: (context, setState) => AlertDialog(
+					title: Text(title),
+					content: TextField(
+						controller: controller,
+						autofocus: true,
+						decoration: InputDecoration(
+							hintText: hintText,
+							errorText: errorText,
+							border: const OutlineInputBorder(),
+						),
+						onChanged: (value) => setState(() => errorText = validator(value)),
+						onSubmitted: (value) {
 							final checkResult = validator(value);
 
 							if (checkResult != null) {
@@ -972,41 +959,61 @@ Future<String?> _askDialog({
 							}
 						},
 					),
-				],
+					actions: [
+						TextButton(
+							child: Text(AppLocalizations.of(context)!.cancel),
+							onPressed: () => Navigator.of(context).pop(),
+						),
+						ElevatedButton(
+							child: Text(AppLocalizations.of(context)!.ok),
+							onPressed: () {
+								final value = controller.text;
+								final checkResult = validator(value);
+
+								if (checkResult != null) {
+									setState(() => errorText = checkResult);
+								} else {
+									Navigator.of(context).pop(value.trim());
+								}
+							},
+						),
+					],
+				),
 			),
-		),
-	);
-}
+		);
+	}
 
-String? _fontSizeValidator(String text) {
-	final value = text.trim();
-	final double? result = double.tryParse(value);
+	String? _fontSizeValidator(String text) {
+		final value = text.trim();
+		final double? result = double.tryParse(value);
 
-	if (result == null) {
-		return 'Not valid input!';
-	} else {
-		if (result < 1) {
-			return 'Value must be bigger than 0!';
-		} else if (result >= 100) {
-			return 'Value must be smaller than 100!';
+		if (result == null) {
+			return AppLocalizations.of(context)!.notValidInput;
 		} else {
-			return null;
+			if (result < 1) {
+				return AppLocalizations.of(context)!.valueMustBeBiggerThan0;
+			} else if (result >= 100) {
+				return AppLocalizations.of(context)!.valueMustBeSmallerThan100;
+			} else {
+				return null;
+			}
 		}
 	}
-}
-String? _backgroundOpacityValidator(String text) {
-	final value = text.trim();
-	final double? result = double.tryParse(value);
 
-	if (result == null) {
-		return 'Not valid input!';
-	} else {
-		if (result < 0) {
-			return 'Value must be bigger than 0!';
-		} else if (result > 1) {
-			return 'Value must be 1 or smaller!';
+	String? _backgroundOpacityValidator(String text) {
+		final value = text.trim();
+		final double? result = double.tryParse(value);
+
+		if (result == null) {
+			return AppLocalizations.of(context)!.notValidInput;
 		} else {
-			return null;
+			if (result < 0) {
+				return AppLocalizations.of(context)!.valueMustBeBiggerThan0;
+			} else if (result > 1) {
+				return AppLocalizations.of(context)!.valueMustBe1OrSmaller;
+			} else {
+				return null;
+			}
 		}
 	}
 }
@@ -1148,7 +1155,7 @@ class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
 	}
 
 	Widget _buildFontItem(String family, bool isCustom) {
-		final String textExample = 'The quick brown fox jumps over the lazy dog';
+		final String textExample = AppLocalizations.of(context)!.fontExampleText;
 
 		return _buildItem(
 			child: Container(
