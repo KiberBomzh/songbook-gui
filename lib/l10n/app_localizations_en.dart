@@ -87,6 +87,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newSongDialogTextHint => 'Song\'s text...';
 
   @override
+  String get songErrorMsg => 'Error while opening song...';
+
+  @override
+  String get songEmptyMsg => 'The song is empty...';
+
+  @override
+  String get songTooltipExport => 'Export';
+
+  @override
+  String get songExportOptionText => 'Text';
+
+  @override
+  String get songTooltipSettings => 'Settings';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Text cannot be empty!';
 
   @override
@@ -245,4 +260,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fontExampleText => 'The quick brown fox jumps over the lazy dog.';
+
+  @override
+  String get chords => 'Chords';
+
+  @override
+  String get rhythm => 'Rhythm';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get fingerings => 'Fingerings';
 }

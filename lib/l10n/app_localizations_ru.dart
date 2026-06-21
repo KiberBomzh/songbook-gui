@@ -88,6 +88,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get newSongDialogTextHint => 'Текст песни...';
 
   @override
+  String get songErrorMsg => 'Ошибка во время открытия песни...';
+
+  @override
+  String get songEmptyMsg => 'Песня пустая...';
+
+  @override
+  String get songTooltipExport => 'Экспорт';
+
+  @override
+  String get songExportOptionText => 'Текст';
+
+  @override
+  String get songTooltipSettings => 'Настройки';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не может быть пустым!';
 
   @override
@@ -248,4 +263,16 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get fontExampleText =>
       'Съешь ещё этих мягких французских булок, да выпей чаю.';
+
+  @override
+  String get chords => 'Аккорды';
+
+  @override
+  String get rhythm => 'Ритм';
+
+  @override
+  String get notes => 'Заметки';
+
+  @override
+  String get fingerings => 'Аппликатуры';
 }

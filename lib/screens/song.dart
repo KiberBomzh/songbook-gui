@@ -12,6 +12,7 @@ import 'package:songbook/services/settings.dart';
 import 'package:songbook/screens/settings.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
+import 'package:songbook/l10n/app_localizations.dart';
 
 
 const int AutoscrollSpeedStep = 25;
@@ -191,7 +192,7 @@ class SongState extends State<SongScreen> {
 		if (_isError)
 			return Scaffold(
 				appBar: AppBar(
-					title: Text("Error while opening song..."),
+					title: Text(AppLocalizations.of(context)!.songErrorMsg),
 					actions: [
 						IconButton(
 							icon: Icon(Icons.edit),
@@ -358,7 +359,7 @@ class SongState extends State<SongScreen> {
 				actions: [
 					PopupMenuButton<String>(
 						icon: Icon(Icons.share),
-						tooltip: 'Export',
+						tooltip: AppLocalizations.of(context)!.songTooltipExport,
 						offset: const Offset(0, 40),
 						shape: RoundedRectangleBorder(
 							borderRadius: .circular(12),
@@ -391,9 +392,9 @@ class SongState extends State<SongScreen> {
 								break;
 						}},
 						itemBuilder: (context) => [
-							const PopupMenuItem(
+							PopupMenuItem(
 								value: 'text',
-								child: Text('Text'),
+								child: Text(AppLocalizations.of(context)!.songExportOptionText),
 							),
 							const PopupMenuItem(
 								value: 'songbook',
@@ -403,7 +404,7 @@ class SongState extends State<SongScreen> {
 					),
 					IconButton(
 						icon: Icon(Icons.settings),
-						tooltip: 'Settings',
+						tooltip: AppLocalizations.of(context)!.songTooltipSettings,
 						onPressed: () => _navigatorPush(SettingsScreen()),
 					),
 				],
@@ -419,7 +420,7 @@ class SongState extends State<SongScreen> {
 					child: _buildBody(blocks),
 				)
 				: Center(
-					child: Text('The song is empty...')
+					child: Text(AppLocalizations.of(context)!.songEmptyMsg)
 				),
 		);
 	}
@@ -1157,10 +1158,10 @@ class _PopupMenuState extends State<PopupMenu> {
 
 	void _getOptions() {
 		_showOptions = {
-			'Chords': widget.chords,
-			'Rhythm': widget.rhythm,
-			'Notes': widget.notes,
-			'Fingerings': widget.fingerings,
+			'chords': widget.chords,
+			'rhythm': widget.rhythm,
+			'notes': widget.notes,
+			'fingerings': widget.fingerings,
 		};
 	}
 
@@ -1184,24 +1185,24 @@ class _PopupMenuState extends State<PopupMenu> {
 						setState(() => _getOptions());
 
 						return CheckboxListTile(
-							title: Text(key),
+							title: Text(_getTextFromValue(key)),
 							value: _showOptions[key],
 							onChanged: (bool? value) {
 								setState(() => _showOptions[key] = value!);
 								switch (key) {
-									case ('Chords'):
+									case ('chords'):
 										widget.switchChords();
 										break;
 
-									case ('Rhythm'):
+									case ('rhythm'):
 										widget.switchRhythm();
 										break;
 
-									case ('Notes'):
+									case ('notes'):
 										widget.switchNotes();
 										break;
 
-									case ('Fingerings'):
+									case ('fingerings'):
 										widget.switchFingerings();
 										break;
 
@@ -1216,6 +1217,14 @@ class _PopupMenuState extends State<PopupMenu> {
 			)).toList(),
 		);
 	}
+
+	String _getTextFromValue(String value) => switch (value) {
+		'chords' => AppLocalizations.of(context)!.chords,
+		'rhythm' => AppLocalizations.of(context)!.rhythm,
+		'notes' => AppLocalizations.of(context)!.notes,
+		'fingerings' => AppLocalizations.of(context)!.fingerings,
+		_ => '',
+	};
 }
 
 

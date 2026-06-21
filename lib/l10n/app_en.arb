@@ -34,6 +34,12 @@
 	"newSongDialogTitleHint": "Title...",
 	"newSongDialogTextHint": "Song's text...",
 
+	"songErrorMsg": "Error while opening song...",
+	"songEmptyMsg": "The song is empty...",
+	"songTooltipExport": "Export",
+	"songExportOptionText": "Text",
+	"songTooltipSettings": "Settings",
+
 	"nameValidatorErrorEmptyText": "Text cannot be empty!",
 	"nameValidatorErrorForbiddenChars": "Text contains forbidden chars!",
 
@@ -95,5 +101,10 @@
 	"valueMustBeBiggerThan0": "Value must be bigger than 0!",
 	"valueMustBeSmallerThan100": "Value must be smaller than 100!",
 	"valueMustBe1OrSmaller": "Value must be 1 or smaller!",
-	"fontExampleText": "The quick brown fox jumps over the lazy dog."
+	"fontExampleText": "The quick brown fox jumps over the lazy dog.",
+
+	"chords": "Chords",
+	"rhythm": "Rhythm",
+	"notes": "Notes",
+	"fingerings": "Fingerings"
 }

@@ -254,6 +254,36 @@ abstract class AppLocalizations {
   /// **'Song\'s text...'**
   String get newSongDialogTextHint;
 
+  /// No description provided for @songErrorMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Error while opening song...'**
+  String get songErrorMsg;
+
+  /// No description provided for @songEmptyMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'The song is empty...'**
+  String get songEmptyMsg;
+
+  /// No description provided for @songTooltipExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get songTooltipExport;
+
+  /// No description provided for @songExportOptionText.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get songExportOptionText;
+
+  /// No description provided for @songTooltipSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get songTooltipSettings;
+
   /// No description provided for @nameValidatorErrorEmptyText.
   ///
   /// In en, this message translates to:
@@ -571,6 +601,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The quick brown fox jumps over the lazy dog.'**
   String get fontExampleText;
+
+  /// No description provided for @chords.
+  ///
+  /// In en, this message translates to:
+  /// **'Chords'**
+  String get chords;
+
+  /// No description provided for @rhythm.
+  ///
+  /// In en, this message translates to:
+  /// **'Rhythm'**
+  String get rhythm;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @fingerings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerings'**
+  String get fingerings;
 }
 
 class _AppLocalizationsDelegate

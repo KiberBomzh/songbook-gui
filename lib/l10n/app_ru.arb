@@ -25,6 +25,11 @@
 	"newSongDialogArtistHint": "Исполнитель...",
 	"newSongDialogTitleHint": "Название...",
 	"newSongDialogTextHint": "Текст песни...",
+	"songErrorMsg": "Ошибка во время открытия песни...",
+	"songEmptyMsg": "Песня пустая...",
+	"songTooltipExport": "Экспорт",
+	"songExportOptionText": "Текст",
+	"songTooltipSettings": "Настройки",
 	"nameValidatorErrorEmptyText": "Текст не может быть пустым!",
 	"nameValidatorErrorForbiddenChars": "Текст содержит запрещенные символы!",
 	"settingsAppBarTitle": "Настройки",
@@ -77,5 +82,9 @@
 	"valueMustBeBiggerThan0": "Значение должно быть больше 0!",
 	"valueMustBeSmallerThan100": "Значение должно быть меньше 100!",
 	"valueMustBe1OrSmaller": "Значение должно быть 1 или меньше!",
-	"fontExampleText": "Съешь ещё этих мягких французских булок, да выпей чаю."
+	"fontExampleText": "Съешь ещё этих мягких французских булок, да выпей чаю.",
+	"chords": "Аккорды",
+	"rhythm": "Ритм",
+	"notes": "Заметки",
+	"fingerings": "Аппликатуры"
 }
