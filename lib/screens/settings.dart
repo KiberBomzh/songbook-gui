@@ -338,7 +338,9 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text(AppLocalizations.of(context)!.settingsTitles, style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsTitles,
+							style: Theme.of(context).textTheme.bodyMedium
+						),
 					),
 					const SizedBox(width: 15),
 
@@ -390,7 +392,9 @@ class _SettingsState extends State<SettingsScreen> {
 				mainAxisAlignment: .spaceBetween,
 				children: [
 					Flexible(
-						child: Text(AppLocalizations.of(context)!.settingsNotes, style: Theme.of(context).textTheme.bodyMedium),
+						child: Text(AppLocalizations.of(context)!.settingsNotes,
+							style: Theme.of(context).textTheme.bodyMedium
+						),
 					),
 					const SizedBox(width: 15),
 
@@ -893,8 +897,7 @@ class _SettingsState extends State<SettingsScreen> {
 					child: Row(
 						mainAxisAlignment: .spaceBetween,
 						children: [
-							SizedBox(
-								width: 100,
+							IntrinsicWidth(
 								child: Text(text),
 							),
 							const SizedBox(width: 20),
