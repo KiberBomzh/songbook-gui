@@ -125,6 +125,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsOtherTitle => 'Другие';
 
   @override
+  String get settingsLanguage => 'Язык';
+
+  @override
   String get settingsTheme => 'Тема';
 
   @override

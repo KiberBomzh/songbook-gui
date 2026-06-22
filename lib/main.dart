@@ -43,10 +43,7 @@ class MyApp extends StatelessWidget {
 			themeMode: settings.themeMode,
 			home: LibraryScreen(),
 
-			supportedLocales: [
-				Locale('en'),
-				Locale('ru'),
-			],
+			supportedLocales: LANGUAGES.keys.map((key) => Locale(key)).toList(),
 			localizationsDelegates: [
 				AppLocalizations.delegate,
 				GlobalMaterialLocalizations.delegate,
@@ -54,10 +51,15 @@ class MyApp extends StatelessWidget {
 				GlobalCupertinoLocalizations.delegate,
 			],
 			localeResolutionCallback: (locale, supportedLocales) {
-				if (supportedLocales.contains(Locale(locale!.languageCode)))
-					return locale;
+				if (settings.isLanguageSet)
+					return settings.locale;
 
-				return const Locale('en');
+				if (supportedLocales.contains(Locale(locale!.languageCode))) {
+					settings.setLocale(locale);
+					return locale;
+				}
+
+				return settings.locale;
 			},
 		);
 	}

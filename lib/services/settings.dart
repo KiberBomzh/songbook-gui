@@ -44,6 +44,12 @@ const String BACKGROUND_COLOR = 'background_color';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
 const String BACKGROUND_OPACITY = 'background_opacity';
+const String LANGUAGE = 'language';
+
+const Map<String, String> LANGUAGES = {
+	'en': 'English',
+	'ru': 'Русский',
+};
 
 
 // fingering as string
@@ -103,6 +109,8 @@ class SettingsProvider extends ChangeNotifier {
 	String _editorFontFamily = 'CascadiaMono';
 	double _songFontSize = 14;
 	String _songFontFamily = 'JetBrainsMono';
+	String _language = 'en';
+	Locale _locale = Locale('en');
 
 
 	String? _titleFontFamily;
@@ -161,6 +169,10 @@ class SettingsProvider extends ChangeNotifier {
 
 	double get songFontSize => _songFontSize;
 	String get songFontFamily => _songFontFamily;
+
+	bool get isLanguageSet => (Preferences.getString(LANGUAGE) != null);
+	Locale get locale => _locale;
+	String get language => _language;
 
 
 	String get titleFontFamily => _titleFontFamily ?? _songFontFamily;
@@ -435,6 +447,7 @@ class SettingsProvider extends ChangeNotifier {
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
+		_language = Preferences.getString(LANGUAGE) ?? 'en';
 
 		await _loadBackgroundImage();
 		await _loadFonts();
@@ -572,6 +585,22 @@ class SettingsProvider extends ChangeNotifier {
 		await Preferences.setString(SONG_FONT_FAMILY, value);
 
 		notifyListeners();
+	}
+
+	Future<void> setLanguage(String value) async {
+		if (!LANGUAGES.keys.contains(value))
+			return;
+
+
+		_language = value;
+		_locale = Locale(value);
+		await Preferences.setString(LANGUAGE, value);
+
+		notifyListeners();
+	}
+	
+	void setLocale(Locale value) {
+		_locale = value;
 	}
 
 	Future<void> setTitleFontFamily(String value) async {

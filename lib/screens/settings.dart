@@ -148,6 +148,31 @@ class _SettingsState extends State<SettingsScreen> {
 		_buildTitle(AppLocalizations.of(context)!.settingsGlobalTitle),
 
 		_buildItem(
+			text: AppLocalizations.of(context)!.settingsLanguage,
+			child: MenuAnchor(
+				animated: true,
+				builder: (context, controller, child) => TextButton(
+					child: Text(LANGUAGES[_settings.locale.languageCode] ?? ''),
+					onPressed: () {
+						if (controller.isOpen) {
+							controller.close();
+						} else {
+							controller.open();
+						}
+					},
+					style: TextButton.styleFrom(
+						foregroundColor: Theme.of(context).colorScheme.onSurface,
+					),
+				),
+				menuChildren: LANGUAGES.entries.map((entry) => MenuItemButton(
+					child: Text(entry.value),
+					onPressed: () => _settings.setLanguage(entry.key),
+				)).toList(),
+			),
+			onTap: null,
+		),
+
+		_buildItem(
 			text: AppLocalizations.of(context)!.settingsTheme,
 			child: SegmentedButton<ThemeMode>(
 				segments: const <ButtonSegment<ThemeMode>>[
