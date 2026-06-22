@@ -44,7 +44,6 @@ jobs:
               run: |
                   flutter build apk
                   flutter build apk --split-per-abi
-                  - name: Build Android APK
               env:
                   KEYSTORE_PATH: ~/.android/debug.keystore
                   KEYSTORE_PASSWORD: android
