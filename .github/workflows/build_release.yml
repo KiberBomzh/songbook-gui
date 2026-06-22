@@ -40,10 +40,22 @@ jobs:
                   wget -q -O ~/.android/debug.keystore "${{ secrets.ANDROID_DBG_KEY_URL }}"
               shell: bash
 
+            - name: Create debug key.properties
+              run: |
+                  echo "storeFile=$HOME/.android/debug.keystore" > android/key.properties
+                  echo "storePassword=android" >> android/key.properties
+                  echo "keyPassword=android" >> android/key.properties
+                  echo "keyAlias=androiddebugkey" >> android/key.properties
+
             - name: Build Android APK
               run: |
                   flutter build apk
                   flutter build apk --split-per-abi
+              env:
+                  KEYSTORE_PATH: ~/.android/debug.keystore
+                  KEYSTORE_PASSWORD: android
+                  KEY_ALIAS: androiddebugkey
+                  KEY_PASSWORD: android
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
