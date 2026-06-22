@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
+import 'package:songbook/l10n/app_localizations.dart';
 
 
 Future<String?> setName({
@@ -8,8 +9,11 @@ Future<String?> setName({
 	required BuildContext context,
 	required String title,
 	String initialValue = '',
-	String hintText = 'Type something...',
+	String hintText = '',
 }) async {
+	if (hintText.isEmpty)
+		hintText = AppLocalizations.of(context)!.hintText;
+
 	final controller = TextEditingController();
 	controller.text = initialValue;
 
@@ -30,10 +34,10 @@ Future<String?> setName({
 					),
 
 					onChanged: (value) {
-						setState(() => errorText = _validateName(value, existsCheck));
+						setState(() => errorText = _validateName(value, existsCheck, context));
 					},
 					onSubmitted: (value) {
-						final err = _validateName(value, existsCheck);
+						final err = _validateName(value, existsCheck, context);
 						if (err == null) {
 							Navigator.of(context).pop(value.trim());
 						} else {
@@ -43,14 +47,14 @@ Future<String?> setName({
 				),
 				actions: [
 					TextButton(
-						child: Text('Cancel'),
+						child: Text(AppLocalizations.of(context)!.cancel),
 						onPressed: () => Navigator.of(context).pop(),
 					),
 					ElevatedButton(
-						child: Text('Ok'),
+						child: Text(AppLocalizations.of(context)!.ok),
 						onPressed: () {
 							final name = controller.text.trim();
-							final err = _validateName(name, existsCheck);
+							final err = _validateName(name, existsCheck, context);
 
 							if (err == null) {
 								Navigator.of(context).pop(name);
@@ -65,18 +69,18 @@ Future<String?> setName({
 	);
 }
 
-String? _validateName(String value, bool Function(String) isExists) {
+String? _validateName(String value, bool Function(String) isExists, BuildContext context) {
 	final trimmed = value.trim();
 
 	if (trimmed.isEmpty)
-		return 'Name cannot be empty!';
+		return AppLocalizations.of(context)!.nameCannotBeEmpty;
 	
 	final forbiddenChars = getForbiddenChars();
 	if (trimmed.characters.any((char) => forbiddenChars.contains(char)))
-		return 'Name contains forbidden chars!';
+		return AppLocalizations.of(context)!.theNameContainsForbiddenChars;
 	
 	if (isExists(trimmed))
-		return 'This name is already exitsts!';
+		return AppLocalizations.of(context)!.theNameIsAlreadyExists;
 	
 
 	return null;

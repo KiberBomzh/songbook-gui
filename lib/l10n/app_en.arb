@@ -90,6 +90,10 @@
 	"fingeringsSizeMedium": "Medium",
 	"fingeringsSizeBig": "Big",
 
+	"editorModeSource": "Source",
+	"editorModeRaw": "Raw",
+	"editorModeNormal": "Normal",
+
 	"editorSavedMsg": "Saved!",
 	"editorHelpDialogTitle": "Help",
 	"editorTheLastBlockMsg": "This is the last Block!",
@@ -140,6 +144,9 @@
 	"valueMustBeBiggerThan0": "Value must be bigger than 0!",
 	"valueMustBeSmallerThan100": "Value must be smaller than 100!",
 	"valueMustBe1OrSmaller": "Value must be 1 or smaller!",
+	"nameCannotBeEmpty": "Name cannot be empty!",
+	"theNameContainsForbiddenChars": "The name contains forbidden chars!",
+	"theNameIsAlreadyExists": "The name is already exists!",
 	"fontExampleText": "The quick brown fox jumps over the lazy dog.",
 
 	"chords": "Chords",

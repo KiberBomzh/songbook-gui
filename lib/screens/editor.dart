@@ -302,18 +302,18 @@ class _EditorState extends State<EditorScreen> {
 						style: SegmentedButton.styleFrom(
 							backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.7),
 						),
-						segments: const <ButtonSegment<EditorMode>>[
+						segments: <ButtonSegment<EditorMode>>[
 							ButtonSegment(
 								value: EditorMode.source,
-								label: Text('Source'),
+								label: Text(AppLocalizations.of(context)!.editorModeSource),
 							),
 							ButtonSegment(
 								value: EditorMode.raw,
-								label: Text('Raw'),
+								label: Text(AppLocalizations.of(context)!.editorModeRaw),
 							),
 							ButtonSegment(
 								value: EditorMode.normal,
-								label: Text('Normal'),
+								label: Text(AppLocalizations.of(context)!.editorModeNormal),
 							),
 						],
 						selected: <EditorMode>{_currentMode},

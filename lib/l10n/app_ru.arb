@@ -90,6 +90,10 @@
 	"fingeringsSizeMedium": "Средний",
 	"fingeringsSizeBig": "Большой",
 
+	"editorModeSource": "Исходный",
+	"editorModeRaw": "Сырой",
+	"editorModeNormal": "Нормальный",
+
 	"editorSavedMsg": "Сохранено!",
 	"editorHelpDialogTitle": "Помощь",
 	"editorTheLastBlockMsg": "Это последний Блок!",
@@ -140,6 +144,9 @@
 	"valueMustBeBiggerThan0": "Значение должно быть больше 0!",
 	"valueMustBeSmallerThan100": "Значение должно быть меньше 100!",
 	"valueMustBe1OrSmaller": "Значение должно быть 1 или меньше!",
+	"nameCannotBeEmpty": "Имя не может быть пустым!",
+	"theNameContainsForbiddenChars": "Имя содержит запрещенные символы!",
+	"theNameIsAlreadyExists": "Имя уже существует!",
 	"fontExampleText": "Съешь ещё этих мягких французских булок, да выпей чаю.",
 
 	"chords": "Аккорды",

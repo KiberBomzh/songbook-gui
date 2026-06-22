@@ -235,6 +235,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fingeringsSizeBig => 'Big';
 
   @override
+  String get editorModeSource => 'Source';
+
+  @override
+  String get editorModeRaw => 'Raw';
+
+  @override
+  String get editorModeNormal => 'Normal';
+
+  @override
   String get editorSavedMsg => 'Saved!';
 
   @override
@@ -366,6 +375,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get valueMustBe1OrSmaller => 'Value must be 1 or smaller!';
+
+  @override
+  String get nameCannotBeEmpty => 'Name cannot be empty!';
+
+  @override
+  String get theNameContainsForbiddenChars =>
+      'The name contains forbidden chars!';
+
+  @override
+  String get theNameIsAlreadyExists => 'The name is already exists!';
 
   @override
   String get fontExampleText => 'The quick brown fox jumps over the lazy dog.';

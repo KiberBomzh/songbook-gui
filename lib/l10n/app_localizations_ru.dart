@@ -237,6 +237,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fingeringsSizeBig => 'Большой';
 
   @override
+  String get editorModeSource => 'Исходный';
+
+  @override
+  String get editorModeRaw => 'Сырой';
+
+  @override
+  String get editorModeNormal => 'Нормальный';
+
+  @override
   String get editorSavedMsg => 'Сохранено!';
 
   @override
@@ -367,6 +376,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get valueMustBe1OrSmaller => 'Значение должно быть 1 или меньше!';
+
+  @override
+  String get nameCannotBeEmpty => 'Имя не может быть пустым!';
+
+  @override
+  String get theNameContainsForbiddenChars =>
+      'Имя содержит запрещенные символы!';
+
+  @override
+  String get theNameIsAlreadyExists => 'Имя уже существует!';
 
   @override
   String get fontExampleText =>

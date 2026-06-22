@@ -548,6 +548,24 @@ abstract class AppLocalizations {
   /// **'Big'**
   String get fingeringsSizeBig;
 
+  /// No description provided for @editorModeSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get editorModeSource;
+
+  /// No description provided for @editorModeRaw.
+  ///
+  /// In en, this message translates to:
+  /// **'Raw'**
+  String get editorModeRaw;
+
+  /// No description provided for @editorModeNormal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get editorModeNormal;
+
   /// No description provided for @editorSavedMsg.
   ///
   /// In en, this message translates to:
@@ -811,6 +829,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Value must be 1 or smaller!'**
   String get valueMustBe1OrSmaller;
+
+  /// No description provided for @nameCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Name cannot be empty!'**
+  String get nameCannotBeEmpty;
+
+  /// No description provided for @theNameContainsForbiddenChars.
+  ///
+  /// In en, this message translates to:
+  /// **'The name contains forbidden chars!'**
+  String get theNameContainsForbiddenChars;
+
+  /// No description provided for @theNameIsAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'The name is already exists!'**
+  String get theNameIsAlreadyExists;
 
   /// No description provided for @fontExampleText.
   ///
