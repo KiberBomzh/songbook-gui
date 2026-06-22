@@ -638,6 +638,12 @@ abstract class AppLocalizations {
   /// **'Split Block'**
   String get editorSplitBlock;
 
+  /// No description provided for @editorConvertToRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Convert to Row'**
+  String get editorConvertToRow;
+
   /// No description provided for @editorTooltipSave.
   ///
   /// In en, this message translates to:

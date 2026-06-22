@@ -107,6 +107,7 @@
 	"editorCopy": "Copy",
 	"editorMergeWithNext": "Merge with next",
 	"editorSplitBlock": "Split Block",
+	"editorConvertToRow": "Convert to Row",
 
 	"editorTooltipSave": "Save",
 	"editorTooltipHelp": "Help",

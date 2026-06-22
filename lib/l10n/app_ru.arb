@@ -107,6 +107,7 @@
 	"editorCopy": "Копировать",
 	"editorMergeWithNext": "Объеденить со следующим",
 	"editorSplitBlock": "Разделить Блок",
+	"editorConvertToRow": "Преобразовать в Ряд",
 
 	"editorTooltipSave": "Сохранить",
 	"editorTooltipHelp": "Помощь",

@@ -282,6 +282,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editorSplitBlock => 'Разделить Блок';
 
   @override
+  String get editorConvertToRow => 'Преобразовать в Ряд';
+
+  @override
   String get editorTooltipSave => 'Сохранить';
 
   @override

@@ -1033,6 +1033,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 						_mergeBlockWithNext,
 						_splitRow,
 						_mergeRow,
+						_convertPlainTextToRow,
 					);
 					_contents.add(
 						_buildDragAndDropList(
@@ -1148,6 +1149,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 				onAddNewLine: _addNewLineInBlockAfter,
 				onCopy: _copyLineInBlockAfter,
 				onSplitBlock: _splitBlockBefore,
+				onConvertToRow: _convertPlainTextToRow,
 			),
 			LineType.tab => Tab(
 				tab: '',
@@ -1406,6 +1408,41 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		});
 	}
 
+	void _convertPlainTextToRow(int blockIndex, int lineIndex) {
+		final item = _contents[blockIndex];
+		final plainText = item.children[lineIndex].child as PlainText;
+
+		final List<String> lines = plainText.text.split('\n');
+		final rows = [];
+		for (int i = 0; i < lines.length; i++) {
+			final line = lines[i];
+			final row = TextBlock(
+				text: line,
+				key: UniqueKey(),
+				parentIndex: blockIndex,
+				index: lineIndex + i,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
+				onCopy: _copyLineInBlockAfter,
+				onSplitRow: _splitRow,
+				onMerge: _mergeRow,
+			);
+			rows.add(DragAndDropItem(child: row));
+		}
+
+		setState(() {
+			item.children.removeAt(lineIndex);
+			int newIndex = lineIndex;
+			for (final row in rows) {
+				item.children.insert(newIndex, row);
+				newIndex++;
+			}
+
+			_updateLinesIndexesAfter(newIndex, blockIndex);
+		});
+	}
+
 
 	void _updateBlocksIndexesAfter(int index) {
 		for (int i = index; i < _contents.length; i++) {
@@ -1591,6 +1628,7 @@ class Block extends StatefulWidget {
 		Function(int) onMergeBlock,
 		Function(int, int, int) onSplitRow,
 		Function(int, int) onMergeRow,
+		Function(int, int) onConvertToRow,
 	) {
 		List<Line> lines = [];
 		String plainText = '';
@@ -1616,6 +1654,7 @@ class Block extends StatefulWidget {
 						onAddNewLine: onAddNewLine,
 						onCopy: onCopyChild,
 						onSplitBlock: onSplitBlock,
+						onConvertToRow: onConvertToRow,
 					));
 					plainText = '';
 				}
@@ -2280,6 +2319,7 @@ class ChordsLineState extends State<ChordsLine> {
 
 class PlainText extends Line {
 	String text;
+	final Function(int, int) onConvertToRow;
 
 	PlainText({
 		super.key,
@@ -2290,6 +2330,7 @@ class PlainText extends Line {
 		required super.onAddNewLine,
 		required super.onCopy,
 		required super.onSplitBlock,
+		required this.onConvertToRow,
 	});
 
 	@override
@@ -2323,6 +2364,7 @@ class PlainText extends Line {
 		onAddNewLine: onAddNewLine,
 		onCopy: onCopy,
 		onSplitBlock: onSplitBlock,
+		onConvertToRow: onConvertToRow,
 	);
 
 
@@ -2364,6 +2406,9 @@ class PlainTextState extends State<PlainText> {
 
 					AppLocalizations.of(context)!.editorSplitBlock: () =>
 						widget.onSplitBlock(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorConvertToRow: () =>
+						widget.onConvertToRow(widget.parentIndex, widget.index),
 				},
 			),
 			child: IntrinsicHeight(

@@ -281,6 +281,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editorSplitBlock => 'Split Block';
 
   @override
+  String get editorConvertToRow => 'Convert to Row';
+
+  @override
   String get editorTooltipSave => 'Save';
 
   @override
