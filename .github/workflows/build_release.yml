@@ -44,6 +44,12 @@ jobs:
               run: |
                   flutter build apk
                   flutter build apk --split-per-abi
+                  - name: Build Android APK
+              env:
+                  KEYSTORE_PATH: ~/.android/debug.keystore
+                  KEYSTORE_PASSWORD: android
+                  KEY_ALIAS: androiddebugkey
+                  KEY_PASSWORD: android
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
