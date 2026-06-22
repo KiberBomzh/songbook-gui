@@ -96,7 +96,7 @@ jobs:
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: songbook-x86_64.AppImage
+                  name: songbook-linux-x86_64.AppImage
                   path: songbook-x86_64.AppImage
                   if-no-files-found: error
 
@@ -132,5 +132,6 @@ jobs:
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
               with:
-                  name: songbook-windows
-                  path: build/windows/x64/Installer/Release/*.exe
+                  name: songbook-windows-x86_64.exe
+                  path: build/windows/x64/Installer/Release/Songbook-x86_64-*-Installer.exe
+                  if-no-files-found: error
