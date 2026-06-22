@@ -112,11 +112,6 @@ jobs:
                   flutter-version: "3.x"
                   channel: "stable"
 
-            - name: Install Inno Setup
-              run: |
-                  choco install innosetup --version=6.2.2
-                  echo "C:\Program Files (x86)\Inno Setup 6" >> $env:GITHUB_PATH
-
             - name: Flutter pub get
               run: flutter pub get
 
