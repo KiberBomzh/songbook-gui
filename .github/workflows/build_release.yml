@@ -37,7 +37,7 @@ jobs:
             - name: Download Android Keystore
               run: |
                   mkdir -p ~/.android
-                  wget -q -O ~/.android/debug.keystore "${{ secrets.ANDROID_DBG_KEY_URL }}"
+                  wget -O ~/.android/debug.keystore "${{ secrets.ANDROID_DBG_KEY_URL }}"
               shell: bash
 
             - name: Create debug key.properties
@@ -56,6 +56,9 @@ jobs:
                   KEYSTORE_PASSWORD: android
                   KEY_ALIAS: androiddebugkey
                   KEY_PASSWORD: android
+
+            - name: Check .android
+              run: ls ~/.android
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
