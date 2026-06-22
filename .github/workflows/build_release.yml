@@ -17,8 +17,8 @@ jobs:
             - name: Set up Java Development Kit
               uses: actions/setup-java@v4
               with:
-                distribution: 'temurin'
-                java-version: '21'
+                  distribution: "temurin"
+                  java-version: "21"
 
             - name: Setup Rust
               uses: dtolnay/rust-toolchain@stable
@@ -115,6 +115,11 @@ jobs:
             - name: Flutter pub get
               run: flutter pub get
 
+            - name: Download Icelandic language for Inno Setup
+              run: |
+                  $langDir = "C:\Program Files (x86)\Inno Setup 6\Languages"
+                  Invoke-WebRequest -Uri "https://raw.githubusercontent.com/jrsoftware/issrc/refs/heads/main/Files/Languages/Unofficial/Icelandic.isl" -OutFile "$langDir\Icelandic.isl"
+
             - name: Create Windows installer with Inno Setup
               run: dart run inno_bundle
 
@@ -122,6 +127,4 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: songbook-windows
-                  path: |
-                      build/windows/runner/Release/*.exe
-                      output/*.exe
+                  path: build/windows/x64/Installer/Release/*.exe
