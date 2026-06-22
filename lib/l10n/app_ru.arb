@@ -1,20 +1,25 @@
 {
 	"libraryTitle": "Библеотека",
+
 	"libraryEmpty": "Здесь ничего нет...",
 	"librarySnackBarPasteErrorMsg": "Невозможно скопировать в текущую папку!",
 	"libraryDeletedMsg": "Удалено",
+
 	"libraryTooltipPaste": "Вставить",
 	"libraryTooltipSearch": "Поиск",
 	"libraryTooltipSettings": "Настройки",
+
 	"libraryTooltipOptions": "Опции",
 	"libraryOptionRename": "Переименовать",
 	"libraryOptionEdit": "Редактировать",
 	"libraryOptionCopy": "Копировать",
 	"libraryOptionCut": "Вырезать",
 	"libraryOptionDelete": "Удалить",
+
 	"libraryAddOptionSong": "Добавить песню",
 	"libraryAddOptionFolder": "Добавить папку",
 	"libraryAddOptionImport": "Импорт",
+
 	"libraryRenameDialogTitle": "Переименование",
 	"libraryRenameDialogHint": "Новое имя...",
 	"libraryImportDialogTitle": "Импорт",
@@ -25,18 +30,22 @@
 	"newSongDialogArtistHint": "Исполнитель...",
 	"newSongDialogTitleHint": "Название...",
 	"newSongDialogTextHint": "Текст песни...",
+
 	"songErrorMsg": "Ошибка во время открытия песни...",
 	"songEmptyMsg": "Песня пустая...",
 	"songTooltipExport": "Экспорт",
 	"songExportOptionText": "Текст",
 	"songTooltipSettings": "Настройки",
+
 	"nameValidatorErrorEmptyText": "Текст не может быть пустым!",
 	"nameValidatorErrorForbiddenChars": "Текст содержит запрещенные символы!",
+
 	"settingsAppBarTitle": "Настройки",
 	"settingsGlobalTitle": "Глобальные",
 	"settingsEditorTitle": "Редактор",
 	"settingsSongTitle": "Песня",
 	"settingsOtherTitle": "Другие",
+
 	"settingsTheme": "Тема",
 	"settingsAmoled": "Амолед",
 	"settingsAccent": "Акцент",
@@ -51,29 +60,78 @@
 	"settingsSongFontSize": "Размер текста в песне",
 	"settingsLineWrap": "Перенос строк",
 	"settingsFingeringsSize": "Размер аппликатур",
+
 	"settingsTitles": "Заголовки",
 	"settingsNotes": "Заметки",
 	"settingsFingerings": "Аппликатуры",
 	"settingsTabs": "Табы",
 	"settingsPlainText": "Простой текст",
+
 	"settingsBold": "Жирный",
 	"settingsItalic": "Курсив",
+
 	"settingsChordsColor": "Цвет аккордов",
 	"settingsRhythmColor": "Цвет ритма",
 	"settingsTextColor": "Цвет текста",
 	"settingsNotesColor": "Цвет заметок",
 	"settingsTitlesColor": "Цвет заголовков",
 	"settingsBackground": "Фон",
+
 	"settingsExportBackup": "Экспортировать бэкап",
 	"settingsImportBackup": "Импортировать бэкап",
 	"settingsResetSettings": "Сбросить настройки",
 	"settingsResetLibrary": "Сбросить библиотеку",
+
 	"settingsExportSuccesMsg": "Готово!",
 	"settingsImportSuccesMsg": "Готово, песеннику нужно перезапуститься!",
 	"settingsErrorMsg": "Ошибка!",
+
 	"fingeringsSizeSmall": "Маленький",
 	"fingeringsSizeMedium": "Средний",
 	"fingeringsSizeBig": "Большой",
+
+	"editorSavedMsg": "Сохранено!",
+	"editorHelpDialogTitle": "Помощь",
+	"editorTheLastBlockMsg": "Это последний Блок!",
+	"editorTheLastRowInTheBlockMsg": "Это последний Ряд в Блоке!",
+	"editorNextLineIsNotARowMsg": "Следующая строка не Ряд!",
+
+	"editorAddNewBlock": "Добавить новый Блок",
+	"editorAddNewLine": "Добавить новую строку",
+	"editorDelete": "Удалить",
+	"editorCopy": "Копировать",
+	"editorMergeWithNext": "Объеденить со следующим",
+	"editorSplitBlock": "Разделить Блок",
+
+	"editorTooltipSave": "Сохранить",
+	"editorTooltipHelp": "Помощь",
+	"editorTooltipSelectBlock": "Выбрать Блок",
+	"editorTooltipEditMetadata": "Редактировать метаданные",
+	"editorTooltipUndo": "Отменить",
+	"editorTooltipRedo": "Повторить",
+
+	"editorSongNote": "Заметка к песне",
+	"editorBlock": "Блок",
+	"editorTitle": "Заголовок",
+	"editorNote": "Заметка",
+	"editorRow": "Ряд",
+	"editorChordsLine": "Строка с аккордами",
+	"editorPlainText": "Простой текст",
+	"editorTab": "Таб",
+	"editorEmptyLine": "Пустая строка",
+
+	"editorChordsShort": "А",
+	"editorRhythmShort": "Р",
+	"editorTextShort": "Т",
+
+	"editorMetadata": "Метаданные",
+	"editorMetadataTitle": "Название",
+	"editorMetadataArtist": "Исполнитель",
+	"editorMetadataKey": "Тоннальность",
+	"editorMetadataCapo": "Каподастр",
+	"editorMetadataAutoscrollSpeed": "Скорость автоскролла",
+	"editorShowOptions": "Опции отображения",
+
 	"cancel": "Отмена",
 	"ok": "ОК",
 	"done": "Завершить",
@@ -83,6 +141,7 @@
 	"valueMustBeSmallerThan100": "Значение должно быть меньше 100!",
 	"valueMustBe1OrSmaller": "Значение должно быть 1 или меньше!",
 	"fontExampleText": "Съешь ещё этих мягких французских булок, да выпей чаю.",
+
 	"chords": "Аккорды",
 	"rhythm": "Ритм",
 	"notes": "Заметки",

@@ -548,6 +548,222 @@ abstract class AppLocalizations {
   /// **'Big'**
   String get fingeringsSizeBig;
 
+  /// No description provided for @editorSavedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved!'**
+  String get editorSavedMsg;
+
+  /// No description provided for @editorHelpDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get editorHelpDialogTitle;
+
+  /// No description provided for @editorTheLastBlockMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the last Block!'**
+  String get editorTheLastBlockMsg;
+
+  /// No description provided for @editorTheLastRowInTheBlockMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the last Row in the Block!'**
+  String get editorTheLastRowInTheBlockMsg;
+
+  /// No description provided for @editorNextLineIsNotARowMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Next line is not a Row!'**
+  String get editorNextLineIsNotARowMsg;
+
+  /// No description provided for @editorAddNewBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new Block'**
+  String get editorAddNewBlock;
+
+  /// No description provided for @editorAddNewLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new line'**
+  String get editorAddNewLine;
+
+  /// No description provided for @editorDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get editorDelete;
+
+  /// No description provided for @editorCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get editorCopy;
+
+  /// No description provided for @editorMergeWithNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge with next'**
+  String get editorMergeWithNext;
+
+  /// No description provided for @editorSplitBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Split Block'**
+  String get editorSplitBlock;
+
+  /// No description provided for @editorTooltipSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get editorTooltipSave;
+
+  /// No description provided for @editorTooltipHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get editorTooltipHelp;
+
+  /// No description provided for @editorTooltipSelectBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Block'**
+  String get editorTooltipSelectBlock;
+
+  /// No description provided for @editorTooltipEditMetadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit metadata'**
+  String get editorTooltipEditMetadata;
+
+  /// No description provided for @editorTooltipUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get editorTooltipUndo;
+
+  /// No description provided for @editorTooltipRedo.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get editorTooltipRedo;
+
+  /// No description provided for @editorSongNote.
+  ///
+  /// In en, this message translates to:
+  /// **'SongNote'**
+  String get editorSongNote;
+
+  /// No description provided for @editorBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get editorBlock;
+
+  /// No description provided for @editorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get editorTitle;
+
+  /// No description provided for @editorNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get editorNote;
+
+  /// No description provided for @editorRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Row'**
+  String get editorRow;
+
+  /// No description provided for @editorChordsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'ChordsLine'**
+  String get editorChordsLine;
+
+  /// No description provided for @editorPlainText.
+  ///
+  /// In en, this message translates to:
+  /// **'PlainText'**
+  String get editorPlainText;
+
+  /// No description provided for @editorTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Tab'**
+  String get editorTab;
+
+  /// No description provided for @editorEmptyLine.
+  ///
+  /// In en, this message translates to:
+  /// **'EmptyLine'**
+  String get editorEmptyLine;
+
+  /// No description provided for @editorChordsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'C'**
+  String get editorChordsShort;
+
+  /// No description provided for @editorRhythmShort.
+  ///
+  /// In en, this message translates to:
+  /// **'R'**
+  String get editorRhythmShort;
+
+  /// No description provided for @editorTextShort.
+  ///
+  /// In en, this message translates to:
+  /// **'T'**
+  String get editorTextShort;
+
+  /// No description provided for @editorMetadata.
+  ///
+  /// In en, this message translates to:
+  /// **'Metadata'**
+  String get editorMetadata;
+
+  /// No description provided for @editorMetadataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get editorMetadataTitle;
+
+  /// No description provided for @editorMetadataArtist.
+  ///
+  /// In en, this message translates to:
+  /// **'Artist'**
+  String get editorMetadataArtist;
+
+  /// No description provided for @editorMetadataKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get editorMetadataKey;
+
+  /// No description provided for @editorMetadataCapo.
+  ///
+  /// In en, this message translates to:
+  /// **'Capo'**
+  String get editorMetadataCapo;
+
+  /// No description provided for @editorMetadataAutoscrollSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Autoscroll speed'**
+  String get editorMetadataAutoscrollSpeed;
+
+  /// No description provided for @editorShowOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Show options'**
+  String get editorShowOptions;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

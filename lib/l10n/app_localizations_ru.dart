@@ -237,6 +237,114 @@ class AppLocalizationsRu extends AppLocalizations {
   String get fingeringsSizeBig => 'Большой';
 
   @override
+  String get editorSavedMsg => 'Сохранено!';
+
+  @override
+  String get editorHelpDialogTitle => 'Помощь';
+
+  @override
+  String get editorTheLastBlockMsg => 'Это последний Блок!';
+
+  @override
+  String get editorTheLastRowInTheBlockMsg => 'Это последний Ряд в Блоке!';
+
+  @override
+  String get editorNextLineIsNotARowMsg => 'Следующая строка не Ряд!';
+
+  @override
+  String get editorAddNewBlock => 'Добавить новый Блок';
+
+  @override
+  String get editorAddNewLine => 'Добавить новую строку';
+
+  @override
+  String get editorDelete => 'Удалить';
+
+  @override
+  String get editorCopy => 'Копировать';
+
+  @override
+  String get editorMergeWithNext => 'Объеденить со следующим';
+
+  @override
+  String get editorSplitBlock => 'Разделить Блок';
+
+  @override
+  String get editorTooltipSave => 'Сохранить';
+
+  @override
+  String get editorTooltipHelp => 'Помощь';
+
+  @override
+  String get editorTooltipSelectBlock => 'Выбрать Блок';
+
+  @override
+  String get editorTooltipEditMetadata => 'Редактировать метаданные';
+
+  @override
+  String get editorTooltipUndo => 'Отменить';
+
+  @override
+  String get editorTooltipRedo => 'Повторить';
+
+  @override
+  String get editorSongNote => 'Заметка к песне';
+
+  @override
+  String get editorBlock => 'Блок';
+
+  @override
+  String get editorTitle => 'Заголовок';
+
+  @override
+  String get editorNote => 'Заметка';
+
+  @override
+  String get editorRow => 'Ряд';
+
+  @override
+  String get editorChordsLine => 'Строка с аккордами';
+
+  @override
+  String get editorPlainText => 'Простой текст';
+
+  @override
+  String get editorTab => 'Таб';
+
+  @override
+  String get editorEmptyLine => 'Пустая строка';
+
+  @override
+  String get editorChordsShort => 'А';
+
+  @override
+  String get editorRhythmShort => 'Р';
+
+  @override
+  String get editorTextShort => 'Т';
+
+  @override
+  String get editorMetadata => 'Метаданные';
+
+  @override
+  String get editorMetadataTitle => 'Название';
+
+  @override
+  String get editorMetadataArtist => 'Исполнитель';
+
+  @override
+  String get editorMetadataKey => 'Тоннальность';
+
+  @override
+  String get editorMetadataCapo => 'Каподастр';
+
+  @override
+  String get editorMetadataAutoscrollSpeed => 'Скорость автоскролла';
+
+  @override
+  String get editorShowOptions => 'Опции отображения';
+
+  @override
   String get cancel => 'Отмена';
 
   @override

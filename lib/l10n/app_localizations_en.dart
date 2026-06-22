@@ -235,6 +235,115 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fingeringsSizeBig => 'Big';
 
   @override
+  String get editorSavedMsg => 'Saved!';
+
+  @override
+  String get editorHelpDialogTitle => 'Help';
+
+  @override
+  String get editorTheLastBlockMsg => 'This is the last Block!';
+
+  @override
+  String get editorTheLastRowInTheBlockMsg =>
+      'This is the last Row in the Block!';
+
+  @override
+  String get editorNextLineIsNotARowMsg => 'Next line is not a Row!';
+
+  @override
+  String get editorAddNewBlock => 'Add new Block';
+
+  @override
+  String get editorAddNewLine => 'Add new line';
+
+  @override
+  String get editorDelete => 'Delete';
+
+  @override
+  String get editorCopy => 'Copy';
+
+  @override
+  String get editorMergeWithNext => 'Merge with next';
+
+  @override
+  String get editorSplitBlock => 'Split Block';
+
+  @override
+  String get editorTooltipSave => 'Save';
+
+  @override
+  String get editorTooltipHelp => 'Help';
+
+  @override
+  String get editorTooltipSelectBlock => 'Select Block';
+
+  @override
+  String get editorTooltipEditMetadata => 'Edit metadata';
+
+  @override
+  String get editorTooltipUndo => 'Undo';
+
+  @override
+  String get editorTooltipRedo => 'Redo';
+
+  @override
+  String get editorSongNote => 'SongNote';
+
+  @override
+  String get editorBlock => 'Block';
+
+  @override
+  String get editorTitle => 'Title';
+
+  @override
+  String get editorNote => 'Note';
+
+  @override
+  String get editorRow => 'Row';
+
+  @override
+  String get editorChordsLine => 'ChordsLine';
+
+  @override
+  String get editorPlainText => 'PlainText';
+
+  @override
+  String get editorTab => 'Tab';
+
+  @override
+  String get editorEmptyLine => 'EmptyLine';
+
+  @override
+  String get editorChordsShort => 'C';
+
+  @override
+  String get editorRhythmShort => 'R';
+
+  @override
+  String get editorTextShort => 'T';
+
+  @override
+  String get editorMetadata => 'Metadata';
+
+  @override
+  String get editorMetadataTitle => 'Title';
+
+  @override
+  String get editorMetadataArtist => 'Artist';
+
+  @override
+  String get editorMetadataKey => 'Key';
+
+  @override
+  String get editorMetadataCapo => 'Capo';
+
+  @override
+  String get editorMetadataAutoscrollSpeed => 'Autoscroll speed';
+
+  @override
+  String get editorShowOptions => 'Show options';
+
+  @override
   String get cancel => 'Cancel';
 
   @override

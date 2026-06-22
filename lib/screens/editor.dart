@@ -8,6 +8,7 @@ import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/src/rust/api/song.dart';
+import 'package:songbook/l10n/app_localizations.dart';
 
 
 enum EditorMode {
@@ -125,8 +126,8 @@ class _EditorState extends State<EditorScreen> {
 
 		if (mounted)
 			ScaffoldMessenger.of(context).showSnackBar(
-				const SnackBar(
-					content: Text('Saved!'),
+				SnackBar(
+					content: Text(AppLocalizations.of(context)!.editorSavedMsg),
 					duration: Duration(seconds: 1),
 				),
 			);
@@ -325,7 +326,7 @@ class _EditorState extends State<EditorScreen> {
 										showDialog(
 											context: context,
 											builder: (context) => AlertDialog(
-												title: const Text("Error whil opening song..."),
+												title: Text(AppLocalizations.of(context)!.songErrorMsg),
 												content: SizedBox(
 													height: MediaQuery.of(context).size.height * 0.8,
 													child: SingleChildScrollView(
@@ -337,7 +338,7 @@ class _EditorState extends State<EditorScreen> {
 												),
 												actions: [
 													TextButton(
-														child: Text("Ok"),
+														child: Text(AppLocalizations.of(context)!.ok),
 														onPressed: () => Navigator.of(context).pop(),
 													),
 												],
@@ -423,7 +424,7 @@ class _EditorState extends State<EditorScreen> {
 
 							IconButton(
 								icon: Icon(Icons.save),
-								tooltip: 'Save',
+								tooltip: AppLocalizations.of(context)!.editorTooltipSave,
 								onPressed: _save,
 							),
 
@@ -431,12 +432,12 @@ class _EditorState extends State<EditorScreen> {
 							if (_currentMode == EditorMode.raw) ...[
 								IconButton(
 									icon: Icon(Icons.help),
-									tooltip: 'Help',
+									tooltip: AppLocalizations.of(context)!.editorTooltipHelp,
 									onPressed: _showHelp,
 								),
 								IconButton(
 									icon: Icon(Icons.article),
-									tooltip: 'Select block',
+									tooltip: AppLocalizations.of(context)!.editorTooltipSelectBlock,
 									onPressed: _selectBlock,
 								),
 							],
@@ -444,13 +445,13 @@ class _EditorState extends State<EditorScreen> {
 							if (_currentMode == EditorMode.normal) ...[
 								IconButton(
 									icon: Icon(Icons.abc),
-									tooltip: 'Edit metadata',
+									tooltip: AppLocalizations.of(context)!.editorTooltipEditMetadata,
 									onPressed: () => _graphicalEditorKey.currentState?.showMetadataEditor(),
 								),
 							] else ...[
 								IconButton(
 									icon: Icon(Icons.undo),
-									tooltip: 'Undo',
+									tooltip: AppLocalizations.of(context)!.editorTooltipUndo,
 									onPressed: _undo,
 									color: (_historyIndex > 0)
 										? Theme.of(context).colorScheme.primary
@@ -458,7 +459,7 @@ class _EditorState extends State<EditorScreen> {
 								),
 								IconButton(
 									icon: Icon(Icons.redo),
-									tooltip: 'Redo',
+									tooltip: AppLocalizations.of(context)!.editorTooltipRedo,
 									onPressed: _redo,
 									color: (_historyIndex < _history.length - 1)
 										? Theme.of(context).colorScheme.primary
@@ -477,7 +478,7 @@ class _EditorState extends State<EditorScreen> {
 		showDialog(
 			context: context,
 			builder: (context) => SimpleDialog(
-				title: Center( child: Text('Help') ),
+				title: Center( child: Text(AppLocalizations.of(context)!.editorHelpDialogTitle) ),
 				contentPadding: const EdgeInsets.all(10),
 				children: [
 					Text(getEditorHelpMsg()),
@@ -1263,8 +1264,8 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	void _mergeBlockWithNext(int index) {
 		if (index == _contents.length - 1) {
 			ScaffoldMessenger.of(context).showSnackBar(
-				const SnackBar(
-					content: Text('This is the last Block!'),
+				SnackBar(
+					content: Text(AppLocalizations.of(context)!.editorTheLastBlockMsg),
 					duration: Duration(seconds: 1),
 				),
 			);
@@ -1362,8 +1363,8 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		final item = _contents[blockIndex];
 		if (item.children.length == lineIndex + 1) {
 			ScaffoldMessenger.of(context).showSnackBar(
-				const SnackBar(
-					content: Text('This is the last Row in the Block!'),
+				SnackBar(
+					content: Text(AppLocalizations.of(context)!.editorTheLastRowInTheBlockMsg),
 					duration: Duration(seconds: 1),
 				),
 			);
@@ -1374,8 +1375,8 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 		if (item.children[lineIndex + 1].child is! TextBlock) {
 			ScaffoldMessenger.of(context).showSnackBar(
-				const SnackBar(
-					content: Text('Next Line is not a Row!'),
+				SnackBar(
+					content: Text(AppLocalizations.of(context)!.editorNextLineIsNotARowMsg),
 					duration: Duration(seconds: 1),
 				),
 			);
@@ -1466,7 +1467,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			children: _contents,
 			contentsWhenEmpty: TextButton.icon(
 				icon: Icon(Icons.add),
-				label: Text('Add new Block'),
+				label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
 				onPressed: () => _addNewBlockAfter(-1),
 			),
 
@@ -1520,7 +1521,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			children: [
 				Align(
 					alignment: .centerRight,
-					child: Text('SongNote'),
+					child: Text(AppLocalizations.of(context)!.editorSongNote),
 				),
 				
 				Padding(
@@ -1549,7 +1550,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 		contentsWhenEmpty: TextButton.icon(
 			icon: Icon(Icons.add),
-			label: Text('Add new line'),
+			label: Text(''), //AppLocalizations.of(context)!.editorAddNewLine),
 			onPressed: () => _addNewLineInBlockAfter(block.index, -1),
 		),
 	);
@@ -1783,12 +1784,19 @@ class BlockState extends State<Block> {
 					Align(
 						alignment: .centerRight,
 						child: MenuButton(
-							label: 'Block',
+							label: AppLocalizations.of(context)!.editorBlock,
 							options: { 
-								'Delete': () => widget.onDelete(widget.index),
-								'Add new Block': () => widget.onAddNewBlock(widget.index),
-								'Copy': () => widget.onCopy(widget.index),
-								'Merge with next': () => widget.onMergeBlock(widget.index),
+								AppLocalizations.of(context)!.editorDelete: () =>
+									widget.onDelete(widget.index),
+
+								AppLocalizations.of(context)!.editorAddNewBlock: () =>
+									widget.onAddNewBlock(widget.index),
+
+								AppLocalizations.of(context)!.editorCopy: () =>
+									widget.onCopy(widget.index),
+
+								AppLocalizations.of(context)!.editorMergeWithNext: () =>
+									widget.onMergeBlock(widget.index),
 							},
 						),
 					),
@@ -1798,7 +1806,7 @@ class BlockState extends State<Block> {
 						controller: _titleController,
 						style: _settings.titleStyle(context),
 						onChanged: (value) => widget.title = value,
-						label: 'Title'
+						label: AppLocalizations.of(context)!.editorTitle
 					),
 					const SizedBox(height: 10),
 
@@ -1806,7 +1814,7 @@ class BlockState extends State<Block> {
 						controller: _noteController,
 						style: _settings.notesStyle(context),
 						onChanged: (value) => widget.note = value,
-						label: 'Note',
+						label: AppLocalizations.of(context)!.editorNote,
 					),
 					const SizedBox(height: 10),
 				],
@@ -2036,13 +2044,22 @@ class TextBlockState extends State<TextBlock> {
 
 		return LineContainer(
 			title: MenuButton(
-				label: 'Row',
+				label: AppLocalizations.of(context)!.editorRow,
 				options: {
-					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
-					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
-					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
-					'Merge with next': () => widget.onMerge(widget.parentIndex, widget.index),
-					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorMergeWithNext: () =>
+						widget.onMerge(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Row(
@@ -2085,17 +2102,17 @@ class TextBlockState extends State<TextBlock> {
 				children: [
 					SizedBox(
 						height: _lineHeight,
-						child: Text('C', style: textStyle),
+						child: Text(AppLocalizations.of(context)!.editorChordsShort, style: textStyle),
 					),
 
 					SizedBox(
 						height: _lineHeight,
-						child: Text('R', style: textStyle),
+						child: Text(AppLocalizations.of(context)!.editorRhythmShort, style: textStyle),
 					),
 
 					SizedBox(
 						height: _lineHeight,
-						child: Text('T', style: textStyle),
+						child: Text(AppLocalizations.of(context)!.editorTextShort, style: textStyle),
 					),
 
 					const SizedBox(height: 10),
@@ -2237,12 +2254,19 @@ class ChordsLineState extends State<ChordsLine> {
 
 		return LineContainer(
 			title: MenuButton(
-				label: 'ChordsLine',
+				label: AppLocalizations.of(context)!.editorChordsLine,
 				options: {
-					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
-					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
-					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
-					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: OneLineTextField(
@@ -2327,12 +2351,19 @@ class PlainTextState extends State<PlainText> {
 
 		return LineContainer(
 			title: MenuButton(
-				label: 'PlainText',
+				label: AppLocalizations.of(context)!.editorPlainText,
 				options: {
-					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
-					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
-					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
-					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: IntrinsicHeight(
@@ -2442,12 +2473,19 @@ class TabState extends State<Tab> {
 
 		return LineContainer(
 			title: MenuButton(
-				label: 'Tab',
+				label: AppLocalizations.of(context)!.editorTab,
 				options: {
-					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
-					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
-					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
-					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Scrollbar(
@@ -2506,12 +2544,19 @@ class EmptyLineState extends State<EmptyLine> {
 	Widget build(BuildContext context) {
 		return LineContainer(
 			title: MenuButton(
-				label: 'EmptyLine',
+				label: AppLocalizations.of(context)!.editorEmptyLine,
 				options: {
-					'Delete': () => widget.onDelete(widget.index, widget.parentIndex),
-					'Add new Line': () => widget.onAddNewLine(widget.parentIndex, widget.index),
-					'Copy': () => widget.onCopy(widget.parentIndex, widget.index, widget),
-					'Split Block': () => widget.onSplitBlock(widget.parentIndex, widget.index),
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
 				},
 			),
 			child: Text(''),
@@ -2664,12 +2709,12 @@ class MetadataState extends State<Metadata> {
 				children: [
 					Align(
 						alignment: .centerRight,
-						child: Text('Metadata'),
+						child: Text(AppLocalizations.of(context)!.editorMetadata),
 					),
 					const SizedBox(height: 10),
 
 					OneLineTextField(
-						label: 'Title',
+						label: AppLocalizations.of(context)!.editorMetadataTitle,
 						controller: _titleController,
 						style: style,
 						onChanged: (value) => widget.title = value,
@@ -2677,7 +2722,7 @@ class MetadataState extends State<Metadata> {
 					const SizedBox(height: 10),
 
 					OneLineTextField(
-						label: 'Artist',
+						label: AppLocalizations.of(context)!.editorMetadataArtist,
 						controller: _artistController,
 						style: style,
 						onChanged: (value) => widget.artist = value,
@@ -2685,7 +2730,7 @@ class MetadataState extends State<Metadata> {
 					const SizedBox(height: 10),
 
 					OneLineTextField(
-						label: 'Key',
+						label: AppLocalizations.of(context)!.editorMetadataKey,
 						controller: _keyController,
 						style: style,
 						onChanged: (value) => widget.Key = (value.trim().isEmpty)
@@ -2695,7 +2740,7 @@ class MetadataState extends State<Metadata> {
 					const SizedBox(height: 10),
 
 					OneLineTextField(
-						label: 'Capo',
+						label: AppLocalizations.of(context)!.editorMetadataCapo,
 						controller: _capoController,
 						style: style,
 						onChanged: (value) => widget.capo = int.tryParse(value),
@@ -2703,7 +2748,7 @@ class MetadataState extends State<Metadata> {
 					const SizedBox(height: 10),
 
 					OneLineTextField(
-						label: 'Autoscroll speed',
+						label: AppLocalizations.of(context)!.editorMetadataAutoscrollSpeed,
 						controller: _autoscrollSpeedController,
 						style: style,
 						onChanged: (value) => widget.autoscrollSpeed = int.tryParse(value),
@@ -2787,13 +2832,13 @@ class ShowOptionsState extends State<ShowOptions> {
 					children: [
 						Align(
 							alignment: .centerRight,
-							child: Text('Show options'),
+							child: Text(AppLocalizations.of(context)!.editorShowOptions),
 						),
 						const SizedBox(height: 10),
 
 
 						CheckboxListTile(
-							title: Text('Chords'),
+							title: Text(AppLocalizations.of(context)!.chords),
 							value: widget.chords,
 							onChanged: (bool? value) {
 								if (value != null)
@@ -2801,7 +2846,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							}
 						),
 						CheckboxListTile(
-							title: Text('Rhythm'),
+							title: Text(AppLocalizations.of(context)!.rhythm),
 							value: widget.rhythm,
 							onChanged: (bool? value) {
 								if (value != null)
@@ -2809,7 +2854,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							}
 						),
 						CheckboxListTile(
-							title: Text('Notes'),
+							title: Text(AppLocalizations.of(context)!.notes),
 							value: widget.notes,
 							onChanged: (bool? value) {
 								if (value != null)
@@ -2817,7 +2862,7 @@ class ShowOptionsState extends State<ShowOptions> {
 							}
 						),
 						CheckboxListTile(
-							title: Text('Fingerings'),
+							title: Text(AppLocalizations.of(context)!.fingerings),
 							value: widget.fingerings,
 							onChanged: (bool? value) {
 								if (value != null)
@@ -2980,13 +3025,13 @@ enum LineType {
 	tab,
 	emptyLine;
 
-	String to_string() {
+	String to_string(BuildContext context) {
 		return switch(this) {
-			LineType.textBlock => 'Row',
-			LineType.chordsLine => 'ChordsLine',
-			LineType.plainText => 'PlainText',
-			LineType.tab => 'Tab',
-			LineType.emptyLine => 'EmptyLine',
+			LineType.textBlock => AppLocalizations.of(context)!.editorRow,
+			LineType.chordsLine => AppLocalizations.of(context)!.editorChordsLine,
+			LineType.plainText => AppLocalizations.of(context)!.editorPlainText,
+			LineType.tab => AppLocalizations.of(context)!.editorTab,
+			LineType.emptyLine => AppLocalizations.of(context)!.editorEmptyLine,
 		};
 	}
 }
@@ -3013,7 +3058,7 @@ class SelectLineTypeScreen extends StatelessWidget {
 								width: double.infinity,
 								padding: const .all(10),
 								margin: const .all(5),
-								child: Text(value.to_string()),
+								child: Text(value.to_string(context)),
 							),
 						)),
 

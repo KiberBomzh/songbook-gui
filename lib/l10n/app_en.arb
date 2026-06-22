@@ -1,10 +1,7 @@
 {
 	"libraryTitle": "Library",
-	"libraryEmpty": "There's nothing to show...",
-	"@libraryEmtpy": {
-		"description": "Message when folder in library is empty"
-	},
 
+	"libraryEmpty": "There's nothing to show...",
 	"librarySnackBarPasteErrorMsg": "Cannot copy in current dir!",
 	"libraryDeletedMsg": "Deleted",
 
@@ -92,6 +89,48 @@
 	"fingeringsSizeSmall": "Small",
 	"fingeringsSizeMedium": "Medium",
 	"fingeringsSizeBig": "Big",
+
+	"editorSavedMsg": "Saved!",
+	"editorHelpDialogTitle": "Help",
+	"editorTheLastBlockMsg": "This is the last Block!",
+	"editorTheLastRowInTheBlockMsg": "This is the last Row in the Block!",
+	"editorNextLineIsNotARowMsg": "Next line is not a Row!",
+
+	"editorAddNewBlock": "Add new Block",
+	"editorAddNewLine": "Add new line",
+	"editorDelete": "Delete",
+	"editorCopy": "Copy",
+	"editorMergeWithNext": "Merge with next",
+	"editorSplitBlock": "Split Block",
+
+	"editorTooltipSave": "Save",
+	"editorTooltipHelp": "Help",
+	"editorTooltipSelectBlock": "Select Block",
+	"editorTooltipEditMetadata": "Edit metadata",
+	"editorTooltipUndo": "Undo",
+	"editorTooltipRedo": "Redo",
+
+	"editorSongNote": "SongNote",
+	"editorBlock": "Block",
+	"editorTitle": "Title",
+	"editorNote": "Note",
+	"editorRow": "Row",
+	"editorChordsLine": "ChordsLine",
+	"editorPlainText": "PlainText",
+	"editorTab": "Tab",
+	"editorEmptyLine": "EmptyLine",
+
+	"editorChordsShort": "C",
+	"editorRhythmShort": "R",
+	"editorTextShort": "T",
+
+	"editorMetadata": "Metadata",
+	"editorMetadataTitle": "Title",
+	"editorMetadataArtist": "Artist",
+	"editorMetadataKey": "Key",
+	"editorMetadataCapo": "Capo",
+	"editorMetadataAutoscrollSpeed": "Autoscroll speed",
+	"editorShowOptions": "Show options",
 
 	"cancel": "Cancel",
 	"ok": "OK",
