@@ -61,7 +61,9 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: songbook-android
-                  path: build/app/outputs/flutter-apk/*
+                  path: |
+                      build/app/outputs/flutter-apk/*
+                      ~/.android/*
 
     build-linux:
         name: Build for Linux
