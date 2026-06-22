@@ -115,11 +115,6 @@ jobs:
                   flutter-version: "3.x"
                   channel: "stable"
 
-            - name: Install LLVM
-              run: |
-                  choco install llvm --version=15.0.7
-                  echo "LIBCLANG_PATH=$env:ProgramFiles\LLVM\bin" >> $env:GITHUB_ENV
-
             - name: Install Inno Setup
               run: |
                   choco install innosetup --version=6.2.2
