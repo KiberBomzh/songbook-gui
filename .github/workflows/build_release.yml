@@ -14,6 +14,15 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4
 
+            - name: Set up Java Development Kit
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '21'
+
+            - name: Accept Android Licenses
+              run: yes | sdkmanager --licenses
+
             - name: Setup Rust
               uses: dtolnay/rust-toolchain@stable
               with:
@@ -24,9 +33,6 @@ jobs:
               with:
                   flutter-version: "3.x"
                   channel: "stable"
-
-            - name: Setup Android SDK
-              uses: android-actions/setup-android@v3
 
             - name: Flutter pub get
               run: flutter pub get
@@ -40,8 +46,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: songbook-android
-                  path: |
-                      build/app/outputs/flutter-apk/*
+                  path: build/app/outputs/flutter-apk/*
 
     build-linux:
         name: Build for Linux
