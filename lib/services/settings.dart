@@ -49,6 +49,7 @@ const String LANGUAGE = 'language';
 const Map<String, String> LANGUAGES = {
 	'en': 'English',
 	'ru': 'Русский',
+    'ua': 'Українська'
 };
 
 
