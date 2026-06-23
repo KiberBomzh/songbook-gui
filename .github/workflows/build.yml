@@ -7,62 +7,6 @@ on:
         tags: ["[0-9]+.[0-9]+.[0-9]+"]
 
 jobs:
-    build-android:
-        name: Build for Android
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Set up Java Development Kit
-              uses: actions/setup-java@v4
-              with:
-                  distribution: "temurin"
-                  java-version: "21"
-
-            - name: Setup Rust
-              uses: dtolnay/rust-toolchain@stable
-              with:
-                  targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
-
-            - name: Setup Flutter
-              uses: subosito/flutter-action@v2
-              with:
-                  flutter-version: "3.x"
-                  channel: "stable"
-
-            - name: Flutter pub get
-              run: flutter pub get
-
-            - name: Download Android Keystore
-              run: |
-                  mkdir -p ~/.android
-                  wget -q -O ~/.android/debug.keystore "${{ secrets.ANDROID_DBG_KEY_URL }}"
-              shell: bash
-
-            - name: Create debug key.properties
-              run: |
-                  echo "storeFile=$HOME/.android/debug.keystore" > android/key.properties
-                  echo "storePassword=android" >> android/key.properties
-                  echo "keyPassword=android" >> android/key.properties
-                  echo "keyAlias=androiddebugkey" >> android/key.properties
-
-            - name: Build Android APK
-              run: |
-                  flutter build apk
-                  flutter build apk --split-per-abi
-              env:
-                  KEYSTORE_PATH: ~/.android/debug.keystore
-                  KEYSTORE_PASSWORD: android
-                  KEY_ALIAS: androiddebugkey
-                  KEY_PASSWORD: android
-
-            - name: Upload artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: songbook-android
-                  path: build/app/outputs/flutter-apk/*
-
     build-linux:
         name: Build for Linux
         runs-on: ubuntu-22.04
