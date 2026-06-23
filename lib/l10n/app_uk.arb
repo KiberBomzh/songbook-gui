@@ -93,7 +93,7 @@
 
     "editorModeSource": "Вихідний",
     "editorModeRaw": "Сирий",
-    "editorModeNormal": "Звичайний",
+    "editorModeNormal": "Нормальний",
 
     "editorSavedMsg": "Збережено!",
     "editorHelpDialogTitle": "Допомога",
@@ -153,6 +153,6 @@
 
     "chords": "Аккорди",
     "rhythm": "Ритм",
-    "notes": "Приміткт",
+    "notes": "Примітки",
     "fingerings": "Апплікатури"
 }
