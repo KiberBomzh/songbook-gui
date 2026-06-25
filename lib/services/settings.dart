@@ -449,6 +449,7 @@ class SettingsProvider extends ChangeNotifier {
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
 		_language = Preferences.getString(LANGUAGE) ?? 'en';
+		_locale = Locale(_language);
 
 		await _loadBackgroundImage();
 		await _loadFonts();
