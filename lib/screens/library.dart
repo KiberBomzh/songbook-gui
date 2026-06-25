@@ -496,6 +496,85 @@ class _LibraryState extends State<LibraryScreen> {
 		required VoidCallback onTap,
 		required VoidCallback onLongPress,
 	}) {
+		if (_isSelectMode)
+			return _buildItemContent(
+				name: name,
+				path: path,
+				isDir: isDir,
+				onTap: onTap,
+				onLongPress: onLongPress,
+			);
+
+		return Draggable<String>(
+			data: path,
+			feedback: Container(
+				padding: const .all(15),
+				width: MediaQuery.of(context).size.width - 50,
+				decoration: BoxDecoration(
+					color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.9),
+					borderRadius: .circular(10),
+				),
+				child: _buildItemContent(
+					name: name,
+					path: path,
+					isDir: isDir,
+					onTap: null,
+					onLongPress: null,
+				),
+			),
+			childWhenDragging: Opacity(
+				opacity: 0.3,
+				child: _buildItemContent(
+					name: name,
+					path: path,
+					isDir: isDir,
+					onTap: null,
+					onLongPress: null,
+				),
+			),
+			child: DragTarget<String>(
+				onWillAcceptWithDetails: (details) {
+					if (details.data == path)
+						return false;
+
+					if (path.startsWith(details.data))
+						return false;
+
+					return isDir;
+				},
+				onAcceptWithDetails: (details) {
+					setState(() {
+						_copyBuffer.clear();
+						_cutBuffer.clear();
+					});
+
+					moveFileOrDir(
+						inputPathStr: details.data,
+						outputPathStr: path,
+					);
+
+					_loadDirectory();
+				},
+				builder: (context, candidateData, rejectedData) {
+					return _buildItemContent(
+						name: name,
+						path: path,
+						isDir: isDir,
+						onTap: onTap,
+						onLongPress: onLongPress,
+					);
+				},
+			),
+		);
+	}
+
+	Widget _buildItemContent({
+		required String name,
+		required String path,
+		required bool isDir,
+		required VoidCallback? onTap,
+		required VoidCallback? onLongPress,
+	}) {
 		return Material(
 			color: (_selected.contains(path))
 				? Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5)
