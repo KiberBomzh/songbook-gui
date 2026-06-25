@@ -38,3 +38,7 @@ default = []
 song_library = ["dep:dirs", "dep:edit", "dep:include_dir", "dep:serde_yaml"]
 cli = ["dep:clap", "song_library"]
 tui = ["dep:ratatui", "dep:rfd", "dep:toml", "cli"]
+
+[lints.clippy]
+needless_return = "allow"
+manual_strip = "allow"
