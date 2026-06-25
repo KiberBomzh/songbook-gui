@@ -995,6 +995,7 @@ class SettingsProvider extends ChangeNotifier {
 			settings[FINGERING_SIZE_IN_SONG] = _fingeringSizeInSong!;
 
 		settings[BACKGROUND_OPACITY] = _backgroundOpacity.toString();
+		settings[LANGUAGE] = _language;
 
 		return settings;
 	}
@@ -1182,6 +1183,13 @@ class SettingsProvider extends ChangeNotifier {
 
 		_backgroundOpacity = _doubleFromString(settings[BACKGROUND_OPACITY]) ?? 1.0;
 		await Preferences.setDouble(BACKGROUND_OPACITY, _backgroundOpacity);
+
+		final l = settings[LANGUAGE];
+		if (l != null) {
+			_language = l;
+			_locale = Locale(l);
+			await Preferences.setString(LANGUAGE, l);
+		}
 
 
 		notifyListeners();
