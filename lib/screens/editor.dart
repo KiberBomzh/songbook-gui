@@ -481,7 +481,7 @@ class _EditorState extends State<EditorScreen> {
 				title: Center( child: Text(AppLocalizations.of(context)!.editorHelpDialogTitle) ),
 				contentPadding: const EdgeInsets.all(10),
 				children: [
-					Text(getEditorHelpMsg()),
+					Text(getEditorHelpMsg(), style: _settings.editorStyle()),
 				],
 			),
 		);

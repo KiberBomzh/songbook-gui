@@ -273,7 +273,7 @@ pub fn get_editor_help_msg() -> String {
         .lines()
         .enumerate()
         .map(|(i, l)|
-            if i != 0 && i != help.lines().count() - 1 { l.to_string() + "\n" } else { String::new() }
+            if i != 0 && i != help.lines().count() - 1 { l.trim().to_string() + "\n" } else { String::new() }
         ).collect();
 
     return res.trim().to_string()
