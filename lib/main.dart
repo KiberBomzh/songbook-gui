@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
 				GlobalCupertinoLocalizations.delegate,
 			],
 			localeResolutionCallback: (locale, supportedLocales) {
-				if (settings.isLanguageSet)
+				if (settings.locale != null)
 					return settings.locale;
 
 				if (supportedLocales.contains(Locale(locale!.languageCode))) {
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
 					return locale;
 				}
 
-				return settings.locale;
+				return const Locale('en');
 			},
 		);
 	}

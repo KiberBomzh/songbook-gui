@@ -152,7 +152,9 @@ class _SettingsState extends State<SettingsScreen> {
 			child: MenuAnchor(
 				animated: true,
 				builder: (context, controller, child) => TextButton(
-					child: Text(LANGUAGES[_settings.locale.languageCode] ?? ''),
+					child: (_settings.language != null) // setted by user
+						? Text(LANGUAGES[_settings.locale?.languageCode] ?? '')
+						: Text(AppLocalizations.of(context)!.settingsLanguageSystem),
 					onPressed: () {
 						if (controller.isOpen) {
 							controller.close();
@@ -164,10 +166,17 @@ class _SettingsState extends State<SettingsScreen> {
 						foregroundColor: Theme.of(context).colorScheme.onSurface,
 					),
 				),
-				menuChildren: LANGUAGES.entries.map((entry) => MenuItemButton(
-					child: Text(entry.value),
-					onPressed: () => _settings.setLanguage(entry.key),
-				)).toList(),
+				menuChildren: [
+					MenuItemButton(
+						child: Text(AppLocalizations.of(context)!.settingsLanguageSystem),
+						onPressed: () => _settings.setLanguage(null),
+					),
+
+					...LANGUAGES.entries.map((entry) => MenuItemButton(
+						child: Text(entry.value),
+						onPressed: () => _settings.setLanguage(entry.key),
+					))
+				],
 			),
 			onTap: null,
 		),

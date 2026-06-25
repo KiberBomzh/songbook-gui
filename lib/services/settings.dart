@@ -110,8 +110,8 @@ class SettingsProvider extends ChangeNotifier {
 	String _editorFontFamily = 'CascadiaMono';
 	double _songFontSize = 14;
 	String _songFontFamily = 'JetBrainsMono';
-	String _language = 'en';
-	Locale _locale = Locale('en');
+	String? _language;
+	Locale? _locale;
 
 
 	String? _titleFontFamily;
@@ -171,9 +171,8 @@ class SettingsProvider extends ChangeNotifier {
 	double get songFontSize => _songFontSize;
 	String get songFontFamily => _songFontFamily;
 
-	bool get isLanguageSet => (Preferences.getString(LANGUAGE) != null);
-	Locale get locale => _locale;
-	String get language => _language;
+	Locale? get locale => _locale;
+	String? get language => _language;
 
 
 	String get titleFontFamily => _titleFontFamily ?? _songFontFamily;
@@ -448,8 +447,9 @@ class SettingsProvider extends ChangeNotifier {
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
-		_language = Preferences.getString(LANGUAGE) ?? 'en';
-		_locale = Locale(_language);
+		_language = Preferences.getString(LANGUAGE);
+		if (_language != null)
+			_locale = Locale(_language!);
 
 		await _loadBackgroundImage();
 		await _loadFonts();
@@ -589,19 +589,18 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
-	Future<void> setLanguage(String value) async {
-		if (!LANGUAGES.keys.contains(value))
-			return;
-
-
+	Future<void> setLanguage(String? value) async {
 		_language = value;
-		_locale = Locale(value);
-		await Preferences.setString(LANGUAGE, value);
+		_locale = (value != null) ? Locale(value) : null;
+		if (value != null)
+			await Preferences.setString(LANGUAGE, value);
+		else
+			await Preferences.remove(LANGUAGE);
 
 		notifyListeners();
 	}
 	
-	void setLocale(Locale value) {
+	void setLocale(Locale? value) {
 		_locale = value;
 	}
 
@@ -995,7 +994,8 @@ class SettingsProvider extends ChangeNotifier {
 			settings[FINGERING_SIZE_IN_SONG] = _fingeringSizeInSong!;
 
 		settings[BACKGROUND_OPACITY] = _backgroundOpacity.toString();
-		settings[LANGUAGE] = _language;
+		if (_language != null)
+			settings[LANGUAGE] = _language!;
 
 		return settings;
 	}
@@ -1184,11 +1184,10 @@ class SettingsProvider extends ChangeNotifier {
 		_backgroundOpacity = _doubleFromString(settings[BACKGROUND_OPACITY]) ?? 1.0;
 		await Preferences.setDouble(BACKGROUND_OPACITY, _backgroundOpacity);
 
-		final l = settings[LANGUAGE];
-		if (l != null) {
-			_language = l;
-			_locale = Locale(l);
-			await Preferences.setString(LANGUAGE, l);
+		_language = settings[LANGUAGE];
+		if (_language != null) {
+			_locale = Locale(_language!);
+			await Preferences.setString(LANGUAGE, _language!);
 		}
 
 

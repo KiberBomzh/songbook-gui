@@ -127,6 +127,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsLanguage => 'Мова';
 
   @override
+  String get settingsLanguageSystem => 'Системна';
+
+  @override
   String get settingsTheme => 'Тема';
 
   @override
