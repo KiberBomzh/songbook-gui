@@ -122,6 +122,7 @@
 	"editorNote": "Note",
 	"editorRow": "Row",
 	"editorChordsLine": "ChordsLine",
+	"editorNoteLine": "NoteLine",
 	"editorPlainText": "PlainText",
 	"editorTab": "Tab",
 	"editorEmptyLine": "EmptyLine",

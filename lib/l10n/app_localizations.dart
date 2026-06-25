@@ -718,6 +718,12 @@ abstract class AppLocalizations {
   /// **'ChordsLine'**
   String get editorChordsLine;
 
+  /// No description provided for @editorNoteLine.
+  ///
+  /// In en, this message translates to:
+  /// **'NoteLine'**
+  String get editorNoteLine;
+
   /// No description provided for @editorPlainText.
   ///
   /// In en, this message translates to:

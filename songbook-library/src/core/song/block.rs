@@ -11,13 +11,15 @@ use crate::{
     ROW_END,
     EMPTY_LINE_SYMBOL,
     CHORDS_LINE_SYMBOL,
+    NOTE_LINE_SYMBOL,
     PLAIN_TEXT_START,
     PLAIN_TEXT_END,
     TAB_START_SYMBOL,
     TAB_END_SYMBOL,
     BLOCK_NOTE_SYMBOL,
     
-    CHORDS_COLOR
+    CHORDS_COLOR,
+    NOTES_COLOR,
 };
 
 
@@ -32,6 +34,7 @@ pub struct Block {
 pub enum Line {
     TextBlock(Row),
     ChordsLine(Vec<Chord>),
+    NoteLine(String),
     PlainText(String),
     Tab(String),
     EmptyLine
@@ -53,10 +56,12 @@ impl Line {
                     c.push(' ');
                 }
                 s.push_str(&format!("{}", c.with(CHORDS_COLOR)));
-                s.push('\n');
             },
-            Line::PlainText(text) => s.push_str(&text),
-            Line::Tab(text) => s.push_str(&text),
+            Line::NoteLine(text) => {
+                s.push_str(&format!("{}", text.clone().with(NOTES_COLOR)));
+            },
+            Line::PlainText(text) => s.push_str(text),
+            Line::Tab(text) => s.push_str(text),
             Line::EmptyLine => s.push('\n')
         }
     }
@@ -69,7 +74,7 @@ impl Block {
         if let Some(title) = &self.title {
             s.push('\n');
             s.push_str(TITLE_SYMBOL);
-            s.push_str(&title);
+            s.push_str(title);
         }
         if let Some(n) = &self.notes {
             s.push('\n');
@@ -96,6 +101,11 @@ impl Block {
                         s.push_str(&chord.text);
                         s.push(' ');
                     }
+                    s.push('\n');
+                },
+                Line::NoteLine(text) => {
+                    s.push_str(NOTE_LINE_SYMBOL);
+                    s.push_str(text);
                     s.push('\n');
                 },
                 Line::PlainText(text) => {
@@ -197,6 +207,9 @@ impl Block {
                     }
                 }
                 lines.push( Line::ChordsLine(chords) );
+            } else if line.starts_with(NOTE_LINE_SYMBOL) {
+                let t = line[NOTE_LINE_SYMBOL.len()..].trim().to_string();
+                if !t.is_empty() { lines.push( Line::NoteLine(t) ); }
             }
         }
 

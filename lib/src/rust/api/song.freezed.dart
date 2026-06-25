@@ -55,12 +55,13 @@ extension SimpleLinePatterns on SimpleLine {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SimpleLine_Row value)?  row,TResult Function( SimpleLine_ChordsLine value)?  chordsLine,TResult Function( SimpleLine_PlainText value)?  plainText,TResult Function( SimpleLine_Tab value)?  tab,TResult Function( SimpleLine_EmptyLine value)?  emptyLine,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( SimpleLine_Row value)?  row,TResult Function( SimpleLine_ChordsLine value)?  chordsLine,TResult Function( SimpleLine_NoteLine value)?  noteLine,TResult Function( SimpleLine_PlainText value)?  plainText,TResult Function( SimpleLine_Tab value)?  tab,TResult Function( SimpleLine_EmptyLine value)?  emptyLine,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case SimpleLine_Row() when row != null:
 return row(_that);case SimpleLine_ChordsLine() when chordsLine != null:
-return chordsLine(_that);case SimpleLine_PlainText() when plainText != null:
+return chordsLine(_that);case SimpleLine_NoteLine() when noteLine != null:
+return noteLine(_that);case SimpleLine_PlainText() when plainText != null:
 return plainText(_that);case SimpleLine_Tab() when tab != null:
 return tab(_that);case SimpleLine_EmptyLine() when emptyLine != null:
 return emptyLine(_that);case _:
@@ -81,12 +82,13 @@ return emptyLine(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SimpleLine_Row value)  row,required TResult Function( SimpleLine_ChordsLine value)  chordsLine,required TResult Function( SimpleLine_PlainText value)  plainText,required TResult Function( SimpleLine_Tab value)  tab,required TResult Function( SimpleLine_EmptyLine value)  emptyLine,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( SimpleLine_Row value)  row,required TResult Function( SimpleLine_ChordsLine value)  chordsLine,required TResult Function( SimpleLine_NoteLine value)  noteLine,required TResult Function( SimpleLine_PlainText value)  plainText,required TResult Function( SimpleLine_Tab value)  tab,required TResult Function( SimpleLine_EmptyLine value)  emptyLine,}){
 final _that = this;
 switch (_that) {
 case SimpleLine_Row():
 return row(_that);case SimpleLine_ChordsLine():
-return chordsLine(_that);case SimpleLine_PlainText():
+return chordsLine(_that);case SimpleLine_NoteLine():
+return noteLine(_that);case SimpleLine_PlainText():
 return plainText(_that);case SimpleLine_Tab():
 return tab(_that);case SimpleLine_EmptyLine():
 return emptyLine(_that);}
@@ -103,12 +105,13 @@ return emptyLine(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SimpleLine_Row value)?  row,TResult? Function( SimpleLine_ChordsLine value)?  chordsLine,TResult? Function( SimpleLine_PlainText value)?  plainText,TResult? Function( SimpleLine_Tab value)?  tab,TResult? Function( SimpleLine_EmptyLine value)?  emptyLine,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( SimpleLine_Row value)?  row,TResult? Function( SimpleLine_ChordsLine value)?  chordsLine,TResult? Function( SimpleLine_NoteLine value)?  noteLine,TResult? Function( SimpleLine_PlainText value)?  plainText,TResult? Function( SimpleLine_Tab value)?  tab,TResult? Function( SimpleLine_EmptyLine value)?  emptyLine,}){
 final _that = this;
 switch (_that) {
 case SimpleLine_Row() when row != null:
 return row(_that);case SimpleLine_ChordsLine() when chordsLine != null:
-return chordsLine(_that);case SimpleLine_PlainText() when plainText != null:
+return chordsLine(_that);case SimpleLine_NoteLine() when noteLine != null:
+return noteLine(_that);case SimpleLine_PlainText() when plainText != null:
 return plainText(_that);case SimpleLine_Tab() when tab != null:
 return tab(_that);case SimpleLine_EmptyLine() when emptyLine != null:
 return emptyLine(_that);case _:
@@ -128,11 +131,12 @@ return emptyLine(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0,  String field1,  String field2)?  row,TResult Function( String field0)?  chordsLine,TResult Function( String field0)?  plainText,TResult Function( String field0)?  tab,TResult Function()?  emptyLine,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String field0,  String field1,  String field2)?  row,TResult Function( String field0)?  chordsLine,TResult Function( String field0)?  noteLine,TResult Function( String field0)?  plainText,TResult Function( String field0)?  tab,TResult Function()?  emptyLine,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case SimpleLine_Row() when row != null:
 return row(_that.field0,_that.field1,_that.field2);case SimpleLine_ChordsLine() when chordsLine != null:
-return chordsLine(_that.field0);case SimpleLine_PlainText() when plainText != null:
+return chordsLine(_that.field0);case SimpleLine_NoteLine() when noteLine != null:
+return noteLine(_that.field0);case SimpleLine_PlainText() when plainText != null:
 return plainText(_that.field0);case SimpleLine_Tab() when tab != null:
 return tab(_that.field0);case SimpleLine_EmptyLine() when emptyLine != null:
 return emptyLine();case _:
@@ -153,11 +157,12 @@ return emptyLine();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0,  String field1,  String field2)  row,required TResult Function( String field0)  chordsLine,required TResult Function( String field0)  plainText,required TResult Function( String field0)  tab,required TResult Function()  emptyLine,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String field0,  String field1,  String field2)  row,required TResult Function( String field0)  chordsLine,required TResult Function( String field0)  noteLine,required TResult Function( String field0)  plainText,required TResult Function( String field0)  tab,required TResult Function()  emptyLine,}) {final _that = this;
 switch (_that) {
 case SimpleLine_Row():
 return row(_that.field0,_that.field1,_that.field2);case SimpleLine_ChordsLine():
-return chordsLine(_that.field0);case SimpleLine_PlainText():
+return chordsLine(_that.field0);case SimpleLine_NoteLine():
+return noteLine(_that.field0);case SimpleLine_PlainText():
 return plainText(_that.field0);case SimpleLine_Tab():
 return tab(_that.field0);case SimpleLine_EmptyLine():
 return emptyLine();}
@@ -174,11 +179,12 @@ return emptyLine();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0,  String field1,  String field2)?  row,TResult? Function( String field0)?  chordsLine,TResult? Function( String field0)?  plainText,TResult? Function( String field0)?  tab,TResult? Function()?  emptyLine,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String field0,  String field1,  String field2)?  row,TResult? Function( String field0)?  chordsLine,TResult? Function( String field0)?  noteLine,TResult? Function( String field0)?  plainText,TResult? Function( String field0)?  tab,TResult? Function()?  emptyLine,}) {final _that = this;
 switch (_that) {
 case SimpleLine_Row() when row != null:
 return row(_that.field0,_that.field1,_that.field2);case SimpleLine_ChordsLine() when chordsLine != null:
-return chordsLine(_that.field0);case SimpleLine_PlainText() when plainText != null:
+return chordsLine(_that.field0);case SimpleLine_NoteLine() when noteLine != null:
+return noteLine(_that.field0);case SimpleLine_PlainText() when plainText != null:
 return plainText(_that.field0);case SimpleLine_Tab() when tab != null:
 return tab(_that.field0);case SimpleLine_EmptyLine() when emptyLine != null:
 return emptyLine();case _:
@@ -317,6 +323,72 @@ class _$SimpleLine_ChordsLineCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
   return _then(SimpleLine_ChordsLine(
+null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class SimpleLine_NoteLine extends SimpleLine {
+  const SimpleLine_NoteLine(this.field0): super._();
+  
+
+ final  String field0;
+
+/// Create a copy of SimpleLine
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SimpleLine_NoteLineCopyWith<SimpleLine_NoteLine> get copyWith => _$SimpleLine_NoteLineCopyWithImpl<SimpleLine_NoteLine>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SimpleLine_NoteLine&&(identical(other.field0, field0) || other.field0 == field0));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,field0);
+
+@override
+String toString() {
+  return 'SimpleLine.noteLine(field0: $field0)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $SimpleLine_NoteLineCopyWith<$Res> implements $SimpleLineCopyWith<$Res> {
+  factory $SimpleLine_NoteLineCopyWith(SimpleLine_NoteLine value, $Res Function(SimpleLine_NoteLine) _then) = _$SimpleLine_NoteLineCopyWithImpl;
+@useResult
+$Res call({
+ String field0
+});
+
+
+
+
+}
+/// @nodoc
+class _$SimpleLine_NoteLineCopyWithImpl<$Res>
+    implements $SimpleLine_NoteLineCopyWith<$Res> {
+  _$SimpleLine_NoteLineCopyWithImpl(this._self, this._then);
+
+  final SimpleLine_NoteLine _self;
+  final $Res Function(SimpleLine_NoteLine) _then;
+
+/// Create a copy of SimpleLine
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? field0 = null,}) {
+  return _then(SimpleLine_NoteLine(
 null == field0 ? _self.field0 : field0 // ignore: cast_nullable_to_non_nullable
 as String,
   ));

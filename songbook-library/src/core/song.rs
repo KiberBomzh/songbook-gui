@@ -237,7 +237,7 @@ impl Song {
 
             if let Some(title) = &block.title {
                 if !is_first && !title.is_empty() { s.push('\n') }
-                s.push_str(&title);
+                s.push_str(title);
                 s.push(' ');
             }
             if let Some(n) = &block.notes && notes {
@@ -258,6 +258,9 @@ impl Song {
                             s.push(' ');
                         }
                     },
+                    Line::NoteLine(text) => if notes {
+                        s.push_str(text);
+                    } else { s.pop(); },
                     Line::PlainText(text) => s.push_str(text),
                     Line::Tab(text) => s.push_str(text),
                     Line::EmptyLine => {}

@@ -778,6 +778,7 @@ class CustomTextController extends TextEditingController {
 		_addKeyValuePattern(titleSymbol(), keyColor);
 		_addKeyValuePattern(blockNoteSymbol(), keyColor);
 		_addKeyValuePattern(chordsLineSymbol(), keyColor);
+		_addKeyValuePattern(noteLineSymbol(), keyColor);
 
 		_addBlockPattern(plainTextStart(), plainTextEnd(), secondary);
 		_addInBlockPattern(
@@ -1132,6 +1133,16 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			),
 			LineType.chordsLine => ChordsLine(
 				chords: '',
+				key: UniqueKey(),
+				index: newIndex,
+				parentIndex: parentIndex,
+				onDelete: _deleteLine,
+				onAddNewLine: _addNewLineInBlockAfter,
+				onCopy: _copyLineInBlockAfter,
+				onSplitBlock: _splitBlockBefore,
+			),
+			LineType.noteLine => NoteLine(
+				text: '',
 				key: UniqueKey(),
 				index: newIndex,
 				parentIndex: parentIndex,
@@ -1716,6 +1727,19 @@ class Block extends StatefulWidget {
 						onCopy: onCopyChild,
 						onSplitBlock: onSplitBlock,
 					));
+			} else if (line.startsWith(noteLineSymbol())) {
+				final note = _parseKeyValueLine(line);
+				if (note != null)
+					lines.add(NoteLine(
+						text: note,
+						key: Key('$key_str-line${lines.length + 1}'),
+						index: lines.length,
+						parentIndex: index,
+						onDelete: onDeleteChild,
+						onAddNewLine: onAddNewLine,
+						onCopy: onCopyChild,
+						onSplitBlock: onSplitBlock,
+					));
 			} else if (line.startsWith(emptyLineSymbol())) {
 				lines.add(EmptyLine(
 					key: Key('$key_str-line${lines.length + 1}'),
@@ -2250,8 +2274,6 @@ class ChordsLine extends Line {
 		int? parentIndex,
 
 		String? chords,
-		String? rhythm,
-		String? text,
 	}) => ChordsLine(
 		key: key,
 		index: index ?? this.index,
@@ -2312,6 +2334,97 @@ class ChordsLineState extends State<ChordsLine> {
 				controller: _controller,
 				style: _settings.chordsStyle(context),
 				onChanged: (value) => widget.chords = value,
+			),
+		);
+	}
+}
+
+class NoteLine extends Line {
+	String text;
+
+	NoteLine({
+		super.key,
+		required this.text,
+		required super.index,
+		required super.parentIndex,
+		required super.onDelete,
+		required super.onAddNewLine,
+		required super.onCopy,
+		required super.onSplitBlock,
+	});
+
+	@override
+	String to_string() {
+		return noteLineSymbol() + text + '\n';
+	}
+
+	@override
+	NoteLine copyWith({
+		Key? key,
+		int? index,
+		int? parentIndex,
+
+		String? text,
+	}) => NoteLine(
+		key: key,
+		index: index ?? this.index,
+		parentIndex: parentIndex ?? this.parentIndex,
+
+		text: text ?? this.text,
+
+		onDelete: onDelete,
+		onAddNewLine: onAddNewLine,
+		onCopy: onCopy,
+		onSplitBlock: onSplitBlock,
+	);
+
+
+	@override
+	State<NoteLine> createState() => NoteLineState();
+}
+class NoteLineState extends State<NoteLine> {
+	late SettingsProvider _settings;
+
+	late final TextEditingController _controller;
+
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController(text: widget.text);
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		_settings = context.watch<SettingsProvider>();
+
+		return LineContainer(
+			title: MenuButton(
+				label: AppLocalizations.of(context)!.editorNoteLine,
+				options: {
+					AppLocalizations.of(context)!.editorDelete: () =>
+						widget.onDelete(widget.index, widget.parentIndex),
+
+					AppLocalizations.of(context)!.editorAddNewLine: () =>
+						widget.onAddNewLine(widget.parentIndex, widget.index),
+
+					AppLocalizations.of(context)!.editorCopy: () =>
+						widget.onCopy(widget.parentIndex, widget.index, widget),
+
+					AppLocalizations.of(context)!.editorSplitBlock: () =>
+						widget.onSplitBlock(widget.parentIndex, widget.index),
+				},
+			),
+			child: OneLineTextField(
+				controller: _controller,
+				style: _settings.notesStyle(context),
+				onChanged: (value) => widget.text = value,
 			),
 		);
 	}
@@ -3066,6 +3179,7 @@ class MenuButton extends StatelessWidget {
 enum LineType {
 	textBlock,
 	chordsLine,
+	noteLine,
 	plainText,
 	tab,
 	emptyLine;
@@ -3074,6 +3188,7 @@ enum LineType {
 		return switch(this) {
 			LineType.textBlock => AppLocalizations.of(context)!.editorRow,
 			LineType.chordsLine => AppLocalizations.of(context)!.editorChordsLine,
+			LineType.noteLine => AppLocalizations.of(context)!.editorNoteLine,
 			LineType.plainText => AppLocalizations.of(context)!.editorPlainText,
 			LineType.tab => AppLocalizations.of(context)!.editorTab,
 			LineType.emptyLine => AppLocalizations.of(context)!.editorEmptyLine,

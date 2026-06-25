@@ -40,6 +40,7 @@ pub const BLOCK_END: &str = "{:block}";
 pub const TITLE_SYMBOL: &str = "{title}: ";
 
 pub const CHORDS_LINE_SYMBOL: &str = "{chords_line}: ";
+pub const NOTE_LINE_SYMBOL: &str = "{note_line}: ";
 pub const EMPTY_LINE_SYMBOL: &str = "{empty_line}";
 
 pub const PLAIN_TEXT_START: &str = "{plain_text:}";

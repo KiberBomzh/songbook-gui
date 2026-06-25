@@ -320,6 +320,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorChordsLine => 'Рядок с аккордами';
 
   @override
+  String get editorNoteLine => 'Рядок с приміткою';
+
+  @override
   String get editorPlainText => 'Простий текст';
 
   @override

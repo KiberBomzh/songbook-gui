@@ -321,6 +321,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editorChordsLine => 'Строка с аккордами';
 
   @override
+  String get editorNoteLine => 'Строка с заметкой';
+
+  @override
   String get editorPlainText => 'Простой текст';
 
   @override

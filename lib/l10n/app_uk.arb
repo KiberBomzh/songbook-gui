@@ -122,6 +122,7 @@
     "editorNote": "Примітка",
     "editorRow": "Ряд",
     "editorChordsLine": "Рядок с аккордами",
+	"editorNoteLine": "Рядок с приміткою",
     "editorPlainText": "Простий текст",
     "editorTab": "Таб",
     "editorEmptyLine": "Порожній рядок",

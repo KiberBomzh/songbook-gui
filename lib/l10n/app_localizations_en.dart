@@ -320,6 +320,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editorChordsLine => 'ChordsLine';
 
   @override
+  String get editorNoteLine => 'NoteLine';
+
+  @override
   String get editorPlainText => 'PlainText';
 
   @override

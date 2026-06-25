@@ -119,6 +119,7 @@ pub fn get_help_msg() -> String {
         BLOCK_END,
         TITLE_SYMBOL,
         CHORDS_LINE_SYMBOL,
+        NOTE_LINE_SYMBOL,
         EMPTY_LINE_SYMBOL,
         PLAIN_TEXT_START,
         PLAIN_TEXT_END,
@@ -149,6 +150,7 @@ r#"==================Help==================
  {BLOCK_END} - End of block
  {TITLE_SYMBOL} - Block's title
  {CHORDS_LINE_SYMBOL} - For lines only with chords
+ {NOTE_LINE_SYMBOL} - For notes
  {EMPTY_LINE_SYMBOL} - For empty lines
  {PLAIN_TEXT_START} - Start of a text block (useful if you have some cites in song or something like this)
  {PLAIN_TEXT_END} - End of text a block

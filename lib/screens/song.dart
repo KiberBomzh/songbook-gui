@@ -531,6 +531,12 @@ class SongState extends State<SongScreen> {
 						SimpleLine_ChordsLine(field0: String chords) => (_showChords)
 							? Text(chords, style: _chordsStyle)
 							: SizedBox(),
+						SimpleLine_NoteLine(field0: String text) => (_showNotes)
+							? Align(
+								alignment: .centerRight,
+								child: Text(text, style: _notesStyle),
+							)
+							: SizedBox(),
 						SimpleLine_PlainText(field0: String text) => Text(text, style: _plainTextStyle),
 						SimpleLine_Tab(field0: String tab) => TabWidget(
 							text: Text(tab, style: _tabStyle),

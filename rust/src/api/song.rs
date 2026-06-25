@@ -239,6 +239,7 @@ impl SimpleBlock {
 
                     SimpleLine::ChordsLine(s)
                 },
+                Line::NoteLine(text) => SimpleLine::NoteLine(text.clone()),
                 Line::PlainText(text) => SimpleLine::PlainText(text.clone()),
                 Line::Tab(tab) => SimpleLine::Tab(tab.clone()),
                 Line::EmptyLine => SimpleLine::EmptyLine
@@ -257,6 +258,7 @@ impl SimpleBlock {
 pub enum SimpleLine {
     Row(String, String, String),
     ChordsLine(String),
+    NoteLine(String),
     PlainText(String),
     Tab(String),
     EmptyLine
@@ -291,6 +293,7 @@ use songbook::{
     BLOCK_END,
     TITLE_SYMBOL,
     CHORDS_LINE_SYMBOL,
+    NOTE_LINE_SYMBOL,
     EMPTY_LINE_SYMBOL,
     PLAIN_TEXT_START,
     PLAIN_TEXT_END,
@@ -308,34 +311,34 @@ use songbook::{
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn get_editor_keywords() -> Vec<String> {
-    let mut keywords = Vec::new();
-    keywords.push(CHORDS_SYMBOL.to_string());
-    keywords.push(RHYTHM_SYMBOL.to_string());
-    keywords.push(TEXT_SYMBOL.to_string());
-    keywords.push(ROW_START.to_string());
-    keywords.push(ROW_END.to_string());
-    keywords.push(TITLE_SYMBOL.to_string());
-    keywords.push(BLOCK_NOTE_SYMBOL.to_string());
-    keywords.push(CHORDS_LINE_SYMBOL.to_string());
-    keywords.push(EMPTY_LINE_SYMBOL.to_string());
-    keywords.push(BLOCK_START.to_string());
-    keywords.push(BLOCK_END.to_string());
-    keywords.push(PLAIN_TEXT_START.to_string());
-    keywords.push(PLAIN_TEXT_END.to_string());
-    keywords.push(TAB_START_SYMBOL.to_string());
-    keywords.push(TAB_END_SYMBOL.to_string());
-    keywords.push(SONG_NOTE_START_SYMBOL.to_string());
-    keywords.push(SONG_NOTE_END_SYMBOL.to_string());
-    keywords.push(METADATA_START.to_string());
-    keywords.push(METADATA_END.to_string());
-    keywords.push(SONG_TITLE_SYMBOL.to_string());
-    keywords.push(SONG_ARTIST_SYMBOL.to_string());
-    keywords.push(SONG_KEY_SYMBOL.to_string());
-    keywords.push(SONG_CAPO_SYMBOL.to_string());
-    keywords.push(SONG_AUTOSCROLL_SPEED_SYMBOL.to_string());
-    keywords.push(SONG_SHOW_OPTIONS_SYMBOL.to_string());
-
-    return keywords
+    vec![
+        CHORDS_SYMBOL.to_string(),
+        RHYTHM_SYMBOL.to_string(),
+        TEXT_SYMBOL.to_string(),
+        ROW_START.to_string(),
+        ROW_END.to_string(),
+        TITLE_SYMBOL.to_string(),
+        BLOCK_NOTE_SYMBOL.to_string(),
+        CHORDS_LINE_SYMBOL.to_string(),
+        NOTE_LINE_SYMBOL.to_string(),
+        EMPTY_LINE_SYMBOL.to_string(),
+        BLOCK_START.to_string(),
+        BLOCK_END.to_string(),
+        PLAIN_TEXT_START.to_string(),
+        PLAIN_TEXT_END.to_string(),
+        TAB_START_SYMBOL.to_string(),
+        TAB_END_SYMBOL.to_string(),
+        SONG_NOTE_START_SYMBOL.to_string(),
+        SONG_NOTE_END_SYMBOL.to_string(),
+        METADATA_START.to_string(),
+        METADATA_END.to_string(),
+        SONG_TITLE_SYMBOL.to_string(),
+        SONG_ARTIST_SYMBOL.to_string(),
+        SONG_KEY_SYMBOL.to_string(),
+        SONG_CAPO_SYMBOL.to_string(),
+        SONG_AUTOSCROLL_SPEED_SYMBOL.to_string(),
+        SONG_SHOW_OPTIONS_SYMBOL.to_string(),
+    ]
 }
 
 #[flutter_rust_bridge::frb(sync)]
@@ -376,6 +379,11 @@ pub fn block_note_symbol() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn chords_line_symbol() -> String {
     CHORDS_LINE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn note_line_symbol() -> String {
+    NOTE_LINE_SYMBOL.to_string()
 }
 
 #[flutter_rust_bridge::frb(sync)]

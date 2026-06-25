@@ -31,6 +31,8 @@ String blockNoteSymbol() => RustLib.instance.api.crateApiSongBlockNoteSymbol();
 String chordsLineSymbol() =>
     RustLib.instance.api.crateApiSongChordsLineSymbol();
 
+String noteLineSymbol() => RustLib.instance.api.crateApiSongNoteLineSymbol();
+
 String emptyLineSymbol() => RustLib.instance.api.crateApiSongEmptyLineSymbol();
 
 String blockStart() => RustLib.instance.api.crateApiSongBlockStart();
@@ -163,6 +165,7 @@ sealed class SimpleLine with _$SimpleLine {
   const factory SimpleLine.row(String field0, String field1, String field2) =
       SimpleLine_Row;
   const factory SimpleLine.chordsLine(String field0) = SimpleLine_ChordsLine;
+  const factory SimpleLine.noteLine(String field0) = SimpleLine_NoteLine;
   const factory SimpleLine.plainText(String field0) = SimpleLine_PlainText;
   const factory SimpleLine.tab(String field0) = SimpleLine_Tab;
   const factory SimpleLine.emptyLine() = SimpleLine_EmptyLine;
