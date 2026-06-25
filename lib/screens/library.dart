@@ -507,6 +507,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 		return Draggable<String>(
 			data: path,
+			affinity: .horizontal,
 			feedback: Container(
 				padding: const .all(15),
 				width: MediaQuery.of(context).size.width - 50,
