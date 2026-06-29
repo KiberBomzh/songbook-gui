@@ -89,8 +89,8 @@ impl App {
                 t_top_buf.push_str("Key: ");
                 t_top_buf.push_str(&if let Some(capo) = &song.metadata.capo {
                     format!("{}/({})",
-                        key.transpose(0 - <u8 as Into<i32>>::into(*capo)).to_string(),
-                        key.to_string()
+                        key.transpose(0 - <u8 as Into<i32>>::into(*capo)),
+                        key
                     )
                 } else {
                     key.to_string()
@@ -111,7 +111,7 @@ impl App {
             self.song_area_width = Some(width);
 
             let (p, lines, columns) = song_formater::get_as_paragraph(
-                &song,
+                song,
                 width,
                 self.show_chords,
                 self.show_rhythm,

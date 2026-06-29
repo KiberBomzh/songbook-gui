@@ -163,7 +163,7 @@ fn main() {
                 let mut notes = [Note::A; STRINGS];
                 let mut counter = 0;
                 for n in tuning.split(", ") {
-                    if let Some(note) = Note::new(&n) {
+                    if let Some(note) = Note::new(n) {
                         notes[counter] = note;
                     } else {
                         println!("Unknown note: {n}!");
@@ -280,13 +280,13 @@ fn main() {
                 .expect("Error during sorting!"),
             Command::Rm { paths } => {
                 for path in &paths {
-                    song_library::rm(&path)
+                    song_library::rm(path)
                         .expect("Error during removing!");
                 }
             },
             Command::Mv {input_paths, output_path } => {
                 for input_path in &input_paths {
-                    song_library::mv(&input_path, &output_path)
+                    song_library::mv(input_path, &output_path)
                         .expect("Error during moving!");
                 }
             },

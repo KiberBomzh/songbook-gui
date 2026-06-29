@@ -216,7 +216,7 @@ impl Song {
             }
         }
 
-        s.push_str(&self.to_string());
+        s.push_str(&self.string());
 
 
         return s
@@ -226,7 +226,7 @@ impl Song {
         println!("{}", self.get_song_as_text());
     }
 
-    pub fn to_string(&self) -> String {
+    pub fn string(&self) -> String {
         let (chords, rhythm, notes, _fingerings) = self.metadata.get_show_options();
 
         let mut s = String::new();

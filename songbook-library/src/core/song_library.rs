@@ -237,7 +237,7 @@ pub fn sort() -> Result<()> {
     Ok(())
 }
 fn recursive_sort(path: &Path, lib_path: &Path) -> Result<()> {
-    for entry in fs::read_dir(&path)? {
+    for entry in fs::read_dir(path)? {
         let entry = entry?;
         if entry.path().is_dir() { recursive_sort(&entry.path(), lib_path)?; continue }
 
@@ -495,7 +495,7 @@ pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>, Box<dyn std:
         .ok_or("Cannot get path for data!")?;
     path.push("songbook");
     path.push("fingerings");
-    path.push(&chord_name);
+    path.push(chord_name);
     
     if !path.exists() { return Ok(None) }
 
@@ -523,7 +523,7 @@ fn print(text: &str) -> Result<()> {
 
 pub fn get_without_forbidden_chars(text: String) -> String {
     text.chars().map(|c|
-        if FORBIDDEN_CHARS.iter().any(|f| *f == c) { '_' }
+        if FORBIDDEN_CHARS.contains(&c) { '_' }
         else { c }
     ).collect()
 }
@@ -531,7 +531,7 @@ pub fn get_without_forbidden_chars(text: String) -> String {
 pub fn get_free_path(mut path: PathBuf, name: &str) -> PathBuf {
     let mut counter = 1;
     while path.exists() {
-        path.set_file_name(&format!("{}({})", name, counter));
+        path.set_file_name(format!("{}({})", name, counter));
         counter += 1;
     }
 

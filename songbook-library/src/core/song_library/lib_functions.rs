@@ -28,7 +28,7 @@ pub fn get_files_in_dir(added_path: Option<&Path>) -> Result<(Vec<(String, PathB
                 files.push( (name, entry.path()) );
             }
             else {
-                let name = format!("{}", name);
+                let name = name.to_string();
                 buf_for_sorting.push( (name, entry.path()) );
             };
         }
@@ -96,9 +96,9 @@ fn recursive_find(dir: &Path, files: &mut Vec<(String, PathBuf)>, query: &str) -
         let path = entry?.path();
         if path.is_dir() {
             recursive_find(&path, files, query)?;
-        } else if let Some(name) = path.file_name().and_then(|n: &std::ffi::OsStr| n.to_str()) {
-            if name.to_lowercase().contains(&query.to_lowercase()) { files.push( (name.to_string(), path.to_path_buf()) ) }
-        }
+        } else if let Some(name) = path.file_name().and_then(|n: &std::ffi::OsStr| n.to_str())
+            && name.to_lowercase().contains(&query.to_lowercase())
+                { files.push( (name.to_string(), path.to_path_buf()) ) }
     }
 
     Ok(())

@@ -85,34 +85,30 @@ impl App {
                 if let Some(selected) = self.lib_list_state.selected() {
                     let (_name, path) = &self.lib_list[selected];
                     if path.is_dir() {
-                        if let Some(c_path) = &self.cutted_path {
-                            if path == c_path { return Ok(()) }
-                        }
-                        if let Some(c_path) = &self.copied_path {
-                            if path == c_path { return Ok(()) }
-                        }
+                        if let Some(c_path) = &self.cutted_path && path == c_path
+                            { return Ok(()) }
+                        if let Some(c_path) = &self.copied_path && path == c_path
+                            { return Ok(()) }
                         if self.selected_paths.iter().any(|p| p == path) {
                             return Ok(())
                         }
                         self.last_dirs.push(self.current_dir.clone());
-                        (self.lib_list, self.current_dir) = get_files_in_dir( Some(&path) )?;
+                        (self.lib_list, self.current_dir) = get_files_in_dir( Some(path) )?;
                         self.lib_list_state.select_first();
-                    } else if path.is_file() {
-                        if let Ok(song) = get_song(&path) {
-                            self.focus = Focus::Song;
-                            self.scroll_y = 0;
-                            self.scroll_x = 0;
-                            self.autoscroll = false;
-                            self.autoscroll_speed = if let Some(speed) = song.metadata.autoscroll_speed {
-                                Duration::from_millis(speed)
-                            } else {
-                                DEFAULT_AUTOSCROLL_SPEED
-                            };
-                            (self.show_chords, self.show_rhythm, self.show_notes, self.show_fingerings)
-                                = song.metadata.get_show_options();
+                    } else if path.is_file() && let Ok(song) = get_song(path) {
+                        self.focus = Focus::Song;
+                        self.scroll_y = 0;
+                        self.scroll_x = 0;
+                        self.autoscroll = false;
+                        self.autoscroll_speed = if let Some(speed) = song.metadata.autoscroll_speed {
+                            Duration::from_millis(speed)
+                        } else {
+                            DEFAULT_AUTOSCROLL_SPEED
+                        };
+                        (self.show_chords, self.show_rhythm, self.show_notes, self.show_fingerings)
+                            = song.metadata.get_show_options();
 
-                            self.current_song = Some( (song, path.to_path_buf()) );
-                        }
+                        self.current_song = Some( (song, path.to_path_buf()) );
                     }
                 }
             },
@@ -141,9 +137,8 @@ impl App {
         }
 
 
-        if let Some( (_s, path) ) = &self.current_song {
-            if !path.is_file() { self.current_song = None }
-        }
+        if let Some( (_s, path) ) = &self.current_song && !path.is_file() 
+            { self.current_song = None }
 
         Ok(())
     }

@@ -137,7 +137,7 @@ impl Row {
 
     pub fn generate_rhythm_from_chords(&mut self) {
         if let Some(chords) = &self.chords {
-            if let Some(_) = self.rhythm { return }
+            if self.rhythm.is_some() { return }
 
             let mut rhythm = Vec::new();
             for chord in chords {
@@ -159,7 +159,7 @@ impl Row {
         let mut rhythm_string = String::new();
         let mut text_string = String::new();
         
-        if self.text == None {
+        if self.text.is_none() {
             if let Some(chords) = &self.chords {
                 for chord in chords {
                     match chord {
@@ -222,7 +222,7 @@ impl Row {
                             *index
                         };
                         
-                        let slice_for_chord = if let Some(ChordPosition::OnIndex {index: next_index, .. }) = chords.iter().nth(i + 1) {
+                        let slice_for_chord = if let Some(ChordPosition::OnIndex {index: next_index, .. }) = chords.get(i + 1) {
                             text.chars().skip(index_new).take(next_index - index_new).collect::<String>()
                         } else {
                             text.chars().skip(index_new).collect::<String>()
@@ -250,7 +250,7 @@ impl Row {
                             rhythm_string.push(*symbol);
                             rhythm_string.push(' ');
                             added_indent += dif + 2;
-                            if start_for_indexed_beats == None {
+                            if start_for_indexed_beats.is_none() {
                                 start_for_indexed_beats = Some(index)
                             }
                         }
@@ -284,10 +284,11 @@ impl Row {
             let mut added_indent_in_rhythm = 0;
             for (index, (index_before, chord, slice)) in pairs.iter().enumerate() {
                 chord_string.push_str(&chord.text);
+
                 if slice.chars().count() <= chord.text.chars().count() {
-                    if let Some((next_index_before, _, next_slice)) = pairs.iter().nth(index + 1) {
+                    if let Some((next_index_before, _, next_slice)) = pairs.get(index + 1) {
                         chord_string.push(' ');
-                        text_string.push_str(&slice);
+                        text_string.push_str(slice);
                         
                         if !slice.ends_with(" ") && !next_slice.starts_with(" ") && !next_slice.is_empty() {
                             text_string.push_str( &"-".repeat(chord.text.chars().count() - slice.chars().count() + 1) );
@@ -296,6 +297,8 @@ impl Row {
                         }
 
                         let i = index_before + whitespaces_for_chords + added_indent_in_rhythm;
+
+                        #[allow(clippy::collapsible_if)]
                         if !rhythm_string.is_empty() && next_index_before - index_before <= chord.text.chars().count() {
                             if let Some(i) = rhythm_string
                                 .char_indices()
@@ -315,11 +318,11 @@ impl Row {
                         chord_string.insert_str(i, &" ".repeat((index_before + whitespaces_for_chords).saturating_sub(i)));
                         // saturating_sub здесь не просто так
 
-                        text_string.push_str(&slice);
+                        text_string.push_str(slice);
                     }
                 } else {
                     chord_string.push_str( &" ".repeat(slice.chars().count() - chord.text.chars().count()) );
-                    text_string.push_str(&slice);
+                    text_string.push_str(slice);
                 }
             }
             
@@ -351,7 +354,7 @@ impl Row {
             }
             
             text_string.push_str( &" ".repeat(whitespaces) );
-            text_string.push_str(&self.text.as_ref().unwrap());
+            text_string.push_str(self.text.as_ref().unwrap());
             
             return (chord_string, rhythm_string, text_string)
         }

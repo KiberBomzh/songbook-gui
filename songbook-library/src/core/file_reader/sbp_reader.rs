@@ -176,7 +176,7 @@ fn unwrap_line_with_chords(line: &str, chord_list: &mut Vec<Chord>) -> Line {
             in_chord = false;
             if let Some(chord) = Chord::new(&chord_text) {
                 if chord_list.iter().all(|ch| *ch != chord) { chord_list.push(chord.clone()) }
-                chords.push(ChordPosition::OnIndex {index: index, chord: chord} );
+                chords.push(ChordPosition::OnIndex {index, chord} );
             }
             chord_text.clear();
         } else if in_chord {

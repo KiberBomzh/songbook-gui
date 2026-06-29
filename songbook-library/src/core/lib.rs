@@ -248,8 +248,8 @@ impl Note {
 
     pub fn transpose(&self, steps: i32) -> Self {
         let steps = steps % 12;
-        if steps == 0 { return self.clone() }
-        let mut note = self.clone();
+        if steps == 0 { return *self; }
+        let mut note = *self;
 
         if steps > 0 {
             for _ in 0..steps { note.increase() }

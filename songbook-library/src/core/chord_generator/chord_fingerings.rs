@@ -26,9 +26,8 @@ impl Fingering {
     pub fn new(strings: [StringState; STRINGS], title: Option<String>) -> Option<Self> {
         let mut fret_num: u8 = 25;
         for s in &strings {
-            if let FrettedOn(f) = s {
-                if *f < fret_num { fret_num = *f }
-            }
+            if let FrettedOn(f) = s && *f < fret_num
+                { fret_num = *f }
         }
 
         let mut chord_size: u8 = 0;
@@ -46,6 +45,8 @@ impl Fingering {
             let mut bar_head: Option<u8> = None;
             let mut string_counter: u8 = 0;
             let mut fretted_counter = 0;
+
+            #[allow(clippy::explicit_counter_loop)]
             for s in &strings {
                 match s {
                     FrettedOn(f) => if *f == fret {
@@ -73,7 +74,7 @@ impl Fingering {
         let mut fretted = 0;
         for fret in 0..chord_size {
             let fret = fret + fret_num;
-            if let Some(_) = bars.get(&fret) { continue }
+            if bars.contains_key(&fret) { continue }
             for s in &strings {
                 if let FrettedOn(f) = s && *f == fret {
                     fretted += 1;
@@ -108,7 +109,10 @@ impl Fingering {
                 else { "-".repeat(11) }));
         text.push('\n');
 
+
         let mut fret_counter = self.fret_num;
+
+        #[allow(clippy::explicit_counter_loop)]
         for i in 0..self.chord_size {
             let current_fret = i + self.fret_num;
             text.push_str( &"| ".repeat(6) );
