@@ -31,6 +31,7 @@ class SongScreen extends StatefulWidget {
 
 class SongState extends State<SongScreen> {
 	late SimpleSong _song;
+	EditorScrollOffsets? _editorScrollOffsets;
 
 	late String? _key;
 	late int? _capo;
@@ -162,7 +163,12 @@ class SongState extends State<SongScreen> {
 
 
 	void _edit() async {
-		await _navigatorPush(EditorScreen(song: _song, path: widget.path));
+		await _navigatorPush(EditorScreen(
+			song: _song,
+			path: widget.path,
+			initialScrollOffsets: _editorScrollOffsets,
+			onOffsetsChanged: (newOffsets) => _editorScrollOffsets = newOffsets,
+		));
 		_loadSong();
 		_loadAutoscrollSpeed();
 	}

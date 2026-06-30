@@ -17,17 +17,43 @@ enum EditorMode {
 	normal
 }
 
+class EditorScrollOffsets {
+	double source = 0;
+	double raw = 0;
+	double normal = 0;
+
+	void update(double offset, EditorMode mode) {
+		switch (mode) {
+			case (.source):
+				source = offset;
+				break;
+
+			case (.raw):
+				raw = offset;
+				break;
+
+			case (.normal):
+				normal = offset;
+				break;
+		}
+	}
+}
+
 
 class EditorScreen extends StatefulWidget {
 	SimpleSong? song;
 	final String path;
 	final EditorMode? mode;
+	final EditorScrollOffsets? initialScrollOffsets;
+	final Function(EditorScrollOffsets)? onOffsetsChanged;
 
 	EditorScreen({
 		super.key,
 		required this.path,
 		this.song,
 		this.mode,
+		this.initialScrollOffsets,
+		this.onOffsetsChanged,
 	});
 
 
@@ -57,9 +83,7 @@ class _EditorState extends State<EditorScreen> {
 	TextSelection? _rawSelection;
 	TextSelection? _sourceSelection;
 
-	double _sourceScrollOffset = 0;
-	double _rawScrollOffset = 0;
-	double _normalScrollOffset = 0;
+	late final EditorScrollOffsets _scrollOffsets;
 	Timer? _keyStateTimer;
 
 
@@ -78,6 +102,7 @@ class _EditorState extends State<EditorScreen> {
 	void initState() {
 		super.initState();
 		_currentMode = widget.mode ?? EditorMode.normal;
+		_scrollOffsets = widget.initialScrollOffsets ?? EditorScrollOffsets();
 		_textController = CustomTextController(
 			isSourceMode: _currentMode == EditorMode.source,
 		);
@@ -103,33 +128,24 @@ class _EditorState extends State<EditorScreen> {
 		}
 	}
 
-	void _updateScrollOffset(double offset) {
-		switch (_currentMode) {
-			case (.source):
-				_sourceScrollOffset = offset;
-				break;
+	void _updateScrollOffsets(double offset) {
+		_scrollOffsets.update(offset, _currentMode);
 
-			case (.raw):
-				_rawScrollOffset = offset;
-				break;
-
-			case (.normal):
-				_normalScrollOffset = offset;
-				break;
-		}
+		if (widget.onOffsetsChanged != null)
+			widget.onOffsetsChanged!(_scrollOffsets);
 	}
 	void _updateScrollControllers() {
 		switch (_currentMode) {
 			case (.source):
-				_editorKey.currentState?.setScrollOffset(_sourceScrollOffset);
+				_editorKey.currentState?.setScrollOffset(_scrollOffsets.source);
 				break;
 
 			case (.raw):
-				_editorKey.currentState?.setScrollOffset(_rawScrollOffset);
+				_editorKey.currentState?.setScrollOffset(_scrollOffsets.raw);
 				break;
 
 			case (.normal):
-				_graphicalEditorKey.currentState?.setScrollOffset(_normalScrollOffset);
+				_graphicalEditorKey.currentState?.setScrollOffset(_scrollOffsets.normal);
 				break;
 		}
 	}
@@ -322,8 +338,8 @@ class _EditorState extends State<EditorScreen> {
 								? GraphicalSongEditor(
 									key: _graphicalEditorKey,
 									controller: _textController,
-									onScrollUpdate: _updateScrollOffset,
-									initialScrollOffset: _normalScrollOffset,
+									onScrollUpdate: _updateScrollOffsets,
+									initialScrollOffset: _scrollOffsets.normal,
 								)
 								: EditorField(
 									key: _editorKey,
@@ -331,10 +347,10 @@ class _EditorState extends State<EditorScreen> {
 									focusNode: _focusNode,
 									onChanged: (_) => _saveToHistory(),
 									onTap: _updateSelection,
-									onScrollUpdate: _updateScrollOffset,
+									onScrollUpdate: _updateScrollOffsets,
 									initialScrollOffset: (_currentMode == .source)
-										? _sourceScrollOffset
-										: _rawScrollOffset,
+										? _scrollOffsets.source
+										: _scrollOffsets.raw,
 								),
 						),
 
