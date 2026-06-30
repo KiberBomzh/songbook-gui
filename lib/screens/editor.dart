@@ -40,6 +40,7 @@ class _EditorState extends State<EditorScreen> {
 
 
 	final GlobalKey<SongEditorState> _graphicalEditorKey = GlobalKey<SongEditorState>();
+	final GlobalKey<EditorFieldState> _editorKey = GlobalKey<EditorFieldState>();
 	late EditorMode _currentMode;
 
 	String? _rawText;
@@ -55,6 +56,11 @@ class _EditorState extends State<EditorScreen> {
 	// Позиция курсора
 	TextSelection? _rawSelection;
 	TextSelection? _sourceSelection;
+
+	double _sourceScrollOffset = 0;
+	double _rawScrollOffset = 0;
+	double _normalScrollOffset = 0;
+	Timer? _keyStateTimer;
 
 
 
@@ -97,6 +103,53 @@ class _EditorState extends State<EditorScreen> {
 		}
 	}
 
+	void _updateScrollOffset(double offset) {
+		switch (_currentMode) {
+			case (.source):
+				_sourceScrollOffset = offset;
+				break;
+
+			case (.raw):
+				_rawScrollOffset = offset;
+				break;
+
+			case (.normal):
+				_normalScrollOffset = offset;
+				break;
+		}
+	}
+	void _updateScrollControllers() {
+		switch (_currentMode) {
+			case (.source):
+				_editorKey.currentState?.setScrollOffset(_sourceScrollOffset);
+				break;
+
+			case (.raw):
+				_editorKey.currentState?.setScrollOffset(_rawScrollOffset);
+				break;
+
+			case (.normal):
+				_graphicalEditorKey.currentState?.setScrollOffset(_normalScrollOffset);
+				break;
+		}
+	}
+
+	void _startKeyStateTimer(GlobalKey<State<StatefulWidget>> key, VoidCallback action) =>
+		_keyStateTimer = Timer.periodic(
+			Duration(milliseconds: 100),
+			(timer) {
+				if (key.currentState == null)
+					return;
+
+				action();
+				_stopKeyStateTimer();
+			}
+		);
+	void _stopKeyStateTimer() {
+		_keyStateTimer?.cancel();
+		_keyStateTimer = null;
+	}
+
 	void _updateSelection() => setState(
 		() => _isSelection = _textController.selection.isCollapsed
 	);
@@ -116,7 +169,7 @@ class _EditorState extends State<EditorScreen> {
 			_rawSelection = null;
 		} else {
 			if (_currentMode == EditorMode.normal)
-				await _graphicalEditorKey.currentState?.writeInMainTextController();
+				await _graphicalEditorKey.currentState?.writeInTextController();
 			widget.song?.changeFromEdited(s: _textController.text);
 			_sourceText = null;
 			_sourceHistory = [];
@@ -268,13 +321,20 @@ class _EditorState extends State<EditorScreen> {
 							child: (_currentMode == EditorMode.normal)
 								? GraphicalSongEditor(
 									key: _graphicalEditorKey,
-									mainTextController: _textController,
+									controller: _textController,
+									onScrollUpdate: _updateScrollOffset,
+									initialScrollOffset: _normalScrollOffset,
 								)
 								: EditorField(
+									key: _editorKey,
 									controller: _textController,
 									focusNode: _focusNode,
 									onChanged: (_) => _saveToHistory(),
 									onTap: _updateSelection,
+									onScrollUpdate: _updateScrollOffset,
+									initialScrollOffset: (_currentMode == .source)
+										? _sourceScrollOffset
+										: _rawScrollOffset,
 								),
 						),
 
@@ -373,8 +433,10 @@ class _EditorState extends State<EditorScreen> {
 								if (_historyIndex < 0)
 									_saveToHistory();
 							} else {
-								if (_currentMode == EditorMode.normal)
-									await _graphicalEditorKey.currentState?.writeInMainTextController();
+								if (_currentMode == EditorMode.normal) {
+									await _graphicalEditorKey.currentState?.writeInTextController();
+									_startKeyStateTimer(_editorKey, _updateScrollControllers);
+								}
 
 								_currentMode = newSelection.first;
 								if (newSelection.first == EditorMode.source) {
@@ -401,6 +463,7 @@ class _EditorState extends State<EditorScreen> {
 								}
 							}
 
+							_updateScrollControllers();
 							setState(() {});
 						},
 					),
@@ -493,6 +556,8 @@ class EditorField extends StatefulWidget {
 	final FocusNode focusNode;
 	final Function(String) onChanged;
 	final VoidCallback onTap;
+	final Function(double) onScrollUpdate;
+	final double initialScrollOffset;
 
 	const EditorField({
 		super.key,
@@ -500,6 +565,8 @@ class EditorField extends StatefulWidget {
 		required this.focusNode,
 		required this.onChanged,
 		required this.onTap,
+		required this.onScrollUpdate,
+		required this.initialScrollOffset,
 	});
 
 
@@ -516,6 +583,8 @@ class EditorFieldState extends State<EditorField> {
 	late final ScrollController _textFieldScrollController;
 	late final ScrollController _lineNumbersScrollController;
 
+	bool _isFirstBuild = true;
+
 	@override
 	void initState() {
 		super.initState();
@@ -525,16 +594,23 @@ class EditorFieldState extends State<EditorField> {
 		_controllers = LinkedScrollControllerGroup();
 		_textFieldScrollController = _controllers.addAndGet();
 		_lineNumbersScrollController = _controllers.addAndGet();
+
+		_controllers.addOffsetChangedListener(_updateScroll);
 	}
 
 	@override
 	void dispose() {
 		widget.controller.removeListener(_updateLineNumbers);
 
+		_controllers.removeOffsetChangedListener(_updateScroll);
 		_textFieldScrollController.dispose();
 		_lineNumbersScrollController.dispose();
 		super.dispose();
 	}
+
+	void setScrollOffset(double offset) => _controllers.jumpTo(offset);
+
+	void _updateScroll() => widget.onScrollUpdate(_controllers.offset);
 
 	void _updateLineNumbers() {
 		final lineCount = '\n'.allMatches(widget.controller.text).length + 1;
@@ -557,6 +633,10 @@ class EditorFieldState extends State<EditorField> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 		final lineNumbersWidth = _calculateLineNumbersWidth();
+		if (_isFirstBuild && _textFieldScrollController.hasClients) {
+			_controllers.jumpTo(widget.initialScrollOffset);
+			_isFirstBuild = false;
+		}
 
 		return Row(
 			mainAxisAlignment: .start,
@@ -972,11 +1052,15 @@ class _HighlightMatch {
 
 
 class GraphicalSongEditor extends StatefulWidget {
-	final CustomTextController mainTextController;
+	final CustomTextController controller;
+	final Function(double) onScrollUpdate;
+	final double initialScrollOffset;
 
 	const GraphicalSongEditor({
 		super.key,
-		required this.mainTextController,
+		required this.controller,
+		required this.onScrollUpdate,
+		required this.initialScrollOffset,
 	});
 
 
@@ -993,30 +1077,39 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	late final TextEditingController _songNoteController;
 
 
+	late final ScrollController _scrollController;
+
+
 	@override
 	void initState() {
 		super.initState();
-		readFromMainTextController();
+		readFromTextController();
 
 		_songNoteController = TextEditingController(text: songNote);
+		_scrollController = ScrollController(initialScrollOffset: widget.initialScrollOffset);
+		_scrollController.addListener(_updateScroll);
 	}
 
 	@override
 	void dispose() {
 		_songNoteController.dispose();
+		_scrollController.removeListener(_updateScroll);
+		_scrollController.dispose();
 		_contents.clear();
 		super.dispose();
 	}
 
-	void readFromMainTextController() {
-		_metadata = Metadata.from_string(widget.mainTextController.text);
+	void setScrollOffset(double offset) => _scrollController.jumpTo(offset);
+
+	void readFromTextController() {
+		_metadata = Metadata.from_string(widget.controller.text);
 		_parseBlocks();
 	}
 	void _parseBlocks() {
 		String blockText = '';
 		bool inBlock = false;
 		bool inSongNote = false;
-		for (final line in widget.mainTextController.text.split('\n')) {
+		for (final line in widget.controller.text.split('\n')) {
 			if (inBlock) {
 				if (line.startsWith(blockEnd())) {
 					inBlock = false;
@@ -1062,7 +1155,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		}
 	}
 
-	Future<void> writeInMainTextController() async {
+	Future<void> writeInTextController() async {
 		String text = '';
 
 		text += _metadata.to_string();
@@ -1080,8 +1173,10 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			text += block.to_string(lines);
 		}
 
-		widget.mainTextController.text = text;
+		widget.controller.text = text;
 	}
+
+	void _updateScroll() => widget.onScrollUpdate(_scrollController.offset);
 
 	void _deleteBlock(int index) => setState(() {
 		_contents.removeAt(index);
@@ -1511,23 +1606,29 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return DragAndDropLists(
-			children: _contents,
-			contentsWhenEmpty: TextButton.icon(
-				icon: Icon(Icons.add),
-				label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
-				onPressed: () => _addNewBlockAfter(-1),
-			),
+		return CustomScrollView(
+			controller: _scrollController,
+			slivers: [DragAndDropLists(
+				children: _contents,
+				contentsWhenEmpty: TextButton.icon(
+					icon: Icon(Icons.add),
+					label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
+					onPressed: () => _addNewBlockAfter(-1),
+				),
 
-			onItemReorder: _onItemReorder,
-			onListReorder: _onListReorder,
+				onItemReorder: _onItemReorder,
+				onListReorder: _onListReorder,
 
-			listDecoration: BoxDecoration(
-				color: Theme.of(context).colorScheme.surfaceContainer,
-				borderRadius: .circular(10),
-			),
-			listPadding: .all(10),
-			itemDivider: const SizedBox(height: 10),
+				listDecoration: BoxDecoration(
+					color: Theme.of(context).colorScheme.surfaceContainer,
+					borderRadius: .circular(10),
+				),
+				listPadding: .all(10),
+				itemDivider: const SizedBox(height: 10),
+
+				sliverList: true,
+				scrollController: _scrollController,
+			)],
 		);
 	}
 
