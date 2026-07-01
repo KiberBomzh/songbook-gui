@@ -89,9 +89,9 @@ class _EditorState extends State<EditorScreen> {
 
 
 	late CustomTextController _textController;
-	bool _isSelection = false;
 
 	late FocusNode _focusNode;
+	bool _canPop = true;
 
 	List<String> _history = [];
 	int _historyIndex = -1;
@@ -109,12 +109,14 @@ class _EditorState extends State<EditorScreen> {
 		_loadText();
 
 		_focusNode = FocusNode();
+		_focusNode.addListener(_updateCanPop);
 		_saveToHistory();
 	}
 
 	@override
 	void dispose() {
 		_textController.dispose();
+		_focusNode.removeListener(_updateCanPop);
 		_focusNode.dispose();
 		_historyTimer?.cancel();
 		super.dispose();
@@ -126,6 +128,15 @@ class _EditorState extends State<EditorScreen> {
 		} else {
 			_textController.text = widget.song?.getForEditing() ?? '';
 		}
+	}
+
+	void _updateCanPop() {
+		Timer(Duration(milliseconds: 200),
+			() {
+				if (mounted)
+					setState(() => _canPop = !_focusNode.hasFocus);
+				}
+		);
 	}
 
 	void _updateScrollOffsets(double offset) {
@@ -165,10 +176,6 @@ class _EditorState extends State<EditorScreen> {
 		_keyStateTimer?.cancel();
 		_keyStateTimer = null;
 	}
-
-	void _updateSelection() => setState(
-		() => _isSelection = _textController.selection.isCollapsed
-	);
 
 	void _save() async {
 		if (_currentMode == EditorMode.source) {
@@ -286,14 +293,9 @@ class _EditorState extends State<EditorScreen> {
 		_settings = context.watch<SettingsProvider>();
 
 		return PopScope(
-			canPop: !(_isSelection && _focusNode.hasFocus),
+			canPop: _canPop,
 			onPopInvokedWithResult: (didPop, result) {
-				final baseOffset = _textController.selection.baseOffset;
-				_textController.selection = TextSelection(
-					baseOffset: baseOffset,
-					extentOffset: baseOffset,
-				);
-				setState(() => _isSelection = false);
+				setState(() => _canPop = true);
 				_focusNode.unfocus();
 			},
 			child: Container(
@@ -340,13 +342,13 @@ class _EditorState extends State<EditorScreen> {
 									controller: _textController,
 									onScrollUpdate: _updateScrollOffsets,
 									initialScrollOffset: _scrollOffsets.normal,
+									focusNode: _focusNode,
 								)
 								: EditorField(
 									key: _editorKey,
 									controller: _textController,
 									focusNode: _focusNode,
 									onChanged: (_) => _saveToHistory(),
-									onTap: _updateSelection,
 									onScrollUpdate: _updateScrollOffsets,
 									initialScrollOffset: (_currentMode == .source)
 										? _scrollOffsets.source
@@ -571,7 +573,6 @@ class EditorField extends StatefulWidget {
 	final TextEditingController controller;
 	final FocusNode focusNode;
 	final Function(String) onChanged;
-	final VoidCallback onTap;
 	final Function(double) onScrollUpdate;
 	final double initialScrollOffset;
 
@@ -580,7 +581,6 @@ class EditorField extends StatefulWidget {
 		required this.controller,
 		required this.focusNode,
 		required this.onChanged,
-		required this.onTap,
 		required this.onScrollUpdate,
 		required this.initialScrollOffset,
 	});
@@ -698,7 +698,6 @@ class EditorFieldState extends State<EditorField> {
 										border: InputBorder.none,
 										contentPadding: .all(0),
 									),
-									onTap: widget.onTap,
 									onChanged: widget.onChanged,
 								),
 							),
@@ -1071,12 +1070,14 @@ class GraphicalSongEditor extends StatefulWidget {
 	final CustomTextController controller;
 	final Function(double) onScrollUpdate;
 	final double initialScrollOffset;
+	final FocusNode? focusNode;
 
 	const GraphicalSongEditor({
 		super.key,
 		required this.controller,
 		required this.onScrollUpdate,
 		required this.initialScrollOffset,
+		this.focusNode,
 	});
 
 
@@ -1111,6 +1112,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 		_songNoteController.dispose();
 		_scrollController.removeListener(_updateScroll);
 		_scrollController.dispose();
+
 		_contents.clear();
 		super.dispose();
 	}
@@ -1623,29 +1625,32 @@ class SongEditorState extends State<GraphicalSongEditor> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return CustomScrollView(
-			controller: _scrollController,
-			slivers: [DragAndDropLists(
-				children: _contents,
-				contentsWhenEmpty: TextButton.icon(
-					icon: Icon(Icons.add),
-					label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
-					onPressed: () => _addNewBlockAfter(-1),
-				),
+		return Focus(
+			focusNode: widget.focusNode,
+			child: CustomScrollView(
+				controller: _scrollController,
+				slivers: [DragAndDropLists(
+					children: _contents,
+					contentsWhenEmpty: TextButton.icon(
+						icon: Icon(Icons.add),
+						label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
+						onPressed: () => _addNewBlockAfter(-1),
+					),
 
-				onItemReorder: _onItemReorder,
-				onListReorder: _onListReorder,
+					onItemReorder: _onItemReorder,
+					onListReorder: _onListReorder,
 
-				listDecoration: BoxDecoration(
-					color: Theme.of(context).colorScheme.surfaceContainer,
-					borderRadius: .circular(10),
-				),
-				listPadding: .all(10),
-				itemDivider: const SizedBox(height: 10),
+					listDecoration: BoxDecoration(
+						color: Theme.of(context).colorScheme.surfaceContainer,
+						borderRadius: .circular(10),
+					),
+					listPadding: .all(10),
+					itemDivider: const SizedBox(height: 10),
 
-				sliverList: true,
-				scrollController: _scrollController,
-			)],
+					sliverList: true,
+					scrollController: _scrollController,
+				)],
+			),
 		);
 	}
 
