@@ -1470,6 +1470,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			chords: newChords,
 			rhythm: newRhythm,
 			text: newText,
+			requestFocus: true,
 		);
 
 
@@ -2045,6 +2046,7 @@ class TextBlock extends Line {
 
 	final Function(int, int, int) onSplitRow;
 	final Function(int, int) onMerge;
+	final bool requestFocus;
 
 	TextBlock({
 		super.key,
@@ -2059,6 +2061,7 @@ class TextBlock extends Line {
 		required super.onSplitBlock,
 		required this.onSplitRow,
 		required this.onMerge,
+		this.requestFocus = false,
 	});
 
 	static TextBlock from_string(
@@ -2126,6 +2129,7 @@ class TextBlock extends Line {
 		String? chords,
 		String? rhythm,
 		String? text,
+		bool? requestFocus,
 	}) => TextBlock(
 		key: key,
 		index: index ?? this.index,
@@ -2141,6 +2145,7 @@ class TextBlock extends Line {
 		onSplitBlock: onSplitBlock,
 		onSplitRow: onSplitRow,
 		onMerge: onMerge,
+		requestFocus: requestFocus ?? this.requestFocus,
 	);
 
 
@@ -2175,6 +2180,10 @@ class TextBlockState extends State<TextBlock> {
 		_textFocus = FocusNode();
 
 		_scrollController = ScrollController();
+
+
+		if (widget.requestFocus)
+			_textFocus.requestFocus();
 	}
 
 	@override
