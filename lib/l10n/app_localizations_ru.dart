@@ -22,6 +22,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get libraryDeletedMsg => 'Удалено';
 
   @override
+  String get libraryMovedMsg => 'Перемещено';
+
+  @override
   String get libraryTooltipPaste => 'Вставить';
 
   @override

@@ -4,6 +4,7 @@
     "libraryEmpty": "Тут нічого немає...",
     "librarySnackBarPasteErrorMsg": "Неможливо скопіювати в цю папку!",
     "libraryDeletedMsg": "Видалено",
+	"libraryMovedMsg": "Переміщено",
 
     "libraryTooltipPaste": "Вставити",
     "libraryTooltipSearch": "Пошук",

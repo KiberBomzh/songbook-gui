@@ -22,9 +22,13 @@ import 'package:songbook/l10n/app_localizations.dart';
 
 var _isAppDirSet = false;
 const Duration _beforeDeleteDuration = Duration(seconds: 3);
+const Duration _beforeMoveDuration = Duration(seconds: 3);
 
 List<String> _deleted = [];
 Timer? _deleteTimer;
+
+List<String> _moved = [];
+Timer? _moveTimer;
 
 class LibraryScreen extends StatefulWidget {
 	final String? path;
@@ -183,6 +187,19 @@ class _LibraryState extends State<LibraryScreen> {
 			}
 			_deleted.clear();
 			_loadDirectory();
+		});
+	}
+
+	void _scheduleMove(String input, String output) {
+		_moveTimer = Timer(_beforeMoveDuration, () {
+			moveFileOrDir(
+				inputPathStr: input,
+				outputPathStr: output,
+			);
+
+			_moved.remove(input);
+			if (mounted)
+				_loadDirectory();
 		});
 	}
 
@@ -416,7 +433,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 				final itemName = _getPathName(itemPath);
 
-				if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath))
+				if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath) || _moved.contains(itemPath))
 					return SizedBox();
 
 
@@ -544,14 +561,37 @@ class _LibraryState extends State<LibraryScreen> {
 					return isDir;
 				},
 				onAcceptWithDetails: (details) {
-					setState(() {
-						_copyBuffer.clear();
-						_cutBuffer.clear();
-					});
+					if (_copyBuffer.contains(details.data))
+						_copyBuffer.remove(details.data);
+					if (_cutBuffer.contains(details.data))
+						_cutBuffer.remove(details.data);
 
-					moveFileOrDir(
-						inputPathStr: details.data,
-						outputPathStr: path,
+					_moved.add(details.data);
+
+					_scheduleMove(details.data, path);
+					ScaffoldMessenger.of(context).showSnackBar(
+						SnackBar(
+							content: Row(
+								mainAxisAlignment: .spaceBetween,
+								children: [
+									Text(AppLocalizations.of(context)!.libraryMovedMsg),
+									TextButton(
+										child: Text(AppLocalizations.of(context)!.cancel, 
+											style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary)
+										),
+										onPressed: () {
+											_moveTimer?.cancel();
+											_moved.remove(details.data);
+
+											if (!mounted) return;
+											ScaffoldMessenger.of(context).hideCurrentSnackBar();
+											_loadDirectory();
+										},
+									),
+								],
+							),
+							duration: _beforeMoveDuration,
+						),
 					);
 
 					_loadDirectory();

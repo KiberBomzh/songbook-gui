@@ -4,6 +4,7 @@
 	"libraryEmpty": "Здесь ничего нет...",
 	"librarySnackBarPasteErrorMsg": "Невозможно скопировать в текущую папку!",
 	"libraryDeletedMsg": "Удалено",
+	"libraryMovedMsg": "Перемещено",
 
 	"libraryTooltipPaste": "Вставить",
 	"libraryTooltipSearch": "Поиск",

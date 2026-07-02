@@ -4,6 +4,7 @@
 	"libraryEmpty": "There's nothing to show...",
 	"librarySnackBarPasteErrorMsg": "Cannot copy in current dir!",
 	"libraryDeletedMsg": "Deleted",
+	"libraryMovedMsg": "Moved",
 
 	"libraryTooltipPaste": "Paste",
 	"libraryTooltipSearch": "Search",

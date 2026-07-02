@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get libraryDeletedMsg => 'Deleted';
 
   @override
+  String get libraryMovedMsg => 'Moved';
+
+  @override
   String get libraryTooltipPaste => 'Paste';
 
   @override

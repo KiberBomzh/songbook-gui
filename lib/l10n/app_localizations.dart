@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Deleted'**
   String get libraryDeletedMsg;
 
+  /// No description provided for @libraryMovedMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Moved'**
+  String get libraryMovedMsg;
+
   /// No description provided for @libraryTooltipPaste.
   ///
   /// In en, this message translates to:
