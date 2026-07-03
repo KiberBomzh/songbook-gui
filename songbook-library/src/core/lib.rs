@@ -1,4 +1,8 @@
 pub mod file_reader;
+
+#[cfg(feature = "from_url")]
+pub mod url_parser;
+
 pub mod chord_generator;
 pub mod song;
 

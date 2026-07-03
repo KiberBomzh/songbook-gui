@@ -133,6 +133,9 @@ enum AddSubcommand {
     FromChordpro { path: PathBuf },
 
     FromSbp { path: PathBuf },
+
+    #[cfg(feature = "from_url")]
+    FromUrl { url: String },
     
     Empty {
         /// Song's artist
@@ -262,6 +265,12 @@ fn main() {
                                 msg
                             );
                         }
+                    }
+                },
+                #[cfg(feature = "from_url")]
+                AddSubcommand::FromUrl { url } => {
+                    if let Some(song) = songbook::url_parser::parse(&url) {
+                        song.print();
                     }
                 },
                 AddSubcommand::Empty { title, artist } => {
