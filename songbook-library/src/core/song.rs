@@ -3,6 +3,8 @@ pub mod row;
 pub mod chord;
 
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Stylize;
 
 use crate::Fingering;
@@ -20,9 +22,6 @@ use crate::{
     BLOCK_END,
     STANDART_TUNING,
     
-    TITLE_COLOR,
-    NOTES_COLOR,
-
     SONG_NOTE_START_SYMBOL,
     SONG_NOTE_END_SYMBOL,
 
@@ -33,6 +32,9 @@ use crate::sum_text_in_fingerings;
 use crate::song::chord::Chord;
 use crate::song::block::{Block, Line};
 use crate::song::row::ChordPosition;
+
+#[cfg(feature = "colored")]
+use crate::{TITLE_COLOR, NOTES_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -271,6 +273,7 @@ impl Song {
         return s
     }
 
+    #[cfg(feature = "colored")]
     pub fn get_colored(&self) -> String {
         let (chords, rhythm, notes, fingerings) = self.metadata.get_show_options();
 

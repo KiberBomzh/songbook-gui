@@ -1,4 +1,6 @@
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Stylize;
 
 use crate::song::chord::Chord;
@@ -6,10 +8,10 @@ use crate::{
     CHORDS_SYMBOL,
     RHYTHM_SYMBOL,
     TEXT_SYMBOL,
-    
-    CHORDS_COLOR,
-    RHYTHM_COLOR
 };
+
+#[cfg(feature = "colored")]
+use crate::{CHORDS_COLOR, RHYTHM_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
@@ -57,6 +59,7 @@ impl Row {
     }
 
 
+    #[cfg(feature = "colored")]
     pub fn get_colored(&self, s: &mut String, chords: bool, rhythm: bool) {
         let (chords_line, rhythm_line, text) = self.get_strings();
 

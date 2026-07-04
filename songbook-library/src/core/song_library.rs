@@ -2,11 +2,13 @@ pub mod lib_functions;
 
 use std::path::{PathBuf, Path};
 use std::fs::{self, File};
-use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind, stdout};
+use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
 use include_dir::{include_dir, Dir};
 use anyhow::Result;
+
+#[cfg(feature = "colored")]
 use crossterm::{
     execute,
     style::{Color, Print, ResetColor, SetForegroundColor}
@@ -43,6 +45,8 @@ pub fn show(
     rhythm: bool,     // show rhythm
     fingerings: bool, // show fingerings
     notes: bool,      // show notes
+
+    #[cfg(feature = "colored")]
     is_colored: bool
 ) -> Result<()> {
     let mut path = get_lib_path()?;
@@ -63,12 +67,17 @@ pub fn show(
     song.metadata.show_options = 
         Some( crate::song::ShowOptions { chords, rhythm, notes, fingerings } );
 
+    #[cfg(feature = "colored")]
     let text =
         if is_colored {
             song.get_colored()
         } else {
             song.get_song_as_text()
         };
+
+    #[cfg(not(feature = "colored"))]
+    let text = song.get_song_as_text();
+
     print(&text)?;
 
 
@@ -383,9 +392,11 @@ pub fn ls(added_path: Option<&Path>) -> Result<()> {
     for entry in fs::read_dir(path)? {
         let entry = entry?;
         if let Some(name) = entry.file_name().to_str() {
+
+            #[cfg(feature = "colored")]
             if entry.path().is_dir() {
                 execute!(
-                    stdout(),
+                    std::io::stdout(),
                     SetForegroundColor(Color::Blue),
                     Print(name),
                     Print("\n"),
@@ -394,6 +405,9 @@ pub fn ls(added_path: Option<&Path>) -> Result<()> {
             } else {
                 println!("{}", name);
             }
+
+            #[cfg(not(feature = "colored"))]
+            println!("{}", name);
         }
     }
 

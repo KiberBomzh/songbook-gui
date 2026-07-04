@@ -1,6 +1,5 @@
 use std::collections::BTreeMap;
 use serde::{Serialize, Deserialize};
-use crossterm::terminal::size;
 
 use crate::chord_generator::chord_fingerings::StringState::*;
 use crate::chord_generator::STRINGS;
@@ -164,10 +163,14 @@ impl Fingering {
 }
 
 pub fn sum_text_in_fingerings(fingerings: &Vec<Fingering>, width: Option<usize>) -> Option<String> {
+    #[cfg(feature = "colored")]
     let width = if let Some(width) = width { width }
     else { <u16 as Into<usize>>::into(
-        if let Ok( (cols, _rows) ) = size() { cols } else { return None }
+        if let Ok( (cols, _rows) ) = crossterm::terminal::size() { cols } else { return None }
     )};
+
+    #[cfg(not(feature = "colored"))]
+    let width = if let Some(width) = width { width} else { return None };
 
     let indent: usize = 5;
     let line_width: usize = 14;

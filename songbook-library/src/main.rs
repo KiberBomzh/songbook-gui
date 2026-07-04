@@ -75,6 +75,7 @@ enum Command {
         #[arg(short, long)]
         notes: bool,
         
+        #[cfg(feature = "colored")]
         /// Use colored chords and rhythm
         #[arg(long)]
         colored: bool,
@@ -228,12 +229,33 @@ fn main() {
                 let fing = Fingering::new(strings, Some(chord)).unwrap();
                 song_library::add_fingering(&fing).expect("Error during saving a fingering!");
             },
-            Command::Show { path, key, chords, rhythm, fingerings, notes, colored } => {
+            Command::Show { 
+                path,
+                key,
+                chords,
+                rhythm,
+                fingerings,
+                notes,
+
+                #[cfg(feature = "colored")]
+                colored
+
+            } => {
                 let key = if let Some(k) = key.as_deref() { Key::new(k) }
                 else { None };
 
-                song_library::show(&path, key, chords, rhythm, fingerings, notes, colored)
-                    .expect("Error during geting song!");
+                song_library::show(
+                    &path,
+                    key,
+                    chords,
+                    rhythm,
+                    fingerings,
+                    notes,
+
+                    #[cfg(feature = "colored")]
+                    colored
+
+                ) .expect("Error during geting song!");
             },
             Command::Edit { path } => {
                 song_library::edit(&path)
@@ -269,8 +291,11 @@ fn main() {
                 },
                 #[cfg(feature = "from_url")]
                 AddSubcommand::FromUrl { url } => {
-                    if let Some(song) = songbook::url_parser::parse(&url) {
+                    if let Some(song) = Song::from_url(&url) {
                         song.print();
+                    } else {
+                        let sites = songbook::url_parser::AVAILABLE_SITES.join(", ");
+                        eprintln!("An error ocured or the site isn't available! List of available sites: {sites}");
                     }
                 },
                 AddSubcommand::Empty { title, artist } => {

@@ -12,6 +12,8 @@ pub mod song_library;
 use std::collections::BTreeMap;
 use std::fmt;
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Color;
 
 use crate::Note::*;
@@ -66,9 +68,16 @@ pub const SONG_NOTE_END_SYMBOL: &str = "{:song_note}";
 pub const BLOCK_NOTE_SYMBOL: &str = "{note}: ";
 
 
+#[cfg(feature = "colored")]
 const TITLE_COLOR: Color = Color::DarkGreen;
+
+#[cfg(feature = "colored")]
 const CHORDS_COLOR: Color = Color::Cyan;
+
+#[cfg(feature = "colored")]
 const RHYTHM_COLOR: Color = Color::Yellow;
+
+#[cfg(feature = "colored")]
 const NOTES_COLOR: Color = Color::DarkGrey;
 
 
@@ -343,9 +352,15 @@ pub fn print_fretboard(tuning: &[Note; STRINGS]) {
 pub fn print_circle_of_fifth(needed_key: Option<Key>) {
     let mut s = String::new();
     let one_key_width = 18;
+
+    #[cfg(feature = "colored")]
     let width = if let Ok( (cols, _rows) ) =  crossterm::terminal::size() {
         <u16 as Into<usize>>::into(cols)
     } else { one_key_width };
+
+    #[cfg(not(feature = "colored"))]
+    let width = one_key_width * 5;
+
     let max_keys = width / one_key_width;
 
     let mut keys_already_in_line = 0;

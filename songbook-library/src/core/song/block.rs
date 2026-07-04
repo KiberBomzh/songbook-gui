@@ -1,4 +1,6 @@
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Stylize;
 
 use crate::song::row::Row;
@@ -17,10 +19,10 @@ use crate::{
     TAB_START_SYMBOL,
     TAB_END_SYMBOL,
     BLOCK_NOTE_SYMBOL,
-    
-    CHORDS_COLOR,
-    NOTES_COLOR,
 };
+
+#[cfg(feature = "colored")]
+use crate::{CHORDS_COLOR, NOTES_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -40,6 +42,7 @@ pub enum Line {
     EmptyLine
 }
 
+#[cfg(feature = "colored")]
 impl Line {
     pub fn get_colored(
         &self,
