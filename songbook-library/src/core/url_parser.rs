@@ -2,8 +2,9 @@ mod amdm_ru;
 mod akkords_pro;
 
 
-pub const AVAILABLE_SITES: [&str; 1] = [
+pub const AVAILABLE_SITES: [&str; 2] = [
     "amdm.ru",
+    "akkords.pro",
 ];
 
 
