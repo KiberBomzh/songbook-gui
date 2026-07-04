@@ -11,26 +11,22 @@ const MAX_CHORD_SIZE: u8 = 4;
 
 pub fn get_fingerings(
     tuning: &[Note; STRINGS],
-    notes: &Vec<Note>,
+    notes: &[Note],
     title: Option<String>
 ) -> Vec<Fingering> {
     let fret = get_fretboard(tuning);
     let mut fingerings: Vec<Fingering> = Vec::new();
     // добавить ещё минимальные варианты, где все дублированые или сложные ноты выбрасываются
     for i in 0..12 {
-        if let Some(string_state) = generate_from_fret(&fret, notes, i, true, true) {
-            if let Some(fing) = Fingering::new(string_state, title.clone()) {
-                if fingerings.iter().all(|f| *f != fing) {
+        if let Some(string_state) = generate_from_fret(&fret, notes, i, true, true)
+            && let Some(fing) = Fingering::new(string_state, title.clone())
+                && fingerings.iter().all(|f| *f != fing) {
                     fingerings.push(fing)
-                }
-            }
         }
-        if let Some(string_state) = generate_from_fret(&fret, notes, i, true, false) {
-            if let Some(fing) = Fingering::new(string_state, title.clone()) {
-                if fingerings.iter().all(|f| *f != fing) {
+        if let Some(string_state) = generate_from_fret(&fret, notes, i, true, false)
+            && let Some(fing) = Fingering::new(string_state, title.clone())
+                && fingerings.iter().all(|f| *f != fing) {
                     fingerings.push(fing)
-                }
-            }
         }
     }
 
@@ -40,7 +36,7 @@ pub fn get_fingerings(
 pub fn get_fretboard(tuning: &[Note; STRINGS]) -> [[Note; 25]; STRINGS] {
     let mut fretboard = [[A; 25]; STRINGS];
     for (index, note) in tuning.iter().enumerate() {
-        let mut note = note.clone();
+        let mut note = *note;
         for n in &mut fretboard[index] {
             *n = note;
             note.increase();
@@ -53,7 +49,7 @@ pub fn get_fretboard(tuning: &[Note; STRINGS]) -> [[Note; 25]; STRINGS] {
 
 fn generate_from_fret(
     fretboard: &[[Note; 25]; STRINGS],
-    notes: &Vec<Note>, // first is keynote
+    notes: &[Note], // first is keynote
     from_fret: u8,
     right_bass: bool,
     is_open: bool

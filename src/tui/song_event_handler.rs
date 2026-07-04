@@ -76,34 +76,14 @@ impl App {
             KeyCode::End => self.scroll_y = self.scroll_y_max.try_into()?,
 
 
-            KeyCode::Char('c') => {
-                if self.show_chords {
-                    self.show_chords = false
-                } else {
-                    self.show_chords = true
-                }
-            },
-            KeyCode::Char('r') => {
-                if self.show_rhythm {
-                    self.show_rhythm = false
-                } else {
-                    self.show_rhythm = true
-                }
-            },
-            KeyCode::Char('f') => {
-                if self.show_fingerings {
-                    self.show_fingerings = false
-                } else {
-                    self.show_fingerings = true
-                }
-            },
-            KeyCode::Char('n') => {
-                if self.show_notes {
-                    self.show_notes = false
-                } else {
-                    self.show_notes = true
-                }
-            },
+            KeyCode::Char('c') => 
+                self.show_chords = !self.show_chords,
+            KeyCode::Char('r') =>
+                self.show_rhythm = !self.show_rhythm,
+            KeyCode::Char('f') =>
+                self.show_fingerings = !self.show_fingerings,
+            KeyCode::Char('n') =>
+                self.show_notes = !self.show_notes,
             
             KeyCode::Char(';') => self.switch_lib(),
 

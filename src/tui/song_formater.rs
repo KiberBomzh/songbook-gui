@@ -95,6 +95,10 @@ pub fn get_as_paragraph<'a>(
                     if chord_line.chars().count() > columns { columns = chord_line.chars().count() }
                     lines.push(Line::styled(chord_line, Style::new().fg(chords_color)));
                 },
+                block::Line::NoteLine(text) => {
+                    if text.chars().count() > columns { columns = text.chars().count() }
+                    lines.push(Line::styled(text, Style::new().fg(notes_color)));
+                },
                 block::Line::PlainText(text) => {
                     lines.extend(text.lines()
                         .map(|l| Line::styled(l, Style::new().fg(text_color)))

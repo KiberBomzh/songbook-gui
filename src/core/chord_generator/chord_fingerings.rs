@@ -1,6 +1,5 @@
 use std::collections::BTreeMap;
 use serde::{Serialize, Deserialize};
-use crossterm::terminal::size;
 
 use crate::chord_generator::chord_fingerings::StringState::*;
 use crate::chord_generator::STRINGS;
@@ -26,9 +25,8 @@ impl Fingering {
     pub fn new(strings: [StringState; STRINGS], title: Option<String>) -> Option<Self> {
         let mut fret_num: u8 = 25;
         for s in &strings {
-            if let FrettedOn(f) = s {
-                if *f < fret_num { fret_num = *f }
-            }
+            if let FrettedOn(f) = s && *f < fret_num
+                { fret_num = *f }
         }
 
         let mut chord_size: u8 = 0;
@@ -46,6 +44,8 @@ impl Fingering {
             let mut bar_head: Option<u8> = None;
             let mut string_counter: u8 = 0;
             let mut fretted_counter = 0;
+
+            #[allow(clippy::explicit_counter_loop)]
             for s in &strings {
                 match s {
                     FrettedOn(f) => if *f == fret {
@@ -73,7 +73,7 @@ impl Fingering {
         let mut fretted = 0;
         for fret in 0..chord_size {
             let fret = fret + fret_num;
-            if let Some(_) = bars.get(&fret) { continue }
+            if bars.contains_key(&fret) { continue }
             for s in &strings {
                 if let FrettedOn(f) = s && *f == fret {
                     fretted += 1;
@@ -108,7 +108,10 @@ impl Fingering {
                 else { "-".repeat(11) }));
         text.push('\n');
 
+
         let mut fret_counter = self.fret_num;
+
+        #[allow(clippy::explicit_counter_loop)]
         for i in 0..self.chord_size {
             let current_fret = i + self.fret_num;
             text.push_str( &"| ".repeat(6) );
@@ -160,10 +163,14 @@ impl Fingering {
 }
 
 pub fn sum_text_in_fingerings(fingerings: &Vec<Fingering>, width: Option<usize>) -> Option<String> {
+    #[cfg(feature = "colored")]
     let width = if let Some(width) = width { width }
     else { <u16 as Into<usize>>::into(
-        if let Ok( (cols, _rows) ) = size() { cols } else { return None }
+        if let Ok( (cols, _rows) ) = crossterm::terminal::size() { cols } else { return None }
     )};
+
+    #[cfg(not(feature = "colored"))]
+    let width = if let Some(width) = width { width} else { return None };
 
     let indent: usize = 5;
     let line_width: usize = 14;

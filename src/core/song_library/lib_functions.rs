@@ -28,7 +28,7 @@ pub fn get_files_in_dir(added_path: Option<&Path>) -> Result<(Vec<(String, PathB
                 files.push( (name, entry.path()) );
             }
             else {
-                let name = format!("{}", name);
+                let name = name.to_string();
                 buf_for_sorting.push( (name, entry.path()) );
             };
         }
@@ -96,9 +96,9 @@ fn recursive_find(dir: &Path, files: &mut Vec<(String, PathBuf)>, query: &str) -
         let path = entry?.path();
         if path.is_dir() {
             recursive_find(&path, files, query)?;
-        } else if let Some(name) = path.file_name().and_then(|n: &std::ffi::OsStr| n.to_str()) {
-            if name.to_lowercase().contains(&query.to_lowercase()) { files.push( (name.to_string(), path.to_path_buf()) ) }
-        }
+        } else if let Some(name) = path.file_name().and_then(|n: &std::ffi::OsStr| n.to_str())
+            && name.to_lowercase().contains(&query.to_lowercase())
+                { files.push( (name.to_string(), path.to_path_buf()) ) }
     }
 
     Ok(())
@@ -119,6 +119,7 @@ pub fn get_help_msg() -> String {
         BLOCK_END,
         TITLE_SYMBOL,
         CHORDS_LINE_SYMBOL,
+        NOTE_LINE_SYMBOL,
         EMPTY_LINE_SYMBOL,
         PLAIN_TEXT_START,
         PLAIN_TEXT_END,
@@ -149,6 +150,7 @@ r#"==================Help==================
  {BLOCK_END} - End of block
  {TITLE_SYMBOL} - Block's title
  {CHORDS_LINE_SYMBOL} - For lines only with chords
+ {NOTE_LINE_SYMBOL} - For notes
  {EMPTY_LINE_SYMBOL} - For empty lines
  {PLAIN_TEXT_START} - Start of a text block (useful if you have some cites in song or something like this)
  {PLAIN_TEXT_END} - End of text a block

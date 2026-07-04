@@ -31,6 +31,22 @@ impl Song {
 
         Ok(song)
     }
+    pub fn from_str(content: &str, title: String, artist: String) -> Self {
+        let metadata = Metadata {
+            artist,
+            title,
+            key: None,
+            capo: None,
+            autoscroll_speed: None,
+            show_options: None,
+        };
+        let (blocks, chord_list) = txt_reader::read_from_txt(content);
+        let mut song = Self { blocks, chord_list, metadata, notes: None };
+        song.detect_key();
+
+
+        song
+    }
 
     pub fn from_chordpro(file_path: &Path) -> Result<Self> {
         let (metadata, blocks, chord_list) = chordpro_reader::read_from_chordpro(

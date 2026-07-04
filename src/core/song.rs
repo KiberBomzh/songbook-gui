@@ -3,6 +3,8 @@ pub mod row;
 pub mod chord;
 
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Stylize;
 
 use crate::Fingering;
@@ -20,9 +22,6 @@ use crate::{
     BLOCK_END,
     STANDART_TUNING,
     
-    TITLE_COLOR,
-    NOTES_COLOR,
-
     SONG_NOTE_START_SYMBOL,
     SONG_NOTE_END_SYMBOL,
 
@@ -33,6 +32,9 @@ use crate::sum_text_in_fingerings;
 use crate::song::chord::Chord;
 use crate::song::block::{Block, Line};
 use crate::song::row::ChordPosition;
+
+#[cfg(feature = "colored")]
+use crate::{TITLE_COLOR, NOTES_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -216,7 +218,7 @@ impl Song {
             }
         }
 
-        s.push_str(&self.to_string());
+        s.push_str(&self.string());
 
 
         return s
@@ -226,7 +228,7 @@ impl Song {
         println!("{}", self.get_song_as_text());
     }
 
-    pub fn to_string(&self) -> String {
+    pub fn string(&self) -> String {
         let (chords, rhythm, notes, _fingerings) = self.metadata.get_show_options();
 
         let mut s = String::new();
@@ -237,7 +239,7 @@ impl Song {
 
             if let Some(title) = &block.title {
                 if !is_first && !title.is_empty() { s.push('\n') }
-                s.push_str(&title);
+                s.push_str(title);
                 s.push(' ');
             }
             if let Some(n) = &block.notes && notes {
@@ -258,6 +260,9 @@ impl Song {
                             s.push(' ');
                         }
                     },
+                    Line::NoteLine(text) => if notes {
+                        s.push_str(text);
+                    } else { s.pop(); },
                     Line::PlainText(text) => s.push_str(text),
                     Line::Tab(text) => s.push_str(text),
                     Line::EmptyLine => {}
@@ -268,6 +273,7 @@ impl Song {
         return s
     }
 
+    #[cfg(feature = "colored")]
     pub fn get_colored(&self) -> String {
         let (chords, rhythm, notes, fingerings) = self.metadata.get_show_options();
 

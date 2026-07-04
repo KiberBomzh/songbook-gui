@@ -1,4 +1,6 @@
 use serde::{Serialize, Deserialize};
+
+#[cfg(feature = "colored")]
 use crossterm::style::Stylize;
 
 use crate::song::row::Row;
@@ -7,19 +9,20 @@ use crate::{
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
-    CHORDS_SYMBOL,
-    RHYTHM_SYMBOL,
-    TEXT_SYMBOL,
+    ROW_START,
+    ROW_END,
     EMPTY_LINE_SYMBOL,
     CHORDS_LINE_SYMBOL,
+    NOTE_LINE_SYMBOL,
     PLAIN_TEXT_START,
     PLAIN_TEXT_END,
     TAB_START_SYMBOL,
     TAB_END_SYMBOL,
     BLOCK_NOTE_SYMBOL,
-    
-    CHORDS_COLOR
 };
+
+#[cfg(feature = "colored")]
+use crate::{CHORDS_COLOR, NOTES_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -33,11 +36,13 @@ pub struct Block {
 pub enum Line {
     TextBlock(Row),
     ChordsLine(Vec<Chord>),
+    NoteLine(String),
     PlainText(String),
     Tab(String),
     EmptyLine
 }
 
+#[cfg(feature = "colored")]
 impl Line {
     pub fn get_colored(
         &self,
@@ -54,10 +59,12 @@ impl Line {
                     c.push(' ');
                 }
                 s.push_str(&format!("{}", c.with(CHORDS_COLOR)));
-                s.push('\n');
             },
-            Line::PlainText(text) => s.push_str(&text),
-            Line::Tab(text) => s.push_str(&text),
+            Line::NoteLine(text) => {
+                s.push_str(&format!("{}", text.clone().with(NOTES_COLOR)));
+            },
+            Line::PlainText(text) => s.push_str(text),
+            Line::Tab(text) => s.push_str(text),
             Line::EmptyLine => s.push('\n')
         }
     }
@@ -70,7 +77,7 @@ impl Block {
         if let Some(title) = &self.title {
             s.push('\n');
             s.push_str(TITLE_SYMBOL);
-            s.push_str(&title);
+            s.push_str(title);
         }
         if let Some(n) = &self.notes {
             s.push('\n');
@@ -84,13 +91,24 @@ impl Block {
             if is_first_row { is_first_row = false }
             else { s.push('\n') }
             match line {
-                Line::TextBlock(row) => row.get_for_editing(s),
+                Line::TextBlock(row) => {
+                    s.push_str(ROW_START);
+                    s.push('\n');
+                    row.get_for_editing(s);
+                    s.push_str(ROW_END);
+                    s.push('\n');
+                },
                 Line::ChordsLine(chords) => {
                     s.push_str(CHORDS_LINE_SYMBOL);
                     for chord in chords {
                         s.push_str(&chord.text);
                         s.push(' ');
                     }
+                    s.push('\n');
+                },
+                Line::NoteLine(text) => {
+                    s.push_str(NOTE_LINE_SYMBOL);
+                    s.push_str(text);
                     s.push('\n');
                 },
                 Line::PlainText(text) => {
@@ -137,7 +155,7 @@ impl Block {
         let mut is_tab = false;
         let mut tab_buf = String::new();
 
-        
+        let mut is_row = false;
         let mut row_buf = String::new();
         for line in text.lines() {
             if line.starts_with(PLAIN_TEXT_END) {
@@ -164,6 +182,18 @@ impl Block {
             } else if line.starts_with(TAB_START_SYMBOL) {
                 is_tab = true;
 
+            } else if line.starts_with(ROW_END) {
+                is_row = false;
+                lines.push( Line::TextBlock(Row::from_edited(&row_buf)) );
+                row_buf.clear();
+            } else if is_row {
+                if !row_buf.is_empty() {
+                    row_buf.push('\n');
+                }
+                row_buf.push_str(line);
+            } else if line.starts_with(ROW_START) {
+                is_row = true;
+
             } else if line.starts_with(TITLE_SYMBOL) {
                 let t = line[TITLE_SYMBOL.len()..].trim().to_string();
                 if !t.is_empty() { title = Some(t) }
@@ -180,13 +210,9 @@ impl Block {
                     }
                 }
                 lines.push( Line::ChordsLine(chords) );
-            } else if line.starts_with(CHORDS_SYMBOL) || line.starts_with(RHYTHM_SYMBOL) {
-                row_buf.push_str(line);
-                row_buf.push('\n');
-            } else if line.starts_with(TEXT_SYMBOL) {
-                row_buf.push_str(line);
-                lines.push( Line::TextBlock(Row::from_edited(&row_buf)) );
-                row_buf.clear();
+            } else if line.starts_with(NOTE_LINE_SYMBOL) {
+                let t = line[NOTE_LINE_SYMBOL.len()..].trim().to_string();
+                if !t.is_empty() { lines.push( Line::NoteLine(t) ); }
             }
         }
 

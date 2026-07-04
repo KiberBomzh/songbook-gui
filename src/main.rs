@@ -75,6 +75,7 @@ enum Command {
         #[arg(short, long)]
         notes: bool,
         
+        #[cfg(feature = "colored")]
         /// Use colored chords and rhythm
         #[arg(long)]
         colored: bool,
@@ -86,6 +87,10 @@ enum Command {
     /// Add a song to the library
     #[command(subcommand)]
     Add(AddSubcommand),
+
+    /// Backup commands
+    #[command(subcommand)]
+    Backup(BackupSubcommand),
 
     /// Sort songs in folders: artist/song
     Sort,
@@ -129,6 +134,9 @@ enum AddSubcommand {
     FromChordpro { path: PathBuf },
 
     FromSbp { path: PathBuf },
+
+    #[cfg(feature = "from_url")]
+    FromUrl { url: String },
     
     Empty {
         /// Song's artist
@@ -139,6 +147,12 @@ enum AddSubcommand {
         #[arg(long, short)]
         title: String,
     }
+}
+
+#[derive(Subcommand, Debug, Clone)]
+enum BackupSubcommand {
+    Export { path: PathBuf },
+    Import { path: PathBuf },
 }
 
 
@@ -153,7 +167,7 @@ fn main() {
                 let mut notes = [Note::A; STRINGS];
                 let mut counter = 0;
                 for n in tuning.split(", ") {
-                    if let Some(note) = Note::new(&n) {
+                    if let Some(note) = Note::new(n) {
                         notes[counter] = note;
                     } else {
                         println!("Unknown note: {n}!");
@@ -215,12 +229,33 @@ fn main() {
                 let fing = Fingering::new(strings, Some(chord)).unwrap();
                 song_library::add_fingering(&fing).expect("Error during saving a fingering!");
             },
-            Command::Show { path, key, chords, rhythm, fingerings, notes, colored } => {
+            Command::Show { 
+                path,
+                key,
+                chords,
+                rhythm,
+                fingerings,
+                notes,
+
+                #[cfg(feature = "colored")]
+                colored
+
+            } => {
                 let key = if let Some(k) = key.as_deref() { Key::new(k) }
                 else { None };
 
-                song_library::show(&path, key, chords, rhythm, fingerings, notes, colored)
-                    .expect("Error during geting song!");
+                song_library::show(
+                    &path,
+                    key,
+                    chords,
+                    rhythm,
+                    fingerings,
+                    notes,
+
+                    #[cfg(feature = "colored")]
+                    colored
+
+                ) .expect("Error during geting song!");
             },
             Command::Edit { path } => {
                 song_library::edit(&path)
@@ -254,23 +289,38 @@ fn main() {
                         }
                     }
                 },
+                #[cfg(feature = "from_url")]
+                AddSubcommand::FromUrl { url } => {
+                    if let Some(song) = Song::from_url(&url) {
+                        song.print();
+                    } else {
+                        let sites = songbook::url_parser::AVAILABLE_SITES.join(", ");
+                        eprintln!("An error ocured or the site isn't available! List of available sites: {sites}");
+                    }
+                },
                 AddSubcommand::Empty { title, artist } => {
                     let song = Song::new(&title, &artist);
                     song_library::add(&song)
                         .expect("Error during adding a song!");
                 }
             },
+            Command::Backup(subcommand) => match subcommand {
+                BackupSubcommand::Export { path } => song_library::export_backup(&path)
+                    .expect("Error during bakcup export"),
+                BackupSubcommand::Import { path } => song_library::import_backup(&path)
+                    .expect("Error during backup import"),
+            },
             Command::Sort => song_library::sort()
                 .expect("Error during sorting!"),
             Command::Rm { paths } => {
                 for path in &paths {
-                    song_library::rm(&path)
+                    song_library::rm(path)
                         .expect("Error during removing!");
                 }
             },
             Command::Mv {input_paths, output_path } => {
                 for input_path in &input_paths {
-                    song_library::mv(&input_path, &output_path)
+                    song_library::mv(input_path, &output_path)
                         .expect("Error during moving!");
                 }
             },

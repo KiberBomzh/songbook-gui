@@ -2,20 +2,27 @@ pub mod lib_functions;
 
 use std::path::{PathBuf, Path};
 use std::fs::{self, File};
-use std::io::{BufWriter, BufReader, Write, Error, ErrorKind, stdout};
+use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
 use include_dir::{include_dir, Dir};
 use anyhow::Result;
+
+#[cfg(feature = "colored")]
 use crossterm::{
     execute,
     style::{Color, Print, ResetColor, SetForegroundColor}
+};
+use zip::{
+    write::FileOptions,
+    ZipWriter,
+    ZipArchive,
 };
 
 use crate::{Song, Fingering};
 
 
-pub const FORBIDDEN_CHARS: [char; 9] = ['<', '>', ':', '/', '\\', '|', '?', '*', '`'];
+pub const FORBIDDEN_CHARS: [char; 10] = ['<', '>', ':', '/', '\\', '|', '?', '*', '`', '"'];
 
 
 
@@ -38,6 +45,8 @@ pub fn show(
     rhythm: bool,     // show rhythm
     fingerings: bool, // show fingerings
     notes: bool,      // show notes
+
+    #[cfg(feature = "colored")]
     is_colored: bool
 ) -> Result<()> {
     let mut path = get_lib_path()?;
@@ -58,12 +67,17 @@ pub fn show(
     song.metadata.show_options = 
         Some( crate::song::ShowOptions { chords, rhythm, notes, fingerings } );
 
+    #[cfg(feature = "colored")]
     let text =
         if is_colored {
             song.get_colored()
         } else {
             song.get_song_as_text()
         };
+
+    #[cfg(not(feature = "colored"))]
+    let text = song.get_song_as_text();
+
     print(&text)?;
 
 
@@ -116,6 +130,112 @@ pub fn add(song: &Song) -> Result<()> {
 }
 
 
+pub fn export_backup(out_path: &Path) -> Result<()> {
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow::anyhow!("Cannot get base path!"));
+    };
+    let lib_path = base_path.join("library");
+    let fingerings_path = base_path.join("fingerings");
+
+
+    let file = File::create(out_path)?;
+    let mut zip = ZipWriter::new(file);
+
+    add_in_zip_recursive(&mut zip, &base_path, &lib_path)?;
+    add_in_zip_recursive(&mut zip, &base_path, &fingerings_path)?;
+    zip.finish()?;
+
+    Ok(())
+}
+fn add_in_zip_recursive(
+    zip: &mut ZipWriter<File>,
+    base_path: &Path,
+    current_path: &Path
+) -> Result<()> {
+    for entry in fs::read_dir(current_path)? {
+        let path = entry?.path();
+        let rel_path = path.strip_prefix(base_path)?;
+        if path.is_dir() {
+            let dir_name = rel_path.to_string_lossy();
+            if !dir_name.is_empty() {
+                zip.add_directory::<_, ()>(
+                    format!("{}/", dir_name),
+                    FileOptions::default(),
+                )?;
+            }
+
+            add_in_zip_recursive(zip, base_path, &path)?;
+        } else if path.is_file() {
+            let file_name = rel_path.to_string_lossy();
+            zip.start_file::<_, ()>(file_name, FileOptions::default())?;
+
+            let mut file = File::open(&path)?;
+            let mut buffer = Vec::new();
+            file.read_to_end(&mut buffer)?;
+            zip.write_all(&buffer)?;
+        }
+    }
+
+    Ok(())
+}
+
+pub fn import_backup(path: &Path) -> Result<()> {
+    let base_path = if let Some(p) = get_base_path() {
+        p.join("songbook")
+    } else {
+        return Err(anyhow::anyhow!("Cannot get base path!"));
+    };
+    let lib_path = base_path.join("library");
+    let fingerings_path = base_path.join("fingerings");
+
+    let temp_dir = base_path.join("temp");
+    fs::create_dir_all(&temp_dir)?;
+
+    extract_zip(path, &temp_dir)?;
+
+    let temp_fingerings_dir = temp_dir.join("fingerings");
+    let temp_lib_dir = temp_dir.join("library");
+
+    fs::remove_dir_all(&fingerings_path)?;
+    fs::rename(&temp_fingerings_dir, &fingerings_path)?;
+    
+    fs::remove_dir_all(&lib_path)?;
+    fs::rename(&temp_lib_dir, &lib_path)?;
+
+    fs::remove_dir_all(&temp_dir)?;
+
+
+    Ok(())
+}
+fn extract_zip(archive_path: &Path, output_dir: &Path) -> Result<()> {
+    let file = File::open(archive_path)?;
+    let mut archive = ZipArchive::new(file)?;
+
+    for i in 0..archive.len() {
+        let mut entry = archive.by_index(i)?;
+        let entry_name = entry.name().to_string();
+
+        let output_path = output_dir.join(&entry_name);
+        if entry.is_dir() {
+            fs::create_dir_all(&output_path)?;
+        } else if entry.is_file() {
+            if let Some(parent) = output_path.parent() {
+                fs::create_dir_all(parent)?;
+            }
+
+            let mut output_file = File::create(output_path)?;
+            let mut buffer = Vec::new();
+            entry.read_to_end(&mut buffer)?;
+            output_file.write_all(&buffer)?;
+        }
+    }
+
+    Ok(())
+}
+
+
 pub fn sort() -> Result<()> {
     let path = get_lib_path()?;
     recursive_sort(&path, &path)?;
@@ -126,7 +246,7 @@ pub fn sort() -> Result<()> {
     Ok(())
 }
 fn recursive_sort(path: &Path, lib_path: &Path) -> Result<()> {
-    for entry in fs::read_dir(&path)? {
+    for entry in fs::read_dir(path)? {
         let entry = entry?;
         if entry.path().is_dir() { recursive_sort(&entry.path(), lib_path)?; continue }
 
@@ -272,9 +392,11 @@ pub fn ls(added_path: Option<&Path>) -> Result<()> {
     for entry in fs::read_dir(path)? {
         let entry = entry?;
         if let Some(name) = entry.file_name().to_str() {
+
+            #[cfg(feature = "colored")]
             if entry.path().is_dir() {
                 execute!(
-                    stdout(),
+                    std::io::stdout(),
                     SetForegroundColor(Color::Blue),
                     Print(name),
                     Print("\n"),
@@ -283,6 +405,9 @@ pub fn ls(added_path: Option<&Path>) -> Result<()> {
             } else {
                 println!("{}", name);
             }
+
+            #[cfg(not(feature = "colored"))]
+            println!("{}", name);
         }
     }
 
@@ -384,7 +509,7 @@ pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>, Box<dyn std:
         .ok_or("Cannot get path for data!")?;
     path.push("songbook");
     path.push("fingerings");
-    path.push(&chord_name);
+    path.push(chord_name);
     
     if !path.exists() { return Ok(None) }
 
@@ -412,7 +537,7 @@ fn print(text: &str) -> Result<()> {
 
 pub fn get_without_forbidden_chars(text: String) -> String {
     text.chars().map(|c|
-        if FORBIDDEN_CHARS.iter().any(|f| *f == c) { '_' }
+        if FORBIDDEN_CHARS.contains(&c) { '_' }
         else { c }
     ).collect()
 }
@@ -420,7 +545,7 @@ pub fn get_without_forbidden_chars(text: String) -> String {
 pub fn get_free_path(mut path: PathBuf, name: &str) -> PathBuf {
     let mut counter = 1;
     while path.exists() {
-        path.set_file_name(&format!("{}({})", name, counter));
+        path.set_file_name(format!("{}({})", name, counter));
         counter += 1;
     }
 

@@ -136,6 +136,8 @@ impl App {
             terminal.draw(|frame| self.draw(frame))?;
             self.update_scroll();
             if crossterm::event::poll(Duration::from_millis(10))? {
+
+                #[allow(clippy::single_match)]
                 match crossterm::event::read()? {
                     Event::Key(key_event) => self.handle_key_event(key_event, terminal)?,
                     _ => {}
@@ -229,10 +231,8 @@ impl App {
         }
 
 
-        if is_song_changed {
-            if let Some( (song, path) ) = &self.current_song {
-                save(song, path)?;
-            }
+        if is_song_changed && let Some( (song, path) ) = &self.current_song {
+            save(song, path)?;
         }
 
         Ok(())
