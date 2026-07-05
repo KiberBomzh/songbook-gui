@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
-songbook = { version = "0.1.2", path = "../songbook-library", features = ["song_library"] }
+songbook = { path = "../songbook-library", features = ["song_library", "from_url"] }
 flutter_rust_bridge = "=2.12.0"
 anyhow = "1.0.102"
 zip = "8.6.0"
