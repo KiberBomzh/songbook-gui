@@ -291,13 +291,6 @@ pub fn get_editor_help_msg() -> String {
 }
 
 
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_available_sites() -> Vec<String> {
-    songbook::url_parser::AVAILABLE_SITES
-        .map(|s| s.to_string())
-        .to_vec()
-}
-
 
 use songbook::{
     METADATA_START,

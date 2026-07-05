@@ -856,26 +856,39 @@ class _LibraryState extends State<LibraryScreen> {
 		if (link == null)
 			return;
 
-		SimpleSong? song;
-		if (Platform.isAndroid) {
-			var url = Uri.parse(link);
-			var response = await http.get(url);
-			song = SimpleSong.fromUrl(url: link, html: response.body);
-		} else {
-			song = SimpleSong.fromUrl(url: link, html: "");
-		}
+		try {
+			SimpleSong? song;
+			if (Platform.isAndroid) {
+				final baseUrl = getBaseUrl(url: link);
+				if (!getAvailableSites().any((site) => hasPart(baseUrl: baseUrl, part_: site))) {
+					throw "The url is not available!";
+				}
+				final url = Uri.parse(link);
+				final response = await http.get(url);
+				song = SimpleSong.fromUrl(url: link, html: response.body);
+			} else {
+				song = SimpleSong.fromUrl(url: link, html: "");
+			}
+			
 
-		if (song != null) {
-			importSong(song: song, dirPath: _currentPath);
-			_loadDirectory();
-		} else if (mounted) {
+			if (song != null) {
+				importSong(song: song, dirPath: _currentPath);
+				_loadDirectory();
+			} else {
+				_showSnackBarAddFromLinkError();
+			}
+		} catch(e) {
+			_showSnackBarAddFromLinkError();
+		}
+	}
+	void _showSnackBarAddFromLinkError() {
+		if (mounted)
 			ScaffoldMessenger.of(context).showSnackBar(
 				SnackBar(
 					content: Text(AppLocalizations.of(context)!.librarySnackBarAddFromLinkError),
 					duration: Duration(seconds: 3)
 				),
 			);
-		}
 	}
 	Future<String?> _addFromLinkDialog() async {
 		return showDialog<String?>(

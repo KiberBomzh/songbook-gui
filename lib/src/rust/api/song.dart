@@ -11,9 +11,6 @@ part 'song.freezed.dart';
 String getEditorHelpMsg() =>
     RustLib.instance.api.crateApiSongGetEditorHelpMsg();
 
-List<String> getAvailableSites() =>
-    RustLib.instance.api.crateApiSongGetAvailableSites();
-
 List<String> getEditorKeywords() =>
     RustLib.instance.api.crateApiSongGetEditorKeywords();
 
