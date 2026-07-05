@@ -100,6 +100,14 @@ cargo install songbook --features tui
     - `from-chordpro` `path/to/chordpro/song`
     - `from-sbp` `path/to/song.sbp` - add song(s) from SongbookPro format
     >*Also works with SongbookPro backups(you can add all your libary just with one command*
+    - `from-url` `url` - add a song from site
+    - > available sites:
+      > - amdm.ru
+      > - akkords.pro
+      > - 5lad.info
+      > - mytabs.ru
+      > - muzland.ru
+      > - guitar-link.com
 
 - `sort` - sort songs in the library, will songs in next struct lib/Artist/Title
 - `rm` - remove a file or a directory
