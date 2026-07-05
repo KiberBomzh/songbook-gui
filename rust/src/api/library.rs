@@ -356,7 +356,7 @@ pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: String) -> 
         counter += 1;
         song_path = current_dir.join(format!("{} ({})", song_name, counter));
     }
-    if song.metadata.key == None {
+    if song.metadata.key.is_none() {
         song.detect_key();
     }
 
