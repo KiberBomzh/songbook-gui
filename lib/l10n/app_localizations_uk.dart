@@ -18,6 +18,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get librarySnackBarPasteErrorMsg => 'Неможливо скопіювати в цю папку!';
 
   @override
+  String get librarySnackBarAddFromLinkError =>
+      'Неможливо прочитати це посилання!';
+
+  @override
   String get libraryDeletedMsg => 'Видалено';
 
   @override
@@ -60,6 +64,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get libraryAddOptionImport => 'Імпорт';
 
   @override
+  String get libraryAddOptionLink => 'Додати за посиланням';
+
+  @override
   String get libraryRenameDialogTitle => 'Переіменування';
 
   @override
@@ -67,6 +74,12 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get libraryImportDialogTitle => 'Імпорт';
+
+  @override
+  String get libraryAvailableSitesDialogTitle => 'Доступні сайти';
+
+  @override
+  String get libraryAddFromLinkDialogTitle => 'Введіть посилання';
 
   @override
   String get libraryNewFolderDialogTitle => 'Нова папка';

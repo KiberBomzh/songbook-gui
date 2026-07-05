@@ -19,6 +19,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Невозможно скопировать в текущую папку!';
 
   @override
+  String get librarySnackBarAddFromLinkError =>
+      'Невозможно прочитать эту ссылку!';
+
+  @override
   String get libraryDeletedMsg => 'Удалено';
 
   @override
@@ -61,6 +65,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get libraryAddOptionImport => 'Импорт';
 
   @override
+  String get libraryAddOptionLink => 'Добавить по ссылке';
+
+  @override
   String get libraryRenameDialogTitle => 'Переименование';
 
   @override
@@ -68,6 +75,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get libraryImportDialogTitle => 'Импорт';
+
+  @override
+  String get libraryAvailableSitesDialogTitle => 'Доступные сайты';
+
+  @override
+  String get libraryAddFromLinkDialogTitle => 'Введите ссылку';
 
   @override
   String get libraryNewFolderDialogTitle => 'Новая папка';

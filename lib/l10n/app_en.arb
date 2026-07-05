@@ -3,6 +3,7 @@
 
 	"libraryEmpty": "There's nothing to show...",
 	"librarySnackBarPasteErrorMsg": "Cannot copy in current dir!",
+	"librarySnackBarAddFromLinkError": "Cannot read from this link!",
 	"libraryDeletedMsg": "Deleted",
 	"libraryMovedMsg": "Moved",
 
@@ -20,10 +21,13 @@
 	"libraryAddOptionSong": "Add song",
 	"libraryAddOptionFolder": "Add folder",
 	"libraryAddOptionImport": "Import",
+	"libraryAddOptionLink": "Add from link",
 
 	"libraryRenameDialogTitle": "Rename",
 	"libraryRenameDialogHint": "New name...",
 	"libraryImportDialogTitle": "Import",
+	"libraryAvailableSitesDialogTitle": "Available sites",
+	"libraryAddFromLinkDialogTitle": "Enter link",
 	"libraryNewFolderDialogTitle": "Create new folder",
 	"libraryNewFolderDialogHint": "Folder's name...",
 	"libraryAddSongDialogTitle": "New song's name",

@@ -46,6 +46,13 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn from_url(url: String) -> Option<Self> {
+        let song = Song::from_url(&url)?;
+
+        Some(Self { song, path: String::new() })
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn save(&self) -> Result<()> {
         let path = PathBuf::from(&self.path);
         save(&self.song, &path)?;
@@ -277,6 +284,14 @@ pub fn get_editor_help_msg() -> String {
         ).collect();
 
     return res.trim().to_string()
+}
+
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_available_sites() -> Vec<String> {
+    songbook::url_parser::AVAILABLE_SITES
+        .map(|s| s.to_string())
+        .to_vec()
 }
 
 

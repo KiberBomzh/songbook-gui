@@ -11,6 +11,9 @@ part 'song.freezed.dart';
 String getEditorHelpMsg() =>
     RustLib.instance.api.crateApiSongGetEditorHelpMsg();
 
+List<String> getAvailableSites() =>
+    RustLib.instance.api.crateApiSongGetAvailableSites();
+
 List<String> getEditorKeywords() =>
     RustLib.instance.api.crateApiSongGetEditorKeywords();
 
@@ -90,6 +93,9 @@ abstract class SimpleSong implements RustOpaqueInterface {
       .instance
       .api
       .crateApiSongSimpleSongFromSongbookpro(pathStr: pathStr);
+
+  static SimpleSong? fromUrl({required String url}) =>
+      RustLib.instance.api.crateApiSongSimpleSongFromUrl(url: url);
 
   String getArtist();
 

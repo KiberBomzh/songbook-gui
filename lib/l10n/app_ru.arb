@@ -3,6 +3,7 @@
 
 	"libraryEmpty": "Здесь ничего нет...",
 	"librarySnackBarPasteErrorMsg": "Невозможно скопировать в текущую папку!",
+	"librarySnackBarAddFromLinkError": "Невозможно прочитать эту ссылку!",
 	"libraryDeletedMsg": "Удалено",
 	"libraryMovedMsg": "Перемещено",
 
@@ -20,10 +21,13 @@
 	"libraryAddOptionSong": "Добавить песню",
 	"libraryAddOptionFolder": "Добавить папку",
 	"libraryAddOptionImport": "Импорт",
+	"libraryAddOptionLink": "Добавить по ссылке",
 
 	"libraryRenameDialogTitle": "Переименование",
 	"libraryRenameDialogHint": "Новое имя...",
 	"libraryImportDialogTitle": "Импорт",
+	"libraryAvailableSitesDialogTitle": "Доступные сайты",
+	"libraryAddFromLinkDialogTitle": "Введите ссылку",
 	"libraryNewFolderDialogTitle": "Новая папка",
 	"libraryNewFolderDialogHint": "Название папки...",
 	"libraryAddSongDialogTitle": "Название новой песни",

@@ -18,6 +18,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get librarySnackBarPasteErrorMsg => 'Cannot copy in current dir!';
 
   @override
+  String get librarySnackBarAddFromLinkError => 'Cannot read from this link!';
+
+  @override
   String get libraryDeletedMsg => 'Deleted';
 
   @override
@@ -60,6 +63,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get libraryAddOptionImport => 'Import';
 
   @override
+  String get libraryAddOptionLink => 'Add from link';
+
+  @override
   String get libraryRenameDialogTitle => 'Rename';
 
   @override
@@ -67,6 +73,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get libraryImportDialogTitle => 'Import';
+
+  @override
+  String get libraryAvailableSitesDialogTitle => 'Available sites';
+
+  @override
+  String get libraryAddFromLinkDialogTitle => 'Enter link';
 
   @override
   String get libraryNewFolderDialogTitle => 'Create new folder';

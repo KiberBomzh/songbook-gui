@@ -806,6 +806,27 @@ class _LibraryState extends State<LibraryScreen> {
 							),
 						],
 					),
+
+					Row(
+						children: [
+							Container(
+								margin: const EdgeInsets.only(right: 10),
+								padding: const EdgeInsets.all(10),
+								decoration: BoxDecoration(
+									borderRadius: .circular(10),
+									color: Theme.of(context).colorScheme.primaryContainer,
+								),
+								child: Text(AppLocalizations.of(context)!.libraryAddOptionLink,
+									style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+								),
+							),
+							FloatingActionButton(
+								heroTag: null,
+								child: const Icon(Icons.link),
+								onPressed: _addFromLink,
+							),
+						],
+					),
 				],
 			),
 		);
@@ -827,6 +848,32 @@ class _LibraryState extends State<LibraryScreen> {
 			moveFileOrDir(inputPathStr: i_path, outputPathStr: o_path);
 			_loadDirectory();
 		}
+	}
+
+	Future<void> _addFromLink() async {
+		final link = await _addFromLinkDialog();
+		if (link == null)
+			return;
+
+		final song = SimpleSong.fromUrl(url: link);
+		if (song != null) {
+			importSong(song: song, dirPath: _currentPath);
+			_loadDirectory();
+		} else if (mounted) {
+			ScaffoldMessenger.of(context).showSnackBar(
+				SnackBar(
+					content: Text(AppLocalizations.of(context)!.librarySnackBarAddFromLinkError),
+					duration: Duration(seconds: 3)
+				),
+			);
+		}
+	}
+	Future<String?> _addFromLinkDialog() async {
+		return showDialog<String?>(
+			context: context,
+			barrierDismissible: true,
+			builder: (context) => _AddFromLinkDialog(),
+		);
 	}
 
 	Future<void> _importInLibrary() async {
@@ -1228,4 +1275,69 @@ Future<ImportFormat?> _importDialog({
 			);
 		},
 	);
+}
+
+class _AddFromLinkDialog extends StatefulWidget {
+	@override
+	State<_AddFromLinkDialog> createState() => _AddFromLinkDialogState();
+}
+class _AddFromLinkDialogState extends State<_AddFromLinkDialog> {
+	late final TextEditingController _controller;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController();
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) => AlertDialog(
+		title: Row(
+			mainAxisAlignment: .spaceBetween,
+			children: [
+				Text(AppLocalizations.of(context)!.libraryAddFromLinkDialogTitle),
+				IconButton(
+					icon: Icon(Icons.help),
+					onPressed: () => _availableSitesDialog(),
+				),
+			],
+		),
+		content: TextField(
+			controller: _controller,
+			decoration: InputDecoration(
+				border: OutlineInputBorder(),
+			),
+			onSubmitted: (value) => Navigator.of(context).pop(value),
+		),
+		actions: [
+			TextButton(
+				child: Text(AppLocalizations.of(context)!.cancel),
+				onPressed: () => Navigator.of(context).pop(),
+			),
+			ElevatedButton(
+				child: Text(AppLocalizations.of(context)!.done),
+				onPressed: () => Navigator.of(context).pop(_controller.text),
+			),
+		]
+	);
+
+	Future<void> _availableSitesDialog() async {
+		return showDialog(
+			context: context,
+			barrierDismissible: true,
+			builder: (context) => SimpleDialog(
+				title: Text(AppLocalizations.of(context)!.libraryAvailableSitesDialogTitle),
+				children: getAvailableSites().map((site) => Padding(
+					padding: const .all(10),
+					child: Text(site),
+				)).toList()
+			),
+		);
+	}
 }

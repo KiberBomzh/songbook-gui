@@ -118,6 +118,12 @@ abstract class AppLocalizations {
   /// **'Cannot copy in current dir!'**
   String get librarySnackBarPasteErrorMsg;
 
+  /// No description provided for @librarySnackBarAddFromLinkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot read from this link!'**
+  String get librarySnackBarAddFromLinkError;
+
   /// No description provided for @libraryDeletedMsg.
   ///
   /// In en, this message translates to:
@@ -202,6 +208,12 @@ abstract class AppLocalizations {
   /// **'Import'**
   String get libraryAddOptionImport;
 
+  /// No description provided for @libraryAddOptionLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Add from link'**
+  String get libraryAddOptionLink;
+
   /// No description provided for @libraryRenameDialogTitle.
   ///
   /// In en, this message translates to:
@@ -219,6 +231,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import'**
   String get libraryImportDialogTitle;
+
+  /// No description provided for @libraryAvailableSitesDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available sites'**
+  String get libraryAvailableSitesDialogTitle;
+
+  /// No description provided for @libraryAddFromLinkDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter link'**
+  String get libraryAddFromLinkDialogTitle;
 
   /// No description provided for @libraryNewFolderDialogTitle.
   ///

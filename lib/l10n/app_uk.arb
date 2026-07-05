@@ -3,6 +3,7 @@
 
     "libraryEmpty": "Тут нічого немає...",
     "librarySnackBarPasteErrorMsg": "Неможливо скопіювати в цю папку!",
+	"librarySnackBarAddFromLinkError": "Неможливо прочитати це посилання!",
     "libraryDeletedMsg": "Видалено",
 	"libraryMovedMsg": "Переміщено",
 
@@ -20,10 +21,13 @@
     "libraryAddOptionSong": "Додати пісню",
     "libraryAddOptionFolder": "Додати папку",
     "libraryAddOptionImport": "Імпорт",
+	"libraryAddOptionLink": "Додати за посиланням",
 
     "libraryRenameDialogTitle": "Переіменування",
     "libraryRenameDialogHint": "Нове им'я...",
     "libraryImportDialogTitle": "Імпорт",
+	"libraryAvailableSitesDialogTitle": "Доступні сайти",
+	"libraryAddFromLinkDialogTitle": "Введіть посилання",
     "libraryNewFolderDialogTitle": "Нова папка",
     "libraryNewFolderDialogHint": "Назва папки...",
     "libraryAddSongDialogTitle": "Назва нової пісні",
