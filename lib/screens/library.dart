@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:songbook/main.dart';
 import 'package:songbook/screens/song.dart';
@@ -855,7 +856,15 @@ class _LibraryState extends State<LibraryScreen> {
 		if (link == null)
 			return;
 
-		final song = SimpleSong.fromUrl(url: link);
+		SimpleSong? song;
+		if (Platform.isAndroid) {
+			var url = Uri.parse(link);
+			var response = await http.get(url);
+			song = SimpleSong.fromUrl(url: link, html: response.body);
+		} else {
+			song = SimpleSong.fromUrl(url: link, html: "");
+		}
+
 		if (song != null) {
 			importSong(song: song, dirPath: _currentPath);
 			_loadDirectory();

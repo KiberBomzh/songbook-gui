@@ -46,7 +46,11 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
-    pub fn from_url(url: String) -> Option<Self> {
+    pub fn from_url(url: String, html: String) -> Option<Self> {
+        #[cfg(target_os = "android")]
+        let song = Song::from_url(&url, &html)?;
+
+        #[cfg(not(target_os = "android"))]
         let song = Song::from_url(&url)?;
 
         Some(Self { song, path: String::new() })

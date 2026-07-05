@@ -280,10 +280,11 @@ fn wire__crate__api__song__SimpleSong_from_url_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
+            let api_html = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, ()>((move || {
                 let output_ok =
-                    Result::<_, ()>::Ok(crate::api::song::SimpleSong::from_url(api_url))?;
+                    Result::<_, ()>::Ok(crate::api::song::SimpleSong::from_url(api_url, api_html))?;
                 Ok(output_ok)
             })())
         },

@@ -94,7 +94,10 @@ abstract class RustLibApi extends BaseApi {
     required String pathStr,
   });
 
-  SimpleSong? crateApiSongSimpleSongFromUrl({required String url});
+  SimpleSong? crateApiSongSimpleSongFromUrl({
+    required String url,
+    required String html,
+  });
 
   String crateApiSongSimpleSongGetArtist({required SimpleSong that});
 
@@ -447,12 +450,16 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  SimpleSong? crateApiSongSimpleSongFromUrl({required String url}) {
+  SimpleSong? crateApiSongSimpleSongFromUrl({
+    required String url,
+    required String html,
+  }) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(url, serializer);
+          sse_encode_String(html, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 6)!;
         },
         codec: SseCodec(
@@ -461,14 +468,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           decodeErrorData: null,
         ),
         constMeta: kCrateApiSongSimpleSongFromUrlConstMeta,
-        argValues: [url],
+        argValues: [url, html],
         apiImpl: this,
       ),
     );
   }
 
   TaskConstMeta get kCrateApiSongSimpleSongFromUrlConstMeta =>
-      const TaskConstMeta(debugName: "SimpleSong_from_url", argNames: ["url"]);
+      const TaskConstMeta(
+        debugName: "SimpleSong_from_url",
+        argNames: ["url", "html"],
+      );
 
   @override
   String crateApiSongSimpleSongGetArtist({required SimpleSong that}) {
