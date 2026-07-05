@@ -292,7 +292,8 @@ fn main() {
                 #[cfg(feature = "from_url")]
                 AddSubcommand::FromUrl { url } => {
                     if let Some(song) = Song::from_url(&url) {
-                        song.print();
+                        song_library::add(&song)
+                            .expect("Error during adding a song!");
                     } else {
                         let sites = songbook::url_parser::AVAILABLE_SITES.join(", ");
                         eprintln!("An error ocured or the site isn't available! List of available sites: {sites}");
