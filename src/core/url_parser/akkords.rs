@@ -45,5 +45,6 @@ fn parse_text(document: &Html) -> Option<String> {
             .collect::<Vec<_>>()
             .join("")
             .replace('—', "-")
+            .replace(":\n\n", "\n")
     )
 }

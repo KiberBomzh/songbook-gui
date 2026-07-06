@@ -566,14 +566,19 @@ pub fn get_lib_path() -> Result<PathBuf> {
 pub fn get_base_path() -> Option<PathBuf> {
     #[cfg(not(target_os = "android"))]
     return dirs::data_dir();
+    
+    #[cfg(feature = "termux")]
+    return dirs::data_dir();
 
     #[cfg(target_os = "android")]
+    #[cfg(not(feature = "termux"))]
     if let Ok(p) = get_local_data_dir() { Some(p) }
     else { None }
 }
 
 
 #[cfg(target_os = "android")]
+#[cfg(not(feature = "termux"))]
 fn get_local_data_dir() -> Result<PathBuf> {
     let path_str = std::env::var("APP_DATA_DIR")?;
     return Ok(PathBuf::from(path_str))
