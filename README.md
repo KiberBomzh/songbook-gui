@@ -44,6 +44,7 @@ cargo install songbook --features tui
     - `t` - the same as a command `add from-text`, needs Artist - Title
     - `c` - the same as a command `add from-chordpro`
     - `s` - the same as a command `add from-sbp`
+    - 'u' - the same as a command `add from-url`
 
 
 ## Song

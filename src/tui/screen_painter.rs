@@ -234,8 +234,15 @@ impl App {
                 Line::from("Find")
             ]),
 
+            #[cfg(not(feature = "reqwest"))]
             Row::new(vec![
                 Line::from("A(e/t/c/s)"),
+                Line::default(),
+                Line::from("Add song")
+            ]),
+            #[cfg(feature = "reqwest")]
+            Row::new(vec![
+                Line::from("A(e/t/c/s/u)"),
                 Line::default(),
                 Line::from("Add song")
             ]),

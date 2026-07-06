@@ -217,6 +217,15 @@ impl App {
                             None
                         } else { None }
                     },
+                    #[cfg(feature = "reqwest")]
+                    'u' => {
+                        let url = command_data
+                            .chars()
+                            .skip(1)
+                            .collect::<String>();
+
+                        Song::from_url(url.trim())
+                    },
                     _ => None
                 };
 

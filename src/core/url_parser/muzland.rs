@@ -1,9 +1,8 @@
 use scraper::{Html, Selector};
 
 
-pub fn parse(url: &str) -> Option<crate::Song> {
-    let src = reqwest::blocking::get(url).and_then(|r| r.text()).ok()?;
-    let document = Html::parse_document(&src);
+pub fn parse(html: &str) -> Option<crate::Song> {
+    let document = Html::parse_document(html);
     
     let (title, artist) = parse_metadata(&document)?;
     let text = parse_text(&document)?;
