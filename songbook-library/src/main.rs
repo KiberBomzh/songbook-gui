@@ -135,7 +135,7 @@ enum AddSubcommand {
 
     FromSbp { path: PathBuf },
 
-    #[cfg(feature = "from_url")]
+    #[cfg(feature = "reqwest")]
     FromUrl { url: String },
     
     Empty {
@@ -289,7 +289,7 @@ fn main() {
                         }
                     }
                 },
-                #[cfg(feature = "from_url")]
+                #[cfg(feature = "reqwest")]
                 AddSubcommand::FromUrl { url } => {
                     if let Some(song) = Song::from_url(&url) {
                         song_library::add(&song)
