@@ -59,6 +59,8 @@ class _LibraryState extends State<LibraryScreen> {
 	late final TextEditingController _searchTextController;
 	late final FocusNode _searchFocusNode;
 
+	bool _isLoading = false;
+
 
 	@override
 	void initState() {
@@ -211,7 +213,7 @@ class _LibraryState extends State<LibraryScreen> {
 		_settings = context.watch<SettingsProvider>();
 
 		return PopScope(
-			canPop: !(_isSelectMode || _isSearchMode),
+			canPop: !(_isSelectMode || _isSearchMode || _isLoading),
 			onPopInvokedWithResult: (didPop, result) {
 				if (_isSelectMode) {
 					setState(() {
@@ -237,7 +239,18 @@ class _LibraryState extends State<LibraryScreen> {
 						)
 						: null,
 				),
-				child: _buildScaffold(),
+				child: Stack(
+					children: [
+						_buildScaffold(),
+						if (_isLoading)
+							Container(
+								color: Colors.black.withValues(alpha: 0.7),
+								child: Center(
+									child: CircularProgressIndicator(),
+								),
+							),
+					],
+				),
 			),
 		);
 	}
@@ -857,6 +870,7 @@ class _LibraryState extends State<LibraryScreen> {
 			return;
 
 		try {
+			setState(() => _isLoading = true);
 			SimpleSong? song;
 			if (Platform.isAndroid) {
 				final baseUrl = getBaseUrl(url: link);
@@ -879,6 +893,8 @@ class _LibraryState extends State<LibraryScreen> {
 			}
 		} catch(e) {
 			_showSnackBarAddFromLinkError();
+		} finally {
+			setState(() => _isLoading = false);
 		}
 	}
 	void _showSnackBarAddFromLinkError() {
