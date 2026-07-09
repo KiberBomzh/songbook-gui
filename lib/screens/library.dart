@@ -1356,6 +1356,7 @@ class _AddFromLinkDialogState extends State<_AddFromLinkDialog> {
 			focusNode: _focusNode,
 			decoration: InputDecoration(
 				border: OutlineInputBorder(),
+				constraints: BoxConstraints(minWidth: MediaQuery.of(context).size.width),
 			),
 			onSubmitted: (value) => Navigator.of(context).pop(value),
 		),
