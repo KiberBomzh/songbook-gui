@@ -1126,6 +1126,7 @@ class SongAddState extends State<SongAddScreen> {
 
 		_songContentController = TextEditingController();
 		_songContentFocusNode = FocusNode();
+		_songContentFocusNode.requestFocus();
 	}
 
 	@override
@@ -1321,16 +1322,20 @@ class _AddFromLinkDialog extends StatefulWidget {
 }
 class _AddFromLinkDialogState extends State<_AddFromLinkDialog> {
 	late final TextEditingController _controller;
+	late final FocusNode _focusNode;
 
 	@override
 	void initState() {
 		super.initState();
 		_controller = TextEditingController();
+		_focusNode = FocusNode();
+		_focusNode.requestFocus();
 	}
 
 	@override
 	void dispose() {
 		_controller.dispose();
+		_focusNode.dispose();
 		super.dispose();
 	}
 
@@ -1348,6 +1353,7 @@ class _AddFromLinkDialogState extends State<_AddFromLinkDialog> {
 		),
 		content: TextField(
 			controller: _controller,
+			focusNode: _focusNode,
 			decoration: InputDecoration(
 				border: OutlineInputBorder(),
 			),
