@@ -113,6 +113,7 @@ pub fn get_help_msg() -> String {
         SONG_KEY_SYMBOL,
         SONG_CAPO_SYMBOL,
         SONG_AUTOSCROLL_SPEED_SYMBOL,
+        SONG_AUTOSCROLL_DELAY_SYMBOL,
         SONG_SHOW_OPTIONS_SYMBOL,
 
         BLOCK_START,
@@ -144,6 +145,7 @@ r#"==================Help==================
  {SONG_KEY_SYMBOL} - Song's key
  {SONG_CAPO_SYMBOL} - Song's capo
  {SONG_AUTOSCROLL_SPEED_SYMBOL} - Autoscroll speed (in milliseconds)
+ {SONG_AUTOSCROLL_DELAY_SYMBOL} - Autoscroll delay (in seconds)
  {SONG_SHOW_OPTIONS_SYMBOL} - Show options (chords - c, rhythm - r, notes - n, fingerings - f)
 
  {BLOCK_START} - Start of block (verse, chorus, bridge, etc.)

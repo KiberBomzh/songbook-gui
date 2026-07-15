@@ -7,7 +7,12 @@ use rfd::FileDialog;
 use songbook::song_library::lib_functions::*;
 use songbook::Song;
 
-use super::{Focus, DEFAULT_AUTOSCROLL_SPEED, App};
+use super::{
+    Focus,
+    DEFAULT_AUTOSCROLL_SPEED,
+    DEFAULT_AUTOSCROLL_DELAY,
+    App
+};
 
 
 
@@ -104,6 +109,11 @@ impl App {
                             Duration::from_millis(speed)
                         } else {
                             DEFAULT_AUTOSCROLL_SPEED
+                        };
+                        self.autoscroll_delay = if let Some(delay) = song.metadata.autoscroll_delay {
+                            Duration::from_secs(delay)
+                        } else {
+                            DEFAULT_AUTOSCROLL_DELAY
                         };
                         (self.show_chords, self.show_rhythm, self.show_notes, self.show_fingerings)
                             = song.metadata.get_show_options();

@@ -69,6 +69,9 @@ String songCapoSymbol() => RustLib.instance.api.crateApiSongSongCapoSymbol();
 String songAutoscrollSpeedSymbol() =>
     RustLib.instance.api.crateApiSongSongAutoscrollSpeedSymbol();
 
+String songAutoscrollDelaySymbol() =>
+    RustLib.instance.api.crateApiSongSongAutoscrollDelaySymbol();
+
 String songShowOptionsSymbol() =>
     RustLib.instance.api.crateApiSongSongShowOptionsSymbol();
 
@@ -96,6 +99,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String getArtist();
 
+  BigInt? getAutoscrollDelay();
+
   BigInt? getAutoscrollSpeed();
 
   List<SimpleBlock> getBlocks();
@@ -122,6 +127,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
       RustLib.instance.api.crateApiSongSimpleSongOpen(pathStr: pathStr);
 
   void save();
+
+  void setAutoscrollDelay({required BigInt newDelay});
 
   void setAutoscrollSpeed({required BigInt newSpeed});
 

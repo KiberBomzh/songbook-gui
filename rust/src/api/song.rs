@@ -46,9 +46,9 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
-    pub fn from_url(url: String, html: String) -> Option<Self> {
+    pub fn from_url(url: String, _html: String) -> Option<Self> {
         #[cfg(target_os = "android")]
-        let song = Song::from_url(&url, &html)?;
+        let song = Song::from_url(&url, &_html)?;
 
         #[cfg(not(target_os = "android"))]
         let song = Song::from_url(&url)?;
@@ -88,6 +88,10 @@ impl SimpleSong {
     #[flutter_rust_bridge::frb(sync)]
     pub fn set_autoscroll_speed(&mut self, new_speed: u64) {
         self.song.metadata.autoscroll_speed = Some(new_speed)
+    }
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn set_autoscroll_delay(&mut self, new_delay: u64) {
+        self.song.metadata.autoscroll_delay = Some(new_delay)
     }
 
     #[flutter_rust_bridge::frb(sync)]
@@ -158,6 +162,11 @@ impl SimpleSong {
     pub fn get_autoscroll_speed(&self) -> Option<u64> {
         self.song.metadata.autoscroll_speed
     } // in milliseconds per line
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_autoscroll_delay(&self) -> Option<u64> {
+        self.song.metadata.autoscroll_delay
+    }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
@@ -300,6 +309,7 @@ use songbook::{
     SONG_KEY_SYMBOL,
     SONG_CAPO_SYMBOL,
     SONG_AUTOSCROLL_SPEED_SYMBOL,
+    SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
     BLOCK_START,
     BLOCK_END,
@@ -349,6 +359,7 @@ pub fn get_editor_keywords() -> Vec<String> {
         SONG_KEY_SYMBOL.to_string(),
         SONG_CAPO_SYMBOL.to_string(),
         SONG_AUTOSCROLL_SPEED_SYMBOL.to_string(),
+        SONG_AUTOSCROLL_DELAY_SYMBOL.to_string(),
         SONG_SHOW_OPTIONS_SYMBOL.to_string(),
     ]
 }
@@ -476,6 +487,11 @@ pub fn song_capo_symbol() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn song_autoscroll_speed_symbol() -> String {
     SONG_AUTOSCROLL_SPEED_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_autoscroll_delay_symbol() -> String {
+    SONG_AUTOSCROLL_DELAY_SYMBOL.to_string()
 }
 
 #[flutter_rust_bridge::frb(sync)]

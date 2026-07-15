@@ -21,6 +21,7 @@ use config::Config;
 
 
 const DEFAULT_AUTOSCROLL_SPEED: Duration = Duration::from_millis(2500);
+const DEFAULT_AUTOSCROLL_DELAY: Duration = Duration::from_secs(3);
 
 
 
@@ -90,8 +91,11 @@ struct App {
     scroll_x_max: usize,
 
     autoscroll: bool,
+    delay: bool,
     autoscroll_speed: Duration,
-    last_scroll_time: Instant
+    autoscroll_delay: Duration,
+    last_scroll_time: Instant,
+    delay_start: Instant,
 }
 
 impl App {
@@ -127,8 +131,11 @@ impl App {
             scroll_y_max: 0,
             scroll_x_max: 0,
             autoscroll: false,
+            delay: false,
             autoscroll_speed: DEFAULT_AUTOSCROLL_SPEED,
-            last_scroll_time: Instant::now()
+            autoscroll_delay: DEFAULT_AUTOSCROLL_DELAY,
+            last_scroll_time: Instant::now(),
+            delay_start: Instant::now(),
         })
     }
     fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<()> {
@@ -209,6 +216,12 @@ impl App {
                     song.metadata.autoscroll_speed = Some(new_speed);
                 }
             }
+            if let Some(delay) = song.metadata.autoscroll_delay &&
+                Duration::from_secs(delay) == self.autoscroll_delay {
+            } else {
+                is_song_changed = true;
+                song.metadata.autoscroll_delay = Some(self.autoscroll_delay.as_secs());
+            }
 
 
             let (c, r, n, f) = song.metadata.get_show_options();
@@ -253,6 +266,12 @@ impl App {
 
 
     fn update_scroll(&mut self) {
+        if self.delay {
+            if Instant::now().duration_since(self.delay_start) > self.autoscroll_delay {
+                self.delay = false;
+                self.autoscroll = true;
+            } else { return }
+        }
         if !self.autoscroll { return }
         if self.last_scroll_time.elapsed() < self.autoscroll_speed { return }
 

@@ -26,9 +26,13 @@ impl App {
                     self.long_command.push(c)
                 }
             },
-            KeyCode::Char('S') if self.autoscroll => {
+            KeyCode::Char('S') => {
                 self.is_long_command = true;
                 self.long_command.push('S')
+            },
+            KeyCode::Char('D') => {
+                self.is_long_command = true;
+                self.long_command.push('D')
             },
 
 
@@ -88,8 +92,9 @@ impl App {
             KeyCode::Char(';') => self.switch_lib(),
 
             KeyCode::Char('a') =>
-                if self.autoscroll { self.autoscroll = false }
-                else { self.autoscroll = true; self.last_scroll_time = Instant::now() },
+                if self.delay { self.delay = false }
+                else if self.autoscroll { self.autoscroll = false }
+                else { self.delay = true; self.delay_start = Instant::now() },
 
 
             KeyCode::Char('e') => {
@@ -155,9 +160,14 @@ impl App {
                 *is_song_changed = true;
             },
 
-            'S' if self.autoscroll => {
+            'S' => {
                 if let Ok(speed) = command_data.parse::<u64>() {
                     self.autoscroll_speed = Duration::from_millis(speed)
+                }
+            },
+            'D' => {
+                if let Ok(delay) = command_data.parse::<u64>() {
+                    self.autoscroll_delay = Duration::from_secs(delay)
                 }
             },
 

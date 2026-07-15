@@ -16,6 +16,9 @@ import 'package:songbook/l10n/app_localizations.dart';
 
 
 const int AutoscrollSpeedStep = 25;
+const int MinimalAutoscrollSpeedStep = 5;
+const int MaxAutoscrollSpeed = 1000;
+const int MaxAutoscrollDelay = 60;
 
 
 
@@ -36,6 +39,7 @@ class SongState extends State<SongScreen> {
 	late String? _key;
 	late int? _capo;
 	late int _autoscrollSpeed; // milliseconds per pixel
+	late Duration _autoscrollDelay;
 
 	bool _showRhythm = true;
 	bool _showChords = true;
@@ -113,6 +117,10 @@ class SongState extends State<SongScreen> {
 			_key = checkKey;
 		}
 
+		_autoscrollDelay = Duration(seconds:
+			_song.getAutoscrollDelay()?.toInt() ?? 3
+		);
+
 		final (c, r, n, f) = _song.getShowOptions();
 		_showChords = c;
 		_showRhythm = r;
@@ -122,7 +130,7 @@ class SongState extends State<SongScreen> {
 
 	void _loadAutoscrollSpeed() {
 		final int speedPerLine = _song.getAutoscrollSpeed()?.toInt() ?? 2500;
-		_autoscrollSpeed = ((speedPerLine / _lineHeight) / AutoscrollSpeedStep).round() * AutoscrollSpeedStep;
+		_autoscrollSpeed = ((speedPerLine / _lineHeight) / MinimalAutoscrollSpeedStep).round() * MinimalAutoscrollSpeedStep;
 	}
 
 	void _scheduleSave() {
@@ -310,8 +318,24 @@ class SongState extends State<SongScreen> {
 				_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
 				_scheduleSave();
 			}),
+			showKeyDialog: () {},
+			showCapoDialog: () {},
+			showAutoscrollDialog: () => _showDialog(
+				dialog: _autoscrollDialog(onDone: (delay, speed) => setState(() {
+					_autoscrollSpeed = speed.floor();
+
+					final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
+					_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
+
+					_autoscrollDelay = Duration(seconds: delay.floor());
+					_song.setAutoscrollDelay(newDelay: BigInt.from(delay));
+
+
+					_scheduleSave();
+				})),
+			),
 			startAutoscroll: () {
-				_postponedAutoscrollTimer = Timer(Duration(seconds: 3), () {
+				_postponedAutoscrollTimer = Timer(_autoscrollDelay, () {
 					if (mounted)
 						_startAutoscroll();
 				});
@@ -555,6 +579,137 @@ class SongState extends State<SongScreen> {
 			],
 		);
 	}
+
+	void _showDialog({
+		required Widget dialog,
+	}) => showDialog(
+		context: context,
+		builder: (context) => dialog,
+	);
+
+	Widget _autoscrollDialog({
+		required Function(double, double) onDone,
+	}) {
+		final settings = AutoscrollSettings(
+			delay: _autoscrollDelay.inSeconds.toDouble(),
+			speed: _autoscrollSpeed.toDouble(),
+		);
+
+		return AlertDialog(
+			title: Text(AppLocalizations.of(context)!.songAutoscroll),
+			content: SizedBox(
+				width: MediaQuery.of(context).size.width,
+				child: settings,
+			),
+			actions: [
+				TextButton(
+					child: Text(AppLocalizations.of(context)!.cancel),
+					onPressed: () => Navigator.of(context).pop(),
+				),
+				ElevatedButton(
+					child: Text(AppLocalizations.of(context)!.done),
+					onPressed: () {
+						onDone(settings.delay, settings.speed);
+						Navigator.of(context).pop();
+					},
+				),
+			],
+		);
+	}
+}
+
+class AutoscrollSettings extends StatefulWidget {
+	double delay;
+	double speed;
+
+	AutoscrollSettings({
+		super.key,
+		required this.delay,
+		required this.speed,
+	});
+
+	@override
+	State<AutoscrollSettings> createState() => _AutoscrollSettingsState();
+}
+class _AutoscrollSettingsState extends State<AutoscrollSettings> {
+	@override
+	void initState() {
+		super.initState();
+		if (widget.delay > MaxAutoscrollDelay)
+			widget.delay = MaxAutoscrollDelay.toDouble();
+		else if (widget.delay < 0)
+			widget.delay = 0;
+
+		if (widget.speed > MaxAutoscrollSpeed)
+			widget.speed = MaxAutoscrollSpeed.toDouble();
+		else if (widget.speed < 20)
+			widget.speed = 20;
+	}
+
+	@override
+	Widget build(BuildContext context) => IntrinsicHeight(
+		child: Column(
+			children: [
+				Container(
+					padding: .all(10),
+					decoration: BoxDecoration(
+						color: Theme.of(context).colorScheme.surfaceContainer,
+						borderRadius: .circular(8),
+					),
+					child: Column(
+						children: [
+							Row(
+								mainAxisAlignment: .spaceBetween,
+								children: [
+									Text(AppLocalizations.of(context)!.songAutoscrollDelay),
+									Text(widget.delay.floor().toString() + AppLocalizations.of(context)!.songSecondsShort),
+								],
+							),
+							Slider(
+								value: widget.delay,
+								min: 0,
+								max: MaxAutoscrollDelay.toDouble(),
+								divisions: 61,
+								onChanged: (value) {
+									setState(() => widget.delay = value);
+								},
+							),
+						],
+					),
+				),
+
+				const SizedBox(height: 10),
+
+				Container(
+					padding: .all(10),
+					decoration: BoxDecoration(
+						color: Theme.of(context).colorScheme.surfaceContainer,
+						borderRadius: .circular(8),
+					),
+					child: Column(
+						children: [
+							Row(
+								mainAxisAlignment: .spaceBetween,
+								children: [
+									Text(AppLocalizations.of(context)!.songAutoscrollSpeed),
+									Text(widget.speed.floor().toString() + AppLocalizations.of(context)!.songMillisecondsShort),
+								],
+							),
+							Slider(
+								value: widget.speed,
+								min: 20,
+								max: MaxAutoscrollSpeed.toDouble(),
+								divisions: ((MaxAutoscrollSpeed - 20) / MinimalAutoscrollSpeedStep).floor(),
+								onChanged: (value) {
+									setState(() => widget.speed = value);
+								},
+							),
+						],
+					),
+				),
+			]
+		),
+	);
 }
 
 class TabWidget extends StatefulWidget {
@@ -752,6 +907,9 @@ class BottomBar extends StatefulWidget {
 	final Function(int) transposeSong;
 	final Function(int) setCapo;
 	final Function(int) setAutoscrollSpeed;
+	final VoidCallback showKeyDialog;
+	final VoidCallback showCapoDialog;
+	final VoidCallback showAutoscrollDialog;
 
 	final VoidCallback startAutoscroll;
 	final VoidCallback stopAutoscroll;
@@ -768,6 +926,10 @@ class BottomBar extends StatefulWidget {
 		required this.transposeSong,
 		required this.setCapo,
 		required this.setAutoscrollSpeed,
+
+		required this.showKeyDialog,
+		required this.showCapoDialog,
+		required this.showAutoscrollDialog,
 
 		required this.startAutoscroll,
 		required this.stopAutoscroll,
@@ -848,6 +1010,7 @@ class _BarState extends State<BottomBar> {
 				onTap: (widget.songKey != null)
 					? () => setState(() => _currentMode = BarMode.capo)
 					: null,
+				onLongPress: widget.showCapoDialog,
 				size: 50,
 			),
 			const SizedBox(width: 10),
@@ -861,6 +1024,7 @@ class _BarState extends State<BottomBar> {
 					widget.startAutoscroll();
 					setState(() => _currentMode = BarMode.autoscroll);
 				},
+				onLongPress: widget.showAutoscrollDialog,
 				size: 60,
 			),
 
@@ -878,6 +1042,7 @@ class _BarState extends State<BottomBar> {
 				onTap: (widget.songKey != null)
 					? () => setState(() => _currentMode = BarMode.key)
 					: null,
+				onLongPress: widget.showKeyDialog,
 				size: 50,
 			),
 
@@ -1039,7 +1204,7 @@ class _BarState extends State<BottomBar> {
 				),
 				onTap: (widget.autoscrollSpeed > AutoscrollSpeedStep)
 					? () => widget.setAutoscrollSpeed(widget.autoscrollSpeed - AutoscrollSpeedStep)
-					: null,
+					: () => widget.setAutoscrollSpeed(0),
 				size: 40,
 			),
 			const SizedBox(width: 10),
@@ -1054,7 +1219,7 @@ class _BarState extends State<BottomBar> {
 				),
 				onTap: (widget.autoscrollSpeed > (AutoscrollSpeedStep * 2))
 					? () => widget.setAutoscrollSpeed(widget.autoscrollSpeed - (AutoscrollSpeedStep * 2))
-					: null,
+					: () => widget.setAutoscrollSpeed(0),
 			),
 			const SizedBox(width: 10),
 
@@ -1103,6 +1268,7 @@ class _BarState extends State<BottomBar> {
 	Widget _buildBarItem({
 		required Widget child,
 		required VoidCallback? onTap,
+		VoidCallback? onLongPress,
 		double size = 45,
 	}) {
 		return Padding(
@@ -1122,6 +1288,7 @@ class _BarState extends State<BottomBar> {
 						),
 					),
 					onTap: onTap,
+					onLongPress: onLongPress,
 					splashColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
 					highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.05),
 				),

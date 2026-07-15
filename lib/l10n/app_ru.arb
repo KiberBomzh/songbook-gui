@@ -42,6 +42,12 @@
 	"songExportOptionText": "Текст",
 	"songTooltipSettings": "Настройки",
 
+	"songAutoscroll": "Автоскролл",
+	"songAutoscrollSpeed": "Скорость",
+	"songAutoscrollDelay": "Задержка",
+	"songSecondsShort": "с",
+	"songMillisecondsShort": "мс",
+
 	"nameValidatorErrorEmptyText": "Текст не может быть пустым!",
 	"nameValidatorErrorForbiddenChars": "Текст содержит запрещенные символы!",
 
@@ -143,6 +149,7 @@
 	"editorMetadataKey": "Тоннальность",
 	"editorMetadataCapo": "Каподастр",
 	"editorMetadataAutoscrollSpeed": "Скорость автоскролла",
+	"editorMetadataAutoscrollDelay": "Задержка автоскролла",
 	"editorShowOptions": "Опции отображения",
 
 	"cancel": "Отмена",

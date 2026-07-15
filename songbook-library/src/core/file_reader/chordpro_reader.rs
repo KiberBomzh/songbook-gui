@@ -152,6 +152,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
             key: crate::Key::new(&key_text),
             capo: None,
             autoscroll_speed: None,
+            autoscroll_delay: None,
             show_options: None,
         } ) } else { None },
         blocks,

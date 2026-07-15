@@ -42,6 +42,12 @@
 	"songExportOptionText": "Text",
 	"songTooltipSettings": "Settings",
 
+	"songAutoscroll": "Autoscroll",
+	"songAutoscrollSpeed": "Speed",
+	"songAutoscrollDelay": "Delay",
+	"songSecondsShort": "s",
+	"songMillisecondsShort": "ms",
+
 	"nameValidatorErrorEmptyText": "Text cannot be empty!",
 	"nameValidatorErrorForbiddenChars": "Text contains forbidden chars!",
 
@@ -143,6 +149,7 @@
 	"editorMetadataKey": "Key",
 	"editorMetadataCapo": "Capo",
 	"editorMetadataAutoscrollSpeed": "Autoscroll speed",
+	"editorMetadataAutoscrollDelay": "Autoscroll delay",
 	"editorShowOptions": "Show options",
 
 	"cancel": "Cancel",

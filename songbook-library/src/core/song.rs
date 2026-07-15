@@ -16,6 +16,7 @@ use crate::{
     SONG_KEY_SYMBOL,
     SONG_CAPO_SYMBOL,
     SONG_AUTOSCROLL_SPEED_SYMBOL,
+    SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
 
     BLOCK_START,
@@ -65,6 +66,7 @@ pub struct Metadata {
     pub key: Option<Key>,
     pub capo: Option<u8>,
     pub autoscroll_speed: Option<u64>, // in milliseconds
+    pub autoscroll_delay: Option<u64>, // in seconds
     pub show_options: Option<ShowOptions>,
 }
 
@@ -109,6 +111,12 @@ impl Metadata {
         }
         s.push('\n');
 
+        s.push_str(SONG_AUTOSCROLL_DELAY_SYMBOL);
+        if let Some(delay) = self.autoscroll_delay {
+            s.push_str(&delay.to_string())
+        }
+        s.push('\n');
+
         if let Some(opt) = self.show_options {
             s.push_str(SONG_SHOW_OPTIONS_SYMBOL);
             if opt.chords { s.push_str("c ") }
@@ -132,6 +140,7 @@ impl Metadata {
         let mut key: Option<Key> = None;
         let mut capo: Option<u8> = None;
         let mut autoscroll_speed: Option<u64> = None;
+        let mut autoscroll_delay: Option<u64> = None;
         let mut opts: Option<ShowOptions> = None;
         for line in text.lines() {
             if line.starts_with(SONG_TITLE_SYMBOL) {
@@ -149,6 +158,10 @@ impl Metadata {
                 if let Ok(s) = line[SONG_AUTOSCROLL_SPEED_SYMBOL.len()..].trim().parse::<u64>() {
                     autoscroll_speed = Some(s)
                 }
+            } else if line.starts_with(SONG_AUTOSCROLL_DELAY_SYMBOL) {
+                if let Ok(d) = line[SONG_AUTOSCROLL_DELAY_SYMBOL.len()..].trim().parse::<u64>() {
+                    autoscroll_delay = Some(d)
+                }
             } else if line.starts_with(SONG_SHOW_OPTIONS_SYMBOL) {
                 let opts_str = line[SONG_SHOW_OPTIONS_SYMBOL.len()..].trim();
                 opts = Some( ShowOptions {
@@ -165,6 +178,7 @@ impl Metadata {
         self.key = key;
         self.capo = capo;
         self.autoscroll_speed = autoscroll_speed;
+        self.autoscroll_delay = autoscroll_delay;
         self.show_options = opts;
     }
 
@@ -187,6 +201,7 @@ impl Song {
                 key: None,
                 capo: None,
                 autoscroll_speed: None,
+                autoscroll_delay: None,
                 show_options: None,
             },
             chord_list: Vec::new(),

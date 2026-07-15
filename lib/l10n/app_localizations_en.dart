@@ -117,6 +117,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get songTooltipSettings => 'Settings';
 
   @override
+  String get songAutoscroll => 'Autoscroll';
+
+  @override
+  String get songAutoscrollSpeed => 'Speed';
+
+  @override
+  String get songAutoscrollDelay => 'Delay';
+
+  @override
+  String get songSecondsShort => 's';
+
+  @override
+  String get songMillisecondsShort => 'ms';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Text cannot be empty!';
 
   @override
@@ -375,6 +390,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editorMetadataAutoscrollSpeed => 'Autoscroll speed';
+
+  @override
+  String get editorMetadataAutoscrollDelay => 'Autoscroll delay';
 
   @override
   String get editorShowOptions => 'Show options';

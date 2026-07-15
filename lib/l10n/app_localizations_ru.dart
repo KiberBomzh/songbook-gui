@@ -119,6 +119,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get songTooltipSettings => 'Настройки';
 
   @override
+  String get songAutoscroll => 'Автоскролл';
+
+  @override
+  String get songAutoscrollSpeed => 'Скорость';
+
+  @override
+  String get songAutoscrollDelay => 'Задержка';
+
+  @override
+  String get songSecondsShort => 'с';
+
+  @override
+  String get songMillisecondsShort => 'мс';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не может быть пустым!';
 
   @override
@@ -377,6 +392,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get editorMetadataAutoscrollSpeed => 'Скорость автоскролла';
+
+  @override
+  String get editorMetadataAutoscrollDelay => 'Задержка автоскролла';
 
   @override
   String get editorShowOptions => 'Опции отображения';

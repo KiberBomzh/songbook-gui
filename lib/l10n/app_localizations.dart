@@ -316,6 +316,36 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get songTooltipSettings;
 
+  /// No description provided for @songAutoscroll.
+  ///
+  /// In en, this message translates to:
+  /// **'Autoscroll'**
+  String get songAutoscroll;
+
+  /// No description provided for @songAutoscrollSpeed.
+  ///
+  /// In en, this message translates to:
+  /// **'Speed'**
+  String get songAutoscrollSpeed;
+
+  /// No description provided for @songAutoscrollDelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Delay'**
+  String get songAutoscrollDelay;
+
+  /// No description provided for @songSecondsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'s'**
+  String get songSecondsShort;
+
+  /// No description provided for @songMillisecondsShort.
+  ///
+  /// In en, this message translates to:
+  /// **'ms'**
+  String get songMillisecondsShort;
+
   /// No description provided for @nameValidatorErrorEmptyText.
   ///
   /// In en, this message translates to:
@@ -831,6 +861,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Autoscroll speed'**
   String get editorMetadataAutoscrollSpeed;
+
+  /// No description provided for @editorMetadataAutoscrollDelay.
+  ///
+  /// In en, this message translates to:
+  /// **'Autoscroll delay'**
+  String get editorMetadataAutoscrollDelay;
 
   /// No description provided for @editorShowOptions.
   ///

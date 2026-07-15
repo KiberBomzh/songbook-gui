@@ -79,6 +79,7 @@ fn convert_metadata(song: &SbpSong) -> ( Metadata, Option<String> ) {
         key,
         capo: if song.Capo > 0 { Some( song.Capo ) } else { None },
         autoscroll_speed: None,
+        autoscroll_delay: None,
         show_options: None,
     },
     if song.NotesText.is_empty() { None }

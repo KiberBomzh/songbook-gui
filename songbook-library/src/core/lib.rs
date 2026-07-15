@@ -37,6 +37,7 @@ pub const SONG_ARTIST_SYMBOL: &str = "{song_artist}: ";
 pub const SONG_KEY_SYMBOL: &str = "{song_key}: ";
 pub const SONG_CAPO_SYMBOL: &str = "{song_capo}: ";
 pub const SONG_AUTOSCROLL_SPEED_SYMBOL: &str = "{song_autoscroll_speed}: ";
+pub const SONG_AUTOSCROLL_DELAY_SYMBOL: &str = "{song_autoscroll_delay}: ";
 pub const SONG_SHOW_OPTIONS_SYMBOL: &str = "{song_show_options}: ";
 
 

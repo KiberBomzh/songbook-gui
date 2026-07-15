@@ -1,3 +1,4 @@
+use std::time::{Duration, Instant};
 use ratatui::Frame;
 use ratatui::layout::{Constraint, Layout};
 use ratatui::widgets::{Block, Paragraph, List, ListItem, Table, Row};
@@ -134,7 +135,15 @@ impl App {
                 .title_top(Line::from(title_top).right_aligned())
                 .title_bottom(Line::from(self.long_command.as_str()).right_aligned())
                 .title_bottom(Line::from(
-                    if self.autoscroll { self.autoscroll_speed.as_millis().to_string() + "ms" }
+                    if self.delay {
+                        let delay = self.autoscroll_delay + Duration::from_secs(1);
+                        let duration_since = Instant::now().duration_since(self.delay_start);
+                        let dif = (delay - duration_since).as_secs();
+
+                        if dif > 0 { dif.to_string() + "s" }
+                        else { String::new() }
+                    }
+                    else if self.autoscroll { self.autoscroll_speed.as_millis().to_string() + "ms" }
                     else { String::new() }
                 ))
         );
@@ -372,6 +381,11 @@ impl App {
                 Line::from("S(speed)"),
                 Line::default(),
                 Line::from("Set autoscroll speed")
+            ]),
+            Row::new(vec![
+                Line::from("D(delay)"),
+                Line::default(),
+                Line::from("Set autoscroll delay")
             ]),
 
             Row::new(vec![

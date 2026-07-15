@@ -70,7 +70,8 @@ cargo install songbook --features tui
 
 
 ### Long commands
-- `S`(speed) - Set autoscroll speed, only when autoscroll is on
+- `S`(speed) - Set autoscroll speed
+- `D`(delay) - Set autoscroll delay
 - `T`(num) - Transpose a song to a given num, examples: T7, T-4, T+10
 - `C`(fret num) - Transpose a song to a capo, examples: C7, C0, C2
 

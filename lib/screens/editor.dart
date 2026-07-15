@@ -943,6 +943,7 @@ class CustomTextController extends TextEditingController {
 		_addKeyValuePattern(songKeySymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songCapoSymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songAutoscrollSpeedSymbol(), metadataSecondaryColor);
+		_addKeyValuePattern(songAutoscrollDelaySymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songShowOptionsSymbol(), metadataSecondaryColor);
 	}
 	void _addKeyValuePattern(String key, Color? color) {
@@ -2860,6 +2861,7 @@ class Metadata extends StatefulWidget {
 	String? Key;
 	int? capo;
 	int? autoscrollSpeed;
+	int? autoscrollDelay;
 	ShowOptions showOptions;
 
 	Metadata({
@@ -2870,6 +2872,7 @@ class Metadata extends StatefulWidget {
 		this.Key,
 		this.capo,
 		this.autoscrollSpeed,
+		this.autoscrollDelay,
 	});
 
 	static Metadata from_string(String text) {
@@ -2878,6 +2881,7 @@ class Metadata extends StatefulWidget {
 		String? key;
 		int? capo;
 		int? autoscrollSpeed;
+		int? autoscrollDelay;
 		ShowOptions options = ShowOptions();
 
 		bool inMetadata = false;
@@ -2899,6 +2903,10 @@ class Metadata extends StatefulWidget {
 					final result = _parseKeyValueLine(line);
 					if (result != null)
 						autoscrollSpeed = int.tryParse(result);
+				} else if ( line.startsWith(songAutoscrollDelaySymbol()) ) {
+					final result = _parseKeyValueLine(line);
+					if (result != null)
+						autoscrollDelay = int.tryParse(result);
 				} else if ( line.startsWith(songShowOptionsSymbol()) ) {
 					options.from_string(line);
 				}
@@ -2914,6 +2922,7 @@ class Metadata extends StatefulWidget {
 			Key: key,
 			capo: capo,
 			autoscrollSpeed: autoscrollSpeed,
+			autoscrollDelay: autoscrollDelay,
 			showOptions: options
 		);
 	}
@@ -2941,6 +2950,11 @@ class Metadata extends StatefulWidget {
 			result += autoscrollSpeed.toString();
 		result += '\n';
 
+		result += songAutoscrollDelaySymbol();
+		if (autoscrollDelay != null)
+			result += autoscrollDelay.toString();
+		result += '\n';
+
 		result += songShowOptionsSymbol() + showOptions.to_string() + '\n';
 
 		result += metadataEnd() + '\n\n';
@@ -2959,6 +2973,7 @@ class MetadataState extends State<Metadata> {
 	late final TextEditingController _keyController;
 	late final TextEditingController _capoController;
 	late final TextEditingController _autoscrollSpeedController;
+	late final TextEditingController _autoscrollDelayController;
 
 
 	@override
@@ -2969,6 +2984,7 @@ class MetadataState extends State<Metadata> {
 		_keyController = TextEditingController(text: widget.Key);
 		_capoController = TextEditingController(text: widget.capo?.toString());
 		_autoscrollSpeedController = TextEditingController(text: widget.autoscrollSpeed?.toString());
+		_autoscrollDelayController = TextEditingController(text: widget.autoscrollDelay?.toString());
 	}
 
 	@override
@@ -2978,6 +2994,7 @@ class MetadataState extends State<Metadata> {
 		_keyController.dispose();
 		_capoController.dispose();
 		_autoscrollSpeedController.dispose();
+		_autoscrollDelayController.dispose();
 		super.dispose();
 	}
 
@@ -3041,6 +3058,14 @@ class MetadataState extends State<Metadata> {
 						controller: _autoscrollSpeedController,
 						style: style,
 						onChanged: (value) => widget.autoscrollSpeed = int.tryParse(value),
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						label: AppLocalizations.of(context)!.editorMetadataAutoscrollDelay,
+						controller: _autoscrollDelayController,
+						style: style,
+						onChanged: (value) => widget.autoscrollDelay = int.tryParse(value),
 					),
 					const SizedBox(height: 10),
 					

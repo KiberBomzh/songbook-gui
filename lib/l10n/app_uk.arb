@@ -42,6 +42,12 @@
     "songExportOptionText": "Текст",
     "songTooltipSettings": "Налаштування",
 
+	"songAutoscroll": "Автоскролл",
+	"songAutoscrollSpeed": "Швидкість",
+	"songAutoscrollDelay": "Затримка",
+	"songSecondsShort": "с",
+	"songMillisecondsShort": "мс",
+
     "nameValidatorErrorEmptyText": "Текст не може бути порожнім!",
     "nameValidatorErrorForbiddenChars": "В тексті є заборонені символи!",
 
@@ -143,6 +149,7 @@
     "editorMetadataKey": "Тоннальність",
     "editorMetadataCapo": "Каподастр",
     "editorMetadataAutoscrollSpeed": "Швидкість автоскроллу",
+	"editorMetadataAutoscrollDelay": "Затримка автоскроллу",
     "editorShowOptions": "Опції відображення",
 
     "cancel": "Відміна",

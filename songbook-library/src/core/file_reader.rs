@@ -23,6 +23,7 @@ impl Song {
             key: None,
             capo: None,
             autoscroll_speed: None,
+            autoscroll_delay: None,
             show_options: None,
         };
         let mut song = Self { blocks, chord_list, metadata, notes: None };
@@ -38,6 +39,7 @@ impl Song {
             key: None,
             capo: None,
             autoscroll_speed: None,
+            autoscroll_delay: None,
             show_options: None,
         };
         let (blocks, chord_list) = txt_reader::read_from_txt(content);

@@ -118,6 +118,21 @@ class AppLocalizationsUk extends AppLocalizations {
   String get songTooltipSettings => 'Налаштування';
 
   @override
+  String get songAutoscroll => 'Автоскролл';
+
+  @override
+  String get songAutoscrollSpeed => 'Швидкість';
+
+  @override
+  String get songAutoscrollDelay => 'Затримка';
+
+  @override
+  String get songSecondsShort => 'с';
+
+  @override
+  String get songMillisecondsShort => 'мс';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не може бути порожнім!';
 
   @override
@@ -376,6 +391,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get editorMetadataAutoscrollSpeed => 'Швидкість автоскроллу';
+
+  @override
+  String get editorMetadataAutoscrollDelay => 'Затримка автоскроллу';
 
   @override
   String get editorShowOptions => 'Опції відображення';
