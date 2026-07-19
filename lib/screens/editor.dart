@@ -1213,7 +1213,7 @@ class SongEditorState extends State<GraphicalSongEditor> {
 			index: newIndex,
 			onDelete: _deleteBlock,
 			onAddNewBlock: _addNewBlockAfter,
-			onCopy: _addNewBlockAfter,
+			onCopy: _copyBlockAfter,
 			onMergeBlock: _mergeBlockWithNext,
 		);
 		_contents.insert(newIndex,
