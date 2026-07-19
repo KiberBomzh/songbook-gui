@@ -156,7 +156,18 @@ enum BackupSubcommand {
 }
 
 
-fn main() {
+macro_rules! main_wrapper {
+    ($($t:tt)*) => {
+        #[cfg(any(feature = "reqwest", feature = "tui"))]
+        #[tokio::main]
+        async fn main() { $($t)* }
+
+        #[cfg(all(not(feature = "reqwest"), not(feature = "tui")))]
+        fn main() { $($t)* }
+    };
+}
+
+main_wrapper! {
     let args = Args::parse();
 
     if let Some(command) = args.command {
@@ -291,7 +302,7 @@ fn main() {
                 },
                 #[cfg(feature = "reqwest")]
                 AddSubcommand::FromUrl { url } => {
-                    if let Some(song) = Song::from_url(&url) {
+                    if let Some(song) = Song::from_url(&url).await {
                         song_library::add(&song)
                             .expect("Error during adding a song!");
                     } else {
@@ -343,7 +354,7 @@ fn main() {
         println!("There's a command required! Try 'songbook help' for more information");
 
         #[cfg(feature = "tui")]
-        tui::main()
+        tui::main().await
             .expect("Error in TUI!");
     }
 }

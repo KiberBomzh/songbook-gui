@@ -97,7 +97,7 @@ abstract class RustLibApi extends BaseApi {
     required String pathStr,
   });
 
-  SimpleSong? crateApiSongSimpleSongFromUrl({
+  Future<SimpleSong?> crateApiSongSimpleSongFromUrl({
     required String url,
     required String html,
   });
@@ -509,17 +509,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  SimpleSong? crateApiSongSimpleSongFromUrl({
+  Future<SimpleSong?> crateApiSongSimpleSongFromUrl({
     required String url,
     required String html,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(url, serializer);
           sse_encode_String(html, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 7)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 7,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData:

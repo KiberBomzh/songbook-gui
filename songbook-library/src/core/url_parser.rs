@@ -17,7 +17,7 @@ pub const AVAILABLE_SITES: [&str; 6] = [
 
 
 impl crate::Song {
-    pub fn from_url(url: &str,
+    pub async fn from_url(url: &str,
         #[cfg(not(feature = "reqwest"))]
         html: &str
     ) ->Option<Self> {
@@ -27,7 +27,12 @@ impl crate::Song {
         #[cfg(feature = "reqwest")]
         let html: &str = 
             &if AVAILABLE_SITES.iter().any(|site| has_part(base_url, site)) {
-                reqwest::blocking::get(url).and_then(|r| r.text()).ok()?
+               reqwest::get(url)
+                   .await
+                   .ok()?
+                   .text()
+                   .await
+                   .ok()?
             } else {
                 return None;
             };

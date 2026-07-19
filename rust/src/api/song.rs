@@ -45,13 +45,13 @@ impl SimpleSong {
         Ok(new_songs)
     }
 
-    #[flutter_rust_bridge::frb(sync)]
-    pub fn from_url(url: String, _html: String) -> Option<Self> {
+    #[flutter_rust_bridge::frb]
+    pub async fn from_url(url: String, _html: String) -> Option<Self> {
         #[cfg(target_os = "android")]
-        let song = Song::from_url(&url, &_html)?;
+        let song = Song::from_url(&url, &_html).await?;
 
         #[cfg(not(target_os = "android"))]
-        let song = Song::from_url(&url)?;
+        let song = Song::from_url(&url).await?;
 
         Some(Self { song, path: String::new() })
     }

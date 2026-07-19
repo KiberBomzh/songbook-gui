@@ -879,9 +879,9 @@ class _LibraryState extends State<LibraryScreen> {
 				}
 				final url = Uri.parse(link);
 				final response = await http.get(url);
-				song = SimpleSong.fromUrl(url: link, html: response.body);
+				song = await SimpleSong.fromUrl(url: link, html: response.body);
 			} else {
-				song = SimpleSong.fromUrl(url: link, html: "");
+				song = await SimpleSong.fromUrl(url: link, html: "");
 			}
 			
 

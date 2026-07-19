@@ -308,15 +308,16 @@ fn wire__crate__api__song__SimpleSong_from_songbookpro_impl(
     )
 }
 fn wire__crate__api__song__SimpleSong_from_url_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "SimpleSong_from_url",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -331,12 +332,17 @@ fn wire__crate__api__song__SimpleSong_from_url_impl(
             let api_url = <String>::sse_decode(&mut deserializer);
             let api__html = <String>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, ()>((move || {
-                let output_ok = Result::<_, ()>::Ok(crate::api::song::SimpleSong::from_url(
-                    api_url, api__html,
-                ))?;
-                Ok(output_ok)
-            })())
+            move |context| async move {
+                transform_result_sse::<_, ()>(
+                    (move || async move {
+                        let output_ok = Result::<_, ()>::Ok(
+                            crate::api::song::SimpleSong::from_url(api_url, api__html).await,
+                        )?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -3337,6 +3343,7 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
+        7 => wire__crate__api__song__SimpleSong_from_url_impl(port, ptr, rust_vec_len, data_len),
         16 => {
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
@@ -3362,7 +3369,6 @@ fn pde_ffi_dispatcher_sync_impl(
         4 => wire__crate__api__song__SimpleSong_detect_key_impl(ptr, rust_vec_len, data_len),
         5 => wire__crate__api__song__SimpleSong_from_chordpro_impl(ptr, rust_vec_len, data_len),
         6 => wire__crate__api__song__SimpleSong_from_songbookpro_impl(ptr, rust_vec_len, data_len),
-        7 => wire__crate__api__song__SimpleSong_from_url_impl(ptr, rust_vec_len, data_len),
         8 => wire__crate__api__song__SimpleSong_get_artist_impl(ptr, rust_vec_len, data_len),
         9 => wire__crate__api__song__SimpleSong_get_autoscroll_delay_impl(
             ptr,

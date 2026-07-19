@@ -154,7 +154,7 @@ impl App {
     }
 
 
-    pub fn handle_long_command_in_library(&mut self) -> Result<()> {
+    pub async fn handle_long_command_in_library(&mut self) -> Result<()> {
         let command = if let Some(c) = self.long_command.chars().next() { c }
             else { return Ok(()) };
         let command_data: String = self.long_command.chars().skip(1).collect();
@@ -234,7 +234,7 @@ impl App {
                             .skip(1)
                             .collect::<String>();
 
-                        Song::from_url(url.trim())
+                        Song::from_url(url.trim()).await
                     },
                     _ => None
                 };
