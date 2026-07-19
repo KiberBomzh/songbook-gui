@@ -43,6 +43,7 @@
 	"songTooltipSettings": "Settings",
 
 	"songAutoscroll": "Autoscroll",
+	"songCapo": "Capo",
 	"songAutoscrollSpeed": "Speed",
 	"songAutoscrollDelay": "Delay",
 	"songSecondsShort": "s",

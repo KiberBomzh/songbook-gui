@@ -122,6 +122,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get songAutoscroll => 'Автоскролл';
 
   @override
+  String get songCapo => 'Каподастр';
+
+  @override
   String get songAutoscrollSpeed => 'Скорость';
 
   @override

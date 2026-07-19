@@ -43,6 +43,7 @@
     "songTooltipSettings": "Налаштування",
 
 	"songAutoscroll": "Автоскролл",
+	"songCapo": "Каподастр",
 	"songAutoscrollSpeed": "Швидкість",
 	"songAutoscrollDelay": "Затримка",
 	"songSecondsShort": "с",
