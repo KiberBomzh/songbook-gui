@@ -44,6 +44,7 @@
 
 	"songAutoscroll": "Автоскролл",
 	"songCapo": "Каподастр",
+	"songKey": "Тональність",
 	"songAutoscrollSpeed": "Швидкість",
 	"songAutoscrollDelay": "Затримка",
 	"songSecondsShort": "с",

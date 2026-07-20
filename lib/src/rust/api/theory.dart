@@ -13,6 +13,8 @@ SimpleNoteArray25Array6 getFretboard({required SimpleNoteArray6 tuning}) =>
 SimpleNoteArray6 getStandartTuning() =>
     RustLib.instance.api.crateApiTheoryGetStandartTuning();
 
+List<SimpleKey> getAllKeys() => RustLib.instance.api.crateApiTheoryGetAllKeys();
+
 class SimpleNoteArray25 extends NonGrowableListView<SimpleNote> {
   static const arraySize = 25;
 
@@ -56,6 +58,26 @@ class SimpleNoteArray6 extends NonGrowableListView<SimpleNote> {
 
   SimpleNoteArray6.init(SimpleNote fill)
     : this(List<SimpleNote>.filled(arraySize, fill));
+}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Key>>
+abstract class Key implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleKey>>
+abstract class SimpleKey implements RustOpaqueInterface {
+  Key get key;
+
+  set key(Key key);
+
+  static SimpleKey? fromString({required String s}) =>
+      RustLib.instance.api.crateApiTheorySimpleKeyFromString(s: s);
+
+  bool isMinor();
+
+  @override
+  String toString();
+
+  void transpose({required int steps});
 }
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleNote>>

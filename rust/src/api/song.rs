@@ -71,6 +71,19 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn set_key(&mut self, key: super::theory::SimpleKey) {
+        let key = key.key;
+        loop {
+            if let Some(song_key) = self.song.metadata.key {
+                if song_key.get_note() != key.get_note() {
+                    self.song.transpose(1);
+                } else { break }
+            } else { break }
+        }
+        self.song.metadata.key = Some(key);
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn set_capo(&mut self, capo: u8) {
         if let Some(song_capo) = self.song.metadata.capo {
             let song_capo: i32 = song_capo.into();

@@ -157,6 +157,10 @@ impl Key {
     pub fn get_note(&self) -> Note {
         self.keynote
     }
+
+    pub fn is_minor(&self) -> bool {
+        self.is_minor
+    }
 }
 
 impl fmt::Display for Key {

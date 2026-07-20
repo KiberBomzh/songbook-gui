@@ -125,6 +125,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get songCapo => 'Каподастр';
 
   @override
+  String get songKey => 'Тональность';
+
+  @override
   String get songAutoscrollSpeed => 'Скорость';
 
   @override

@@ -124,6 +124,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get songCapo => 'Каподастр';
 
   @override
+  String get songKey => 'Тональність';
+
+  @override
   String get songAutoscrollSpeed => 'Швидкість';
 
   @override

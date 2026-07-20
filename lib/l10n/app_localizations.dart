@@ -328,6 +328,12 @@ abstract class AppLocalizations {
   /// **'Capo'**
   String get songCapo;
 
+  /// No description provided for @songKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get songKey;
+
   /// No description provided for @songAutoscrollSpeed.
   ///
   /// In en, this message translates to:

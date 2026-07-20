@@ -123,6 +123,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get songCapo => 'Capo';
 
   @override
+  String get songKey => 'Key';
+
+  @override
   String get songAutoscrollSpeed => 'Speed';
 
   @override

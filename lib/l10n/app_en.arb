@@ -44,6 +44,7 @@
 
 	"songAutoscroll": "Autoscroll",
 	"songCapo": "Capo",
+	"songKey": "Key",
 	"songAutoscrollSpeed": "Speed",
 	"songAutoscrollDelay": "Delay",
 	"songSecondsShort": "s",
