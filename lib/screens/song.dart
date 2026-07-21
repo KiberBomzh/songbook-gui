@@ -1138,19 +1138,21 @@ class CirclePainter extends CustomPainter {
 
 		canvas.drawCircle(center, radius, paint);
 
-		for (int i = 0; i < 12; i++) {
-			final angle = -math.pi / 2 + (i * math.pi / 6) + math.pi / 12;
-			final endX = center.dx + radius * math.cos(angle);
-			final endY = center.dy + radius * math.sin(angle);
-			canvas.drawLine(center, Offset(endX, endY), paint);
-		}
-    
 		final innerRadius = radius * 0.65;
 		canvas.drawCircle(center, innerRadius, paint);
 
-
 		final innerInnerRadius = radius * 0.35;
 		canvas.drawCircle(center, innerInnerRadius, paint);
+
+		for (int i = 0; i < 12; i++) {
+			final angle = -math.pi / 2 + (i * math.pi / 6) + math.pi / 12;
+			final startX = center.dx + innerInnerRadius * math.cos(angle);
+			final startY = center.dx + innerInnerRadius * math.sin(angle);
+			final endX = center.dx + radius * math.cos(angle);
+			final endY = center.dy + radius * math.sin(angle);
+			canvas.drawLine(Offset(startX, startY), Offset(endX, endY), paint);
+		}
+    
 	}
 
 	@override
