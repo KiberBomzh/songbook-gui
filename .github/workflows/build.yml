@@ -6,6 +6,52 @@ on:
         branches: [master]
 
 jobs:
+build-android:
+        name: Build for Android
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Set up Java Development Kit
+              uses: actions/setup-java@v4
+              with:
+                  distribution: "temurin"
+                  java-version: "21"
+
+            - name: Setup Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.x"
+                  channel: "stable"
+
+            - name: Flutter pub get
+              run: flutter pub get
+
+            - name: Download Android Keystore
+              run: |
+                  wget -q -O ~/android-dev.zip "${{ secrets.ANDROID_KEY_URL }}"
+                  unzip ~/android-dev.zip key.properties -d android/
+                  unzip ~/android-dev.zip kiberbomzh-key.jks -d android/app/
+                  rm ~/android-dev.zip
+              shell: bash
+
+            - name: Build Android APK
+              run: |
+                  flutter build apk
+                  flutter build apk --split-per-abi
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: songbook-android
+                  path: build/app/outputs/flutter-apk/*
+
     build-linux:
         name: Build for Linux
         runs-on: ubuntu-22.04
