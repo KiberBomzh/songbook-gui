@@ -35,18 +35,18 @@ fn parse_metadata(document: &Html) -> Option<(String, String)> {
 
 fn parse_text(document: &Html) -> Option<String> {
     let text_selector = Selector::parse(r#"pre[itemprop="chordsBlock"]"#).ok()?;
-    let text = document
+
+
+    Some(
+        document
             .select(&text_selector)
             .next()?
             .text()
             .collect::<Vec<_>>()
-            .join("");
-
-
-    Some(clean_text(&text))
-}
-fn clean_text(text: &str) -> String {
-    text
-        .replace('[', "")
-        .replace("]:", "\n")
+            .join("")
+            .replace("/*", "\n")
+            .replace("*/", "\n")
+            .replace('[', "")
+            .replace("]:", "\n")
+    )
 }
