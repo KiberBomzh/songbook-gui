@@ -637,6 +637,7 @@ class SongState extends State<SongScreen> {
 	}) => Container(
 		padding: const .all(10),
 		margin: const .only(top: 10),
+		height: MediaQuery.of(context).size.height * 0.9,
 		child: Column(
 			children: [
 				Align(
@@ -656,6 +657,8 @@ class SongState extends State<SongScreen> {
 					mainAxisAlignment: .end,
 					children: actions,
 				),
+
+				SizedBox(height: MediaQuery.of(context).padding.bottom), // safe area
 			],
 		),
 	);
