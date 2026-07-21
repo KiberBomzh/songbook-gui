@@ -43,6 +43,10 @@ android {
 			keyPassword = keystoreProperties["keyPassword"] as String?
 			storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
 			storePassword = keystoreProperties["storePassword"] as String?
+
+			enableV1Signing = true
+			enableV2Signing = true
+			enableV3Signing = true
 		}
 	}
 
