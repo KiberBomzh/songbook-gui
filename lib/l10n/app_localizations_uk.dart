@@ -342,7 +342,7 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorTooltipRedo => 'Повторити';
 
   @override
-  String get editorSongNote => 'Примітка дл пісні';
+  String get editorSongNote => 'Примітка для пісні';
 
   @override
   String get editorBlock => 'Блок';
