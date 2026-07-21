@@ -320,23 +320,28 @@ class SongState extends State<SongScreen> {
 				_song.setAutoscrollSpeed(newSpeed: BigInt.from(speedPerLine));
 				_scheduleSave();
 			}),
-			showKeyDialog: () => _showDialog(
-				dialog: _keyDialog(onDone: (key) => setState(() {
+			showKeyDialog: () => showModalBottomSheet(
+				isScrollControlled: true,
+				context: context,
+				builder: (context) => _keyDialog(onDone: (key) => setState(() {
 					_song.setKey(key: key);
 					_key = _song.getKey();
 					_scheduleSave();
 				})),
 			),
-			showCapoDialog: () => _showDialog(
-				dialog: _capoDialog(onDone: (fret) => setState(() {
+			showCapoDialog: () => showModalBottomSheet(
+				isScrollControlled: true,
+				context: context,
+				builder: (context) =>  _capoDialog(onDone: (fret) => setState(() {
 					_song.setCapo(capo: fret);
 					_capo = _song.getCapo();
 					_key = _song.getKey();
 					_scheduleSave();
 				})),
 			),
-			showAutoscrollDialog: () => _showDialog(
-				dialog: _autoscrollDialog(onDone: (delay, speed) => setState(() {
+			showAutoscrollDialog: () => showDialog(
+				context: context,
+				builder: (context) => _autoscrollDialog(onDone: (delay, speed) => setState(() {
 					_autoscrollSpeed = speed.floor();
 
 					final int speedPerLine = (_autoscrollSpeed * _lineHeight).round();
@@ -595,13 +600,6 @@ class SongState extends State<SongScreen> {
 		);
 	}
 
-	void _showDialog({
-		required Widget dialog,
-	}) => showDialog(
-		context: context,
-		builder: (context) => dialog,
-	);
-
 	Widget _autoscrollDialog({
 		required Function(double, double) onDone,
 	}) {
@@ -632,13 +630,43 @@ class SongState extends State<SongScreen> {
 		);
 	}
 
+	Widget _bottomSheetDialogWrapper({
+		required String title,
+		required Widget content,
+		required List<Widget> actions,
+	}) => Container(
+		padding: const .all(10),
+		margin: const .only(top: 10),
+		child: Column(
+			children: [
+				Align(
+					alignment: .centerLeft,
+					child: Text(title,
+						style: Theme.of(context).textTheme.titleLarge,
+					),
+				),
+				const SizedBox(height: 10),
+
+				Expanded(
+					child: content,
+				),
+				const SizedBox(height: 10),
+
+				Row(
+					mainAxisAlignment: .end,
+					children: actions,
+				),
+			],
+		),
+	);
+
 	Widget _capoDialog({
 		required Function(int) onDone,
 	}) {
 		final fretboard = Fretboard(fret: _capo ?? 0);
 
-		return AlertDialog(
-			title: Text(AppLocalizations.of(context)!.songCapo),
+		return _bottomSheetDialogWrapper(
+			title: AppLocalizations.of(context)!.songCapo,
 			content: SizedBox(
 				width: double.maxFinite,
 				child: fretboard,
@@ -664,8 +692,8 @@ class SongState extends State<SongScreen> {
 	}) {
 		final key = GlobalKey<_CircleOfFifthState>();
 
-		return AlertDialog(
-			title: Text(AppLocalizations.of(context)!.songKey),
+		return _bottomSheetDialogWrapper(
+			title: AppLocalizations.of(context)!.songKey,
 			content: SizedBox(
 				width: double.maxFinite,
 				child: LayoutBuilder(
@@ -679,8 +707,7 @@ class SongState extends State<SongScreen> {
 
 						return CircleOfFifth(
 							key: key,
-							simpleKey: SimpleKey.fromString(s: _key ?? 'C') ??
-								SimpleKey.fromString(s: 'C')!,
+							simpleKey: _song.getSimpleKey(),
 							size: size,
 						);
 					},
@@ -694,8 +721,8 @@ class SongState extends State<SongScreen> {
 				ElevatedButton(
 					child: Text(AppLocalizations.of(context)!.done),
 					onPressed: () {
-						if (key.currentState != null)
-							onDone(key.currentState!.currentKey);
+						if (key.currentState?.currentKey != null)
+							onDone(key.currentState!.currentKey!);
 						Navigator.of(context).pop();
 					},
 				),
@@ -946,7 +973,7 @@ class _FretboardState extends State<Fretboard> {
 }
 
 class CircleOfFifth extends StatefulWidget {
-	final SimpleKey simpleKey;
+	final SimpleKey? simpleKey;
 	final double size;
 
 	const CircleOfFifth({
@@ -961,8 +988,8 @@ class CircleOfFifth extends StatefulWidget {
 
 class _CircleOfFifthState extends State<CircleOfFifth> {
 	final _keys = getAllKeys();
-	List<SimpleKey> _keysNearby = [];
-	late SimpleKey currentKey;
+	final List<SimpleKey> _keysNearby = [];
+	late SimpleKey? currentKey;
 
 	@override
 	void initState() {
@@ -980,10 +1007,14 @@ class _CircleOfFifthState extends State<CircleOfFifth> {
 	}
 
 	void _updateKeysNearby() {
-		final index = _keys.indexOf(currentKey);
+		if (currentKey == null)
+			return;
+
+
+		final index = _keys.indexOf(currentKey!);
 		_keysNearby.clear();
 
-		final stepsBackward = currentKey.isMinor() ? 3 : 2;
+		final stepsBackward = currentKey!.isMinor() ? 3 : 2;
 		for (int step = stepsBackward; step > 0; step--) {
 			int stepIndex = index - step;
 			if (stepIndex < 0)
@@ -993,7 +1024,7 @@ class _CircleOfFifthState extends State<CircleOfFifth> {
 		}
 
 
-		final stepsForward = currentKey.isMinor() ? 2 : 3;
+		final stepsForward = currentKey!.isMinor() ? 2 : 3;
 		for (int step = 1; step <= stepsForward; step++) {
 			int stepIndex = index + step;
 			if (stepIndex > _keys.length - 1)

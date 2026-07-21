@@ -167,6 +167,13 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn get_simple_key(&self) -> Option<super::theory::SimpleKey> {
+        let key = self.song.metadata.key?;
+
+        Some( super::theory::SimpleKey { key: key } )
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn get_capo(&self) -> Option<u8> {
         self.song.metadata.capo
     }
