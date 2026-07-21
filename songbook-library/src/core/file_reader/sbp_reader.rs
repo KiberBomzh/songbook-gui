@@ -91,7 +91,6 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
     let mut chord_list = Vec::new();
 
     let mut title = String::new();
-    let mut notes = String::new();
 
     let mut tab = String::new();
     let mut in_tab = false;
@@ -102,14 +101,13 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
             while lines.last() == Some(&Line::EmptyLine) {
                 lines.pop();
             }
-            if !title.is_empty() || !notes.is_empty() || !lines.is_empty() {
+            if !title.is_empty() || !lines.is_empty() {
                 blocks.push( Block {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines,
-                    notes: if notes.is_empty() { None } else { Some(notes) }
+                    notes: None,
                 });
                 title = String::new();
-                notes = String::new();
                 lines = Vec::new();
             }
 
@@ -121,8 +119,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
 
         } else if line.starts_with("(") && line.ends_with(")") {
             if let Some(end) = line.find(")") {
-                if !notes.is_empty() { notes.push('\n') }
-                notes.push_str(&line[1..end])
+                lines.push(Line::NoteLine(line[1..end].trim().to_string()))
             } else {
                 lines.push(Line::PlainText(line.trim().to_string()))
             }
@@ -151,11 +148,11 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
     while lines.last() == Some(&Line::EmptyLine) {
         lines.pop();
     }
-    if !title.is_empty() || !notes.is_empty() || !lines.is_empty() {
+    if !title.is_empty() || !lines.is_empty() {
         blocks.push( Block {
             title: if title.is_empty() { None } else { Some(title) },
             lines,
-            notes: if notes.is_empty() { None } else { Some(notes) }
+            notes: None,
         });
     }
 
