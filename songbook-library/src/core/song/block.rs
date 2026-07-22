@@ -55,7 +55,7 @@ impl Line {
             Line::ChordsLine(chords) => if needs_chords {
                 let mut c = String::new();
                 for chord in chords {
-                    c.push_str(&chord.text);
+                    c.push_str(&chord.to_string());
                     c.push(' ');
                 }
                 s.push_str(&format!("{}", c.with(CHORDS_COLOR)));
@@ -101,7 +101,7 @@ impl Block {
                 Line::ChordsLine(chords) => {
                     s.push_str(CHORDS_LINE_SYMBOL);
                     for chord in chords {
-                        s.push_str(&chord.text);
+                        s.push_str(&chord.to_string());
                         s.push(' ');
                     }
                     s.push('\n');

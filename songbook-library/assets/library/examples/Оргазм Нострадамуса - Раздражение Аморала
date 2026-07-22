@@ -2,90 +2,96 @@ metadata:
   title: Раздражение Аморала
   artist: Оргазм Нострадамуса
   key:
-    keynote: F
+    keynote: G
     is_minor: true
   capo: null
-  autoscroll_speed: 2500
+  autoscroll_speed: 360
+  autoscroll_delay: 3
+  show_options:
+    chords: true
+    rhythm: true
+    notes: true
+    fingerings: false
 chord_list:
-- text: Dm
+- text: m
   keynote: D
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Dsus2
+- text: sus2
   keynote: D
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus2
-- text: Dsus4
+- text: sus4
   keynote: D
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: A#
+- text: ''
   keynote: ASharp
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: A#5-
+- text: 5-
   keynote: ASharp
   minor: false
   chord_type: Norm
   fifth_state: Dim
   sus_or_add: No
-- text: Asus4
+- text: sus4
   keynote: A
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: A
+- text: ''
   keynote: A
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Em
+- text: m
   keynote: E
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Esus2
+- text: sus2
   keynote: E
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus2
-- text: Esus4
+- text: sus4
   keynote: E
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: C
+- text: ''
   keynote: C
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C5-
+- text: 5-
   keynote: C
   minor: false
   chord_type: Norm
   fifth_state: Dim
   sus_or_add: No
-- text: Bsus4
+- text: sus4
   keynote: B
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: B
+- text: ''
   keynote: B
   minor: false
   chord_type: Norm
@@ -108,7 +114,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -117,7 +123,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -130,7 +136,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -139,7 +145,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -152,7 +158,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -161,7 +167,7 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -174,7 +180,7 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -183,7 +189,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -199,7 +205,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -208,7 +214,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -221,7 +227,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -230,7 +236,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -243,7 +249,7 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -252,7 +258,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -265,7 +271,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -274,7 +280,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -290,7 +296,7 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -299,7 +305,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -312,7 +318,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -321,7 +327,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -334,7 +340,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -343,7 +349,7 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -356,7 +362,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -365,7 +371,7 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -381,7 +387,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -390,7 +396,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -403,7 +409,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -412,7 +418,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -425,7 +431,7 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -434,7 +440,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -447,7 +453,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -456,7 +462,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -472,7 +478,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -481,7 +487,7 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -494,7 +500,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -503,7 +509,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -516,7 +522,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -525,7 +531,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -538,7 +544,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -547,7 +553,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -563,7 +569,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -572,7 +578,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
         minor: false
         chord_type: Norm
@@ -585,7 +591,7 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
         minor: false
         chord_type: Norm
@@ -594,7 +600,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -607,7 +613,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -616,7 +622,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C5-
+        text: 5-
         keynote: C
         minor: false
         chord_type: Norm
@@ -629,7 +635,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
         minor: false
         chord_type: Norm
@@ -638,7 +644,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
         minor: false
         chord_type: Norm
@@ -654,7 +660,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -663,7 +669,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
         minor: false
         chord_type: Norm
@@ -676,7 +682,7 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
         minor: false
         chord_type: Norm
@@ -685,7 +691,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -698,7 +704,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -707,7 +713,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: C5-
+        text: 5-
         keynote: C
         minor: false
         chord_type: Norm
@@ -720,7 +726,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
         minor: false
         chord_type: Norm
@@ -729,7 +735,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
         minor: false
         chord_type: Norm
@@ -745,7 +751,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -754,7 +760,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
         minor: false
         chord_type: Norm
@@ -767,7 +773,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
         minor: false
         chord_type: Norm
@@ -776,7 +782,7 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -789,7 +795,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -798,7 +804,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: C5-
+        text: 5-
         keynote: C
         minor: false
         chord_type: Norm
@@ -811,7 +817,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
         minor: false
         chord_type: Norm
@@ -820,7 +826,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: B
+        text: ''
         keynote: B
         minor: false
         chord_type: Norm
@@ -836,7 +842,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -845,7 +851,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
         minor: false
         chord_type: Norm
@@ -858,7 +864,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
         minor: false
         chord_type: Norm
@@ -867,7 +873,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
         minor: true
         chord_type: Norm
@@ -880,7 +886,7 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -889,7 +895,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: C5-
+        text: 5-
         keynote: C
         minor: false
         chord_type: Norm
@@ -902,7 +908,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
         minor: false
         chord_type: Norm
@@ -911,7 +917,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
         minor: false
         chord_type: Norm
@@ -927,7 +933,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -936,7 +942,7 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
         minor: false
         chord_type: Norm
@@ -949,7 +955,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
         minor: false
         chord_type: Norm
@@ -958,7 +964,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -971,7 +977,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -980,7 +986,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
         minor: false
         chord_type: Norm
@@ -993,7 +999,7 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
         minor: false
         chord_type: Norm
@@ -1002,7 +1008,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm

@@ -6,26 +6,28 @@ metadata:
     is_minor: true
   capo: null
   autoscroll_speed: 2500
+  autoscroll_delay: 3
+  show_options: null
 chord_list:
-- text: Am
+- text: m
   keynote: A
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: F
+- text: ''
   keynote: F
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C
+- text: ''
   keynote: C
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: E
+- text: ''
   keynote: E
   minor: false
   chord_type: Norm
@@ -35,25 +37,25 @@ blocks:
 - title: Вступление
   lines:
   - !ChordsLine
-    - text: Am
+    - text: m
       keynote: A
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F
+    - text: ''
       keynote: F
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: C
+    - text: ''
       keynote: C
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: E
+    - text: ''
       keynote: E
       minor: false
       chord_type: Norm
@@ -80,7 +82,7 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -89,7 +91,7 @@ blocks:
     - !OnIndex
       index: 9
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -98,7 +100,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -107,7 +109,7 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -115,12 +117,24 @@ blocks:
         sus_or_add: No
     text: Границы ключ переломлен пополам,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 14
+      symbol: '↓'
+    - !OnIndex
+      index: 23
+      symbol: '↓'
+    - !OnIndex
+      index: 29
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -129,7 +143,7 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -138,7 +152,7 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -147,7 +161,7 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -155,12 +169,24 @@ blocks:
         sus_or_add: No
     text: А наш батюшка Ленин совсем усопх.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 8
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 30
+      symbol: '↓'
+    - !OnIndex
+      index: 38
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 8
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -169,7 +195,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -178,7 +204,7 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -187,7 +213,7 @@ blocks:
     - !OnIndex
       index: 38
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -195,12 +221,24 @@ blocks:
         sus_or_add: No
     text: Он разложился на плесень и на липовый мед,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 7
+      symbol: '↓'
+    - !OnIndex
+      index: 19
+      symbol: '↓'
+    - !OnIndex
+      index: 27
+      symbol: '↓'
+    - !OnIndex
+      index: 35
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 7
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -209,7 +247,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -218,7 +256,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -227,7 +265,7 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -235,12 +273,21 @@ blocks:
         sus_or_add: No
     text: А перестройка все идет, и идет по плану.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 7
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 33
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 7
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -249,7 +296,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -258,7 +305,7 @@ blocks:
     - !OnIndex
       index: 33
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -269,12 +316,24 @@ blocks:
 - title: Припев
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 2
+      symbol: '↓'
+    - !OnIndex
+      index: 14
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 2
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -283,7 +342,7 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -292,7 +351,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -301,7 +360,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -309,12 +368,27 @@ blocks:
         sus_or_add: No
     text: И всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -323,7 +397,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -332,7 +406,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -341,7 +415,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -350,7 +424,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -361,12 +435,24 @@ blocks:
 - title: Куплет
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 4
+      symbol: '↓'
+    - !OnIndex
+      index: 10
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 27
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 4
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -375,7 +461,7 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -384,7 +470,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -393,7 +479,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -401,12 +487,24 @@ blocks:
         sus_or_add: No
     text: А моя судьба захотела на покой,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 5
+      symbol: '↓'
+    - !OnIndex
+      index: 16
+      symbol: '↓'
+    - !OnIndex
+      index: 31
+      symbol: '↓'
+    - !OnIndex
+      index: 39
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 5
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -415,7 +513,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -424,7 +522,7 @@ blocks:
     - !OnIndex
       index: 31
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -433,7 +531,7 @@ blocks:
     - !OnIndex
       index: 39
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -441,12 +539,24 @@ blocks:
         sus_or_add: No
     text: Я обещал ей не участвовать в военной игре.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 8
+      symbol: '↓'
+    - !OnIndex
+      index: 19
+      symbol: '↓'
+    - !OnIndex
+      index: 30
+      symbol: '↓'
+    - !OnIndex
+      index: 41
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 8
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -455,7 +565,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -464,7 +574,7 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -473,7 +583,7 @@ blocks:
     - !OnIndex
       index: 41
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -481,12 +591,24 @@ blocks:
         sus_or_add: No
     text: Но на фуражке на моей серп и молот и звезда.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 9
+      symbol: '↓'
+    - !OnIndex
+      index: 22
+      symbol: '↓'
+    - !OnIndex
+      index: 30
+      symbol: '↓'
+    - !OnIndex
+      index: 41
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 9
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -495,7 +617,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -504,7 +626,7 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -513,7 +635,7 @@ blocks:
     - !OnIndex
       index: 41
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -521,12 +643,21 @@ blocks:
         sus_or_add: No
     text: Как это трогательно - серп и молот и звезда.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 8
+      symbol: '↓'
+    - !OnIndex
+      index: 16
+      symbol: '↓'
+    - !OnIndex
+      index: 24
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 8
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -535,7 +666,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -544,7 +675,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -555,12 +686,24 @@ blocks:
 - title: Припев
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 2
+      symbol: '↓'
+    - !OnIndex
+      index: 14
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 2
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -569,7 +712,7 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -578,7 +721,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -587,7 +730,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -595,12 +738,27 @@ blocks:
         sus_or_add: No
     text: И всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -609,7 +767,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -618,7 +776,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -627,7 +785,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -636,7 +794,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -647,12 +805,24 @@ blocks:
 - title: Куплет
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 4
+      symbol: '↓'
+    - !OnIndex
+      index: 9
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 26
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 4
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -661,7 +831,7 @@ blocks:
     - !OnIndex
       index: 9
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -670,7 +840,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -679,7 +849,7 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -687,12 +857,24 @@ blocks:
         sus_or_add: No
     text: А моей женой накормили толпу,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 4
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 22
+      symbol: '↓'
+    - !OnIndex
+      index: 32
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 4
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -701,7 +883,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -710,7 +892,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -719,7 +901,7 @@ blocks:
     - !OnIndex
       index: 32
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -727,12 +909,24 @@ blocks:
         sus_or_add: No
     text: Мировым кулаком растоптали ей грудь.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 5
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 27
+      symbol: '↓'
+    - !OnIndex
+      index: 37
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 5
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -741,7 +935,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -750,7 +944,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -759,7 +953,7 @@ blocks:
     - !OnIndex
       index: 37
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -767,12 +961,21 @@ blocks:
         sus_or_add: No
     text: Всенародной свободой растерзали ей плоть.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 8
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 25
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 8
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -781,7 +984,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -790,7 +993,7 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -801,12 +1004,24 @@ blocks:
 - title: Припев
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 2
+      symbol: '↓'
+    - !OnIndex
+      index: 14
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 2
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -815,7 +1030,7 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -824,7 +1039,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -833,7 +1048,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -841,12 +1056,27 @@ blocks:
         sus_or_add: No
     text: И всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -855,7 +1085,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -864,7 +1094,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -873,7 +1103,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -882,7 +1112,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -893,12 +1123,24 @@ blocks:
 - title: Куплет
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 10
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
+    - !OnIndex
+      index: 26
+      symbol: '↓'
+    - !OnIndex
+      index: 36
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 10
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -907,7 +1149,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -916,7 +1158,7 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -925,7 +1167,7 @@ blocks:
     - !OnIndex
       index: 36
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -933,12 +1175,24 @@ blocks:
         sus_or_add: No
     text: Один лишь дедушка Ленин хороший был вождь,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 9
+      symbol: '↓'
+    - !OnIndex
+      index: 19
+      symbol: '↓'
+    - !OnIndex
+      index: 27
+      symbol: '↓'
+    - !OnIndex
+      index: 35
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 9
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -947,7 +1201,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -956,7 +1210,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -965,7 +1219,7 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -973,12 +1227,24 @@ blocks:
         sus_or_add: No
     text: А все другие остальные - такое дерьмо,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 9
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 25
+      symbol: '↓'
+    - !OnIndex
+      index: 33
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 9
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -987,7 +1253,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -996,7 +1262,7 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1005,7 +1271,7 @@ blocks:
     - !OnIndex
       index: 33
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1013,12 +1279,24 @@ blocks:
         sus_or_add: No
     text: А все другие - враги и такие мудаки.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 7
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 29
+      symbol: '↓'
+    - !OnIndex
+      index: 41
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 7
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1027,7 +1305,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1036,7 +1314,7 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1045,7 +1323,7 @@ blocks:
     - !OnIndex
       index: 41
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1053,12 +1331,24 @@ blocks:
         sus_or_add: No
     text: Над родною над отчизной бесноватый снег шел.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 4
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 29
+      symbol: '↓'
+    - !OnIndex
+      index: 38
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 4
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1067,7 +1357,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1076,7 +1366,7 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1085,7 +1375,7 @@ blocks:
     - !OnIndex
       index: 38
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1093,12 +1383,24 @@ blocks:
         sus_or_add: No
     text: Я купил журнал "Корея" - там тоже хорошо.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 19
+      symbol: '↓'
+    - !OnIndex
+      index: 29
+      symbol: '↓'
+    - !OnIndex
+      index: 41
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1107,7 +1409,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1116,7 +1418,7 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1125,7 +1427,7 @@ blocks:
     - !OnIndex
       index: 41
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1133,12 +1435,21 @@ blocks:
         sus_or_add: No
     text: Там товарищ Ким Ир Сен - там тоже, что у нас.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 3
+      symbol: '↓'
+    - !OnIndex
+      index: 16
+      symbol: '↓'
+    - !OnIndex
+      index: 25
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 3
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1147,7 +1458,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1156,7 +1467,7 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1167,12 +1478,24 @@ blocks:
 - title: Припев
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1181,7 +1504,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1190,7 +1513,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1199,7 +1522,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1207,12 +1530,27 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1221,7 +1559,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1230,7 +1568,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1239,7 +1577,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1248,7 +1586,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1259,12 +1597,24 @@ blocks:
 - title: Куплет
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 11
+      symbol: '↓'
+    - !OnIndex
+      index: 21
+      symbol: '↓'
+    - !OnIndex
+      index: 30
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1273,7 +1623,7 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1282,7 +1632,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1291,7 +1641,7 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1299,12 +1649,24 @@ blocks:
         sus_or_add: No
     text: А при коммунизме все будет заебись,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 13
+      symbol: '↓'
+    - !OnIndex
+      index: 24
+      symbol: '↓'
+    - !OnIndex
+      index: 36
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1313,7 +1675,7 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1322,7 +1684,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1331,7 +1693,7 @@ blocks:
     - !OnIndex
       index: 36
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1339,12 +1701,24 @@ blocks:
         sus_or_add: No
     text: Он наступит скоро, надо только подождать.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 8
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 29
+      symbol: '↓'
+    - !OnIndex
+      index: 41
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 8
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1353,7 +1727,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1362,7 +1736,7 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1371,7 +1745,7 @@ blocks:
     - !OnIndex
       index: 41
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1379,12 +1753,24 @@ blocks:
         sus_or_add: No
     text: Там все будет бесплатно, там все будет в кайф.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 17
+      symbol: '↓'
+    - !OnIndex
+      index: 28
+      symbol: '↓'
+    - !OnIndex
+      index: 37
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1393,7 +1779,7 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1402,7 +1788,7 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1411,7 +1797,7 @@ blocks:
     - !OnIndex
       index: 37
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1419,12 +1805,21 @@ blocks:
         sus_or_add: No
     text: Там наверное вообще не надо будет умирать
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 6
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 27
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 6
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1433,7 +1828,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1442,7 +1837,7 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1453,12 +1848,24 @@ blocks:
 - title: Припев
   lines:
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1467,7 +1874,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1476,7 +1883,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1485,7 +1892,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1493,12 +1900,24 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1507,7 +1926,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1516,7 +1935,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1525,7 +1944,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1533,12 +1952,24 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1547,7 +1978,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1556,7 +1987,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1565,7 +1996,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1573,12 +2004,27 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану,
   - !TextBlock
-    rhythm: null
+    rhythm:
+    - !OnIndex
+      index: 0
+      symbol: '↓'
+    - !OnIndex
+      index: 12
+      symbol: '↓'
+    - !OnIndex
+      index: 15
+      symbol: '↓'
+    - !OnIndex
+      index: 18
+      symbol: '↓'
+    - !OnIndex
+      index: 20
+      symbol: '↓'
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm
@@ -1587,7 +2033,7 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: Am
+        text: m
         keynote: A
         minor: true
         chord_type: Norm
@@ -1596,7 +2042,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -1605,7 +2051,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -1614,7 +2060,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: E
+        text: ''
         keynote: E
         minor: false
         chord_type: Norm

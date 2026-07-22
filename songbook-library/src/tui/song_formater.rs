@@ -89,7 +89,7 @@ pub fn get_as_paragraph<'a>(
                 block::Line::ChordsLine(chords) => if needs_chords {
                     let mut chord_line = String::new();
                     for chord in chords {
-                        chord_line.push_str(&chord.text);
+                        chord_line.push_str(&chord.to_string());
                         chord_line.push(' ');
                     }
                     if chord_line.chars().count() > columns { columns = chord_line.chars().count() }

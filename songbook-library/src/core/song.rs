@@ -2,6 +2,7 @@ pub mod block;
 pub mod row;
 pub mod chord;
 
+use std::fmt;
 use serde::{Serialize, Deserialize};
 
 #[cfg(feature = "colored")]
@@ -210,83 +211,6 @@ impl Song {
         }
     }
 
-    pub fn get_song_as_text(&self) -> String {
-        let (chords, _rhythm, notes, fingerings) = self.metadata.get_show_options();
-        let mut s = String::new();
-
-
-        if !self.metadata.artist.is_empty() && !self.metadata.title.is_empty() {
-            s.push_str( &format!("{} - {}", self.metadata.artist, self.metadata.title) );
-            s.push_str("\n\n");
-        }
-
-        if let Some(n) = &self.notes && notes {
-            s.push_str(n);
-            s.push('\n');
-        }
-
-        if chords && fingerings {
-            let fings = self.get_fingerings();
-            
-            if let Some(text) = sum_text_in_fingerings(&fings, None) {
-                s.push_str(&text);
-            }
-        }
-
-        s.push_str(&self.string());
-
-
-        return s
-    }
-
-    pub fn print(&self) {
-        println!("{}", self.get_song_as_text());
-    }
-
-    pub fn string(&self) -> String {
-        let (chords, rhythm, notes, _fingerings) = self.metadata.get_show_options();
-
-        let mut s = String::new();
-        let mut is_first = true;
-        for block in &self.blocks {
-            if is_first { is_first = false }
-            else { s.push('\n') }
-
-            if let Some(title) = &block.title {
-                if !is_first && !title.is_empty() { s.push('\n') }
-                s.push_str(title);
-                s.push(' ');
-            }
-            if let Some(n) = &block.notes && notes {
-                if !is_first && block.title.is_none() { s.push('\n') }
-                s.push_str(n);
-            }
-            if !block.lines.is_empty() { s.push('\n') }
-
-            let mut is_first_line = true;
-            for line in &block.lines {
-                if is_first_line { is_first_line = false }
-                else { s.push('\n') }
-                match line {
-                    Line::TextBlock(row) => s.push_str(&row.to_string(chords, rhythm)),
-                    Line::ChordsLine(cs) => if chords {
-                        for chord in cs {
-                            s.push_str(&chord.text);
-                            s.push(' ');
-                        }
-                    },
-                    Line::NoteLine(text) => if notes {
-                        s.push_str(text);
-                    } else { s.pop(); },
-                    Line::PlainText(text) => s.push_str(text),
-                    Line::Tab(text) => s.push_str(text),
-                    Line::EmptyLine => {}
-                }
-            }
-        }
-
-        return s
-    }
 
     #[cfg(feature = "colored")]
     pub fn get_colored(&self) -> String {
@@ -407,7 +331,7 @@ impl Song {
         
         #[cfg(feature = "song_library")]
         for chord in &self.chord_list {
-            if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.text) {
+            if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.to_string()) {
                 fings.push(f)
             } else {
                 fings.push( chord.get_fingerings(&STANDART_TUNING)[0].clone() )
@@ -540,5 +464,107 @@ impl Song {
         }
 
         return list;
+    }
+
+
+    // yes, I broke the compatibility again
+    pub fn chord_fix(&mut self) -> bool {
+        for chord in self.chord_list.iter_mut() {
+            if !chord.compatibility_fix() {
+                return false;
+            }
+        }
+
+        for block in self.blocks.iter_mut() {
+            for line in block.lines.iter_mut() {
+                match line {
+                    Line::TextBlock(row) => {
+                        if let Some(chords) = &mut row.chords {
+                            for chord in chords.iter_mut() {
+                                match chord {
+                                    ChordPosition::UpBeat(chord) => chord.compatibility_fix(),
+                                    ChordPosition::OnIndex{chord, ..} => chord.compatibility_fix(),
+                                };
+                            }
+                        }
+                    },
+                    Line::ChordsLine(chords) => for chord in chords {
+                        chord.compatibility_fix();
+                    },
+                    _ => {}
+                }
+            }
+        }
+
+
+        true
+    }
+}
+
+impl fmt::Display for Song {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let (chords, rhythm, notes, fingerings) = self.metadata.get_show_options();
+        let mut s = String::new();
+
+
+        if !self.metadata.artist.is_empty() && !self.metadata.title.is_empty() {
+            s.push_str( &format!("{} - {}", self.metadata.artist, self.metadata.title) );
+            s.push_str("\n\n");
+        }
+
+        if let Some(n) = &self.notes && notes {
+            s.push_str(n);
+            s.push('\n');
+        }
+
+        if chords && fingerings {
+            let fings = self.get_fingerings();
+            
+            if let Some(text) = sum_text_in_fingerings(&fings, None) {
+                s.push_str(&text);
+            }
+        }
+
+
+        let mut is_first = true;
+        for block in &self.blocks {
+            if is_first { is_first = false }
+            else { s.push('\n') }
+
+            if let Some(title) = &block.title {
+                if !is_first && !title.is_empty() { s.push('\n') }
+                s.push_str(title);
+                s.push(' ');
+            }
+            if let Some(n) = &block.notes && notes {
+                if !is_first && block.title.is_none() { s.push('\n') }
+                s.push_str(n);
+            }
+            if !block.lines.is_empty() { s.push('\n') }
+
+            let mut is_first_line = true;
+            for line in &block.lines {
+                if is_first_line { is_first_line = false }
+                else { s.push('\n') }
+                match line {
+                    Line::TextBlock(row) => s.push_str(&row.to_string(chords, rhythm)),
+                    Line::ChordsLine(cs) => if chords {
+                        for chord in cs {
+                            s.push_str(&chord.to_string());
+                            s.push(' ');
+                        }
+                    },
+                    Line::NoteLine(text) => if notes {
+                        s.push_str(text);
+                    } else { s.pop(); },
+                    Line::PlainText(text) => s.push_str(text),
+                    Line::Tab(text) => s.push_str(text),
+                    Line::EmptyLine => {}
+                }
+            }
+        }
+
+
+        write!(f, "{s}")
     }
 }

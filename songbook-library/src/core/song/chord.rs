@@ -1,3 +1,5 @@
+use std::fmt;
+
 use serde::{Serialize, Deserialize};
 use crate::Note;
 use crate::Note::*;
@@ -40,7 +42,7 @@ enum SusOrAdd {
 
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Chord {
-    pub text: String,
+    text: String,
     keynote: Note,
     minor: bool,
     chord_type: ChordType,
@@ -66,66 +68,65 @@ impl Chord {
             _ => return None
         };
 
-        let text_after_key = &text[key_text.len()..];
-        let text = text.to_string();
-        let minor = text_after_key.starts_with('m') && !text_after_key.starts_with("maj");
+        let text = text[key_text.len()..].to_string();
+        let minor = text.starts_with('m') && !text.starts_with("maj");
 
         let fifth_state =
-            if text_after_key.contains("aug") ||
-                text_after_key.contains("5#") ||
-                text_after_key.contains("5+") ||
-                text_after_key.contains("+5") { FifthState::Aug }
+            if text.contains("aug") ||
+                text.contains("5#") ||
+                text.contains("5+") ||
+                text.contains("+5") { FifthState::Aug }
 
-            else if text_after_key.contains("dim") ||
-                text_after_key.contains("5b") ||
-                text_after_key.contains("5-") ||
-                text_after_key.contains("-5") { FifthState::Dim }
+            else if text.contains("dim") ||
+                text.contains("5b") ||
+                text.contains("5-") ||
+                text.contains("-5") { FifthState::Dim }
 
             else { FifthState::Norm };
 
 
         let sus_or_add =
             // если третью ступень поднять ещё выше
-            if text_after_key.starts_with("sus4+") ||
-                text_after_key.starts_with("sus4#") { SusOrAdd::Sus4Plus }
+            if text.starts_with("sus4+") ||
+                text.starts_with("sus4#") { SusOrAdd::Sus4Plus }
 
-            else if text_after_key.starts_with("sus2") { SusOrAdd::Sus2 }
-            else if text_after_key.starts_with("sus4") { SusOrAdd::Sus4 }
-            else if text_after_key.contains("add2") { SusOrAdd::Add2 }
-            else if text_after_key.contains("add4") { SusOrAdd::Add4 }
+            else if text.starts_with("sus2") { SusOrAdd::Sus2 }
+            else if text.starts_with("sus4") { SusOrAdd::Sus4 }
+            else if text.contains("add2") { SusOrAdd::Add2 }
+            else if text.contains("add4") { SusOrAdd::Add4 }
             else { SusOrAdd::No };
 
 
-        if text_after_key == "5" {
+        if text == "5" {
             return Some( Self { text, keynote, fifth_state, sus_or_add, 
                 minor: false,
                 chord_type: ChordType::Power,
             } )
-        } else if text_after_key.contains("9") {
+        } else if text.contains("9") {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::Nineth
             } )
-        } else if text_after_key.contains("11") {
+        } else if text.contains("11") {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::Eleventh
             } )
-        } else if text_after_key.contains("13") {
+        } else if text.contains("13") {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::Thirteenth
             } )
-        } else if text_after_key.contains("maj") {
+        } else if text.contains("maj") {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::MajSeventh
             } )
-        } else if text_after_key.contains('7') {
+        } else if text.contains('7') {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::Seventh
             } )
-        } else if text_after_key.contains("6-") || text_after_key.contains("6b") {
+        } else if text.contains("6-") || text.contains("6b") {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::SixthMinus
             } )
-        } else if text_after_key.contains('6') {
+        } else if text.contains('6') {
             return Some( Self { text, keynote, minor, fifth_state, sus_or_add,
                 chord_type: ChordType::Sixth
             } )
@@ -216,44 +217,30 @@ impl Chord {
         let mut chord = self.clone();
 
         if steps > 0 {
-            for _ in 0..steps { chord.do_step_right() }
+            for _ in 0..steps { chord.keynote.increase() }
         } else if steps < 0 {
-            for _ in steps..0 { chord.do_step_left() }
+            for _ in steps..0 { chord.keynote.decrease() }
         }
 
         return chord
     }
 
-    fn do_step_right(&mut self) {
-        (self.keynote, self.text) = match self.keynote {
-            A =>      (ASharp, format!("A#{}", &self.text[1..]) ),
-            ASharp => (B, format!("B{}", &self.text[2..]) ),
-            B =>      (C, format!("C{}", &self.text[1..]) ),
-            C =>      (CSharp, format!("C#{}", &self.text[1..]) ),
-            CSharp => (D, format!("D{}", &self.text[2..]) ),
-            D =>      (DSharp, format!("D#{}", &self.text[1..]) ),
-            DSharp => (E, format!("E{}", &self.text[2..]) ),
-            E =>      (F, format!("F{}", &self.text[1..]) ),
-            F =>      (FSharp, format!("F#{}", &self.text[1..]) ),
-            FSharp => (G, format!("G{}", &self.text[2..]) ),
-            G =>      (GSharp, format!("G#{}", &self.text[1..]) ),
-            GSharp => (A, format!("A{}", &self.text[2..]) )
+
+    pub fn compatibility_fix(&mut self) -> bool {
+        let key = self.keynote.to_string();
+        if !self.text.starts_with(&key) {
+            return false
         }
+
+        self.text = self.text[key.len()..].to_string();
+
+
+        true
     }
-    fn do_step_left(&mut self) {
-        (self.keynote, self.text) = match self.keynote {
-            A =>      (GSharp, format!("G#{}", &self.text[1..]) ),
-            ASharp => (A, format!("A{}", &self.text[2..]) ),
-            B =>      (ASharp, format!("A#{}", &self.text[1..]) ),
-            C =>      (B, format!("B{}", &self.text[1..]) ),
-            CSharp => (C, format!("C{}", &self.text[2..]) ),
-            D =>      (CSharp, format!("C#{}", &self.text[1..]) ),
-            DSharp => (D, format!("D{}", &self.text[2..]) ),
-            E =>      (DSharp, format!("D#{}", &self.text[1..]) ),
-            F =>      (E, format!("E{}", &self.text[1..]) ),
-            FSharp => (F, format!("F{}", &self.text[2..]) ),
-            G =>      (FSharp, format!("F#{}", &self.text[1..]) ),
-            GSharp => (G, format!("G{}", &self.text[2..]) )
-        }
+}
+
+impl fmt::Display for Chord {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}{}", self.keynote, self.text)
     }
 }

@@ -167,11 +167,11 @@ impl Row {
                 for chord in chords {
                     match chord {
                         ChordPosition::UpBeat(chord) => {
-                            chord_string.push_str(&chord.text);
+                            chord_string.push_str(&chord.to_string());
                             chord_string.push(' ');
                         }
                         ChordPosition::OnIndex { chord, .. } => {
-                            chord_string.push_str(&chord.text);
+                            chord_string.push_str(&chord.to_string());
                             chord_string.push(' ');
                         }
                     }
@@ -209,8 +209,9 @@ impl Row {
             for (i, chord) in chords.iter().enumerate() {
                 match chord {
                     ChordPosition::UpBeat(chord) => {
-                        whitespaces_for_chords += 1 + chord.text.chars().count();
-                        chord_string.push_str(&chord.text);
+                        let chord_text = chord.to_string();
+                        whitespaces_for_chords += 1 + chord_text.chars().count();
+                        chord_string.push_str(&chord_text);
                         chord_string.push(' ');
                     },
                     ChordPosition::OnIndex { index, chord } => {
@@ -286,23 +287,26 @@ impl Row {
             
             let mut added_indent_in_rhythm = 0;
             for (index, (index_before, chord, slice)) in pairs.iter().enumerate() {
-                chord_string.push_str(&chord.text);
+                let chord_text = chord.to_string();
+                let chord_len = chord_text.chars().count();
+                let chord_len_raw = chord_text.len();
+                chord_string.push_str(&chord_text);
 
-                if slice.chars().count() <= chord.text.chars().count() {
+                if slice.chars().count() <= chord_len {
                     if let Some((next_index_before, _, next_slice)) = pairs.get(index + 1) {
                         chord_string.push(' ');
                         text_string.push_str(slice);
                         
                         if !slice.ends_with(" ") && !next_slice.starts_with(" ") && !next_slice.is_empty() {
-                            text_string.push_str( &"-".repeat(chord.text.chars().count() - slice.chars().count() + 1) );
+                            text_string.push_str( &"-".repeat(chord_len - slice.chars().count() + 1) );
                         } else {
-                            text_string.push_str( &" ".repeat(chord.text.chars().count() - slice.chars().count() + 1) );
+                            text_string.push_str( &" ".repeat(chord_len - slice.chars().count() + 1) );
                         }
 
                         let i = index_before + whitespaces_for_chords + added_indent_in_rhythm;
 
                         #[allow(clippy::collapsible_if)]
-                        if !rhythm_string.is_empty() && next_index_before - index_before <= chord.text.chars().count() {
+                        if !rhythm_string.is_empty() && next_index_before - index_before <= chord_len {
                             if let Some(i) = rhythm_string
                                 .char_indices()
                                 .nth(i + 1)
@@ -314,17 +318,17 @@ impl Row {
                         }
 
 
-                        let i = chord_string.len() - chord.text.len() - 1;
+                        let i = chord_string.len() - chord_len_raw - 1;
                         chord_string.insert_str(i, &" ".repeat((index_before + whitespaces_for_chords).saturating_sub(i)));
                     } else { // last pair
-                        let i = chord_string.len() - chord.text.len();
+                        let i = chord_string.len() - chord_len_raw;
                         chord_string.insert_str(i, &" ".repeat((index_before + whitespaces_for_chords).saturating_sub(i)));
                         // saturating_sub здесь не просто так
 
                         text_string.push_str(slice);
                     }
                 } else {
-                    chord_string.push_str( &" ".repeat(slice.chars().count() - chord.text.chars().count()) );
+                    chord_string.push_str( &" ".repeat(slice.chars().count() - chord_len) );
                     text_string.push_str(slice);
                 }
             }

@@ -72,11 +72,11 @@ pub fn show(
         if is_colored {
             song.get_colored()
         } else {
-            song.get_song_as_text()
+            song.to_string()
         };
 
     #[cfg(not(feature = "colored"))]
-    let text = song.get_song_as_text();
+    let text = song.to_string();
 
     print(&text)?;
 

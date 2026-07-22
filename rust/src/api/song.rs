@@ -122,7 +122,7 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn as_text(&self) -> String {
-        self.song.get_song_as_text()
+        self.song.to_string()
     }
 
     #[flutter_rust_bridge::frb(sync)]
@@ -200,7 +200,7 @@ impl SimpleSong {
         for f in fings {
             let key = if let Some(title) = f.get_title() { title }
             else { continue };
-            let value = f.get_text();
+            let value = f.to_string();
             fingerings.insert(key, value);
         }
 
@@ -274,7 +274,7 @@ impl SimpleBlock {
                             s.push(' ');
                         }
 
-                        s.push_str(&c.text);
+                        s.push_str(&c.to_string());
                     }
 
                     SimpleLine::ChordsLine(s)

@@ -49,7 +49,7 @@ pub struct SimpleNote {
 impl SimpleNote {
     #[frb(sync)]
     pub fn to_string(&self) -> String {
-        self.note.get_text()
+        self.note.to_string()
     }
 }
 

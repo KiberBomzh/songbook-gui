@@ -167,40 +167,40 @@ impl fmt::Display for Key {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match self.keynote {
             A if self.is_minor => String::from("F#m"),
-            A => self.keynote.get_text(),
+            A => self.keynote.to_string(),
 
             ASharp if self.is_minor => String::from("Gm"),
-            ASharp => self.keynote.get_text(),
+            ASharp => self.keynote.to_string(),
 
             B if self.is_minor => String::from("G#m"),
-            B => self.keynote.get_text(),
+            B => self.keynote.to_string(),
 
             C if self.is_minor => String::from("Am"),
-            C => self.keynote.get_text(),
+            C => self.keynote.to_string(),
 
             CSharp if self.is_minor => String::from("A#m"),
-            CSharp => self.keynote.get_text(),
+            CSharp => self.keynote.to_string(),
 
             D if self.is_minor => String::from("Bm"),
-            D => self.keynote.get_text(),
+            D => self.keynote.to_string(),
 
             DSharp if self.is_minor => String::from("Cm"),
-            DSharp => self.keynote.get_text(),
+            DSharp => self.keynote.to_string(),
 
             E if self.is_minor => String::from("C#m"),
-            E => self.keynote.get_text(),
+            E => self.keynote.to_string(),
 
             F if self.is_minor => String::from("Dm"),
-            F => self.keynote.get_text(),
+            F => self.keynote.to_string(),
 
             FSharp if self.is_minor => String::from("D#m"),
-            FSharp => self.keynote.get_text(),
+            FSharp => self.keynote.to_string(),
 
             G if self.is_minor => String::from("Em"),
-            G => self.keynote.get_text(),
+            G => self.keynote.to_string(),
 
             GSharp if self.is_minor =>String::from("Fm"),
-            GSharp => self.keynote.get_text()
+            GSharp => self.keynote.to_string()
         };
 
         write!(f, "{}", s)
@@ -245,25 +245,6 @@ impl Note {
         } )
     }
     
-    pub fn get_text(&self) -> String {
-        (
-            match self {
-                A      => "A",
-                ASharp => "A#",
-                B      => "B",
-                C      => "C",
-                CSharp => "C#",
-                D      => "D",
-                DSharp => "D#",
-                E      => "E",
-                F      => "F",
-                FSharp => "F#",
-                G      => "G",
-                GSharp => "G#",
-            }
-        ).to_string()
-    }
-
     pub fn transpose(&self, steps: i32) -> Self {
         let steps = steps % 12;
         if steps == 0 { return *self; }
@@ -312,6 +293,28 @@ impl Note {
     }
 }
 
+impl fmt::Display for Note {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = match self {
+            A      => "A",
+            ASharp => "A#",
+            B      => "B",
+            C      => "C",
+            CSharp => "C#",
+            D      => "D",
+            DSharp => "D#",
+            E      => "E",
+            F      => "F",
+            FSharp => "F#",
+            G      => "G",
+            GSharp => "G#",
+        };
+
+        write!(f, "{s}")
+    }
+
+}
+
 
 
 pub fn print_fretboard(tuning: &[Note; STRINGS]) {
@@ -328,7 +331,7 @@ pub fn print_fretboard(tuning: &[Note; STRINGS]) {
         } else { s.push('\n') }
 
         for string_num in (0..fretboard.len()).rev() {
-            let note = &fretboard[string_num][fret_num].get_text();
+            let note = &fretboard[string_num][fret_num].to_string();
             s.push_str(note);
             s.push_str( &" ".repeat(note_width - note.len()) );
 
@@ -374,12 +377,12 @@ pub fn print_circle_of_fifth(needed_key: Option<Key>) {
 
     let mut keys = BTreeMap::new();
     for k in KEYS {
-        let first = k[0].get_text();
-        let second = k[1].get_text() + "m";
-        let third = k[2].get_text() + "m";
-        let fourth = k[3].get_text();
-        let fifth = k[4].get_text();
-        let sixth = k[5].get_text() + "m";
+        let first = k[0].to_string();
+        let second = k[1].to_string() + "m";
+        let third = k[2].to_string() + "m";
+        let fourth = k[3].to_string();
+        let fifth = k[4].to_string();
+        let sixth = k[5].to_string() + "m";
         
         let width: usize = 5;
 

@@ -6,32 +6,34 @@ metadata:
     is_minor: false
   capo: null
   autoscroll_speed: 2500
+  autoscroll_delay: 3
+  show_options: null
 chord_list:
-- text: A
+- text: ''
   keynote: A
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Dm
+- text: m
   keynote: D
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: F
+- text: ''
   keynote: F
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C
+- text: ''
   keynote: C
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C#
+- text: ''
   keynote: CSharp
   minor: false
   chord_type: Norm
@@ -41,25 +43,25 @@ blocks:
 - title: Intro
   lines:
   - !ChordsLine
-    - text: A
+    - text: ''
       keynote: A
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Dm
+    - text: m
       keynote: D
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F
+    - text: ''
       keynote: F
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Dm
+    - text: m
       keynote: D
       minor: true
       chord_type: Norm
@@ -74,7 +76,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -87,7 +89,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -100,7 +102,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -113,7 +115,7 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -126,7 +128,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -139,7 +141,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -152,7 +154,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -165,7 +167,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -181,7 +183,7 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -194,7 +196,7 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm
@@ -203,7 +205,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -216,7 +218,7 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -225,7 +227,7 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -238,7 +240,7 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm
@@ -254,7 +256,7 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -267,7 +269,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -280,7 +282,7 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -293,7 +295,7 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -306,7 +308,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -319,7 +321,7 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: A
+        text: ''
         keynote: A
         minor: false
         chord_type: Norm
@@ -332,7 +334,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Dm
+        text: m
         keynote: D
         minor: true
         chord_type: Norm
@@ -345,7 +347,7 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -361,7 +363,7 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -374,7 +376,7 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm
@@ -383,7 +385,7 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -396,7 +398,7 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -405,7 +407,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -418,7 +420,7 @@ blocks:
     - !OnIndex
       index: 9
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm
@@ -432,7 +434,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -445,7 +447,7 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm
@@ -454,7 +456,7 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -467,7 +469,7 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: C
+        text: ''
         keynote: C
         minor: false
         chord_type: Norm
@@ -476,7 +478,7 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
         minor: false
         chord_type: Norm
@@ -489,7 +491,7 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: C#
+        text: ''
         keynote: CSharp
         minor: false
         chord_type: Norm

@@ -1,4 +1,5 @@
 use std::collections::BTreeMap;
+use std::fmt;
 use serde::{Serialize, Deserialize};
 
 use crate::chord_generator::chord_fingerings::StringState::*;
@@ -91,7 +92,12 @@ impl Fingering {
         } )
     }
 
-    pub fn get_text(&self) -> String {
+    pub fn get_title(&self) -> Option<String> {
+        self.title.clone()
+    }
+}
+impl fmt::Display for Fingering {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let mut text = String::new();
 
         let strings: Vec<&StringState> = self.strings.iter().rev().collect();
@@ -154,11 +160,7 @@ impl Fingering {
         }
 
         // длина каждой строки 14 символов
-        return text
-    }
-    
-    pub fn get_title(&self) -> Option<String> {
-        self.title.clone()
+        write!(f, "{text}")
     }
 }
 
@@ -204,7 +206,7 @@ pub fn sum_text_in_fingerings(fingerings: &Vec<Fingering>, width: Option<usize>)
         let mut fing = Vec::new();
         fing.push(title);
 
-        for line in f.get_text().lines() {
+        for line in f.to_string().lines() {
             fing.push(line.to_string());
         }
 

@@ -47,7 +47,10 @@ pub fn get_song(song_path: &Path) -> Result<Song> {
 
     let file = File::open(path)?;
     let reader = BufReader::new(file);
-    let song: Song = serde_yaml::from_reader(reader)?;
+    let mut song: Song = serde_yaml::from_reader(reader)?;
+    if song.chord_fix() {
+        save(&song, song_path)?;
+    }
 
     Ok(song)
 }
