@@ -42,7 +42,7 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
             } else if !title.is_empty() {
                 blocks.push(Block {
                     title: Some(title),
-                    lines: vec!(Line::EmptyLine),
+                    lines: Vec::new(),
                     notes: None
                 });
                 title = String::new();
@@ -106,7 +106,7 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
     return (blocks, chord_list)
 }
 
-fn is_line_chords(line: &str) -> bool {
+pub fn is_line_chords(line: &str) -> bool {
     let words: Vec<&str> = line.split_whitespace().collect();
     let chords = ["A", "B", "C", "D", "E", "F", "G"];
 
