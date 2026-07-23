@@ -296,10 +296,13 @@ impl Song {
     }
 
     pub fn transpose(&mut self, steps: i32) {
-        if let Some(key) = self.metadata.key {
-            self.metadata.key = Some(key.transpose(steps))
-        }
-        for chord in &mut self.chord_list { *chord = chord.transpose(steps) }
+        let is_flat = if let Some(key) = self.metadata.key {
+            let new_key = key.transpose(steps);
+            self.metadata.key = Some(new_key);
+            new_key.is_flat()
+        } else { false };
+
+        for chord in &mut self.chord_list { *chord = chord.transpose(steps, is_flat) }
         for block in &mut self.blocks {
             for line in &mut block.lines {
                 match line {
@@ -307,14 +310,14 @@ impl Song {
                         if let Some(chords) = &mut row.chords {
                             for chord in chords {
                                 match chord {
-                                    ChordPosition::UpBeat(chord) => *chord = chord.transpose(steps),
-                                    ChordPosition::OnIndex{chord, ..} => *chord = chord.transpose(steps)
+                                    ChordPosition::UpBeat(chord) => *chord = chord.transpose(steps, is_flat),
+                                    ChordPosition::OnIndex{chord, ..} => *chord = chord.transpose(steps, is_flat)
                                 }
                             }
                         }
                     },
                     Line::ChordsLine(chords) =>
-                        chords.iter_mut().for_each(|c| *c = c.transpose(steps)),
+                        chords.iter_mut().for_each(|c| *c = c.transpose(steps, is_flat)),
                     _ => {}
                 }
             }

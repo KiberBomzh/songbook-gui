@@ -161,6 +161,23 @@ impl Key {
     pub fn is_minor(&self) -> bool {
         self.is_minor
     }
+
+    pub fn is_flat(&self) -> bool {
+        match self.keynote {
+            A => false,
+            ASharp => true,
+            B => false,
+            C => false,
+            CSharp => true,
+            D => false,
+            DSharp => true,
+            E => false,
+            F => true,
+            FSharp => true,
+            G => false,
+            GSharp => true
+        }
+    }
 }
 
 impl fmt::Display for Key {
@@ -170,7 +187,7 @@ impl fmt::Display for Key {
             A => self.keynote.to_string(),
 
             ASharp if self.is_minor => String::from("Gm"),
-            ASharp => self.keynote.to_string(),
+            ASharp => self.keynote.to_string_flat(),
 
             B if self.is_minor => String::from("G#m"),
             B => self.keynote.to_string(),
@@ -178,29 +195,29 @@ impl fmt::Display for Key {
             C if self.is_minor => String::from("Am"),
             C => self.keynote.to_string(),
 
-            CSharp if self.is_minor => String::from("A#m"),
-            CSharp => self.keynote.to_string(),
+            CSharp if self.is_minor => String::from("Bbm"),
+            CSharp => self.keynote.to_string_flat(),
 
             D if self.is_minor => String::from("Bm"),
             D => self.keynote.to_string(),
 
             DSharp if self.is_minor => String::from("Cm"),
-            DSharp => self.keynote.to_string(),
+            DSharp => self.keynote.to_string_flat(),
 
             E if self.is_minor => String::from("C#m"),
             E => self.keynote.to_string(),
 
             F if self.is_minor => String::from("Dm"),
-            F => self.keynote.to_string(),
+            F => self.keynote.to_string_flat(),
 
-            FSharp if self.is_minor => String::from("D#m"),
-            FSharp => self.keynote.to_string(),
+            FSharp if self.is_minor => String::from("Ebm"),
+            FSharp => self.keynote.to_string_flat(),
 
             G if self.is_minor => String::from("Em"),
             G => self.keynote.to_string(),
 
             GSharp if self.is_minor =>String::from("Fm"),
-            GSharp => self.keynote.to_string()
+            GSharp => self.keynote.to_string_flat()
         };
 
         write!(f, "{}", s)
