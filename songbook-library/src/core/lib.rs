@@ -291,6 +291,23 @@ impl Note {
             GSharp => G
         }
     }
+
+    pub fn to_string_flat(&self) -> String {
+        match self {
+            A      => "A",
+            ASharp => "Bb",
+            B      => "B",
+            C      => "C",
+            CSharp => "Db",
+            D      => "D",
+            DSharp => "Eb",
+            E      => "E",
+            F      => "F",
+            FSharp => "Gb",
+            G      => "G",
+            GSharp => "Ab",
+        }.to_string()
+    }
 }
 
 impl fmt::Display for Note {
