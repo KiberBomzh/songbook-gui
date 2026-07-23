@@ -203,6 +203,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsSongFontSize => 'Розмір тексту в пісні';
 
   @override
+  String get settingsSharpOnly => 'Тільки дієзи';
+
+  @override
   String get settingsLineWrap => 'Перенос рядків';
 
   @override

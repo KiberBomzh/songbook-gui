@@ -73,6 +73,7 @@
 	"settingsFontFamily": "Font family",
 	"settingsEditorFontSize": "Editor font size",
 	"settingsSongFontSize": "Song font size",
+	"settingsSharpOnly": "Sharp only",
 	"settingsLineWrap": "Line wrap",
 	"settingsFingeringsSize": "Fingerings size",
 

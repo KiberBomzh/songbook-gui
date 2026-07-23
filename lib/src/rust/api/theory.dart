@@ -10,6 +10,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 SimpleNoteArray25Array6 getFretboard({required SimpleNoteArray6 tuning}) =>
     RustLib.instance.api.crateApiTheoryGetFretboard(tuning: tuning);
 
+void setSharpOnly({required bool isSharpOnly}) =>
+    RustLib.instance.api.crateApiTheorySetSharpOnly(isSharpOnly: isSharpOnly);
+
 SimpleNoteArray6 getStandartTuning() =>
     RustLib.instance.api.crateApiTheoryGetStandartTuning();
 

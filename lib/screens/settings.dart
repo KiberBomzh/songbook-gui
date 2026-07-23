@@ -303,6 +303,14 @@ class _SettingsState extends State<SettingsScreen> {
 		_buildTitle(AppLocalizations.of(context)!.settingsSongTitle),
 
 		_buildItem(
+			text: AppLocalizations.of(context)!.settingsSharpOnly,
+			child: Switch(
+				value: _settings.sharpOnly,
+				onChanged: _settings.setSharpOnly,
+			),
+			onTap: null,
+		),
+		_buildItem(
 			text: AppLocalizations.of(context)!.settingsLineWrap,
 			child: Switch(
 				value: _settings.lineWrapInSong,

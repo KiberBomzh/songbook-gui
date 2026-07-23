@@ -244,7 +244,13 @@ impl Chord {
 
 impl fmt::Display for Chord {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let key = if let Some(f) = self.flat && f { self.keynote.to_string_flat()} else { self.keynote.to_string() };
+        let is_sharp_only = std::env::var("SONGBOOK_SHARP_ONLY").is_ok_and(|var| var == "1");
+        let key = 
+            if let Some(f) = self.flat && f && !is_sharp_only {
+                self.keynote.to_string_flat()
+            } else {
+                self.keynote.to_string()
+            };
         write!(f, "{}{}", key, self.text)
     }
 }

@@ -204,6 +204,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsSongFontSize => 'Размер текста в песне';
 
   @override
+  String get settingsSharpOnly => 'Только диезы';
+
+  @override
   String get settingsLineWrap => 'Перенос строк';
 
   @override

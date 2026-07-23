@@ -17,6 +17,12 @@ pub fn get_fretboard(tuning: [SimpleNote; 6]) -> [[SimpleNote; 25]; 6] {
 }
 
 #[frb(sync)]
+pub fn set_sharp_only(is_sharp_only: bool) {
+    let value = if is_sharp_only { "1" } else { "0" };
+    std::env::set_var("SONGBOOK_SHARP_ONLY", value)
+}
+
+#[frb(sync)]
 pub fn get_standart_tuning() -> [SimpleNote; 6] {
     STANDART_TUNING.map(|n| SimpleNote { note: n })
 }

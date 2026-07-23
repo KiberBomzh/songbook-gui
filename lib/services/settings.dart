@@ -9,6 +9,7 @@ import 'package:restart_app/restart_app.dart';
 
 import 'package:songbook/main.dart';
 import 'package:songbook/src/rust/api/library.dart' as rust_lib;
+import 'package:songbook/src/rust/api/theory.dart' as rust_theory;
 import 'package:songbook/l10n/app_localizations.dart';
 
 
@@ -41,6 +42,7 @@ const String TEXT_COLOR = 'text_color';
 const String NOTES_COLOR = 'notes_color';
 const String TITLE_COLOR = 'title_color';
 const String BACKGROUND_COLOR = 'background_color';
+const String SHARP_ONLY = 'sharp_only';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
 const String BACKGROUND_OPACITY = 'background_opacity';
@@ -141,6 +143,7 @@ class SettingsProvider extends ChangeNotifier {
 	String? _notesColor;
 	String? _titleColor;
 	String? _backgroundColor;
+	bool _sharpOnly = false;
 	bool _lineWrapInSong = true;
 	String? _fingeringSizeInSong;
 	File? _backgroundImage;
@@ -220,6 +223,7 @@ class SettingsProvider extends ChangeNotifier {
 		_isPlainTextItalic == false
 	);
 
+	bool get sharpOnly => _sharpOnly;
 	bool get lineWrapInSong => _lineWrapInSong;
 	File? get backgroundImage => _backgroundImage;
 	double get backgroundOpacity => _backgroundOpacity;
@@ -444,6 +448,7 @@ class SettingsProvider extends ChangeNotifier {
 		_notesColor = Preferences.getString(NOTES_COLOR);
 		_titleColor = Preferences.getString(TITLE_COLOR);
 		_backgroundColor = Preferences.getString(BACKGROUND_COLOR);
+		_sharpOnly = Preferences.getBool(SHARP_ONLY) ?? false;
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
@@ -769,6 +774,14 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	Future<void> setSharpOnly(bool value) async {
+		_sharpOnly = value;
+		await Preferences.setBool(SHARP_ONLY, value);
+		rust_theory.setSharpOnly(isSharpOnly: value);
+
+		notifyListeners();
+	}
+
 	Future<void> setLineWrapInSong(bool value) async {
 		_lineWrapInSong = value;
 		await Preferences.setBool(LINE_WRAP_IN_SONG, value);
@@ -988,6 +1001,7 @@ class SettingsProvider extends ChangeNotifier {
 		if (_backgroundColor != null)
 			settings[BACKGROUND_COLOR] = _backgroundColor!;
 
+		settings[SHARP_ONLY] = _sharpOnly.toString();
 		settings[LINE_WRAP_IN_SONG] = _lineWrapInSong.toString();
 
 		if (_fingeringSizeInSong != null)
@@ -1169,6 +1183,9 @@ class SettingsProvider extends ChangeNotifier {
 		else
 			await Preferences.remove(BACKGROUND_COLOR);
 
+
+		_sharpOnly = _boolFromString(settings[SHARP_ONLY]) ?? true;
+		await Preferences.setBool(SHARP_ONLY, _sharpOnly);
 
 		_lineWrapInSong = _boolFromString(settings[LINE_WRAP_IN_SONG]) ?? true;
 		await Preferences.setBool(LINE_WRAP_IN_SONG, _lineWrapInSong);

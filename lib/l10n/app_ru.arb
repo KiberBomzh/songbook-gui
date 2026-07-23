@@ -73,6 +73,7 @@
 	"settingsFontFamily": "Шрифт",
 	"settingsEditorFontSize": "Размер текста в редакторе",
 	"settingsSongFontSize": "Размер текста в песне",
+	"settingsSharpOnly": "Только диезы",
 	"settingsLineWrap": "Перенос строк",
 	"settingsFingeringsSize": "Размер аппликатур",
 

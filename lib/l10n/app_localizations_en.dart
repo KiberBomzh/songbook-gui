@@ -202,6 +202,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSongFontSize => 'Song font size';
 
   @override
+  String get settingsSharpOnly => 'Sharp only';
+
+  @override
   String get settingsLineWrap => 'Line wrap';
 
   @override

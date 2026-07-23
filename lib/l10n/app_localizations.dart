@@ -484,6 +484,12 @@ abstract class AppLocalizations {
   /// **'Song font size'**
   String get settingsSongFontSize;
 
+  /// No description provided for @settingsSharpOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharp only'**
+  String get settingsSharpOnly;
+
   /// No description provided for @settingsLineWrap.
   ///
   /// In en, this message translates to:
