@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     Song,
     Metadata,
@@ -86,9 +87,9 @@ fn convert_metadata(song: &SbpSong) -> ( Metadata, Option<String> ) {
     else { Some( song.NotesText.clone() ) } )
 }
 
-fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
+fn convert_content(content: &str) -> ( Vec<Block>, HashSet<Chord> ) {
     let mut blocks = Vec::new();
-    let mut chord_list = Vec::new();
+    let mut chord_list = HashSet::new();
 
     let mut title = String::new();
 
@@ -160,7 +161,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
 }
 
 
-fn unwrap_line_with_chords(line: &str, chord_list: &mut Vec<Chord>) -> Line {
+fn unwrap_line_with_chords(line: &str, chord_list: &mut HashSet<Chord>) -> Line {
     let mut text = String::new();
     let mut chords: Vec<ChordPosition> = Vec::new();
 
@@ -173,7 +174,7 @@ fn unwrap_line_with_chords(line: &str, chord_list: &mut Vec<Chord>) -> Line {
         } else if c == ']' {
             in_chord = false;
             if let Some(chord) = Chord::new(&chord_text) {
-                if chord_list.iter().all(|ch| *ch != chord) { chord_list.push(chord.clone()) }
+                chord_list.insert(chord.clone());
                 chords.push(ChordPosition::OnIndex {index, chord} );
             }
             chord_text.clear();

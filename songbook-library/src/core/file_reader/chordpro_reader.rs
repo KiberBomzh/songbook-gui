@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     Metadata,
     block::{Block, Line},
@@ -6,9 +7,9 @@ use crate::song::{
 };
 
 
-pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chord>) {
+pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<Chord>) {
     let mut blocks: Vec<Block> = Vec::new();
-    let mut chord_list: Vec<Chord> = Vec::new();
+    let mut chord_list: HashSet<Chord> = HashSet::new();
     
     
     let block_starts = [
@@ -159,7 +160,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
 }
 
 
-fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut Vec<Chord>) {
+fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut HashSet<Chord>) {
     if text.is_empty() && lines.is_empty() {
         return
     }
@@ -176,9 +177,7 @@ fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut Vec<Chord>) {
             ']' => {
                 is_chord = false;
                 if let Some(chord) = Chord::new(&current_chord) {
-                    if chord_list.iter().all(|c| *c != chord) {
-                        chord_list.push(chord.clone())
-                    }
+                    chord_list.insert(chord.clone());
                     chords.push(ChordPosition::OnIndex{index, chord});
                 }
                 current_chord.clear();

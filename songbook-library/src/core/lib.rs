@@ -225,7 +225,7 @@ impl fmt::Display for Key {
 }
 
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub enum Note {
     A,
     ASharp,

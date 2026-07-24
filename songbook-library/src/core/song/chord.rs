@@ -9,7 +9,7 @@ use crate::chord_generator::get_fingerings;
 
 
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 enum ChordType {
     Norm,
     Power,
@@ -22,14 +22,14 @@ enum ChordType {
     Thirteenth
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 enum FifthState {
     Dim,
     Norm,
     Aug
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 enum SusOrAdd {
     No,
     Sus2,
@@ -40,7 +40,7 @@ enum SusOrAdd {
 }
 
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Chord {
     text: String,
     keynote: Note,
@@ -229,13 +229,16 @@ impl Chord {
     }
 
 
+    pub fn compatibility_check(&self) -> bool {
+        !self.text.starts_with(&self.keynote.to_string()) &&
+        !self.text.starts_with(&self.keynote.to_string_flat())
+    }
     pub fn compatibility_fix(&mut self) -> bool {
-        let key = self.keynote.to_string();
-        if !self.text.starts_with(&key) {
+        if self.compatibility_check() {
             return false
         }
 
-        self.text = self.text[key.len()..].to_string();
+        self.text = self.text[self.keynote.to_string().len()..].to_string();
 
 
         true

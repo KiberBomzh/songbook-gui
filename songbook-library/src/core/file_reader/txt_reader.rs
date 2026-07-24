@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     block::{Block, Line},
     row::{Row, ChordPosition},
@@ -5,9 +6,9 @@ use crate::song::{
 };
 
 
-pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
+pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
     let mut blocks: Vec<Block> = Vec::new();
-    let mut chord_list: Vec<Chord> = Vec::new();
+    let mut chord_list: HashSet<Chord> = HashSet::new();
 
     let mut title = String::new();
     let mut rows: Vec<Row> = Vec::new();
@@ -62,9 +63,7 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
                     if !chord.is_empty() {
                         if let Some(c) = Chord::new(&chord) {
                             chords.push( ChordPosition::OnIndex{ index: ( indent - chord.chars().count() ), chord: c.clone() } );
-                            if chord_list.iter().all(|chord| *chord != c) {
-                                chord_list.push(c);
-                            }
+                            chord_list.insert(c);
                         }
 
                         chord.clear();

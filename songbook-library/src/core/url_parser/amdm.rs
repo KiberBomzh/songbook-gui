@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use scraper::{Html, Selector};
 
 use crate::song::{
@@ -67,7 +68,7 @@ fn parse_metadata(document: &Html) -> Option<Metadata> {
     } )
 }
 
-fn parse_text(document: &Html) -> Option<(Vec<Block>, Vec<Chord>)> {
+fn parse_text(document: &Html) -> Option<(Vec<Block>, HashSet<Chord>)> {
     const NOTE_MARK: &str = "{temp_note_line}: ";
     let text_selector = Selector::parse(r#"pre[itemprop="chordsBlock"]"#).ok()?;
     let text = document
@@ -84,7 +85,7 @@ fn parse_text(document: &Html) -> Option<(Vec<Block>, Vec<Chord>)> {
 
 
     let mut blocks: Vec<Block> = Vec::new();
-    let mut chord_list: Vec<Chord> = Vec::new();
+    let mut chord_list: HashSet<Chord> = HashSet::new();
 
     let mut title = String::new();
     let mut lines: Vec<Line> = Vec::new();
@@ -92,7 +93,6 @@ fn parse_text(document: &Html) -> Option<(Vec<Block>, Vec<Chord>)> {
     let mut last_line_is_chords = false;
     let mut last_line_was_empty = true;
 
-    // lines.push(Line::PlainText(text.clone()));
     for line in text.lines() {
         let line = line.to_string();
         if line.starts_with(NOTE_MARK) {
@@ -141,9 +141,7 @@ fn parse_text(document: &Html) -> Option<(Vec<Block>, Vec<Chord>)> {
                     if !chord.is_empty() {
                         if let Some(c) = Chord::new(&chord) {
                             chords.push( ChordPosition::OnIndex{ index: ( indent - chord.chars().count() ), chord: c.clone() } );
-                            if chord_list.iter().all(|chord| *chord != c) {
-                                chord_list.push(c);
-                            }
+                            chord_list.insert(c);
                         }
 
                         chord.clear();

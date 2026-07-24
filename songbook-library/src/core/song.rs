@@ -3,6 +3,7 @@ pub mod row;
 pub mod chord;
 
 use std::fmt;
+use std::collections::HashSet;
 use serde::{Serialize, Deserialize};
 
 #[cfg(feature = "colored")]
@@ -42,7 +43,7 @@ use crate::{TITLE_COLOR, NOTES_COLOR};
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Song {
     pub metadata: Metadata,
-    pub chord_list: Vec<Chord>,
+    pub chord_list: HashSet<Chord>,
     pub blocks: Vec<Block>,
     pub notes: Option<String> // Заметки по песне в общем
 }
@@ -205,7 +206,7 @@ impl Song {
                 autoscroll_delay: None,
                 show_options: None,
             },
-            chord_list: Vec::new(),
+            chord_list: HashSet::new(),
             blocks: Vec::new(),
             notes: None
         }
@@ -302,7 +303,7 @@ impl Song {
             new_key.is_flat()
         } else { false };
 
-        for chord in &mut self.chord_list { *chord = chord.transpose(steps, is_flat) }
+        self.chord_list = self.chord_list.iter().map(|c| c.transpose(steps, is_flat)).collect();
         for block in &mut self.blocks {
             for line in &mut block.lines {
                 match line {
@@ -437,8 +438,8 @@ impl Song {
         self.chord_list = self.get_chord_list();
     }
 
-    fn get_chord_list(&self) -> Vec<Chord> {
-        let mut list = Vec::new();
+    fn get_chord_list(&self) -> HashSet<Chord> {
+        let mut set = HashSet::new();
         for block in &self.blocks {
             for line in &block.lines {
                 match line {
@@ -446,37 +447,40 @@ impl Song {
                         if let Some(chords) = &row.chords {
                             for chord in chords {
                                 match chord {
-                                    ChordPosition::UpBeat(chord) => if list.iter().all(|c| c != chord) {
-                                        list.push(chord.clone());
+                                    ChordPosition::UpBeat(chord) => {
+                                        set.insert(chord.clone());
                                     },
-                                    ChordPosition::OnIndex{chord, ..} => if list.iter().all(|c| c != chord) {
-                                        list.push(chord.clone());
+                                    ChordPosition::OnIndex{chord, ..} => {
+                                        set.insert(chord.clone());
                                     },
                                 }
                             }
                         }
                     },
                     Line::ChordsLine(chords) => for chord in chords {
-                        if list.iter().all(|c| c != chord) {
-                            list.push(chord.clone());
-                        }
+                        set.insert(chord.clone());
                     },
                     _ => {}
                 }
             }
         }
 
-        return list;
+        return set;
     }
 
 
     // yes, I broke the compatibility again
     pub fn chord_fix(&mut self) -> bool {
-        for chord in self.chord_list.iter_mut() {
-            if !chord.compatibility_fix() {
-                return false;
-            }
+        if self.chord_list.iter().next().is_none_or(|c| c.compatibility_check()) {
+            return false;
         }
+
+
+        self.chord_list = self.chord_list.iter().map(|c| {
+            let mut chord = c.clone();
+            chord.compatibility_fix();
+            chord
+        } ).collect::<HashSet<Chord>>();
 
         for block in self.blocks.iter_mut() {
             for line in block.lines.iter_mut() {
