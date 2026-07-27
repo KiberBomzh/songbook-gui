@@ -1629,32 +1629,35 @@ class SongEditorState extends State<GraphicalSongEditor> {
 
 		return Focus(
 			focusNode: widget.focusNode,
-			child: CustomScrollView(
-				controller: _scrollController,
-				slivers: [DragAndDropLists(
-					children: _contents,
-					contentsWhenEmpty: TextButton.icon(
-						icon: Icon(Icons.add),
-						label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
-						onPressed: () => _addNewBlockAfter(-1),
-					),
-
-					onItemReorder: _onItemReorder,
-					onListReorder: _onListReorder,
-
-					listDecoration: BoxDecoration(
-						color: Theme.of(context).colorScheme.surfaceContainer,
-						borderRadius: .circular(10),
-					),
-					listPadding: .all(10),
-					itemDivider: const SizedBox(height: 10),
-
-					sliverList: true,
-					scrollController: _scrollController,
-				)],
-			),
+			child: (_contents.isEmpty)
+				? _buildDragAndDropLists()
+				: CustomScrollView(
+					controller: _scrollController,
+					slivers: [_buildDragAndDropLists()],
+				),
 		);
 	}
+	Widget _buildDragAndDropLists() => DragAndDropLists(
+		children: _contents,
+		contentsWhenEmpty: TextButton.icon(
+			icon: Icon(Icons.add),
+			label: Text(AppLocalizations.of(context)!.editorAddNewBlock),
+			onPressed: () => _addNewBlockAfter(-1),
+		),
+
+		onItemReorder: _onItemReorder,
+		onListReorder: _onListReorder,
+
+		listDecoration: BoxDecoration(
+			color: Theme.of(context).colorScheme.surfaceContainer,
+			borderRadius: .circular(10),
+		),
+		listPadding: .all(10),
+		itemDivider: const SizedBox(height: 10),
+
+		sliverList: true,
+		scrollController: _scrollController,
+	);
 
 	void showMetadataEditor() {
 		showModalBottomSheet(
