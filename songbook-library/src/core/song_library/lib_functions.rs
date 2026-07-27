@@ -1,6 +1,7 @@
 use std::path::{PathBuf, Path};
 use std::fs::{self, File};
 use std::io::{Error, ErrorKind, BufReader, BufWriter};
+use std::collections::{BTreeMap, BTreeSet};
 
 use anyhow::Result;
 
@@ -107,6 +108,55 @@ fn recursive_find(dir: &Path, files: &mut Vec<(String, PathBuf)>, query: &str) -
     Ok(())
 }
 
+pub fn tag_find(query_tags: &[&str]) -> Result<Vec<(String, PathBuf)>> {
+    Ok( get_map_song_tags()?
+        .iter()
+        .filter_map(|((name, path), tags)| {
+            if query_tags.iter().all(|tag| tags.contains(*tag)) {
+                Some((name.clone(), path.clone()))
+            } else { None }
+        })
+        .collect()
+    )
+}
+
+pub fn get_map_song_tags() -> Result<BTreeMap<(String, PathBuf), BTreeSet<String>>> {
+    let mut map = BTreeMap::new();
+    for (name, path) in find("")? {
+        let song = if let Ok(s) = get_song(&path) { s } else { continue };
+        map.insert((name, path),
+            song.metadata.tags.map_or(BTreeSet::new(), |set| set)
+        );
+    }
+
+
+    Ok(map)
+}
+
+pub fn get_map_tag_songs() -> Result<BTreeMap<String, BTreeSet<(String, PathBuf)>>> {
+    let mut all_tags = BTreeMap::new();
+    for (name, path) in find("")? {
+        let song = if let Ok(s) = get_song(&path) { s } else { continue };
+        if let Some(tags) = song.metadata.tags {
+            for tag in tags {
+                all_tags.entry(tag)
+                    .and_modify(|set: &mut BTreeSet<(String, PathBuf)>| {
+                        set.insert((name.clone(), path.clone()));
+                    })
+                    .or_insert({
+                        let mut set = BTreeSet::new();
+                        set.insert((name.clone(), path.clone()));
+
+                        set
+                    });
+            }
+        }
+    }
+
+
+    Ok(all_tags)
+}
+
 pub fn get_help_msg() -> String {
     use crate::{
         METADATA_START,
@@ -118,6 +168,7 @@ pub fn get_help_msg() -> String {
         SONG_AUTOSCROLL_SPEED_SYMBOL,
         SONG_AUTOSCROLL_DELAY_SYMBOL,
         SONG_SHOW_OPTIONS_SYMBOL,
+        SONG_TAGS_SYMBOL,
 
         BLOCK_START,
         BLOCK_END,
@@ -150,6 +201,7 @@ r#"==================Help==================
  {SONG_AUTOSCROLL_SPEED_SYMBOL} - Autoscroll speed (in milliseconds)
  {SONG_AUTOSCROLL_DELAY_SYMBOL} - Autoscroll delay (in seconds)
  {SONG_SHOW_OPTIONS_SYMBOL} - Show options (chords - c, rhythm - r, notes - n, fingerings - f)
+ {SONG_TAGS_SYMBOL} - Song's tags
 
  {BLOCK_START} - Start of block (verse, chorus, bridge, etc.)
  {BLOCK_END} - End of block

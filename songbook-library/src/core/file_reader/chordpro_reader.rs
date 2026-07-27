@@ -153,6 +153,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<
             autoscroll_speed: None,
             autoscroll_delay: None,
             show_options: None,
+            tags: Some(std::collections::BTreeSet::new()),
         } ) } else { None },
         blocks,
         chord_list

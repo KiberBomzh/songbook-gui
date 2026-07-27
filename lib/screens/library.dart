@@ -101,9 +101,20 @@ class _LibraryState extends State<LibraryScreen> {
 
 	void _search(String query) => setState(() {
 		setState(() => _isCurrentDirEmpty = false);
-
 		_dirs.clear();
-		_files = search(pathStr: _currentPath, query: query);
+		if (query.startsWith('#')) {
+			_files = tagSearch(
+				tags: query.split(', ').map((tag) {
+					if (tag.isEmpty)
+						return '';
+
+					return tag = tag.substring(1);
+				}).toList()
+			);
+		} else {
+			_files = search(pathStr: _currentPath, query: query);
+		}
+
 		if (_files.isEmpty)
 			setState(() => _isCurrentDirEmpty = true);
 	});

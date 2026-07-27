@@ -17,15 +17,7 @@ impl Song {
         let (blocks, chord_list) = txt_reader::read_from_txt(
             &fs::read_to_string(file_path)?
         );
-        let metadata = Metadata {
-            artist: artist.to_string(),
-            title: title.to_string(),
-            key: None,
-            capo: None,
-            autoscroll_speed: None,
-            autoscroll_delay: None,
-            show_options: None,
-        };
+        let metadata = Metadata::new(title.to_string(), artist.to_string());
         let mut song = Self { blocks, chord_list, metadata, notes: None };
         song.detect_key();
 
@@ -33,15 +25,7 @@ impl Song {
         Ok(song)
     }
     pub fn from_str(content: &str, title: String, artist: String) -> Self {
-        let metadata = Metadata {
-            artist,
-            title,
-            key: None,
-            capo: None,
-            autoscroll_speed: None,
-            autoscroll_delay: None,
-            show_options: None,
-        };
+        let metadata = Metadata::new(title, artist);
         let (blocks, chord_list) = txt_reader::read_from_txt(content);
         let mut song = Self { blocks, chord_list, metadata, notes: None };
         song.detect_key();

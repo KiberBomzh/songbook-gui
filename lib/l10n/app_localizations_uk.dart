@@ -405,6 +405,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorMetadataAutoscrollDelay => 'Затримка автоскроллу';
 
   @override
+  String get editorMetadataTags => 'Теги';
+
+  @override
   String get editorShowOptions => 'Опції відображення';
 
   @override

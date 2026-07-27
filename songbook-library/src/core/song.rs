@@ -3,7 +3,7 @@ pub mod row;
 pub mod chord;
 
 use std::fmt;
-use std::collections::HashSet;
+use std::collections::{HashSet, BTreeSet};
 use serde::{Serialize, Deserialize};
 
 #[cfg(feature = "colored")]
@@ -20,6 +20,7 @@ use crate::{
     SONG_AUTOSCROLL_SPEED_SYMBOL,
     SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
+    SONG_TAGS_SYMBOL,
 
     BLOCK_START,
     BLOCK_END,
@@ -70,6 +71,7 @@ pub struct Metadata {
     pub autoscroll_speed: Option<u64>, // in milliseconds
     pub autoscroll_delay: Option<u64>, // in seconds
     pub show_options: Option<ShowOptions>,
+    pub tags: Option<BTreeSet<String>>, // in Option for compatibility
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
@@ -82,6 +84,19 @@ pub struct ShowOptions {
 
 
 impl Metadata {
+    pub fn new(title: String, artist: String) -> Self{
+        Self {
+            title,
+            artist,
+            key: None,
+            capo: None,
+            autoscroll_speed: None,
+            autoscroll_delay: None,
+            show_options: None,
+            tags: None,
+        }
+    }
+
     fn get_for_editing(&self, s: &mut String) {
         s.push_str(METADATA_START);
         s.push('\n');
@@ -128,6 +143,12 @@ impl Metadata {
             s.push('\n');
         }
 
+        if let Some(tags) = &self.tags {
+            s.push_str(SONG_TAGS_SYMBOL);
+            s.push_str( &tags.iter().map(|t| t.clone() ).collect::<Vec<String>>().join(", "));
+            s.push('\n');
+        }
+
 
         s.push_str(METADATA_END);
         s.push('\n');
@@ -144,6 +165,7 @@ impl Metadata {
         let mut autoscroll_speed: Option<u64> = None;
         let mut autoscroll_delay: Option<u64> = None;
         let mut opts: Option<ShowOptions> = None;
+        let mut tags: BTreeSet<String> = BTreeSet::new();
         for line in text.lines() {
             if line.starts_with(SONG_TITLE_SYMBOL) {
                 title = line[SONG_TITLE_SYMBOL.len()..].trim().to_string();
@@ -172,6 +194,12 @@ impl Metadata {
                     notes: opts_str.contains('n'),
                     fingerings: opts_str.contains('f'),
                 });
+            } else if line.starts_with(SONG_TAGS_SYMBOL) {
+                let tags_str = line[SONG_TAGS_SYMBOL.len()..].trim();
+                for tag in tags_str.split(", ") {
+                    if tag.trim().is_empty() { continue };
+                    tags.insert(tag.to_string());
+                }
             }
         }
 
@@ -182,6 +210,7 @@ impl Metadata {
         self.autoscroll_speed = autoscroll_speed;
         self.autoscroll_delay = autoscroll_delay;
         self.show_options = opts;
+        self.tags = if tags.is_empty() { None } else { Some(tags) };
     }
 
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
@@ -197,15 +226,7 @@ impl Metadata {
 impl Song {
     pub fn new(title: &str, artist: &str) -> Self {
         Self {
-            metadata: Metadata {
-                title: title.to_string(), 
-                artist: artist.to_string(),
-                key: None,
-                capo: None,
-                autoscroll_speed: None,
-                autoscroll_delay: None,
-                show_options: None,
-            },
+            metadata: Metadata::new(title.to_string(), artist.to_string()),
             chord_list: HashSet::new(),
             blocks: Vec::new(),
             notes: None

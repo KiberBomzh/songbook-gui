@@ -24,6 +24,7 @@ impl App {
             KeyCode::Char('N') |
             KeyCode::Char('R') |
             KeyCode::Char('F') |
+            KeyCode::Char('T') |
             KeyCode::Char('A') => {
                 self.is_long_command = true;
                 if let KeyCode::Char(c) = key_event.code {
@@ -178,6 +179,10 @@ impl App {
             'F' => {
                 self.current_dir = songbook::song_library::get_lib_path()?;
                 self.lib_list = find(&command_data)?;
+            },
+            'T' => {
+                self.current_dir = songbook::song_library::get_lib_path()?;
+                self.lib_list = tag_find(&command_data.split(", ").collect::<Vec<_>>())?;
             },
             'A' => {
                 let subcommand = if let Some(c) = command_data.chars().nth(0) { c }

@@ -153,6 +153,7 @@
 	"editorMetadataCapo": "Каподастр",
 	"editorMetadataAutoscrollSpeed": "Скорость автоскролла",
 	"editorMetadataAutoscrollDelay": "Задержка автоскролла",
+	"editorMetadataTags": "Теги",
 	"editorShowOptions": "Опции отображения",
 
 	"cancel": "Отмена",

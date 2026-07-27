@@ -39,6 +39,7 @@ cargo install songbook --features tui
 - `N`(dir name) - Create a new dir with (dir name)
 - `R`(new name) - Rename current song/dir with (new name)
 - `F`(find query) - Find (find query)
+- `T`(tag1, tag2) - Find songs with tags
 - `A`(`e` Artist - Title/`t` Artist - Title/`c`) - Add new song to library
     - `e` - the same as a command `add empty`, needs Artist - Title
     - `t` - the same as a command `add from-text`, needs Artist - Title

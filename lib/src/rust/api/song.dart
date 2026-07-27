@@ -76,6 +76,8 @@ String songAutoscrollDelaySymbol() =>
 String songShowOptionsSymbol() =>
     RustLib.instance.api.crateApiSongSongShowOptionsSymbol();
 
+String songTagsSymbol() => RustLib.instance.api.crateApiSongSongTagsSymbol();
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}
 
@@ -126,6 +128,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
   (bool, bool, bool, bool) getShowOptions();
 
   SimpleKey? getSimpleKey();
+
+  List<String>? getTags();
 
   String getTitle();
 

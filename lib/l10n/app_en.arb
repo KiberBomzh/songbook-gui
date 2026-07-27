@@ -153,6 +153,7 @@
 	"editorMetadataCapo": "Capo",
 	"editorMetadataAutoscrollSpeed": "Autoscroll speed",
 	"editorMetadataAutoscrollDelay": "Autoscroll delay",
+	"editorMetadataTags": "Tags",
 	"editorShowOptions": "Show options",
 
 	"cancel": "Cancel",

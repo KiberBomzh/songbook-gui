@@ -192,6 +192,13 @@ impl SimpleSong {
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
         self.song.metadata.get_show_options()
     } // chords, rhythm, notes, fingerings
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_tags(&self) -> Option<Vec<String>> {
+        Some(
+            self.song.metadata.tags.as_ref()?.iter().map(|t| t.clone()).collect()
+        )
+    }
     
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_fingerings(&self) -> Option<HashMap<String, String>> {
@@ -331,6 +338,7 @@ use songbook::{
     SONG_AUTOSCROLL_SPEED_SYMBOL,
     SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
+    SONG_TAGS_SYMBOL,
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
@@ -381,6 +389,7 @@ pub fn get_editor_keywords() -> Vec<String> {
         SONG_AUTOSCROLL_SPEED_SYMBOL.to_string(),
         SONG_AUTOSCROLL_DELAY_SYMBOL.to_string(),
         SONG_SHOW_OPTIONS_SYMBOL.to_string(),
+        SONG_TAGS_SYMBOL.to_string(),
     ]
 }
 
@@ -517,4 +526,9 @@ pub fn song_autoscroll_delay_symbol() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn song_show_options_symbol() -> String {
     SONG_SHOW_OPTIONS_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_tags_symbol() -> String {
+    SONG_TAGS_SYMBOL.to_string()
 }

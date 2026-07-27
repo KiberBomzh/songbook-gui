@@ -243,6 +243,13 @@ impl App {
                 Line::from("Find")
             ]),
 
+            Row::new(vec![
+                Line::from("T(tag1, tag2)"),
+                Line::default(),
+                Line::from("Tags find")
+            ]),
+
+
             #[cfg(not(feature = "reqwest"))]
             Row::new(vec![
                 Line::from("A(e/t/c/s)"),

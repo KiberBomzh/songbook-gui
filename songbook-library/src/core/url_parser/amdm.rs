@@ -57,15 +57,7 @@ fn parse_metadata(document: &Html) -> Option<Metadata> {
         .collect::<Vec<_>>()
         .join("");
 
-    Some( Metadata {
-        artist: artist.to_string(),
-        title: title.to_string(),
-        key: None,
-        capo: None,
-        autoscroll_speed: None,
-        autoscroll_delay: None,
-        show_options: None,
-    } )
+    Some( Metadata::new( title.to_string(), artist.to_string()) )
 }
 
 fn parse_text(document: &Html) -> Option<(Vec<Block>, HashSet<Chord>)> {

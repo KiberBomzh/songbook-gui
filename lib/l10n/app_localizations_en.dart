@@ -404,6 +404,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editorMetadataAutoscrollDelay => 'Autoscroll delay';
 
   @override
+  String get editorMetadataTags => 'Tags';
+
+  @override
   String get editorShowOptions => 'Show options';
 
   @override

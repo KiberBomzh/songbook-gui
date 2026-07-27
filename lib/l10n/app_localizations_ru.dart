@@ -406,6 +406,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editorMetadataAutoscrollDelay => 'Задержка автоскролла';
 
   @override
+  String get editorMetadataTags => 'Теги';
+
+  @override
   String get editorShowOptions => 'Опции отображения';
 
   @override

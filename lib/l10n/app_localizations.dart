@@ -886,6 +886,12 @@ abstract class AppLocalizations {
   /// **'Autoscroll delay'**
   String get editorMetadataAutoscrollDelay;
 
+  /// No description provided for @editorMetadataTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get editorMetadataTags;
+
   /// No description provided for @editorShowOptions.
   ///
   /// In en, this message translates to:

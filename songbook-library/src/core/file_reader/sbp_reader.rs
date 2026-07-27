@@ -82,6 +82,7 @@ fn convert_metadata(song: &SbpSong) -> ( Metadata, Option<String> ) {
         autoscroll_speed: None,
         autoscroll_delay: None,
         show_options: None,
+        tags: Some(std::collections::BTreeSet::new()),
     },
     if song.NotesText.is_empty() { None }
     else { Some( song.NotesText.clone() ) } )

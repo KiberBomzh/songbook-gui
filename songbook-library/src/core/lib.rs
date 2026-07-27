@@ -39,6 +39,7 @@ pub const SONG_CAPO_SYMBOL: &str = "{song_capo}: ";
 pub const SONG_AUTOSCROLL_SPEED_SYMBOL: &str = "{song_autoscroll_speed}: ";
 pub const SONG_AUTOSCROLL_DELAY_SYMBOL: &str = "{song_autoscroll_delay}: ";
 pub const SONG_SHOW_OPTIONS_SYMBOL: &str = "{song_show_options}: ";
+pub const SONG_TAGS_SYMBOL: &str = "{song_tags}: ";
 
 
 pub const BLOCK_START: &str = "{block:}";

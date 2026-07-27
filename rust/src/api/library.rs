@@ -263,6 +263,17 @@ pub fn search(path_str: String, query: String) -> Result<Vec<String>> {
 }
 
 #[flutter_rust_bridge::frb(sync)]
+pub fn tag_search(tags: Vec<String>) -> Result<Vec<String>> {
+    Ok(
+        tag_find(&tags.iter().map(|t| t.as_str()).collect::<Vec<&str>>())?
+            .iter()
+            .filter_map(|(_name, path)|
+                path.to_str().and_then(|s| Some(s.to_string()))
+            ).collect()
+    )
+}
+
+#[flutter_rust_bridge::frb(sync)]
 pub fn create_directory(path_str: String) -> Result<()> {
     let path = PathBuf::from(path_str);
     mkdir(&path)?;
@@ -325,15 +336,7 @@ pub fn add_new_song(
     let path = PathBuf::from(path_str);
     let song = {
         let (blocks, chord_list) = songbook::file_reader::txt_reader::read_from_txt(&text);
-        let metadata = Metadata {
-            artist,
-            title,
-            key: None,
-            capo: None,
-            autoscroll_speed: None,
-            autoscroll_delay: None,
-            show_options: None,
-        };
+        let metadata = Metadata::new(title, artist);
         let mut s = Song { blocks, chord_list, metadata, notes: None };
         s.detect_key();
 
