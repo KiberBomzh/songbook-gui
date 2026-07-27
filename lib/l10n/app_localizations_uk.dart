@@ -417,6 +417,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorShowOptions => 'Опції відображення';
 
   @override
+  String get editorTags => 'Теги';
+
+  @override
   String get cancel => 'Відміна';
 
   @override

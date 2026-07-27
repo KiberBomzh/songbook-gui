@@ -910,6 +910,12 @@ abstract class AppLocalizations {
   /// **'Show options'**
   String get editorShowOptions;
 
+  /// No description provided for @editorTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get editorTags;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

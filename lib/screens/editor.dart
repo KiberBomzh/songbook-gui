@@ -2867,18 +2867,18 @@ class Metadata extends StatefulWidget {
 	int? autoscrollSpeed;
 	int? autoscrollDelay;
 	ShowOptions showOptions;
-	List<String>? tags;
+	Tags tags;
 
 	Metadata({
 		super.key,
 		required this.title,
 		required this.artist,
 		required this.showOptions,
+		required this.tags,
 		this.Key,
 		this.capo,
 		this.autoscrollSpeed,
 		this.autoscrollDelay,
-		this.tags,
 	});
 
 	static Metadata from_string(String text) {
@@ -2935,7 +2935,7 @@ class Metadata extends StatefulWidget {
 			autoscrollSpeed: autoscrollSpeed,
 			autoscrollDelay: autoscrollDelay,
 			showOptions: options,
-			tags: tags,
+			tags: Tags(tags: tags ?? []),
 		);
 	}
 
@@ -2969,10 +2969,7 @@ class Metadata extends StatefulWidget {
 
 		result += songShowOptionsSymbol() + showOptions.to_string() + '\n';
 
-		result += songTagsSymbol();
-		if (tags != null)
-			result += tags!.join(', ');
-		result += '\n';
+		result += songTagsSymbol() + tags.to_string() + '\n';
 
 		result += metadataEnd() + '\n\n';
 
@@ -3003,7 +3000,6 @@ class MetadataState extends State<Metadata> {
 		_capoController = TextEditingController(text: widget.capo?.toString());
 		_autoscrollSpeedController = TextEditingController(text: widget.autoscrollSpeed?.toString());
 		_autoscrollDelayController = TextEditingController(text: widget.autoscrollDelay?.toString());
-		_tagsController = TextEditingController(text: widget.tags?.join(', '));
 	}
 
 	@override
@@ -3014,7 +3010,6 @@ class MetadataState extends State<Metadata> {
 		_capoController.dispose();
 		_autoscrollSpeedController.dispose();
 		_autoscrollDelayController.dispose();
-		_tagsController.dispose();
 		super.dispose();
 	}
 
@@ -3089,21 +3084,158 @@ class MetadataState extends State<Metadata> {
 					),
 					const SizedBox(height: 10),
 
-					OneLineTextField(
-						label: AppLocalizations.of(context)!.editorMetadataTags,
-						controller: _tagsController,
-						style: style,
-						onChanged: (value) => widget.tags = value.split(', '),
-					),
-					const SizedBox(height: 10),
-					
 
+					widget.tags,
 					widget.showOptions,
 				],
 			),
 		);
 	}
 }
+class Tags extends StatefulWidget {
+	List<String> tags;
+
+	Tags({
+		super.key,
+		required this.tags,
+	});
+
+	@override
+	State<Tags> createState() => TagsState();
+
+	String to_string() {
+		return tags.join(', ');
+	}
+}
+class TagsState extends State<Tags> {
+	bool _isAddButtonPressed = false;
+
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			width: double.infinity,
+			margin: const .all(10),
+			padding: const .all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
+				borderRadius: .circular(8),
+			),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					Align(
+						alignment: .centerRight,
+						child: Text(AppLocalizations.of(context)!.editorTags),
+					),
+					const SizedBox(height: 10),
+
+					Wrap(
+						spacing: 5,
+						runSpacing: 5,
+						children: [
+							...widget.tags.asMap().entries.map((entry) {
+								final index = entry.key;
+								final tag = entry.value;
+
+								return Tag(
+									key: UniqueKey(),
+									value: tag,
+									requestFocus: (_isAddButtonPressed && index == (widget.tags.length - 1)),
+									onChanged: (value) => widget.tags[index] = value,
+									onSubmitted: (value) {
+										if (value.isEmpty)
+											setState(() {
+												widget.tags.removeAt(index);
+												_isAddButtonPressed = false;
+											});
+										else
+											widget.tags[index] = value;
+									},
+								);
+							}),
+
+							IconButton(
+								icon: Icon(Icons.add),
+								onPressed: () => setState(() {
+									widget.tags.add('');
+									_isAddButtonPressed = true;
+								}),
+							),
+						],
+					),
+				],
+			),
+		);
+	}
+}
+class Tag extends StatefulWidget {
+	final String value;
+	final bool requestFocus;
+	final Function(String) onChanged;
+	final Function(String) onSubmitted;
+
+	const Tag({
+		super.key,
+		required this.value,
+		required this.requestFocus,
+		required this.onChanged,
+		required this.onSubmitted,
+	});
+
+	@override
+	State<Tag> createState() => TagState();
+}
+class TagState extends State<Tag> {
+	late final TextEditingController _controller;
+	late final FocusNode _focusNode;
+
+	@override
+	void initState() {
+		super.initState();
+		_controller = TextEditingController(text: widget.value);
+		_focusNode = FocusNode();
+
+		if (widget.requestFocus)
+			_focusNode.requestFocus();
+	}
+
+	@override
+	void dispose() {
+		_controller.dispose();
+		_focusNode.dispose();
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return IntrinsicWidth(
+			child: Container(
+				padding: const .symmetric(horizontal: 10),
+				decoration: BoxDecoration(
+					color: Theme.of(context).colorScheme.surface,
+					borderRadius: .circular(8),
+				),
+				child: TextField(
+					controller: _controller,
+					focusNode: _focusNode,
+					decoration: InputDecoration(
+						border: .none,
+						contentPadding: const .all(0),
+						constraints: BoxConstraints(
+							minWidth: 50,
+						),
+					),
+					onChanged: (value) => widget.onChanged(value),
+					onSubmitted: (value) {
+						_focusNode.unfocus();
+						widget.onSubmitted(value);
+					},
+				),
+			),
+		);
+	}
+}
+
 class ShowOptions extends StatefulWidget {
 	bool chords;
 	bool rhythm;
