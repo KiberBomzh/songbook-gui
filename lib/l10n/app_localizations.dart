@@ -136,6 +136,18 @@ abstract class AppLocalizations {
   /// **'Moved'**
   String get libraryMovedMsg;
 
+  /// No description provided for @libraryTagsNotFoundMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here...'**
+  String get libraryTagsNotFoundMsg;
+
+  /// No description provided for @libraryTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get libraryTags;
+
   /// No description provided for @libraryTooltipPaste.
   ///
   /// In en, this message translates to:

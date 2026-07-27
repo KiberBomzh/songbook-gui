@@ -28,6 +28,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get libraryMovedMsg => 'Переміщено';
 
   @override
+  String get libraryTagsNotFoundMsg => 'Тегів не знайдено...';
+
+  @override
+  String get libraryTags => 'Теги';
+
+  @override
   String get libraryTooltipPaste => 'Вставити';
 
   @override

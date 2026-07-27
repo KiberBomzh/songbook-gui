@@ -6,6 +6,9 @@
 	"librarySnackBarAddFromLinkError": "Неможливо прочитати це посилання!",
     "libraryDeletedMsg": "Видалено",
 	"libraryMovedMsg": "Переміщено",
+	"libraryTagsNotFoundMsg": "Тегів не знайдено...",
+
+	"libraryTags": "Теги",
 
     "libraryTooltipPaste": "Вставити",
     "libraryTooltipSearch": "Пошук",

@@ -27,6 +27,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get libraryMovedMsg => 'Moved';
 
   @override
+  String get libraryTagsNotFoundMsg => 'Nothing here...';
+
+  @override
+  String get libraryTags => 'Tags';
+
+  @override
   String get libraryTooltipPaste => 'Paste';
 
   @override

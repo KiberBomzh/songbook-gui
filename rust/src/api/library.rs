@@ -1,5 +1,5 @@
 use std::path::PathBuf;
-use std::collections::HashMap;
+pub use std::collections::{HashMap, HashSet};
 
 use anyhow::{Result, anyhow};
 use songbook::song_library::lib_functions::*;
@@ -270,6 +270,25 @@ pub fn tag_search(tags: Vec<String>) -> Result<Vec<String>> {
             .filter_map(|(_name, path)|
                 path.to_str().and_then(|s| Some(s.to_string()))
             ).collect()
+    )
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_tag_map() -> Result<HashMap<String, HashSet<String>>> {
+    Ok(
+        get_map_tag_songs()?
+            .iter()
+            .map(|(tag, songs)| {
+                let set: HashSet<String> = songs
+                    .iter()
+                    .filter_map(|(_name, path)|
+                        path.to_str().and_then(|s| Some(s.to_string()))
+                    ).collect();
+
+
+                (tag.clone(), set)
+            })
+            .collect()
     )
 }
 

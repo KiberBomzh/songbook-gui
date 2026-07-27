@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 847013642;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -699495045;
 
 // Section: executor
 
@@ -2346,6 +2346,37 @@ fn wire__crate__api__theory__get_standart_tuning_impl(
         },
     )
 }
+fn wire__crate__api__library__get_tag_map_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_tag_map",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let output_ok = crate::api::library::get_tag_map()?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
 fn wire__crate__api__library__has_part_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -3566,6 +3597,15 @@ impl SseDecode for char {
     }
 }
 
+impl SseDecode for std::collections::HashMap<String, std::collections::HashSet<String>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner =
+            <Vec<(String, std::collections::HashSet<String>)>>::sse_decode(deserializer);
+        return inner.into_iter().collect();
+    }
+}
+
 impl SseDecode for std::collections::HashMap<String, String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3617,6 +3657,14 @@ impl SseDecode
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut inner = <usize>::sse_decode(deserializer);
         return decode_rust_opaque_moi(inner);
+    }
+}
+
+impl SseDecode for std::collections::HashSet<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut inner = <Vec<String>>::sse_decode(deserializer);
+        return inner.into_iter().collect();
     }
 }
 
@@ -3721,6 +3769,20 @@ impl SseDecode for Vec<u8> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<u8>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<(String, std::collections::HashSet<String>)> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<(String, std::collections::HashSet<String>)>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -3862,6 +3924,15 @@ impl SseDecode for (Vec<String>, Vec<String>, String) {
     }
 }
 
+impl SseDecode for (String, std::collections::HashSet<String>) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_field0 = <String>::sse_decode(deserializer);
+        let mut var_field1 = <std::collections::HashSet<String>>::sse_decode(deserializer);
+        return (var_field0, var_field1);
+    }
+}
+
 impl SseDecode for (String, String) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3961,8 +4032,8 @@ fn pde_ffi_dispatcher_primary_impl(
         22 => {
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
-        60 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
-        77 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
+        78 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4055,44 +4126,45 @@ fn pde_ffi_dispatcher_sync_impl(
         54 => wire__crate__api__library__get_forbidden_chars_impl(ptr, rust_vec_len, data_len),
         55 => wire__crate__api__theory__get_fretboard_impl(ptr, rust_vec_len, data_len),
         56 => wire__crate__api__theory__get_standart_tuning_impl(ptr, rust_vec_len, data_len),
-        57 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
-        58 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
-        59 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
-        61 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
-        62 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__song__metadata_start_impl(ptr, rust_vec_len, data_len),
-        64 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
-        65 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
-        66 => wire__crate__api__song__note_line_symbol_impl(ptr, rust_vec_len, data_len),
-        67 => wire__crate__api__song__plain_text_end_impl(ptr, rust_vec_len, data_len),
-        68 => wire__crate__api__song__plain_text_start_impl(ptr, rust_vec_len, data_len),
-        69 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
-        70 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
-        71 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
-        72 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
-        73 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
-        74 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
-        75 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
-        76 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
-        78 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
-        79 => {
+        57 => wire__crate__api__library__get_tag_map_impl(ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__song__metadata_start_impl(ptr, rust_vec_len, data_len),
+        65 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
+        67 => wire__crate__api__song__note_line_symbol_impl(ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__song__plain_text_end_impl(ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__song__plain_text_start_impl(ptr, rust_vec_len, data_len),
+        70 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
+        71 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
+        72 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
+        73 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
+        74 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
+        75 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
+        76 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
+        77 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
+        79 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
+        80 => {
             wire__crate__api__song__song_autoscroll_delay_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        80 => {
+        81 => {
             wire__crate__api__song__song_autoscroll_speed_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        81 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
-        82 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
-        83 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
-        84 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
-        85 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
-        86 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
-        87 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
-        88 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
-        89 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
-        90 => wire__crate__api__library__tag_search_impl(ptr, rust_vec_len, data_len),
-        91 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
-        92 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
+        84 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
+        85 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
+        86 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
+        87 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
+        88 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
+        89 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
+        90 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
+        91 => wire__crate__api__library__tag_search_impl(ptr, rust_vec_len, data_len),
+        92 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
+        93 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4301,6 +4373,16 @@ impl SseEncode for char {
     }
 }
 
+impl SseEncode for std::collections::HashMap<String, std::collections::HashSet<String>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<(String, std::collections::HashSet<String>)>>::sse_encode(
+            self.into_iter().collect(),
+            serializer,
+        );
+    }
+}
+
 impl SseEncode for std::collections::HashMap<String, String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4356,6 +4438,13 @@ impl SseEncode
         let (ptr, size) = self.sse_encode_raw();
         <usize>::sse_encode(ptr, serializer);
         <i32>::sse_encode(size, serializer);
+    }
+}
+
+impl SseEncode for std::collections::HashSet<String> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<String>>::sse_encode(self.into_iter().collect(), serializer);
     }
 }
 
@@ -4446,6 +4535,16 @@ impl SseEncode for Vec<u8> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <u8>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<(String, std::collections::HashSet<String>)> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <(String, std::collections::HashSet<String>)>::sse_encode(item, serializer);
         }
     }
 }
@@ -4566,6 +4665,14 @@ impl SseEncode for (Vec<String>, Vec<String>, String) {
         <Vec<String>>::sse_encode(self.0, serializer);
         <Vec<String>>::sse_encode(self.1, serializer);
         <String>::sse_encode(self.2, serializer);
+    }
+}
+
+impl SseEncode for (String, std::collections::HashSet<String>) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.0, serializer);
+        <std::collections::HashSet<String>>::sse_encode(self.1, serializer);
     }
 }
 

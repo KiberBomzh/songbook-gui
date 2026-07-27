@@ -296,6 +296,36 @@ class _LibraryState extends State<LibraryScreen> {
 					if (_isSelectMode)
 						_buildAppBarPopupMenuButton(),
 
+					if (_isSearchMode)
+						IconButton(
+							icon: Icon(Icons.tag),
+							tooltip: AppLocalizations.of(context)!.libraryTags,
+							onPressed: () async {
+								final tagMap = getTagMap();
+								final result = await showDialog(
+									context: context,
+									builder: (context) => AlertDialog(
+										title:  Text(AppLocalizations.of(context)!.libraryTags),
+										content: (tagMap.keys.isNotEmpty) 
+											? Wrap(
+												spacing: 5,
+												runSpacing: 5,
+												children: tagMap.keys.map((tag) => FilterChip(
+													label: Text('#' + tag),
+													onSelected: (_) => Navigator.of(context).pop('#' + tag),
+												)).toList()
+											)
+											: Text(AppLocalizations.of(context)!.libraryTagsNotFoundMsg),
+									),
+								);
+								
+								if (result != null) {
+									_searchTextController.text = result;
+									_search(result!);
+								}
+							},
+						),
+
 					if (!_isSelectMode)
 						IconButton(
 							icon: Icon(Icons.settings),

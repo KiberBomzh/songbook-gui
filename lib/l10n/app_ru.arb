@@ -6,6 +6,9 @@
 	"librarySnackBarAddFromLinkError": "Невозможно прочитать эту ссылку!",
 	"libraryDeletedMsg": "Удалено",
 	"libraryMovedMsg": "Перемещено",
+	"libraryTagsNotFoundMsg": "Что-то пусто здесь...",
+
+	"libraryTags": "Теги",
 
 	"libraryTooltipPaste": "Вставить",
 	"libraryTooltipSearch": "Поиск",

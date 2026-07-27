@@ -6,6 +6,9 @@
 	"librarySnackBarAddFromLinkError": "Cannot read from this link!",
 	"libraryDeletedMsg": "Deleted",
 	"libraryMovedMsg": "Moved",
+	"libraryTagsNotFoundMsg": "Nothing here...",
+
+	"libraryTags": "Tags",
 
 	"libraryTooltipPaste": "Paste",
 	"libraryTooltipSearch": "Search",

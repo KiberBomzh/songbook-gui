@@ -38,6 +38,9 @@ List<String> search({required String pathStr, required String query}) =>
 List<String> tagSearch({required List<String> tags}) =>
     RustLib.instance.api.crateApiLibraryTagSearch(tags: tags);
 
+Map<String, Set<String>> getTagMap() =>
+    RustLib.instance.api.crateApiLibraryGetTagMap();
+
 void createDirectory({required String pathStr}) =>
     RustLib.instance.api.crateApiLibraryCreateDirectory(pathStr: pathStr);
 
