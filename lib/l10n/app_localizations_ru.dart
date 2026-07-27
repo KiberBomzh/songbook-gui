@@ -9,7 +9,7 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get libraryTitle => 'Библеотека';
+  String get libraryTitle => 'Библиотека';
 
   @override
   String get libraryEmpty => 'Здесь ничего нет...';
