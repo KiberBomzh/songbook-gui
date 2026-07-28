@@ -682,6 +682,12 @@ abstract class AppLocalizations {
   /// **'Help'**
   String get editorHelpDialogTitle;
 
+  /// No description provided for @editorChangeModeDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get editorChangeModeDialogTitle;
+
   /// No description provided for @editorTheLastBlockMsg.
   ///
   /// In en, this message translates to:
@@ -747,6 +753,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get editorTooltipSave;
+
+  /// No description provided for @editorTooltipMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get editorTooltipMode;
 
   /// No description provided for @editorTooltipHelp.
   ///

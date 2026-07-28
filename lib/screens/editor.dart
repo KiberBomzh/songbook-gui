@@ -14,7 +14,13 @@ import 'package:songbook/l10n/app_localizations.dart';
 enum EditorMode {
 	source,
 	raw,
-	normal
+	normal;
+
+	String to_string(BuildContext context) => switch(this) {
+		source => AppLocalizations.of(context)!.editorModeSource,
+		raw => AppLocalizations.of(context)!.editorModeRaw,
+		normal => AppLocalizations.of(context)!.editorModeNormal,
+	};
 }
 
 class EditorScrollOffsets {
@@ -288,6 +294,97 @@ class _EditorState extends State<EditorScreen> {
 	}
 
 
+	void _switchMode(EditorMode newMode) async {
+		if (_currentMode == EditorMode.source) {
+			if (widget.song == null) {
+				try {
+					widget.song = SimpleSong.open(pathStr: widget.path);
+				} catch (e) {
+					showDialog(
+						context: context,
+						builder: (context) => AlertDialog(
+							title: Text(AppLocalizations.of(context)!.songErrorMsg),
+							content: SizedBox(
+								height: MediaQuery.of(context).size.height * 0.8,
+								child: SingleChildScrollView(
+									child: Padding(
+										padding: const .all(5),
+										child: Text(e.toString()),
+									),
+								),
+							),
+							actions: [
+								TextButton(
+									child: Text(AppLocalizations.of(context)!.ok),
+									onPressed: () => Navigator.of(context).pop(),
+								),
+							],
+						),
+					);
+					return;
+				}
+			}
+
+			_textController.isSourceMode = false;
+
+			_sourceText = _textController.text;
+			_sourceHistory = _history;
+			_sourceHistoryIndex = _historyIndex;
+			_sourceSelection = _textController.selection;
+			_historyTimer?.cancel();
+
+			_currentMode = newMode;
+
+
+
+			if (_rawText != null) {
+				_textController.text = _rawText!;
+			} else {
+				_loadText();
+			}
+
+			_textController.selection = _rawSelection ?? TextSelection.collapsed(offset: 0);
+
+			_history = _rawHistory;
+			_historyIndex = _rawHistoryIndex;
+			if (_historyIndex < 0)
+				_saveToHistory();
+		} else {
+			if (_currentMode == EditorMode.normal) {
+				await _graphicalEditorKey.currentState?.writeInTextController();
+				_startKeyStateTimer(_editorKey, _updateScrollControllers);
+			}
+
+			_currentMode = newMode;
+			if (newMode == EditorMode.source) {
+				_rawText = _textController.text;
+				_rawHistory = _history;
+				_rawHistoryIndex = _historyIndex;
+				_rawSelection = _textController.selection;
+				_historyTimer?.cancel();
+
+				if (_sourceText != null) {
+					_textController.text = _sourceText!;
+				} else {
+					_loadText();
+				}
+
+				_textController.selection = _sourceSelection ?? TextSelection.collapsed(offset: 0);
+
+				_history = _sourceHistory;
+				_historyIndex = _sourceHistoryIndex;
+				if (_historyIndex < 0)
+					_saveToHistory();
+
+				_textController.isSourceMode = true;
+			}
+		}
+
+		_updateScrollControllers();
+		setState(() {});
+	}
+
+
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
@@ -373,120 +470,6 @@ class _EditorState extends State<EditorScreen> {
 			crossAxisAlignment: .start,
 			mainAxisAlignment: .end,
 			children: [
-				Container(
-					margin: const EdgeInsets.only(right: 10, bottom: 5),
-					alignment: .centerRight,
-					child: SegmentedButton<EditorMode>(
-						style: SegmentedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.7),
-						),
-						segments: <ButtonSegment<EditorMode>>[
-							ButtonSegment(
-								value: EditorMode.source,
-								label: Text(AppLocalizations.of(context)!.editorModeSource),
-							),
-							ButtonSegment(
-								value: EditorMode.raw,
-								label: Text(AppLocalizations.of(context)!.editorModeRaw),
-							),
-							ButtonSegment(
-								value: EditorMode.normal,
-								label: Text(AppLocalizations.of(context)!.editorModeNormal),
-							),
-						],
-						selected: <EditorMode>{_currentMode},
-						onSelectionChanged: (newSelection) async {
-							if (_currentMode == EditorMode.source) {
-								if (widget.song == null) {
-									try {
-										widget.song = SimpleSong.open(pathStr: widget.path);
-									} catch (e) {
-										showDialog(
-											context: context,
-											builder: (context) => AlertDialog(
-												title: Text(AppLocalizations.of(context)!.songErrorMsg),
-												content: SizedBox(
-													height: MediaQuery.of(context).size.height * 0.8,
-													child: SingleChildScrollView(
-														child: Padding(
-															padding: const .all(5),
-															child: Text(e.toString()),
-														),
-													),
-												),
-												actions: [
-													TextButton(
-														child: Text(AppLocalizations.of(context)!.ok),
-														onPressed: () => Navigator.of(context).pop(),
-													),
-												],
-											),
-										);
-										return;
-									}
-								}
-
-								_textController.isSourceMode = false;
-
-								_sourceText = _textController.text;
-								_sourceHistory = _history;
-								_sourceHistoryIndex = _historyIndex;
-								_sourceSelection = _textController.selection;
-								_historyTimer?.cancel();
-
-								_currentMode = newSelection.first;
-
-
-
-								if (_rawText != null) {
-									_textController.text = _rawText!;
-								} else {
-									_loadText();
-								}
-
-								_textController.selection = _rawSelection ?? TextSelection.collapsed(offset: 0);
-
-								_history = _rawHistory;
-								_historyIndex = _rawHistoryIndex;
-								if (_historyIndex < 0)
-									_saveToHistory();
-							} else {
-								if (_currentMode == EditorMode.normal) {
-									await _graphicalEditorKey.currentState?.writeInTextController();
-									_startKeyStateTimer(_editorKey, _updateScrollControllers);
-								}
-
-								_currentMode = newSelection.first;
-								if (newSelection.first == EditorMode.source) {
-									_rawText = _textController.text;
-									_rawHistory = _history;
-									_rawHistoryIndex = _historyIndex;
-									_rawSelection = _textController.selection;
-									_historyTimer?.cancel();
-
-									if (_sourceText != null) {
-										_textController.text = _sourceText!;
-									} else {
-										_loadText();
-									}
-
-									_textController.selection = _sourceSelection ?? TextSelection.collapsed(offset: 0);
-
-									_history = _sourceHistory;
-									_historyIndex = _sourceHistoryIndex;
-									if (_historyIndex < 0)
-										_saveToHistory();
-
-									_textController.isSourceMode = true;
-								}
-							}
-
-							_updateScrollControllers();
-							setState(() {});
-						},
-					),
-				),
-
 				if (_currentMode == EditorMode.raw)
 					FastKeywordsLine(onTap: _insert),
 
@@ -507,6 +490,12 @@ class _EditorState extends State<EditorScreen> {
 								icon: Icon(Icons.save),
 								tooltip: AppLocalizations.of(context)!.editorTooltipSave,
 								onPressed: _save,
+							),
+
+							IconButton(
+								icon: Icon(Icons.menu_open),
+								tooltip: AppLocalizations.of(context)!.editorTooltipMode,
+								onPressed: _changeMode,
 							),
 
 
@@ -566,6 +555,31 @@ class _EditorState extends State<EditorScreen> {
 				],
 			),
 		);
+	}
+
+	void _changeMode() async {
+		final result = await showDialog<EditorMode?>(
+			context: context,
+			builder: (context) => SimpleDialog(
+				title: Text(AppLocalizations.of(context)!.editorChangeModeDialogTitle),
+				children: EditorMode.values.map((value) => SimpleDialogOption(
+					child: (_currentMode == value)
+						? Row(
+							children: [
+								Icon(Icons.label_important),
+								Text(value.to_string(context)),
+							],
+						)
+						: Text(value.to_string(context)),
+					onPressed: () => Navigator.of(context).pop(value),
+				)).toList(),
+			),
+		);
+
+		if (result == null)
+			return;
+
+		_switchMode(result);
 	}
 }
 

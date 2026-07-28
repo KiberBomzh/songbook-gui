@@ -304,6 +304,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editorHelpDialogTitle => 'Помощь';
 
   @override
+  String get editorChangeModeDialogTitle => 'Режим';
+
+  @override
   String get editorTheLastBlockMsg => 'Это последний Блок!';
 
   @override
@@ -335,6 +338,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get editorTooltipSave => 'Сохранить';
+
+  @override
+  String get editorTooltipMode => 'Режим';
 
   @override
   String get editorTooltipHelp => 'Помощь';

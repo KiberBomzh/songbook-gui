@@ -301,6 +301,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editorHelpDialogTitle => 'Help';
 
   @override
+  String get editorChangeModeDialogTitle => 'Mode';
+
+  @override
   String get editorTheLastBlockMsg => 'This is the last Block!';
 
   @override
@@ -333,6 +336,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editorTooltipSave => 'Save';
+
+  @override
+  String get editorTooltipMode => 'Mode';
 
   @override
   String get editorTooltipHelp => 'Help';

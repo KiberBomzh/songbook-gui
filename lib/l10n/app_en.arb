@@ -115,6 +115,7 @@
 
 	"editorSavedMsg": "Saved!",
 	"editorHelpDialogTitle": "Help",
+	"editorChangeModeDialogTitle": "Mode",
 	"editorTheLastBlockMsg": "This is the last Block!",
 	"editorTheLastRowInTheBlockMsg": "This is the last Row in the Block!",
 	"editorNextLineIsNotARowMsg": "Next line is not a Row!",
@@ -128,6 +129,7 @@
 	"editorConvertToRow": "Convert to Row",
 
 	"editorTooltipSave": "Save",
+	"editorTooltipMode": "Mode",
 	"editorTooltipHelp": "Help",
 	"editorTooltipSelectBlock": "Select Block",
 	"editorTooltipEditMetadata": "Edit metadata",

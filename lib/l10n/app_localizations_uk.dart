@@ -303,6 +303,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorHelpDialogTitle => 'Допомога';
 
   @override
+  String get editorChangeModeDialogTitle => 'Режим';
+
+  @override
   String get editorTheLastBlockMsg => 'Це останній Блок!';
 
   @override
@@ -334,6 +337,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get editorTooltipSave => 'Зберегти';
+
+  @override
+  String get editorTooltipMode => 'Режим';
 
   @override
   String get editorTooltipHelp => 'Допомога';

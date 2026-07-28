@@ -115,6 +115,7 @@
 
 	"editorSavedMsg": "Сохранено!",
 	"editorHelpDialogTitle": "Помощь",
+	"editorChangeModeDialogTitle": "Режим",
 	"editorTheLastBlockMsg": "Это последний Блок!",
 	"editorTheLastRowInTheBlockMsg": "Это последний Ряд в Блоке!",
 	"editorNextLineIsNotARowMsg": "Следующая строка не Ряд!",
@@ -128,6 +129,7 @@
 	"editorConvertToRow": "Преобразовать в Ряд",
 
 	"editorTooltipSave": "Сохранить",
+	"editorTooltipMode": "Режим",
 	"editorTooltipHelp": "Помощь",
 	"editorTooltipSelectBlock": "Выбрать Блок",
 	"editorTooltipEditMetadata": "Редактировать метаданные",
