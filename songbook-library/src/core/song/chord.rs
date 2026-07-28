@@ -9,7 +9,7 @@ use crate::chord_generator::get_fingerings;
 
 
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum ChordType {
     Norm,
     Power,
@@ -22,14 +22,14 @@ enum ChordType {
     Thirteenth
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum FifthState {
     Dim,
     Norm,
     Aug
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 enum SusOrAdd {
     No,
     Sus2,
@@ -40,7 +40,7 @@ enum SusOrAdd {
 }
 
 
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Chord {
     text: String,
     keynote: Note,

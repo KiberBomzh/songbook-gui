@@ -663,6 +663,13 @@ class SongState extends State<SongScreen> {
 												setState(() => setFingeringGlobal(fingering: f));
 											}
 										),
+										MenuItemButton(
+											child: Text(AppLocalizations.of(context)!.songFingeringOptionSetAsDefaultLocal),
+											onPressed: () {
+												Navigator.of(context).pop();
+												setState(() => _song.setFingering(fingering: f));
+											}
+										),
 									],
 								);
 							}).toList(),

@@ -154,6 +154,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<
             autoscroll_delay: None,
             show_options: None,
             tags: Some(std::collections::BTreeSet::new()),
+            fingerings: None,
         } ) } else { None },
         blocks,
         chord_list

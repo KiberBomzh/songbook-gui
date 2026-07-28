@@ -110,7 +110,7 @@ impl SimpleKey {
 }
 
 pub struct SimpleFingering {
-    fingering: Fingering
+    pub fingering: Fingering
 }
 impl SimpleFingering {
     #[frb(sync)]

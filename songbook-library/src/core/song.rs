@@ -3,7 +3,7 @@ pub mod row;
 pub mod chord;
 
 use std::fmt;
-use std::collections::{HashSet, BTreeSet};
+use std::collections::{HashSet, BTreeSet, BTreeMap};
 use serde::{Serialize, Deserialize};
 
 #[cfg(feature = "colored")]
@@ -21,6 +21,8 @@ use crate::{
     SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
     SONG_TAGS_SYMBOL,
+    SONG_FINGERINGS_START,
+    SONG_FINGERINGS_END,
 
     BLOCK_START,
     BLOCK_END,
@@ -72,6 +74,7 @@ pub struct Metadata {
     pub autoscroll_delay: Option<u64>, // in seconds
     pub show_options: Option<ShowOptions>,
     pub tags: Option<BTreeSet<String>>, // in Option for compatibility
+    pub fingerings: Option<BTreeMap<Chord, Fingering>>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
@@ -94,6 +97,7 @@ impl Metadata {
             autoscroll_delay: None,
             show_options: None,
             tags: None,
+            fingerings: None,
         }
     }
 
@@ -145,7 +149,30 @@ impl Metadata {
 
         if let Some(tags) = &self.tags {
             s.push_str(SONG_TAGS_SYMBOL);
-            s.push_str( &tags.iter().map(|t| t.clone() ).collect::<Vec<String>>().join(", "));
+            s.push_str(&
+                tags.iter().enumerate()
+                .map(|(i, t)| {
+                    if i == 0 {
+                        t.clone()
+                    } else {
+                        ", ".to_string() + t
+                    }
+                }).collect::<String>()
+            );
+            s.push('\n');
+        }
+
+        if let Some(fingerings) = &self.fingerings {
+            s.push_str(SONG_FINGERINGS_START);
+            s.push('\n');
+            for (chord, fingering) in fingerings {
+                s.push_str(&chord.to_string());
+                s.push('\t');
+                
+                s.push_str(&fingering.get_for_editing());
+                s.push('\n');
+            }
+            s.push_str(SONG_FINGERINGS_END);
             s.push('\n');
         }
 
@@ -166,8 +193,19 @@ impl Metadata {
         let mut autoscroll_delay: Option<u64> = None;
         let mut opts: Option<ShowOptions> = None;
         let mut tags: BTreeSet<String> = BTreeSet::new();
+
+        let mut fingerings_lines = String::new();
+        let mut is_in_fingerings = false;
         for line in text.lines() {
-            if line.starts_with(SONG_TITLE_SYMBOL) {
+            if line.starts_with(SONG_FINGERINGS_END) {
+                is_in_fingerings = false;
+            } else if line.starts_with(SONG_FINGERINGS_START) {
+                is_in_fingerings = true;
+            } else if is_in_fingerings {
+                fingerings_lines.push_str(line);
+                fingerings_lines.push('\n');
+
+            } else if line.starts_with(SONG_TITLE_SYMBOL) {
                 title = line[SONG_TITLE_SYMBOL.len()..].trim().to_string();
             } else if line.starts_with(SONG_ARTIST_SYMBOL) {
                 artist = line[SONG_ARTIST_SYMBOL.len()..].trim().to_string();
@@ -211,6 +249,41 @@ impl Metadata {
         self.autoscroll_delay = autoscroll_delay;
         self.show_options = opts;
         self.tags = if tags.is_empty() { None } else { Some(tags) };
+        self.parse_fingerings(fingerings_lines);
+    }
+    fn parse_fingerings(&mut self, s: String) {
+        if s.is_empty() {
+            self.fingerings = None;
+            return;
+        }
+
+        let mut fingerings = BTreeMap::new();
+        for line in s.lines() {
+            if let Some(i) = line.find('\t') {
+                let chord = 
+                    if let Some(c) = Chord::new(&line[..i]) { c } else { continue };
+
+                let mut strings = ["x"; super::STRINGS];
+                for (i, c) in line[i + 1..].split_whitespace().enumerate() {
+                    if i > strings.len() - 1 { break }
+                    strings[i] = c;
+                }
+                let fingering = 
+                    if let Some(f) = 
+                        Fingering::from(
+                            strings,
+                            Some(line[..i].to_string())
+                        ) { f } else { continue };
+
+                fingerings.insert(chord, fingering);
+            }
+        }
+
+        self.fingerings = if fingerings.is_empty() {
+            None
+        } else {
+            Some(fingerings)
+        };
     }
 
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
@@ -347,7 +420,7 @@ impl Song {
     }
 
     pub fn get_fingerings(&self) -> Vec<Fingering> {
-        let mut fings = Vec::new();
+        let mut fings: Vec<Fingering> = Vec::new();
         
         #[cfg(not(feature = "song_library"))]
         for f in self.get_all_fingerings() {
@@ -356,7 +429,10 @@ impl Song {
         
         #[cfg(feature = "song_library")]
         for chord in &self.chord_list {
-            if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.to_string()) {
+            if let Some(fingerings) = &self.metadata.fingerings
+            && let Some(f) = fingerings.get(chord) {
+                fings.push(f.clone())
+            } else if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.to_string()) {
                 fings.push(f)
             } else {
                 fings.push( chord.get_fingerings(&STANDART_TUNING)[0].clone() )

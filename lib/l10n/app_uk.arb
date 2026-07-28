@@ -54,6 +54,7 @@
 	"songMillisecondsShort": "мс",
 
 	"songFingeringOptionSetAsDefaultGlobal": "Встановити за замовчуванням",
+	"songFingeringOptionSetAsDefaultLocal": "Встановити за замовчуванням (для пісні)",
 
     "nameValidatorErrorEmptyText": "Текст не може бути порожнім!",
     "nameValidatorErrorForbiddenChars": "В тексті є заборонені символи!",

@@ -69,11 +69,18 @@ class SimpleNoteArray6 extends NonGrowableListView<SimpleNote> {
     : this(List<SimpleNote>.filled(arraySize, fill));
 }
 
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Fingering>>
+abstract class Fingering implements RustOpaqueInterface {}
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Key>>
 abstract class Key implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleFingering>>
 abstract class SimpleFingering implements RustOpaqueInterface {
+  Fingering get fingering;
+
+  set fingering(Fingering fingering);
+
   static SimpleFingering? fromString({
     required String fingering,
     required String chord,

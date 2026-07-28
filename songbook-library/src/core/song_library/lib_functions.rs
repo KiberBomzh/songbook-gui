@@ -169,6 +169,8 @@ pub fn get_help_msg() -> String {
         SONG_AUTOSCROLL_DELAY_SYMBOL,
         SONG_SHOW_OPTIONS_SYMBOL,
         SONG_TAGS_SYMBOL,
+        SONG_FINGERINGS_START,
+        SONG_FINGERINGS_END,
 
         BLOCK_START,
         BLOCK_END,
@@ -202,6 +204,8 @@ r#"==================Help==================
  {SONG_AUTOSCROLL_DELAY_SYMBOL} - Autoscroll delay (in seconds)
  {SONG_SHOW_OPTIONS_SYMBOL} - Show options (chords - c, rhythm - r, notes - n, fingerings - f)
  {SONG_TAGS_SYMBOL} - Song's tags
+ {SONG_FINGERINGS_START} - Start of fingerings block (fingerings prefered for this song)
+ {SONG_FINGERINGS_END} - End of fingerings block
 
  {BLOCK_START} - Start of block (verse, chorus, bridge, etc.)
  {BLOCK_END} - End of block

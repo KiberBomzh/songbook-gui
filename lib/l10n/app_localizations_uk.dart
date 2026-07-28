@@ -149,6 +149,10 @@ class AppLocalizationsUk extends AppLocalizations {
       'Встановити за замовчуванням';
 
   @override
+  String get songFingeringOptionSetAsDefaultLocal =>
+      'Встановити за замовчуванням (для пісні)';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не може бути порожнім!';
 
   @override

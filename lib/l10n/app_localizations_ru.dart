@@ -149,6 +149,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get songFingeringOptionSetAsDefaultGlobal => 'Установить по умолчанию';
 
   @override
+  String get songFingeringOptionSetAsDefaultLocal =>
+      'Установить по умолчанию (для песни)';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не может быть пустым!';
 
   @override

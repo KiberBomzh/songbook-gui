@@ -147,6 +147,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get songFingeringOptionSetAsDefaultGlobal => 'Set as default';
 
   @override
+  String get songFingeringOptionSetAsDefaultLocal =>
+      'Set as default (for the song)';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Text cannot be empty!';
 
   @override

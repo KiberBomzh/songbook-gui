@@ -6,6 +6,25 @@ use crate::chord_generator::chord_fingerings::StringState::*;
 use crate::chord_generator::STRINGS;
 
 
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
+pub enum StringState {
+    Open,
+    Muted,
+    FrettedOn(u8)
+}
+impl fmt::Display for StringState {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        use StringState::*;
+
+
+        match self {
+            Open => write!(f, "0"),
+            Muted => write!(f, "x"),
+            FrettedOn(fret) => write!(f, "{}", fret),
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct Fingering {
     title: Option<String>,
@@ -14,13 +33,6 @@ pub struct Fingering {
     strings: [StringState; STRINGS],
     bars: Option<BTreeMap<u8, u8>> // лад - верхушка баррэ 
 }                                  // (баррэ начинается всегда с первой струны)
-
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, PartialEq)]
-pub enum StringState {
-    Open,
-    Muted,
-    FrettedOn(u8)
-}
 
 impl Fingering {
     pub fn new(strings: [StringState; STRINGS], title: Option<String>) -> Option<Self> {
@@ -90,6 +102,26 @@ impl Fingering {
             strings,
             bars: if bars.is_empty() { None } else { Some(bars) }
         } )
+    }
+
+    pub fn from(fingering_strings: [&str; STRINGS], title: Option<String>) -> Option<Self> {
+        let mut strings = [StringState::Muted; STRINGS];
+        for (i, s) in fingering_strings.iter().enumerate() {
+            match *s {
+                "x" => {},
+                "0" => strings[i] = StringState::Open,
+                c => {
+                    let fret_num = c.parse::<u8>().ok()?;
+                    strings[i] = StringState::FrettedOn(fret_num);
+                }
+            }
+        }
+        
+        Fingering::new(strings, title)
+    }
+    
+    pub fn get_for_editing(&self) -> String {
+        self.strings.iter().map(|s| s.to_string() + " ").collect()
     }
 
     pub fn get_title(&self) -> Option<String> {

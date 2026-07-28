@@ -78,6 +78,12 @@ String songShowOptionsSymbol() =>
 
 String songTagsSymbol() => RustLib.instance.api.crateApiSongSongTagsSymbol();
 
+String songFingeringsStart() =>
+    RustLib.instance.api.crateApiSongSongFingeringsStart();
+
+String songFingeringsEnd() =>
+    RustLib.instance.api.crateApiSongSongFingeringsEnd();
+
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Block>>
 abstract class Block implements RustOpaqueInterface {}
 
@@ -143,6 +149,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
   void setAutoscrollSpeed({required BigInt newSpeed});
 
   void setCapo({required int capo});
+
+  void setFingering({required SimpleFingering fingering});
 
   void setKey({required SimpleKey key});
 

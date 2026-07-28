@@ -2,7 +2,10 @@ use std::path::PathBuf;
 use std::collections::HashMap;
 
 use songbook::song_library::lib_functions::*;
-pub use songbook::song::block::{Block, Line};
+pub use songbook::song::{
+    block::{Block, Line},
+    chord::Chord,
+};
 pub use songbook::Song;
 
 use anyhow::Result;
@@ -117,6 +120,27 @@ impl SimpleSong {
         self.song.metadata.show_options = Some(
             songbook::song::ShowOptions { chords, rhythm, notes, fingerings }
         );
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn set_fingering(&mut self, 
+        fingering: &super::theory::SimpleFingering
+    ) -> Result<()> {
+        let f = fingering.fingering.clone();
+        let c = if let Some(chord) = 
+            f.get_title().and_then(|t| Chord::new(&t))
+                { chord } else { return Ok(()) };
+        if let Some(fingerings) = self.song.metadata.fingerings.as_mut() {
+            fingerings.insert(c, f);
+        } else {
+            let mut fingerings = std::collections::BTreeMap::new();
+            fingerings.insert(c, f);
+            self.song.metadata.fingerings = Some(fingerings);
+        }
+
+        self.save()?;
+
+        Ok(())
     }
 
 
@@ -339,6 +363,8 @@ use songbook::{
     SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
     SONG_TAGS_SYMBOL,
+    SONG_FINGERINGS_START,
+    SONG_FINGERINGS_END,
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
@@ -390,6 +416,8 @@ pub fn get_editor_keywords() -> Vec<String> {
         SONG_AUTOSCROLL_DELAY_SYMBOL.to_string(),
         SONG_SHOW_OPTIONS_SYMBOL.to_string(),
         SONG_TAGS_SYMBOL.to_string(),
+        SONG_FINGERINGS_START.to_string(),
+        SONG_FINGERINGS_END.to_string(),
     ]
 }
 
@@ -531,4 +559,14 @@ pub fn song_show_options_symbol() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn song_tags_symbol() -> String {
     SONG_TAGS_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_fingerings_start() -> String {
+    SONG_FINGERINGS_START.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn song_fingerings_end() -> String {
+    SONG_FINGERINGS_END.to_string()
 }

@@ -960,6 +960,7 @@ class CustomTextController extends TextEditingController {
 		_addKeyValuePattern(songAutoscrollDelaySymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songShowOptionsSymbol(), metadataSecondaryColor);
 		_addKeyValuePattern(songTagsSymbol(), metadataSecondaryColor);
+		_addBlockPattern(songFingeringsStart(), songFingeringsEnd(), _editorTheme[_brightness]?[_rawStartEndPrimary]);
 	}
 	void _addKeyValuePattern(String key, Color? color) {
 		key = RegExp.escape(key);
