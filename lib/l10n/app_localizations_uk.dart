@@ -145,6 +145,10 @@ class AppLocalizationsUk extends AppLocalizations {
   String get songMillisecondsShort => 'мс';
 
   @override
+  String get songFingeringOptionSetAsDefaultGlobal =>
+      'Встановити за замовчуванням';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не може бути порожнім!';
 
   @override

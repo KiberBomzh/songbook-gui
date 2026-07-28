@@ -144,6 +144,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get songMillisecondsShort => 'ms';
 
   @override
+  String get songFingeringOptionSetAsDefaultGlobal => 'Set as default';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Text cannot be empty!';
 
   @override

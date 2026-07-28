@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1421944586;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1757328585;
 
 // Section: executor
 
@@ -3088,6 +3088,59 @@ fn wire__crate__api__library__search_impl(
         },
     )
 }
+fn wire__crate__api__theory__set_fingering_global_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_fingering_global",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_fingering = <RustOpaqueMoi<
+                flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleFingering>,
+            >>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                (move || {
+                    let mut api_fingering_guard = None;
+                    let decode_indices_ =
+                        flutter_rust_bridge::for_generated::lockable_compute_decode_order(vec![
+                            flutter_rust_bridge::for_generated::LockableOrderInfo::new(
+                                &api_fingering,
+                                0,
+                                false,
+                            ),
+                        ]);
+                    for i in decode_indices_ {
+                        match i {
+                            0 => {
+                                api_fingering_guard = Some(api_fingering.lockable_decode_sync_ref())
+                            }
+                            _ => unreachable!(),
+                        }
+                    }
+                    let api_fingering_guard = api_fingering_guard.unwrap();
+                    let output_ok =
+                        crate::api::theory::set_fingering_global(&*api_fingering_guard)?;
+                    Ok(output_ok)
+                })(),
+            )
+        },
+    )
+}
 fn wire__crate__api__theory__set_sharp_only_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -4191,7 +4244,7 @@ fn pde_ffi_dispatcher_primary_impl(
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
         64 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
-        81 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4308,26 +4361,27 @@ fn pde_ffi_dispatcher_sync_impl(
         77 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
         78 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
         79 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
-        80 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
-        82 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
-        83 => {
+        80 => wire__crate__api__theory__set_fingering_global_impl(ptr, rust_vec_len, data_len),
+        81 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
+        84 => {
             wire__crate__api__song__song_autoscroll_delay_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        84 => {
+        85 => {
             wire__crate__api__song__song_autoscroll_speed_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        85 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
-        86 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
-        87 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
-        88 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
-        89 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
-        90 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
-        91 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
-        92 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
-        93 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
-        94 => wire__crate__api__library__tag_search_impl(ptr, rust_vec_len, data_len),
-        95 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
-        96 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
+        86 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
+        87 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
+        88 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
+        89 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
+        90 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
+        91 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
+        92 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
+        93 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
+        94 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
+        95 => wire__crate__api__library__tag_search_impl(ptr, rust_vec_len, data_len),
+        96 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
+        97 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }

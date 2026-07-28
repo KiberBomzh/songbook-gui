@@ -1,4 +1,5 @@
 use flutter_rust_bridge::frb;
+use anyhow::Result;
 pub use songbook::{
     Note,
     Key,
@@ -7,6 +8,7 @@ pub use songbook::{
         self,
         chord_fingerings::{Fingering, StringState},
     },
+    song_library,
 };
 
 
@@ -19,6 +21,13 @@ pub fn get_fingerings_for_chord(chord: String) -> Vec<SimpleFingering> {
         .iter()
         .map(|f| SimpleFingering { fingering: f.clone() })
         .collect()
+}
+
+#[frb(sync)]
+pub fn set_fingering_global(fingering: &SimpleFingering) -> Result<()> {
+    song_library::add_fingering(&fingering.fingering)?;
+
+    Ok(())
 }
 
 #[frb(sync)]

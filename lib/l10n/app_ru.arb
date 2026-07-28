@@ -53,6 +53,8 @@
 	"songSecondsShort": "с",
 	"songMillisecondsShort": "мс",
 
+	"songFingeringOptionSetAsDefaultGlobal": "Установить по умолчанию",
+
 	"nameValidatorErrorEmptyText": "Текст не может быть пустым!",
 	"nameValidatorErrorForbiddenChars": "Текст содержит запрещенные символы!",
 

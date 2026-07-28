@@ -146,6 +146,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get songMillisecondsShort => 'мс';
 
   @override
+  String get songFingeringOptionSetAsDefaultGlobal => 'Установить по умолчанию';
+
+  @override
   String get nameValidatorErrorEmptyText => 'Текст не может быть пустым!';
 
   @override

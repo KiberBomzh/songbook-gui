@@ -370,6 +370,12 @@ abstract class AppLocalizations {
   /// **'ms'**
   String get songMillisecondsShort;
 
+  /// No description provided for @songFingeringOptionSetAsDefaultGlobal.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as default'**
+  String get songFingeringOptionSetAsDefaultGlobal;
+
   /// No description provided for @nameValidatorErrorEmptyText.
   ///
   /// In en, this message translates to:

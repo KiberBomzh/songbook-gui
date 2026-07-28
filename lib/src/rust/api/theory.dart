@@ -10,6 +10,9 @@ import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 List<SimpleFingering> getFingeringsForChord({required String chord}) =>
     RustLib.instance.api.crateApiTheoryGetFingeringsForChord(chord: chord);
 
+void setFingeringGlobal({required SimpleFingering fingering}) =>
+    RustLib.instance.api.crateApiTheorySetFingeringGlobal(fingering: fingering);
+
 SimpleNoteArray25Array6 getFretboard({required SimpleNoteArray6 tuning}) =>
     RustLib.instance.api.crateApiTheoryGetFretboard(tuning: tuning);
 

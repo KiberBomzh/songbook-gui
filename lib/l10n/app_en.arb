@@ -53,6 +53,8 @@
 	"songSecondsShort": "s",
 	"songMillisecondsShort": "ms",
 
+	"songFingeringOptionSetAsDefaultGlobal": "Set as default",
+
 	"nameValidatorErrorEmptyText": "Text cannot be empty!",
 	"nameValidatorErrorForbiddenChars": "Text contains forbidden chars!",
 

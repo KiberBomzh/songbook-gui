@@ -632,7 +632,39 @@ class SongState extends State<SongScreen> {
 							spacing: _fontSize * 1.6,
 							runSpacing: _fontSize * 2,
 							children: fingerings.map((f) {
-								return Text(f.toString(), style: _settings.fingeringsStyle());
+								return MenuAnchor(
+									animated: true,
+									builder: (context, controller, child) {
+										return Material(
+											color: Colors.transparent,
+											clipBehavior: .antiAlias,
+											shape: RoundedRectangleBorder(
+												borderRadius: .circular(12),
+											),
+											child: InkWell(
+												onLongPressUp: () {
+													if (controller.isOpen)
+														controller.close();
+													else
+														controller.open();
+												},
+												child: Padding(
+													padding: .all(_fontSize * 0.5),
+													child: Text(f.toString(), style: _settings.fingeringsStyle()),
+												),
+											),
+										);
+									},
+									menuChildren: [
+										MenuItemButton(
+											child: Text(AppLocalizations.of(context)!.songFingeringOptionSetAsDefaultGlobal),
+											onPressed: () {
+												Navigator.of(context).pop();
+												setState(() => setFingeringGlobal(fingering: f));
+											}
+										),
+									],
+								);
 							}).toList(),
 						),
 					),
