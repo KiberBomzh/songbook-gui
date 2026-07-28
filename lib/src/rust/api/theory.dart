@@ -7,6 +7,9 @@ import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+List<SimpleFingering> getFingeringsForChord({required String chord}) =>
+    RustLib.instance.api.crateApiTheoryGetFingeringsForChord(chord: chord);
+
 SimpleNoteArray25Array6 getFretboard({required SimpleNoteArray6 tuning}) =>
     RustLib.instance.api.crateApiTheoryGetFretboard(tuning: tuning);
 
@@ -65,6 +68,20 @@ class SimpleNoteArray6 extends NonGrowableListView<SimpleNote> {
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Key>>
 abstract class Key implements RustOpaqueInterface {}
+
+// Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleFingering>>
+abstract class SimpleFingering implements RustOpaqueInterface {
+  static SimpleFingering? fromString({
+    required String fingering,
+    required String chord,
+  }) => RustLib.instance.api.crateApiTheorySimpleFingeringFromString(
+    fingering: fingering,
+    chord: chord,
+  );
+
+  @override
+  String toString();
+}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleKey>>
 abstract class SimpleKey implements RustOpaqueInterface {

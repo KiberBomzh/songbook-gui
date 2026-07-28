@@ -507,14 +507,32 @@ class SongState extends State<SongScreen> {
 										children: keysSorted!.map((k) {
 											final String f = songFingerings[k]!;
 
-											return Column(
-												mainAxisAlignment: .start,
-												children: [
-													Text(k, style: _settings.fingeringsTitleStyle()),
-													SizedBox(height: _fontSize * 0.3),
+											return Material(
+												color: Colors.transparent,
+												clipBehavior: .antiAlias,
+												shape: RoundedRectangleBorder(
+													borderRadius: .circular(8),
+												),
+												child: InkWell(
+													onTap: () => showDialog(
+														context: context,
+														builder: (context) => _fingeringsDialog(k, getFingeringsForChord(chord: k)),
+													),
+													child: Column(
+														mainAxisAlignment: .start,
+														children: [
+															Text(k, style: _settings.fingeringsTitleStyle()),
+															SizedBox(height: _fontSize * 0.3),
 
-													Text(f, style: _settings.fingeringsStyle()),
-												],
+															Padding(
+																padding: .only(
+																	left: _fontSize,
+																),
+																child: Text(f, style: _settings.fingeringsStyle()),
+															),
+														],
+													),
+												),
 											);
 										}).toList(),
 									),
@@ -597,6 +615,29 @@ class SongState extends State<SongScreen> {
 
 				SizedBox(height: _fontSize * 2),
 			],
+		);
+	}
+
+	Widget _fingeringsDialog(
+		String chord,
+		List<SimpleFingering> fingerings)
+	{
+		return AlertDialog(
+			title: Text(chord),
+			content: Padding(
+				padding: const .all(10),
+				child: SingleChildScrollView(
+					child: Center(
+						child: Wrap(
+							spacing: _fontSize * 1.6,
+							runSpacing: _fontSize * 2,
+							children: fingerings.map((f) {
+								return Text(f.toString(), style: _settings.fingeringsStyle());
+							}).toList(),
+						),
+					),
+				),
+			),
 		);
 	}
 

@@ -3,10 +3,23 @@ pub use songbook::{
     Note,
     Key,
     STANDART_TUNING,
-    chord_generator,
+    chord_generator::{
+        self,
+        chord_fingerings::{Fingering, StringState},
+    },
 };
 
 
+
+#[frb(sync)]
+pub fn get_fingerings_for_chord(chord: String) -> Vec<SimpleFingering> {
+    let chord = songbook::song::chord::Chord::new(&chord).unwrap();
+
+    chord.get_fingerings(&STANDART_TUNING)
+        .iter()
+        .map(|f| SimpleFingering { fingering: f.clone() })
+        .collect()
+}
 
 #[frb(sync)]
 pub fn get_fretboard(tuning: [SimpleNote; 6]) -> [[SimpleNote; 25]; 6] {
@@ -84,5 +97,34 @@ impl SimpleKey {
     #[frb(sync)]
     pub fn is_minor(&self) -> bool {
         self.key.is_minor()
+    }
+}
+
+pub struct SimpleFingering {
+    fingering: Fingering
+}
+impl SimpleFingering {
+    #[frb(sync)]
+    pub fn from_string(fingering: String, chord: String) -> Option<Self> {
+        let mut strings = [StringState::Muted; 6];
+        for (i, f) in fingering.split(' ').enumerate() {
+            match f {
+                c if c == "x" => {},
+                c if c == "0" => strings[i] = StringState::Open,
+                c => {
+                    let fret_num = c.parse::<u8>().unwrap();
+                    strings[i] = StringState::FrettedOn(fret_num);
+                }
+            }
+        }
+        
+        Some( Self {
+            fingering: Fingering::new(strings, Some(chord))?
+        })
+    }
+
+    #[frb(sync)]
+    pub fn to_string(&self) -> String {
+        self.fingering.to_string()
     }
 }
