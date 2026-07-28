@@ -6,7 +6,7 @@ use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
 use include_dir::{include_dir, Dir};
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 
 #[cfg(feature = "colored")]
 use crossterm::{
@@ -482,16 +482,16 @@ pub fn mkdir(added_path: &Path) -> Result<()> {
     Ok(())
 }
 
-pub fn add_fingering(fing: &Fingering) -> Result<(), Box<dyn std::error::Error>> {
+pub fn add_fingering(fing: &Fingering) -> Result<()> {
     let mut path: PathBuf = get_base_path()
-        .ok_or("Cannot get path for data!")?;
+        .ok_or(anyhow!("Cannot get path for data!"))?;
     path.push("songbook");
     path.push("fingerings");
     if !path.exists() { fs::create_dir_all(&path)? }
 
     let fing_name = get_without_forbidden_chars(
         fing.get_title()
-            .ok_or("Cannot get the fingering title!")?
+            .ok_or(anyhow!("Cannot get the fingering title!"))?
     );
     path.push(&fing_name);
 
@@ -504,9 +504,9 @@ pub fn add_fingering(fing: &Fingering) -> Result<(), Box<dyn std::error::Error>>
     Ok(())
 }
 
-pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>, Box<dyn std::error::Error>> {
+pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>> {
     let mut path: PathBuf = get_base_path()
-        .ok_or("Cannot get path for data!")?;
+        .ok_or(anyhow!("Cannot get path for data!"))?;
     path.push("songbook");
     path.push("fingerings");
     path.push(chord_name);
