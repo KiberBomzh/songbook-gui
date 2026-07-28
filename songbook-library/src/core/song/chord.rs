@@ -229,16 +229,28 @@ impl Chord {
     }
 
 
-    pub fn compatibility_check(&self) -> bool {
+    fn keynote_in_text_check(&self) -> bool {
         !self.text.starts_with(&self.keynote.to_string()) &&
         !self.text.starts_with(&self.keynote.to_string_flat())
+    }
+    fn flat_check(&self) -> bool {
+        self.flat.is_some()
+    }
+    pub fn compatibility_check(&self) -> bool {
+        self.keynote_in_text_check() && self.flat_check()
     }
     pub fn compatibility_fix(&mut self) -> bool {
         if self.compatibility_check() {
             return false
         }
 
-        self.text = self.text[self.keynote.to_string().len()..].to_string();
+        if !self.keynote_in_text_check() {
+            self.text = self.text[self.keynote.to_string().len()..].to_string();
+        }
+
+        if !self.flat_check() {
+            self.flat = Some(false);
+        }
 
 
         true
