@@ -3215,21 +3215,29 @@ class TagState extends State<Tag> {
 					color: Theme.of(context).colorScheme.surface,
 					borderRadius: .circular(8),
 				),
-				child: TextField(
-					controller: _controller,
-					focusNode: _focusNode,
-					decoration: InputDecoration(
-						border: .none,
-						contentPadding: const .all(0),
-						constraints: BoxConstraints(
-							minWidth: 50,
+				child: Row(
+					children: [
+						Text('#'),
+
+						Expanded(
+							child: TextField(
+								controller: _controller,
+								focusNode: _focusNode,
+								decoration: InputDecoration(
+									border: .none,
+									contentPadding: const .all(0),
+									constraints: BoxConstraints(
+										minWidth: 10,
+									),
+								),
+								onChanged: (value) => widget.onChanged(value),
+								onSubmitted: (value) {
+									_focusNode.unfocus();
+									widget.onSubmitted(value);
+								},
+							),
 						),
-					),
-					onChanged: (value) => widget.onChanged(value),
-					onSubmitted: (value) {
-						_focusNode.unfocus();
-						widget.onSubmitted(value);
-					},
+					],
 				),
 			),
 		);
