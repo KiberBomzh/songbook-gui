@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
@@ -668,58 +669,81 @@ class EditorFieldState extends State<EditorField> {
 			_isFirstBuild = false;
 		}
 
-		return Row(
-			mainAxisAlignment: .start,
-			crossAxisAlignment: .start,
-			children: [
-				Container(
-					width: lineNumbersWidth,
-					padding: const .symmetric(horizontal: 5),
-					child: ScrollConfiguration(
-						behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-						child: SingleChildScrollView(
-							controller: _lineNumbersScrollController,
-							child: Column(
-								mainAxisAlignment: .start,
-								children: _lineNumbers.map((n) => Text(n,
-									maxLines: 1,
-									style: _settings.editorStyle()
-										.copyWith(color: Colors.grey, fontWeight: .bold),
-								)).toList(),
-							),
-						),
-					),
-				),
+		return Focus(
+			onKeyEvent: (node, event) {
+				if (event.logicalKey != LogicalKeyboardKey.tab || event is KeyUpEvent) {
+					return KeyEventResult.ignored;
+				}
 
-				Expanded(
-					child: SingleChildScrollView(
-						scrollDirection: Axis.horizontal,
-						child: ConstrainedBox(
-							constraints: BoxConstraints(
-								minWidth: MediaQuery.of(context).size.width - lineNumbersWidth - 10,
-							),
-							child: IntrinsicWidth(
-								child: TextField(
-									controller: widget.controller,
-									scrollController: _textFieldScrollController,
-									focusNode: widget.focusNode,
-									maxLines: null,
-									expands: true,
-									onTapAlwaysCalled: true,
-									selectionWidthStyle: .tight,
-									style: _settings.editorStyle(),
-									decoration: const InputDecoration(
-										border: InputBorder.none,
-										contentPadding: .all(0),
-									),
-									onChanged: widget.onChanged,
+				final selection = widget.controller.selection;
+				if (selection.isValid) {
+					final newText = widget.controller.text.replaceRange(
+						selection.start,
+						selection.end,
+						'\t',
+					);
+					widget.controller.value = TextEditingValue(
+						text: newText,
+						selection: TextSelection.collapsed(
+							offset: selection.start + 1,
+						),
+					);
+				}
+				return KeyEventResult.handled;
+			},
+			child: Row(
+				mainAxisAlignment: .start,
+				crossAxisAlignment: .start,
+				children: [
+					Container(
+						width: lineNumbersWidth,
+						padding: const .symmetric(horizontal: 5),
+						child: ScrollConfiguration(
+							behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+							child: SingleChildScrollView(
+								controller: _lineNumbersScrollController,
+								child: Column(
+									mainAxisAlignment: .start,
+									children: _lineNumbers.map((n) => Text(n,
+										maxLines: 1,
+										style: _settings.editorStyle()
+											.copyWith(color: Colors.grey, fontWeight: .bold),
+									)).toList(),
 								),
 							),
 						),
 					),
-				),
-				const SizedBox(width: 10),
-			],
+
+					Expanded(
+						child: SingleChildScrollView(
+							scrollDirection: Axis.horizontal,
+							child: ConstrainedBox(
+								constraints: BoxConstraints(
+									minWidth: MediaQuery.of(context).size.width - lineNumbersWidth - 10,
+								),
+								child: IntrinsicWidth(
+									child: TextField(
+										controller: widget.controller,
+										scrollController: _textFieldScrollController,
+										focusNode: widget.focusNode,
+										maxLines: null,
+										expands: true,
+										onTapAlwaysCalled: true,
+										selectionWidthStyle: .tight,
+										style: _settings.editorStyle(),
+										decoration: const InputDecoration(
+											border: InputBorder.none,
+											contentPadding: .all(0),
+										),
+										onChanged: widget.onChanged,
+									),
+								),
+							),
+						),
+					),
+					const SizedBox(width: 10),
+				],
+			),
 		);
 	}
 }
