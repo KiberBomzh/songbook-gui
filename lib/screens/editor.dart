@@ -296,6 +296,9 @@ class _EditorState extends State<EditorScreen> {
 
 
 	void _switchMode(EditorMode newMode) async {
+		 if (_currentMode == newMode)
+			return;
+
 		if (_currentMode == EditorMode.source) {
 			if (widget.song == null) {
 				try {
@@ -392,8 +395,16 @@ class _EditorState extends State<EditorScreen> {
 
 		return CallbackShortcuts(
 			bindings: {
-				const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () => Navigator.of(context).pop(),
+				const SingleActivator(LogicalKeyboardKey.keyQ, control: true):
+					() => Navigator.of(context).pop(),
 				const SingleActivator(LogicalKeyboardKey.keyS, control: true): _save,
+
+				const SingleActivator(LogicalKeyboardKey.keyN, control: true, alt: true):
+					() => _switchMode(.normal),
+				const SingleActivator(LogicalKeyboardKey.keyR, control: true, alt: true):
+					() => _switchMode(.raw),
+				const SingleActivator(LogicalKeyboardKey.keyS, control: true, alt: true):
+					() => _switchMode(.source),
 			},
 			child: Focus(
 				autofocus: true,
