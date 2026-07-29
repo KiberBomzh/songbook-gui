@@ -434,6 +434,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get editorTags => 'Теги';
 
   @override
+  String get editorFingerings => 'Аппликатуры';
+
+  @override
   String get cancel => 'Отмена';
 
   @override

@@ -434,6 +434,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get editorTags => 'Теги';
 
   @override
+  String get editorFingerings => 'Апплікатури';
+
+  @override
   String get cancel => 'Відміна';
 
   @override

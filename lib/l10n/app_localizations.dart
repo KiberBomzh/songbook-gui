@@ -940,6 +940,12 @@ abstract class AppLocalizations {
   /// **'Tags'**
   String get editorTags;
 
+  /// No description provided for @editorFingerings.
+  ///
+  /// In en, this message translates to:
+  /// **'Fingerings'**
+  String get editorFingerings;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

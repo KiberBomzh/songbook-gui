@@ -432,6 +432,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editorTags => 'Tags';
 
   @override
+  String get editorFingerings => 'Fingerings';
+
+  @override
   String get cancel => 'Cancel';
 
   @override

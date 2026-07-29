@@ -2883,6 +2883,7 @@ class Metadata extends StatefulWidget {
 	int? autoscrollDelay;
 	ShowOptions showOptions;
 	Tags tags;
+	Fingerings fingerings;
 
 	Metadata({
 		super.key,
@@ -2890,6 +2891,7 @@ class Metadata extends StatefulWidget {
 		required this.artist,
 		required this.showOptions,
 		required this.tags,
+		required this.fingerings,
 		this.Key,
 		this.capo,
 		this.autoscrollSpeed,
@@ -2905,12 +2907,20 @@ class Metadata extends StatefulWidget {
 		int? autoscrollDelay;
 		ShowOptions options = ShowOptions();
 		List<String>? tags;
+		String fingerings = "";
 
 		bool inMetadata = false;
+		bool inFingerings = false;
 		for (final line in text.split('\n')) {
 			if (inMetadata) {
 				if ( line.startsWith(metadataEnd()) ) {
 					break;
+				} else if ( line.startsWith(songFingeringsEnd()) ) {
+					inFingerings = false;
+				} else if ( line.startsWith(songFingeringsStart()) ) {
+					inFingerings = true;
+				} else if ( inFingerings ) {
+					fingerings += line + '\n';
 				} else if ( line.startsWith(songTitleSymbol()) ) {
 					title = _parseKeyValueLine(line) ?? 'some title';
 				} else if ( line.startsWith(songArtistSymbol()) ) {
@@ -2951,6 +2961,7 @@ class Metadata extends StatefulWidget {
 			autoscrollDelay: autoscrollDelay,
 			showOptions: options,
 			tags: Tags(tags: tags ?? []),
+			fingerings: Fingerings.from_string(fingerings),
 		);
 	}
 
@@ -2986,6 +2997,8 @@ class Metadata extends StatefulWidget {
 
 		result += songTagsSymbol() + tags.to_string() + '\n';
 
+		result += songFingeringsStart() + '\n' + fingerings.to_string() + songFingeringsEnd() + '\n';
+
 		result += metadataEnd() + '\n\n';
 
 
@@ -3003,7 +3016,6 @@ class MetadataState extends State<Metadata> {
 	late final TextEditingController _capoController;
 	late final TextEditingController _autoscrollSpeedController;
 	late final TextEditingController _autoscrollDelayController;
-	late final TextEditingController _tagsController;
 
 
 	@override
@@ -3100,13 +3112,213 @@ class MetadataState extends State<Metadata> {
 					const SizedBox(height: 10),
 
 
-					widget.tags,
 					widget.showOptions,
+					widget.tags,
+					widget.fingerings,
 				],
 			),
 		);
 	}
 }
+
+class Fingerings extends StatefulWidget {
+	List<(String, String)> fingerings;
+
+	Fingerings({
+		super.key,
+		required this.fingerings,
+	});
+
+	static Fingerings from_string(String s) {
+		final List<(String, String)> fingerings = [];
+		for (final line in s.split('\n')) {
+			final index = line.indexOf('\t');
+			if (index < 0)
+				continue;
+
+			final chord = line.substring(0, index).trim();
+			final fingering = line.substring(index + 1).trim();
+
+			fingerings.add( (chord, fingering) );
+		}
+
+		return Fingerings(fingerings: fingerings);
+	}
+	String to_string() {
+		String result = "";
+
+		for (final (chord, fingering) in fingerings) {
+			result += chord + '\t' + fingering + '\n';
+		}
+
+		return result;
+	}
+
+	@override
+	State<Fingerings> createState() => FingeringsState();
+}
+class FingeringsState extends State<Fingerings> {
+	bool _isAddButtonPressed = false;
+
+	@override
+	Widget build(BuildContext context) {
+		return Container(
+			width: double.infinity,
+			margin: const .all(10),
+			padding: const .all(10),
+			decoration: BoxDecoration(
+				color: Theme.of(context).colorScheme.surfaceContainerHighest,
+				borderRadius: .circular(8),
+			),
+			child: Column(
+				crossAxisAlignment: .start,
+				children: [
+					Align(
+						alignment: .centerRight,
+						child: Text(AppLocalizations.of(context)!.editorFingerings),
+					),
+					const SizedBox(height: 10),
+
+					...widget.fingerings.map<Widget>((entry) {
+						final index = widget.fingerings.indexOf(entry);
+
+						return Dismissible(
+							key: UniqueKey(),
+							onDismissed: (_) => setState(() {
+								widget.fingerings.removeAt(index);
+								_isAddButtonPressed = false;
+							}),
+							child: Container(
+								width: double.infinity,
+								margin: const .symmetric(vertical: 5, horizontal: 20),
+								padding: const .all(10),
+								decoration: BoxDecoration(
+									color: Theme.of(context).colorScheme.surface,
+									borderRadius: .circular(8),
+								),
+								child: Fingering(
+									key: UniqueKey(),
+									requestFocus: (_isAddButtonPressed && index == widget.fingerings.length - 1),
+									chord: entry.$1,
+									fingering: entry.$2,
+									onChangedChord: (value) =>
+										widget.fingerings[index] = (value, widget.fingerings[index].$2),
+									onChangedFingering: (value) =>
+										widget.fingerings[index] = (widget.fingerings[index].$1, value),
+								),
+							),
+						);
+					}),
+
+					Material(
+						color: Colors.transparent,
+						clipBehavior: .antiAlias,
+						shape: RoundedRectangleBorder(
+							borderRadius: .circular(8),
+						),
+						child: InkWell(
+							onTap: () => setState(() {
+								widget.fingerings.add(('', ''));
+								_isAddButtonPressed = true;
+							}),
+							child: Padding(
+								padding: const .symmetric(vertical: 10),
+								child: Center(
+									child: Icon(Icons.add),
+								),
+							),
+						),
+					),
+				],
+			),
+		);
+	}
+}
+class Fingering extends StatefulWidget {
+	final String chord;
+	final String fingering;
+	final Function(String) onChangedChord;
+	final Function(String) onChangedFingering;
+	final bool requestFocus;
+
+	const Fingering({
+		super.key,
+		required this.chord,
+		required this.fingering,
+		required this.onChangedChord,
+		required this.onChangedFingering,
+		required this.requestFocus,
+	});
+
+	@override
+	State<Fingering> createState() => FingeringState();
+}
+class FingeringState extends State<Fingering> {
+	late final TextEditingController _chordController;
+	late final FocusNode _chordFocus;
+	late final TextEditingController _fingeringController;
+	late final FocusNode _fingeringFocus;
+
+	@override
+	void initState() {
+		super.initState();
+		_chordController = TextEditingController(text: widget.chord);
+		_chordFocus = FocusNode();
+		if (widget.requestFocus)
+			_chordFocus.requestFocus();
+
+		_fingeringController = TextEditingController(text: widget.fingering);
+		_fingeringFocus = FocusNode();
+	}
+
+	@override
+	void dispose() {
+		_chordController.dispose();
+		_chordFocus.dispose();
+		_fingeringController.dispose();
+		_fingeringFocus.dispose();
+
+		super.dispose();
+	}
+
+	@override
+	Widget build(BuildContext context) {
+		return Row(
+			children: [
+				IntrinsicWidth(
+					child: TextField(
+						controller: _chordController,
+						focusNode: _chordFocus,
+						onChanged: (value) => widget.onChangedChord(value),
+						onSubmitted: (_) => _fingeringFocus.requestFocus(),
+						decoration: InputDecoration(
+							border: OutlineInputBorder(
+								borderRadius: .circular(8),
+							),
+						),
+					),
+				),
+
+				const SizedBox(width: 10),
+
+				Expanded(
+					child: TextField(
+						controller: _fingeringController,
+						focusNode: _fingeringFocus,
+						onChanged: (value) => widget.onChangedFingering(value),
+						onSubmitted: (_) => _fingeringFocus.unfocus(),
+						decoration: InputDecoration(
+							border: OutlineInputBorder(
+								borderRadius: .circular(8),
+							),
+						),
+					),
+				),
+			],
+		);
+	}
+}
+
 class Tags extends StatefulWidget {
 	List<String> tags;
 
