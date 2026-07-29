@@ -390,37 +390,46 @@ class _EditorState extends State<EditorScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return PopScope(
-			canPop: _canPop,
-			onPopInvokedWithResult: (didPop, result) {
-				setState(() => _canPop = true);
-				_focusNode.unfocus();
+		return CallbackShortcuts(
+			bindings: {
+				const SingleActivator(LogicalKeyboardKey.keyQ, control: true): () => Navigator.of(context).pop(),
+				const SingleActivator(LogicalKeyboardKey.keyS, control: true): _save,
 			},
-			child: Container(
-				decoration: BoxDecoration(
-					image: (_settings.backgroundImage != null)
-						? DecorationImage(
-							image: FileImage(_settings.backgroundImage!),
-							fit: .cover,
-						)
-						: null,
-				),
-				child: Scaffold(
-					body: Stack(
-						children: [
-							Align(
-								alignment: .bottomCenter,
-								child: Container(
-									color: Colors.black,
-									width: MediaQuery.of(context).size.width,
-									height: MediaQuery.of(context).padding.bottom,
-								),
-							), // for safe area
-							Padding(
-								padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-								child: _buildBody(),
+			child: Focus(
+				autofocus: true,
+				child: PopScope(
+					canPop: _canPop,
+					onPopInvokedWithResult: (didPop, result) {
+						setState(() => _canPop = true);
+						_focusNode.unfocus();
+					},
+					child: Container(
+						decoration: BoxDecoration(
+							image: (_settings.backgroundImage != null)
+								? DecorationImage(
+									image: FileImage(_settings.backgroundImage!),
+									fit: .cover,
+								)
+								: null,
+						),
+						child: Scaffold(
+							body: Stack(
+								children: [
+									Align(
+										alignment: .bottomCenter,
+										child: Container(
+											color: Colors.black,
+											width: MediaQuery.of(context).size.width,
+											height: MediaQuery.of(context).padding.bottom,
+										),
+									), // for safe area
+									Padding(
+										padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+										child: _buildBody(),
+									),
+								],
 							),
-						],
+						),
 					),
 				),
 			),
