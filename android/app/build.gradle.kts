@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.songbook"
+    namespace = "com.kiber_bomzh.songbook"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

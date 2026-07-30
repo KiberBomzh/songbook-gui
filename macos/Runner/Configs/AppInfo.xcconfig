@@ -8,7 +8,7 @@
 PRODUCT_NAME = songbook
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.songbook
+PRODUCT_BUNDLE_IDENTIFIER = com.kiber_bomzh.songbook
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2026 com.example. All rights reserved.
