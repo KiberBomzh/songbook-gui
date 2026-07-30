@@ -47,6 +47,7 @@ const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
 const String BACKGROUND_OPACITY = 'background_opacity';
 const String LANGUAGE = 'language';
+const String ANDROID_CUSTOM_LIB_PATH = 'android_custom_lib_path';
 
 const Map<String, String> LANGUAGES = {
 	'en': 'English',
@@ -114,6 +115,7 @@ class SettingsProvider extends ChangeNotifier {
 	String _songFontFamily = 'JetBrainsMono';
 	String? _language;
 	Locale? _locale;
+	String? _androidCustomLibPath;
 
 
 	String? _titleFontFamily;
@@ -176,6 +178,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Locale? get locale => _locale;
 	String? get language => _language;
+	String? get androidCustomLibPath => _androidCustomLibPath;
 
 
 	String get titleFontFamily => _titleFontFamily ?? _songFontFamily;
@@ -452,6 +455,7 @@ class SettingsProvider extends ChangeNotifier {
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
+		_androidCustomLibPath = Preferences.getString(ANDROID_CUSTOM_LIB_PATH);
 		_language = Preferences.getString(LANGUAGE);
 		if (_language != null)
 			_locale = Locale(_language!);
@@ -607,6 +611,16 @@ class SettingsProvider extends ChangeNotifier {
 	
 	void setLocale(Locale? value) {
 		_locale = value;
+	}
+
+	Future<void> setAndroidCustomLibPath(String? value) async {
+		_androidCustomLibPath = value;
+		if (value != null)
+			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, value);
+		else
+			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
+
+		notifyListeners();
 	}
 
 	Future<void> setTitleFontFamily(String value) async {
@@ -1011,6 +1025,9 @@ class SettingsProvider extends ChangeNotifier {
 		if (_language != null)
 			settings[LANGUAGE] = _language!;
 
+		if (_androidCustomLibPath != null)
+			settings[ANDROID_CUSTOM_LIB_PATH] = _androidCustomLibPath!;
+
 		return settings;
 	}
 
@@ -1205,7 +1222,15 @@ class SettingsProvider extends ChangeNotifier {
 		if (_language != null) {
 			_locale = Locale(_language!);
 			await Preferences.setString(LANGUAGE, _language!);
+		} else {
+			await Preferences.remove(LANGUAGE);
 		}
+
+		_androidCustomLibPath = settings[ANDROID_CUSTOM_LIB_PATH];
+		if (_androidCustomLibPath != null)
+			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, _androidCustomLibPath!);
+		else
+			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
 
 
 		notifyListeners();

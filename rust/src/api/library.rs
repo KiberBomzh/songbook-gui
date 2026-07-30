@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::path::{PathBuf, Path};
 pub use std::collections::{HashMap, HashSet};
 
 use anyhow::{Result, anyhow};
@@ -437,6 +437,57 @@ pub fn get_available_sites() -> Vec<String> {
 pub fn init_library(app_data_dir: String) {
     std::env::set_var("APP_DATA_DIR", app_data_dir);
 }
+
+#[flutter_rust_bridge::frb]
+pub async fn move_library(new_dir: String) -> Result<()> {
+    use std::env;
+
+
+    let old_path = PathBuf::from(env::var("APP_DATA_DIR")?).join("songbook");
+    let new_path = PathBuf::from(&new_dir).join("songbook");
+    copy_all(&old_path, new_path)?;
+    remove_all(old_path)?;
+
+
+    env::set_var("APP_DATA_DIR", new_dir);
+    Ok(())
+}
+fn remove_all<P: AsRef<Path>>(path: P) -> std::io::Result<()> {
+    if path.as_ref().is_file() {
+        std::fs::remove_file(path)?;
+    } else {
+        std::fs::remove_dir_all(path)?;
+    }
+
+    Ok(())
+}
+fn copy_all<P, Q>(i_path: P, o_path: Q) -> Result<()>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>
+{
+    if i_path.as_ref().is_file() {
+        std::fs::copy(i_path, o_path)?;
+    } else if i_path.as_ref().is_dir() {
+        std::fs::create_dir_all(o_path.as_ref())?;
+        copy_recursive(i_path, o_path)?;
+    }
+
+    Ok(())
+}
+fn copy_recursive<P, Q>(i_path: P, o_path: Q) -> Result<()>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>
+{
+    for entry in i_path.as_ref().read_dir()? {
+        let path = entry?.path();
+        let new_path = o_path.as_ref().join(path.strip_prefix(i_path.as_ref())?);
+        copy_all(path, new_path)?;
+    }
+    Ok(())
+}
+
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {

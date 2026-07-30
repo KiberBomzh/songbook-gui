@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
 			theme: settings.ligthTheme(),
 			darkTheme: settings.darkTheme(),
 			themeMode: settings.themeMode,
-			home: LibraryScreen(),
+			home: LibraryScreen(settings: settings),
 
 			supportedLocales: LANGUAGES.keys.map((key) => Locale(key)).toList(),
 			localizationsDelegates: [
