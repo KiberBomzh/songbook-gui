@@ -318,7 +318,7 @@ class _LibraryState extends State<LibraryScreen> {
 					if (_isSelectMode)
 						_buildAppBarPopupMenuButton(),
 
-					if (_isSearchMode)
+					if (_isSearchMode && !_isSelectMode)
 						IconButton(
 							icon: Icon(Icons.tag),
 							tooltip: AppLocalizations.of(context)!.libraryTags,
