@@ -610,9 +610,9 @@ class _LibraryState extends State<LibraryScreen> {
 				onLongPress: onLongPress,
 			);
 
-		return Draggable<String>(
+		return LongPressDraggable<String>(
 			data: path,
-			affinity: .horizontal,
+			onDraggableCanceled: (_, _) => onLongPress(),
 			feedback: Container(
 				padding: const .all(15),
 				width: MediaQuery.of(context).size.width - 50,
@@ -685,12 +685,22 @@ class _LibraryState extends State<LibraryScreen> {
 					_loadDirectory();
 				},
 				builder: (context, candidateData, rejectedData) {
-					return _buildItemContent(
-						name: name,
-						path: path,
-						isDir: isDir,
-						onTap: onTap,
-						onLongPress: onLongPress,
+					final isActive = candidateData.isNotEmpty;
+
+					return Container(
+						decoration: BoxDecoration(
+							color: (isActive)
+								? Theme.of(context).colorScheme.primary.withValues(alpha: 0.5)
+								: Colors.transparent,
+							borderRadius: .circular(10),
+						),
+						child: _buildItemContent(
+							name: name,
+							path: path,
+							isDir: isDir,
+							onTap: onTap,
+							onLongPress: null,
+						),
 					);
 				},
 			),
