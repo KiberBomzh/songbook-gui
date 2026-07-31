@@ -51,6 +51,8 @@ class LibraryScreen extends StatefulWidget {
 class _LibraryState extends State<LibraryScreen> {
 	late SettingsProvider _settings;
 
+	final _fabKey = GlobalKey<ExpandableFabState>();
+
 	List<String> _dirs = [];
 	List<String> _files = [];
 	late String _currentPath;
@@ -820,6 +822,7 @@ class _LibraryState extends State<LibraryScreen> {
 		return Padding(
 			padding: const EdgeInsets.only(bottom: 20, right: 20),
 			child: ExpandableFab(
+				key: _fabKey,
 				type: ExpandableFabType.up,
 				distance: 70,
 				overlayStyle: ExpandableFabOverlayStyle(
@@ -846,7 +849,7 @@ class _LibraryState extends State<LibraryScreen> {
 							FloatingActionButton(
 								heroTag: null,
 								child: const Icon(Icons.music_note),
-								onPressed: _addSong,
+								onPressed: () => _fabActionWrapper(_addSong),
 							),
 						],
 					),
@@ -867,7 +870,7 @@ class _LibraryState extends State<LibraryScreen> {
 							FloatingActionButton(
 								heroTag: null,
 								child: const Icon(Icons.folder),
-								onPressed: _addFolder,
+								onPressed: () => _fabActionWrapper(_addFolder),
 							),
 						],
 					),
@@ -888,7 +891,7 @@ class _LibraryState extends State<LibraryScreen> {
 							FloatingActionButton(
 								heroTag: null,
 								child: const Icon(Icons.download),
-								onPressed: _importInLibrary,
+								onPressed: () => _fabActionWrapper(_importInLibrary),
 							),
 						],
 					),
@@ -909,13 +912,19 @@ class _LibraryState extends State<LibraryScreen> {
 							FloatingActionButton(
 								heroTag: null,
 								child: const Icon(Icons.link),
-								onPressed: _addFromLink,
+								onPressed: () => _fabActionWrapper(_addFromLink),
 							),
 						],
 					),
 				],
 			),
 		);
+	}
+	void _fabActionWrapper(VoidCallback action) {
+		if (_fabKey.currentState != null && _fabKey.currentState!.isOpen)
+			_fabKey.currentState!.toggle();
+
+		Timer(const Duration(milliseconds: 500), action);
 	}
 
 
