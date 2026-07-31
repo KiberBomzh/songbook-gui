@@ -262,8 +262,8 @@ pub fn search(path_str: String, query: String) -> Result<Vec<String>> {
     return Ok(out_paths)
 }
 
-#[flutter_rust_bridge::frb(sync)]
-pub fn tag_search(tags: Vec<String>) -> Result<Vec<String>> {
+#[flutter_rust_bridge::frb]
+pub async fn tag_search(tags: Vec<String>) -> Result<Vec<String>> {
     Ok(
         tag_find(&tags.iter().map(|t| t.as_str()).collect::<Vec<&str>>())?
             .iter()
@@ -273,8 +273,8 @@ pub fn tag_search(tags: Vec<String>) -> Result<Vec<String>> {
     )
 }
 
-#[flutter_rust_bridge::frb(sync)]
-pub fn get_tag_map() -> Result<HashMap<String, HashSet<String>>> {
+#[flutter_rust_bridge::frb]
+pub async fn get_tag_map() -> Result<HashMap<String, HashSet<String>>> {
     Ok(
         get_map_tag_songs()?
             .iter()

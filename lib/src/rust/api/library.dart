@@ -37,10 +37,10 @@ Map<String, String> importBackup({
 List<String> search({required String pathStr, required String query}) =>
     RustLib.instance.api.crateApiLibrarySearch(pathStr: pathStr, query: query);
 
-List<String> tagSearch({required List<String> tags}) =>
+Future<List<String>> tagSearch({required List<String> tags}) =>
     RustLib.instance.api.crateApiLibraryTagSearch(tags: tags);
 
-Map<String, Set<String>> getTagMap() =>
+Future<Map<String, Set<String>>> getTagMap() =>
     RustLib.instance.api.crateApiLibraryGetTagMap();
 
 void createDirectory({required String pathStr}) =>

@@ -63,8 +63,10 @@ class _LibraryState extends State<LibraryScreen> {
 	List<String> _cutBuffer = [];
 
 	bool _isSearchMode = false;
+	bool _isLoadingSearchResults = false;
 	late final TextEditingController _searchTextController;
 	late final FocusNode _searchFocusNode;
+	Timer? _searchTimer;
 
 	bool _isLoading = false;
 
@@ -108,11 +110,14 @@ class _LibraryState extends State<LibraryScreen> {
 		});
 	}
 
-	void _search(String query) => setState(() {
-		setState(() => _isCurrentDirEmpty = false);
+	void _search(String query) async {
+		setState(() {
+			_isCurrentDirEmpty = false;
+			_isLoadingSearchResults = true;
+		});
 		_dirs.clear();
 		if (query.startsWith('#')) {
-			_files = tagSearch(
+			_files = await tagSearch(
 				tags: query.split(', ').map((tag) {
 					if (tag.isEmpty)
 						return '';
@@ -124,9 +129,15 @@ class _LibraryState extends State<LibraryScreen> {
 			_files = search(pathStr: _currentPath, query: query);
 		}
 
-		if (_files.isEmpty)
-			setState(() => _isCurrentDirEmpty = true);
-	});
+		setState(() {
+			_isCurrentDirEmpty = _files.isEmpty;
+			_isLoadingSearchResults = false;
+		});
+	}
+	void _scheduleSearch(String query) {
+		_searchTimer?.cancel();
+		_searchTimer = Timer(Duration(milliseconds: 500), () => _search(query));
+	}
 
 	// Может быть сделаю ассинхронным
 	void _paste() {
@@ -310,7 +321,13 @@ class _LibraryState extends State<LibraryScreen> {
 							icon: Icon(Icons.tag),
 							tooltip: AppLocalizations.of(context)!.libraryTags,
 							onPressed: () async {
-								final tagMap = getTagMap();
+								setState(() => _isLoading = true);
+								final tagMap = await getTagMap();
+								setState(() => _isLoading = false);
+
+								if (!mounted)
+									return;
+
 								final result = await showDialog(
 									context: context,
 									builder: (context) => AlertDialog(
@@ -370,7 +387,7 @@ class _LibraryState extends State<LibraryScreen> {
 						: _getPathName(_currentPath),
 					border: OutlineInputBorder(borderSide: .none),
 				),
-				onChanged: _search,
+				onChanged: _scheduleSearch,
 				onSubmitted: _search,
 			);
 		} else {
@@ -486,6 +503,11 @@ class _LibraryState extends State<LibraryScreen> {
 
 
 	Widget _buildBody() {
+		if (_isLoadingSearchResults)
+			return const Center(
+				child: CircularProgressIndicator(),
+			);
+
 		return ListView.builder(
 			itemCount: _dirs.length + _files.length,
 			itemBuilder: (context, dirsIndex) {

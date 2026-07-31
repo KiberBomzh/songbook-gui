@@ -2620,15 +2620,16 @@ fn wire__crate__api__theory__get_standart_tuning_impl(
     )
 }
 fn wire__crate__api__library__get_tag_map_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "get_tag_map",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -2641,12 +2642,15 @@ fn wire__crate__api__library__get_tag_map_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             deserializer.end();
-            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let output_ok = crate::api::library::get_tag_map()?;
-                    Ok(output_ok)
-                })(),
-            )
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::library::get_tag_map().await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -3829,15 +3833,16 @@ fn wire__crate__api__song__tab_start_symbol_impl(
     )
 }
 fn wire__crate__api__library__tag_search_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "tag_search",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -3851,12 +3856,15 @@ fn wire__crate__api__library__tag_search_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_tags = <Vec<String>>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let output_ok = crate::api::library::tag_search(api_tags)?;
-                    Ok(output_ok)
-                })(),
-            )
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::library::tag_search(api_tags).await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -4521,9 +4529,11 @@ fn pde_ffi_dispatcher_primary_impl(
         26 => {
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
+        63 => wire__crate__api__library__get_tag_map_impl(port, ptr, rust_vec_len, data_len),
         67 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
         72 => wire__crate__api__library__move_library_impl(port, ptr, rust_vec_len, data_len),
         86 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        101 => wire__crate__api__library__tag_search_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4632,7 +4642,6 @@ fn pde_ffi_dispatcher_sync_impl(
         60 => wire__crate__api__library__get_forbidden_chars_impl(ptr, rust_vec_len, data_len),
         61 => wire__crate__api__theory__get_fretboard_impl(ptr, rust_vec_len, data_len),
         62 => wire__crate__api__theory__get_standart_tuning_impl(ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__library__get_tag_map_impl(ptr, rust_vec_len, data_len),
         64 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
         65 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
         66 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
@@ -4671,7 +4680,6 @@ fn pde_ffi_dispatcher_sync_impl(
         98 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
         99 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
         100 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
-        101 => wire__crate__api__library__tag_search_impl(ptr, rust_vec_len, data_len),
         102 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
         103 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),

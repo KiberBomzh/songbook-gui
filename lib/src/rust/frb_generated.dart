@@ -274,7 +274,7 @@ abstract class RustLibApi extends BaseApi {
 
   SimpleNoteArray6 crateApiTheoryGetStandartTuning();
 
-  Map<String, Set<String>> crateApiLibraryGetTagMap();
+  Future<Map<String, Set<String>>> crateApiLibraryGetTagMap();
 
   bool crateApiLibraryHasPart({required String baseUrl, required String part_});
 
@@ -368,7 +368,7 @@ abstract class RustLibApi extends BaseApi {
 
   String crateApiSongTabStartSymbol();
 
-  List<String> crateApiLibraryTagSearch({required List<String> tags});
+  Future<List<String>> crateApiLibraryTagSearch({required List<String> tags});
 
   String crateApiSongTextSymbol();
 
@@ -2203,12 +2203,17 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "get_standart_tuning", argNames: []);
 
   @override
-  Map<String, Set<String>> crateApiLibraryGetTagMap() {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+  Future<Map<String, Set<String>>> crateApiLibraryGetTagMap() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 63)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 63,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_Map_String_Set_String_None_None,
@@ -3135,17 +3140,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "tab_start_symbol", argNames: []);
 
   @override
-  List<String> crateApiLibraryTagSearch({required List<String> tags}) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+  Future<List<String>> crateApiLibraryTagSearch({required List<String> tags}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_list_String(tags, serializer);
-          return pdeCallFfi(
+          pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
             funcId: 101,
-          )!;
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_String,
