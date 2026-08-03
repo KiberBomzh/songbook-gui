@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:songbook/main.dart';
-import 'package:songbook/screens/song.dart';
+import 'package:songbook/screens/song/song.dart';
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/screens/settings.dart';
 import 'package:songbook/screens/library/add_song.dart';
