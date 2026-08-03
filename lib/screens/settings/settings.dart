@@ -7,9 +7,10 @@ import 'package:restart_app/restart_app.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:songbook/l10n/app_localizations.dart';
+import 'package:songbook/screens/settings/select_font_family.dart';
 import 'package:songbook/services/settings.dart';
 
+import 'package:songbook/l10n/app_localizations.dart';
 import 'package:songbook/src/rust/api/library.dart';
 
 
@@ -356,7 +357,7 @@ class _SettingsState extends State<SettingsScreen> {
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
 					context: context,
-					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.editorFontFamily)
+					builder: (context) => SelectFontFamily(initialValue: _settings.editorFontFamily)
 				);
 				if (newFontFamily != null)
 					await _settings.setEditorFontFamily(newFontFamily);
@@ -433,7 +434,7 @@ class _SettingsState extends State<SettingsScreen> {
 			onTap: () async {
 				final String? newFontFamily = await showModalBottomSheet<String?>(
 					context: context,
-					builder: (context) => SelectFontFamilyScreen(initialValue: _settings.songFontFamily)
+					builder: (context) => SelectFontFamily(initialValue: _settings.songFontFamily)
 				);
 				if (newFontFamily != null)
 					await _settings.setSongFontFamily(newFontFamily);
@@ -469,7 +470,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
 							context: context,
-							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.titleFontFamily)
+							builder: (context) => SelectFontFamily(initialValue: _settings.titleFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setTitleFontFamily(newFontFamily);
@@ -523,7 +524,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
 							context: context,
-							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.notesFontFamily)
+							builder: (context) => SelectFontFamily(initialValue: _settings.notesFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setNotesFontFamily(newFontFamily);
@@ -577,7 +578,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
 							context: context,
-							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.fingeringsFontFamily)
+							builder: (context) => SelectFontFamily(initialValue: _settings.fingeringsFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setFingeringsFontFamily(newFontFamily);
@@ -631,7 +632,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
 							context: context,
-							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.tabFontFamily)
+							builder: (context) => SelectFontFamily(initialValue: _settings.tabFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setTabFontFamily(newFontFamily);
@@ -685,7 +686,7 @@ class _SettingsState extends State<SettingsScreen> {
 					onTap: () async {
 						final String? newFontFamily = await showModalBottomSheet<String?>(
 							context: context,
-							builder: (context) => SelectFontFamilyScreen(initialValue: _settings.plainTextFontFamily)
+							builder: (context) => SelectFontFamily(initialValue: _settings.plainTextFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setPlainTextFontFamily(newFontFamily);
@@ -1196,153 +1197,3 @@ Future<String?> _showColorPickerDialog({
 		return '#${dialogPickerColor.toARGB32().toRadixString(16).padLeft(8, '0').toUpperCase()}';
 }
 
-class SelectFontFamilyScreen extends StatefulWidget {
-	final String? initialValue;
-
-	const SelectFontFamilyScreen({super.key, this.initialValue});
-
-	@override
-	State<SelectFontFamilyScreen> createState() => SelectFontFamilyState();
-}
-
-class SelectFontFamilyState extends State<SelectFontFamilyScreen> {
-	late SettingsProvider _settings;
-
-
-	final List<String> _fonts = FONT_FAMILIES;
-	late List<String> _customFonts;
-	String? _selected;
-
-	@override
-	void initState() {
-		_selected = widget.initialValue;
-		super.initState();
-	}
-
-	void _loadCustomFonts() => setState(() {
-		_customFonts = _settings.customFontFamilies;
-	});
-
-
-	@override
-	Widget build(BuildContext context) {
-		_settings = context.watch<SettingsProvider>();
-		_customFonts = _settings.customFontFamilies;
-
-		return Container(
-			height: MediaQuery.of(context).size.height * 0.5,
-			width: double.infinity,
-			padding: const EdgeInsets.all(10),
-			decoration: BoxDecoration(
-				borderRadius: .circular(8),
-				color: Theme.of(context).colorScheme.surfaceContainerHighest,
-			),
-			child: Material(
-				color: Colors.transparent,
-				child: _buildFonts(),
-			),
-		);
-	}
-
-	Widget _buildFonts() {
-		return ListView.builder(
-			itemCount: _fonts.length + _customFonts.length + 1,
-			itemBuilder: (context, fontIndex) {
-				final customFontIndex = fontIndex - _fonts.length;
-				final bool isCustom = (customFontIndex >= 0);
-
-				if (fontIndex == (_fonts.length + _customFonts.length))
-					return _buildAddNewItem();
-
-
-				final String family = isCustom
-					? _customFonts[customFontIndex]
-					: _fonts[fontIndex];
-
-				return _buildFontItem(family, isCustom);
-			},
-		);
-	}
-
-	Widget _buildFontItem(String family, bool isCustom) {
-		final String textExample = AppLocalizations.of(context)!.fontExampleText;
-
-		return _buildItem(
-			child: Container(
-				padding: const EdgeInsets.all(10),
-				margin: const EdgeInsets.symmetric(vertical: 5),
-				child: Row(
-					mainAxisAlignment: .spaceBetween,
-					children: [
-						Flexible(
-							child: Column(
-								crossAxisAlignment: .start,
-								children: [
-									Row(
-										children: [
-											if (_selected == family) ...[
-												Icon(Icons.check, color: Theme.of(context).colorScheme.primary),
-												SizedBox(width: 10),
-											],
-
-											Text(family),
-										],
-									),
-									const SizedBox(height: 10),
-									Text(textExample,
-										style: Theme.of(context).textTheme.bodySmall?.copyWith(fontFamily: family)
-									),
-								],
-							),
-						),
-
-						if (isCustom) ...[
-							IconButton(
-								icon: Icon(Icons.delete),
-								onPressed: () async {
-									await _settings.removeCustomFont(family);
-									_loadCustomFonts();
-
-									if (_selected == family) {
-										setState(() => _selected = _fonts[0]);
-										if (mounted)
-											Navigator.of(context).pop(_selected);
-									}
-								},
-							),
-						],
-					],
-				),
-			),
-			onTap: () {
-				setState(() => _selected = family);
-				Navigator.of(context).pop(_selected);
-			},
-		);
-	}
-
-	Widget _buildAddNewItem() => _buildItem(
-		child: Center(
-			child: Padding(
-				padding: const EdgeInsets.symmetric(vertical: 10),
-				child: Icon(Icons.add),
-			),
-		),
-		onTap: () async {
-			await _settings.addNewCustomFont();
-			_loadCustomFonts();
-		},
-	);
-
-
-	Widget _buildItem({required Widget child, required VoidCallback onTap}) {
-		final primary = Theme.of(context).colorScheme.primary;
-
-		return InkWell(
-			splashColor: primary.withValues(alpha: 0.1),
-			highlightColor: primary.withValues(alpha: 0.05),
-			child: child,
-			onTap: onTap,
-		);
-	}
-}

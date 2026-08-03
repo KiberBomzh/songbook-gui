@@ -13,7 +13,7 @@ import 'package:songbook/screens/song/circle_of_fifth.dart';
 import 'package:songbook/screens/song/widgets.dart';
 import 'package:songbook/screens/song/bottom_bar.dart';
 import 'package:songbook/screens/editor.dart';
-import 'package:songbook/screens/settings.dart';
+import 'package:songbook/screens/settings/settings.dart';
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/functions/is_wide_screen.dart';
 

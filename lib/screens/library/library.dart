@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:songbook/main.dart';
 import 'package:songbook/screens/song/song.dart';
 import 'package:songbook/screens/editor.dart';
-import 'package:songbook/screens/settings.dart';
+import 'package:songbook/screens/settings/settings.dart';
 import 'package:songbook/screens/library/add_song.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
 import 'package:songbook/services/settings.dart';
