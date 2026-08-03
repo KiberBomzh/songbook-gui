@@ -49,8 +49,11 @@ pub fn show(
     #[cfg(feature = "colored")]
     is_colored: bool
 ) -> Result<()> {
-    let mut path = get_lib_path()?;
-    path = path.join(song_path);
+    let path = if song_path.is_file() {
+        song_path.to_path_buf()
+    } else {
+        get_lib_path()?.join(song_path)
+    };
 
     let file = File::open(path)?;
     let reader = BufReader::new(file);
@@ -85,9 +88,13 @@ pub fn show(
 }
 
 
-pub fn edit(added_path: &Path) -> Result<()> {
-    let mut path = get_lib_path()?;
-    path = path.join(added_path);
+pub fn edit(maybe_path: &Path) -> Result<()> {
+    let path = if maybe_path.is_file() {
+        maybe_path.to_path_buf()
+    } else {
+        get_lib_path()?.join(maybe_path)
+    };
+
     if !path.exists() {
         return Err( Error::new(ErrorKind::NotFound, "There's no such file!").into() )
     }

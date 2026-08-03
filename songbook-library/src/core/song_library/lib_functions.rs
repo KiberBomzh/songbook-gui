@@ -43,8 +43,11 @@ pub fn get_files_in_dir(added_path: Option<&Path>) -> Result<(Vec<(String, PathB
 
 
 pub fn get_song(song_path: &Path) -> Result<Song> {
-    let mut path = get_lib_path()?;
-    path = path.join(song_path);
+    let path = if song_path.is_file() {
+        song_path.to_path_buf()
+    } else {
+        get_lib_path()?.join(song_path)
+    };
 
     let file = File::open(path)?;
     let reader = BufReader::new(file);
