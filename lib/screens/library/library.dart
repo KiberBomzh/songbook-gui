@@ -12,6 +12,7 @@ import 'package:songbook/main.dart';
 import 'package:songbook/screens/song.dart';
 import 'package:songbook/screens/editor.dart';
 import 'package:songbook/screens/settings.dart';
+import 'package:songbook/screens/library/add_song.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
 import 'package:songbook/services/settings.dart';
 
@@ -316,7 +317,7 @@ class _LibraryState extends State<LibraryScreen> {
 						),
 
 					if (_isSelectMode)
-						_buildAppBarPopupMenuButton(),
+						_buildAppBarMenuButton(),
 
 					if (_isSearchMode && !_isSelectMode)
 						IconButton(
@@ -400,48 +401,65 @@ class _LibraryState extends State<LibraryScreen> {
 		}
 	}
 
-	Widget _buildAppBarPopupMenuButton() {
-		return PopupMenuButton<String>(
-			icon: Icon(Icons.more_vert),
-			tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
-			offset: const Offset(0, 40),
-			shape: RoundedRectangleBorder(
-				borderRadius: .circular(12),
+	Widget _buildAppBarMenuButton() {
+		return MenuAnchor(
+			animated: true,
+			builder: (context, controller, child) => IconButton(
+				icon: Icon(Icons.more_vert),
+				tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
+				onPressed: () {
+					if (controller.isOpen) {
+						controller.close();
+					} else {
+						controller.open();
+					}
+				},
 			),
+			menuChildren: [
+				if (_selected.length == 1) ...[
+					MenuItemButton(
+						child: Text(AppLocalizations.of(context)!.libraryOptionRename),
+						onPressed: () {
+							String path = _selected[0];
+							_rename(_getPathName(path));
 
-			onSelected: (value) {
-				switch (value) {
-					case ('rename'):
-						String path = _selected[0];
-						_rename(_getPathName(path));
+							if (_copyBuffer.contains(path))
+								_copyBuffer.remove(path);
+							if (_cutBuffer.contains(path))
+								_cutBuffer.remove(path);
 
-						if (_copyBuffer.contains(path))
-							_copyBuffer.remove(path);
-						if (_cutBuffer.contains(path))
-							_cutBuffer.remove(path);
+							setState(() {
+								_selected.clear();
+								_isSelectMode = false;
+							});
+						},
+					),
 
-						setState(() {
-							_selected.clear();
-							_isSelectMode = false;
-						});
-						break;
-					case ('edit'):
-						String path = _selected[0];
-						Navigator.push(context,
-							MaterialPageRoute(
-								builder: (context) => EditorScreen(
-									path: path,
-									mode: EditorMode.source,
+					if (!_dirs.contains(_selected[0]))
+					MenuItemButton(
+						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
+						onPressed: () {
+							String path = _selected[0];
+							Navigator.push(context,
+								MaterialPageRoute(
+									builder: (context) => EditorScreen(
+										path: path,
+										mode: EditorMode.source,
+									),
 								),
-							),
-						);
+							);
 
-						setState(() {
-							_selected.clear();
-							_isSelectMode = false;
-						});
-						break;
-					case ('copy'):
+							setState(() {
+								_selected.clear();
+								_isSelectMode = false;
+							});
+						},
+					),
+				],
+
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
+					onPressed: () {
 						_cutBuffer.clear();
 
 						for (int i = 0; i < _selected.length; i++)
@@ -451,9 +469,12 @@ class _LibraryState extends State<LibraryScreen> {
 						_selected.clear();
 						_isSelectMode = false;
 						_loadDirectory();
+					},
+				),
 
-						break;
-					case ('cut'):
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
+					onPressed: () {
 						_copyBuffer.clear();
 
 						for (int i = 0; i < _selected.length; i++)
@@ -463,41 +484,18 @@ class _LibraryState extends State<LibraryScreen> {
 						_selected.clear();
 						_isSelectMode = false;
 						_loadDirectory();
+					},
+				),
 
-						break;
-					case ('delete'):
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionDelete),
+					onPressed: () {
 						_delete(_selected);
 						setState(() {
 							_selected.clear();
 							_isSelectMode = false;
 						});
-						break;
-				}
-			},
-			itemBuilder: (context) => [
-				if (_selected.length == 1) ...[
-					PopupMenuItem(
-						value: 'rename',
-						child: Text(AppLocalizations.of(context)!.libraryOptionRename),
-					),
-					if (!_dirs.contains(_selected[0]))
-					PopupMenuItem(
-						value: 'edit',
-						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
-					),
-				],
-
-				PopupMenuItem(
-					value: 'copy',
-					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
-				),
-				PopupMenuItem(
-					value: 'cut',
-					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
-				),
-				PopupMenuItem(
-					value: 'delete',
-					child: Text(AppLocalizations.of(context)!.libraryOptionDelete),
+					},
 				),
 			],
 		);
@@ -744,7 +742,7 @@ class _LibraryState extends State<LibraryScreen> {
 							const SizedBox(width: 10),
 
 							if (!_isSelectMode)
-								_buildPopupMenuButton(path, name, isDir),
+								_buildMenuButton(path, name, isDir),
 						],
 					),
 				),
@@ -752,77 +750,73 @@ class _LibraryState extends State<LibraryScreen> {
 		);
 	}
 
-	Widget _buildPopupMenuButton(String path, String name, bool isDir) {
-		return PopupMenuButton<String>(
-			icon: Icon(Icons.more_vert),
-			tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
-			offset: const Offset(0, 40),
-			shape: RoundedRectangleBorder(
-				borderRadius: .circular(12),
-			),
-
-			onSelected: (value) {
-				switch (value) {
-					case ('rename'):
+	Widget _buildMenuButton(String path, String name, bool isDir) {
+		return MenuAnchor(
+			animated: true,
+			builder: (context, controller, child) {
+				return IconButton(
+					icon: Icon(Icons.more_vert),
+					tooltip: AppLocalizations.of(context)!.libraryTooltipOptions,
+					onPressed: () {
+						if (controller.isOpen) {
+							controller.close();
+						} else {
+							controller.open();
+						}
+					},
+				);
+			},
+			menuChildren: [
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionRename),
+					onPressed: () {
 						_rename(name);
 
 						if (_copyBuffer.contains(path))
 							_copyBuffer.remove(path);
 						if (_cutBuffer.contains(path))
 							_cutBuffer.remove(path);
-						break;
-					case ('edit'):
-						Navigator.push(context,
-							MaterialPageRoute(
-								builder: (context) => EditorScreen(
-									path: path,
-									mode: EditorMode.source,
+					},
+				),
+				if (!isDir)
+					MenuItemButton(
+						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
+						onPressed: () {
+							Navigator.push(context,
+								MaterialPageRoute(
+									builder: (context) => EditorScreen(
+										path: path,
+										mode: EditorMode.source,
+									),
 								),
-							),
-						);
-						break;
-					case ('copy'):
+							);
+						},
+					),
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
+					onPressed: () {
 						_cutBuffer.clear();
 
 						if (!_copyBuffer.contains(path)) {
 							_copyBuffer.add(path);
 							_loadDirectory();
 						}
-						break;
-					case ('cut'):
+					},
+				),
+				MenuItemButton(
+					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
+					onPressed: () {
 						_copyBuffer.clear();
 
 						if (!_cutBuffer.contains(path)) {
 							_cutBuffer.add(path);
 							_loadDirectory();
 						}
-						break;
-					case ('delete'):
-						_delete([path]);
-						break;
-				}
-			},
-			itemBuilder: (context) => [
-				PopupMenuItem(
-					value: 'rename',
-					child: Text(AppLocalizations.of(context)!.libraryOptionRename),
+					},
 				),
-				if (!isDir)
-					PopupMenuItem(
-						value: 'edit',
-						child: Text(AppLocalizations.of(context)!.libraryOptionEdit),
-					),
-				PopupMenuItem(
-					value: 'copy',
-					child: Text(AppLocalizations.of(context)!.libraryOptionCopy),
-				),
-				PopupMenuItem(
-					value: 'cut',
-					child: Text(AppLocalizations.of(context)!.libraryOptionCut),
-				),
-				PopupMenuItem(
-					value: 'delete',
+				MenuItemButton(
 					child: Text(AppLocalizations.of(context)!.libraryOptionDelete),
+					onPressed: () => _delete([path]),
 				),
 			],
 		);
@@ -1151,7 +1145,7 @@ class _LibraryState extends State<LibraryScreen> {
 						borderRadius: .vertical(top: Radius.circular(12)),
 						color: Theme.of(context).colorScheme.surfaceContainerHighest,
 					),
-					child: SongAddScreen(onDone: onDone),
+					child: AddSong(onDone: onDone),
 				);
 			}
 		);
@@ -1181,193 +1175,6 @@ class _LibraryState extends State<LibraryScreen> {
 }
 
 
-class SongAddScreen extends StatefulWidget {
-	Function(String, String, String) onDone;
-
-	SongAddScreen({super.key, required this.onDone});
-
-
-	@override
-	State<SongAddScreen> createState() => SongAddState();
-}
-
-class SongAddState extends State<SongAddScreen> {
-	late SettingsProvider _settings;
-
-
-	late TextEditingController _artistController;
-	late FocusNode _artistFocusNode;
-	String? _artistError;
-
-	late TextEditingController _titleController;
-	late FocusNode _titleFocusNode;
-	String? _titleError;
-
-	late TextEditingController _songContentController;
-	late FocusNode _songContentFocusNode;
-
-	@override
-	void initState() {
-		super.initState();
-		_artistController = TextEditingController();
-		_artistFocusNode = FocusNode();
-
-		_titleController = TextEditingController();
-		_titleFocusNode = FocusNode();
-
-		_songContentController = TextEditingController();
-		_songContentFocusNode = FocusNode();
-		_songContentFocusNode.requestFocus();
-	}
-
-	@override
-	void dispose() {
-		_artistController.dispose();
-		_artistFocusNode.dispose();
-
-		_titleController.dispose();
-		_titleFocusNode.dispose();
-
-		_songContentController.dispose();
-		_songContentFocusNode.dispose();
-
-		super.dispose();
-	}
-
-
-	@override
-	Widget build(BuildContext context) {
-		_settings = context.watch<SettingsProvider>();
-
-		return Column(
-			children: [
-				Padding(
-					padding: const EdgeInsets.all(15),
-					child: Row(
-						children: [
-							TextButton(
-								child: Text(AppLocalizations.of(context)!.cancel),
-								onPressed: () => Navigator.of(context).pop(),
-							),
-							Spacer(),
-							ElevatedButton(
-								child: Text(AppLocalizations.of(context)!.done),
-								onPressed: () {
-									final artist = _artistController.text.trim();
-									final artistCheckResult = _validateName(artist);
-									if (artistCheckResult != null) {
-										setState(() => _artistError = artistCheckResult);
-										_artistFocusNode.requestFocus();
-
-										return;
-									}
-
-									final title = _titleController.text.trim();
-									final titleCheckResult = _validateName(title);
-									if (titleCheckResult != null) {
-										setState(() => _titleError = titleCheckResult);
-										_titleFocusNode.requestFocus();
-
-										return;
-									}
-
-									final text = _songContentController.text;
-									widget.onDone(artist, title, text);
-								},
-							),
-						],
-					),
-				),
-
-				Row(
-					children: [
-						Expanded(
-							child: TextField(
-								controller: _artistController,
-								focusNode: _artistFocusNode,
-								style: _settings.editorStyle(),
-								decoration: InputDecoration(
-									border: OutlineInputBorder(),
-									hintText: AppLocalizations.of(context)!.newSongDialogArtistHint,
-									errorText: _artistError,
-								),
-								onChanged: (value) {
-									setState(() => _artistError = _validateName(value));
-								},
-								onSubmitted: (value) {
-									final String text = value.trim();
-									final checkResult = _validateName(text);
-									if (checkResult == null) {
-										_titleFocusNode.requestFocus();
-									} else {
-										setState(() => _artistError = checkResult);
-										_artistFocusNode.requestFocus();
-									}
-								}
-							),
-						),
-						const SizedBox(width: 10),
-						Expanded(
-							child: TextField(
-								controller: _titleController,
-								focusNode: _titleFocusNode,
-								style: _settings.editorStyle(),
-								decoration: InputDecoration(
-									border: OutlineInputBorder(),
-									hintText: AppLocalizations.of(context)!.newSongDialogTitleHint,
-									errorText: _titleError,
-								),
-								onChanged: (value) {
-									setState(() => _titleError = _validateName(value));
-								},
-								onSubmitted: (value) {
-									final String text = value.trim();
-									final checkResult = _validateName(text);
-									if (checkResult == null) {
-										_songContentFocusNode.requestFocus();
-									} else {
-										setState(() => _titleError = checkResult);
-										_titleFocusNode.requestFocus();
-									}
-								}
-							),
-						),
-					]
-				),
-				const SizedBox(height: 20),
-				Expanded(
-					child: TextField(
-						controller: _songContentController,
-						focusNode: _songContentFocusNode,
-						maxLines: null,
-						expands: true,
-						textAlignVertical: .top,
-						style: _settings.editorStyle(),
-						decoration: InputDecoration(
-							border: OutlineInputBorder(),
-							hintText: AppLocalizations.of(context)!.newSongDialogTextHint,
-						),
-					),
-				),
-
-				SizedBox(height: MediaQuery.of(context).viewInsets.bottom), // для клавиатуры
-				SizedBox(height: MediaQuery.of(context).padding.bottom), // safe area
-			],
-		);
-	}
-	String? _validateName(String value) {
-		final trimmed = value.trim();
-
-		if (trimmed.isEmpty)
-			return AppLocalizations.of(context)!.nameValidatorErrorEmptyText;
-		
-		final forbiddenChars = getForbiddenChars();
-		if (trimmed.characters.any((char) => forbiddenChars.contains(char)))
-			return AppLocalizations.of(context)!.nameValidatorErrorForbiddenChars;
-		
-		return null;
-	}
-}
 
 
 enum ImportFormat {
