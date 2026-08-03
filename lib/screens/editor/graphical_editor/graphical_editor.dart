@@ -610,6 +610,7 @@ class GraphicalSongEditorState extends State<GraphicalSongEditor> {
 		showModalBottomSheet(
 			backgroundColor: Theme.of(context).colorScheme.surface,
 			isScrollControlled: true,
+			clipBehavior: .antiAlias,
 
 			context: context,
 			builder: (context) => SizedBox(
