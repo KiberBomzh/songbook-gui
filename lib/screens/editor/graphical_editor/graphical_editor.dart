@@ -613,12 +613,16 @@ class GraphicalSongEditorState extends State<GraphicalSongEditor> {
 			clipBehavior: .antiAlias,
 
 			context: context,
-			builder: (context) => SizedBox(
-				height: MediaQuery.of(context).size.height * 0.9,
-				child: Column(
+			builder: (context) => DraggableScrollableSheet(
+				expand: false,
+				snap: true,
+				initialChildSize: 0.9,
+				maxChildSize: 0.9,
+				builder: (context, controller) => Column(
 					children: [
 						Expanded(
 							child: ListView(
+								controller: controller,
 								children: [
 									_metadata,
 									_buildSongNoteField(),

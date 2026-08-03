@@ -751,27 +751,39 @@ class _SongState extends State<SongScreen> {
 	Widget _capoDialog({
 		required Function(int) onDone,
 	}) {
-		final fretboard = Fretboard(fret: _capo ?? 0);
+		final key = GlobalKey<FretboardState>();
 
-		return _bottomSheetDialogWrapper(
-			title: AppLocalizations.of(context)!.songCapo,
-			content: SizedBox(
-				width: double.maxFinite,
-				child: fretboard,
-			),
-			actions: [
-				TextButton(
-					child: Text(AppLocalizations.of(context)!.cancel),
-					onPressed: () => Navigator.of(context).pop(),
-				),
-				ElevatedButton(
-					child: Text(AppLocalizations.of(context)!.done),
-					onPressed: () {
-						onDone(fretboard.fret);
-						Navigator.of(context).pop();
-					},
-				),
-			],
+		return DraggableScrollableSheet(
+			expand: false,
+			initialChildSize: 0.9,
+			maxChildSize: 0.9,
+			builder: (context, scrollController) {
+				return _bottomSheetDialogWrapper(
+					title: AppLocalizations.of(context)!.songCapo,
+					content: SizedBox(
+						width: double.maxFinite,
+						child: Fretboard(
+							key: key,
+							fret: _capo ?? 0,
+							controller: scrollController,
+						),
+					),
+					actions: [
+						TextButton(
+							child: Text(AppLocalizations.of(context)!.cancel),
+							onPressed: () => Navigator.of(context).pop(),
+						),
+						ElevatedButton(
+							child: Text(AppLocalizations.of(context)!.done),
+							onPressed: () {
+								if (key.currentState != null)
+									onDone(key.currentState!.fret);
+								Navigator.of(context).pop();
+							},
+						),
+					],
+				);
+			},
 		);
 	}
 

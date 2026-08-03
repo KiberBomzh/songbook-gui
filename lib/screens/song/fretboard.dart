@@ -4,18 +4,27 @@ import 'package:songbook/src/rust/api/theory.dart';
 
 
 class Fretboard extends StatefulWidget {
-	int fret;
+	final int fret;
+	final ScrollController controller;
 
-	Fretboard({
+	const Fretboard({
 		super.key,
 		required this.fret,
+		required this.controller,
 	});
 
 	@override
-	State<Fretboard> createState() => _FretboardState();
+	State<Fretboard> createState() => FretboardState();
 }
-class _FretboardState extends State<Fretboard> {
+class FretboardState extends State<Fretboard> {
 	final fretboard = getFretboard(tuning: getStandartTuning());
+	late int fret;
+
+	@override
+	void initState() {
+		super.initState();
+		fret = widget.fret;
+	}
 
 
 	(double, double) _getSize() {
@@ -35,6 +44,7 @@ class _FretboardState extends State<Fretboard> {
 		final borderColor =  Theme.of(context).colorScheme.outlineVariant;
 
 		return SingleChildScrollView(
+			controller: widget.controller,
 			child: Stack(
 				alignment: .topCenter,
 				children: [
@@ -110,7 +120,7 @@ class _FretboardState extends State<Fretboard> {
 						color: Colors.transparent,
 						child: Column(
 							children: fretboard[0].asMap().keys.map((index) {
-								if (widget.fret == index) {
+								if (fret == index) {
 									return Container(
 										decoration: BoxDecoration(
 											borderRadius: .circular(8),
@@ -131,7 +141,7 @@ class _FretboardState extends State<Fretboard> {
 									width: double.infinity,
 									child: InkWell(
 										borderRadius: .circular(8),
-										onTap: () => setState(() => widget.fret = index),
+										onTap: () => setState(() => fret = index),
 										child: Container(
 											padding: const .only(left: 5),
 											child: Align(

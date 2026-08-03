@@ -355,9 +355,8 @@ class _SettingsState extends State<SettingsScreen> {
 			text: AppLocalizations.of(context)!.settingsFontFamily,
 			child: Text(_settings.editorFontFamily),
 			onTap: () async {
-				final String? newFontFamily = await showModalBottomSheet<String?>(
-					context: context,
-					builder: (context) => SelectFontFamily(initialValue: _settings.editorFontFamily)
+				final String? newFontFamily = await _bottomSheetDialog(
+					SelectFontFamily(initialValue: _settings.editorFontFamily)
 				);
 				if (newFontFamily != null)
 					await _settings.setEditorFontFamily(newFontFamily);
@@ -432,9 +431,8 @@ class _SettingsState extends State<SettingsScreen> {
 			text: AppLocalizations.of(context)!.settingsFontFamily,
 			child: Text(_settings.songFontFamily),
 			onTap: () async {
-				final String? newFontFamily = await showModalBottomSheet<String?>(
-					context: context,
-					builder: (context) => SelectFontFamily(initialValue: _settings.songFontFamily)
+				final String? newFontFamily = await _bottomSheetDialog(
+					SelectFontFamily(initialValue: _settings.songFontFamily)
 				);
 				if (newFontFamily != null)
 					await _settings.setSongFontFamily(newFontFamily);
@@ -468,9 +466,8 @@ class _SettingsState extends State<SettingsScreen> {
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.titleFontFamily),
 					onTap: () async {
-						final String? newFontFamily = await showModalBottomSheet<String?>(
-							context: context,
-							builder: (context) => SelectFontFamily(initialValue: _settings.titleFontFamily)
+						final String? newFontFamily = await _bottomSheetDialog(
+							SelectFontFamily(initialValue: _settings.titleFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setTitleFontFamily(newFontFamily);
@@ -522,9 +519,8 @@ class _SettingsState extends State<SettingsScreen> {
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.notesFontFamily),
 					onTap: () async {
-						final String? newFontFamily = await showModalBottomSheet<String?>(
-							context: context,
-							builder: (context) => SelectFontFamily(initialValue: _settings.notesFontFamily)
+						final String? newFontFamily = await _bottomSheetDialog(
+							SelectFontFamily(initialValue: _settings.notesFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setNotesFontFamily(newFontFamily);
@@ -576,9 +572,8 @@ class _SettingsState extends State<SettingsScreen> {
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.fingeringsFontFamily),
 					onTap: () async {
-						final String? newFontFamily = await showModalBottomSheet<String?>(
-							context: context,
-							builder: (context) => SelectFontFamily(initialValue: _settings.fingeringsFontFamily)
+						final String? newFontFamily = await _bottomSheetDialog(
+							SelectFontFamily(initialValue: _settings.fingeringsFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setFingeringsFontFamily(newFontFamily);
@@ -630,9 +625,8 @@ class _SettingsState extends State<SettingsScreen> {
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.tabFontFamily),
 					onTap: () async {
-						final String? newFontFamily = await showModalBottomSheet<String?>(
-							context: context,
-							builder: (context) => SelectFontFamily(initialValue: _settings.tabFontFamily)
+						final String? newFontFamily = await _bottomSheetDialog(
+							SelectFontFamily(initialValue: _settings.tabFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setTabFontFamily(newFontFamily);
@@ -684,9 +678,8 @@ class _SettingsState extends State<SettingsScreen> {
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.plainTextFontFamily),
 					onTap: () async {
-						final String? newFontFamily = await showModalBottomSheet<String?>(
-							context: context,
-							builder: (context) => SelectFontFamily(initialValue: _settings.plainTextFontFamily)
+						final String? newFontFamily = await _bottomSheetDialog(
+							SelectFontFamily(initialValue: _settings.plainTextFontFamily)
 						);
 						if (newFontFamily != null)
 							await _settings.setPlainTextFontFamily(newFontFamily);
@@ -1031,6 +1024,13 @@ class _SettingsState extends State<SettingsScreen> {
 		);
 	}
 
+
+	Future<String?> _bottomSheetDialog(Widget child) => showModalBottomSheet<String?>(
+		clipBehavior: .antiAlias,
+		isScrollControlled: true,
+		context: context,
+		builder: (context) => child,
+	);
 
 	Future<String?> _askDialog({
 		required String? Function(String) validator,

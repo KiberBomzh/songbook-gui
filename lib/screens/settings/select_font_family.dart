@@ -39,23 +39,26 @@ class _SelectFontFamilyState extends State<SelectFontFamily> {
 		_settings = context.watch<SettingsProvider>();
 		_customFonts = _settings.customFontFamilies;
 
-		return Container(
-			height: MediaQuery.of(context).size.height * 0.5,
-			width: double.infinity,
-			padding: const EdgeInsets.all(10),
-			decoration: BoxDecoration(
-				borderRadius: .circular(8),
-				color: Theme.of(context).colorScheme.surfaceContainerHighest,
-			),
-			child: Material(
-				color: Colors.transparent,
-				child: _buildFonts(),
+		return DraggableScrollableSheet(
+			expand: false,
+			snap: true,
+			maxChildSize: 0.9,
+			builder: (context, controller) => Padding(
+				padding: const EdgeInsets.all(10),
+				child: Material(
+					color: Theme.of(context).colorScheme.surfaceContainerHighest,
+					shape: RoundedRectangleBorder(
+						borderRadius: .circular(8),
+					),
+					child: _buildFonts(controller),
+				),
 			),
 		);
 	}
 
-	Widget _buildFonts() {
+	Widget _buildFonts(ScrollController controller) {
 		return ListView.builder(
+			controller: controller,
 			itemCount: _fonts.length + _customFonts.length + 1,
 			itemBuilder: (context, fontIndex) {
 				final customFontIndex = fontIndex - _fonts.length;
