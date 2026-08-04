@@ -9,7 +9,7 @@ import 'song.dart';
 
 // These functions are ignored because they are not marked as `pub`: `copy_all`, `copy_recursive`, `remove_all`
 
-void exportBackup({
+Future<void> exportBackup({
   required String outputPathStr,
   required Map<String, String> settings,
   String? fontsPath,
@@ -21,7 +21,7 @@ void exportBackup({
   backgroundPath: backgroundPath,
 );
 
-Map<String, String> importBackup({
+Future<Map<String, String>> importBackup({
   required String backupPathStr,
   required String fontsPathStr,
   required String backgroundPathStr,

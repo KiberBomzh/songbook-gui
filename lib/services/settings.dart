@@ -931,7 +931,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		String? backgroundPath = _backgroundImage?.path;
 
-		rust_lib.exportBackup(
+		await rust_lib.exportBackup(
 			outputPathStr: tempBackup.path,
 			settings: settings,
 			fontsPath: fontsPath,
@@ -1044,7 +1044,7 @@ class SettingsProvider extends ChangeNotifier {
 		final dir = await getApplicationSupportDirectory();
 		final fontsPath = dir.path + pathDivider + 'fonts';
 		final backgroundImagePath = dir.path + pathDivider + 'background_img';
-		final settings = rust_lib.importBackup(
+		final settings = await rust_lib.importBackup(
 			backupPathStr: backupPath,
 			fontsPathStr: fontsPath,
 			backgroundPathStr: backgroundImagePath,

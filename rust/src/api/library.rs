@@ -13,8 +13,8 @@ const SETTINGS_BACKUP_NAME: &str = "settings.txt";
 const BACKGROUND_BACKUP_NAME: &str = "background_image";
 const FONTS_BACKUP_DIR_NAME: &str = "fonts";
 
-#[flutter_rust_bridge::frb(sync)]
-pub fn export_backup(
+#[flutter_rust_bridge::frb]
+pub async fn export_backup(
     output_path_str: String,
     settings: HashMap<String, String>,
     fonts_path: Option<String>,
@@ -105,8 +105,8 @@ pub fn export_backup(
 
     Ok(())
 }
-#[flutter_rust_bridge::frb(sync)]
-pub fn import_backup(
+#[flutter_rust_bridge::frb]
+pub async fn import_backup(
     backup_path_str: String,
     fonts_path_str: String,
     background_path_str: String,

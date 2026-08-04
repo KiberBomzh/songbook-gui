@@ -2314,15 +2314,16 @@ fn wire__crate__api__library__existence_check_impl(
     )
 }
 fn wire__crate__api__library__export_backup_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "export_backup",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -2340,17 +2341,21 @@ fn wire__crate__api__library__export_backup_impl(
             let api_fonts_path = <Option<String>>::sse_decode(&mut deserializer);
             let api_background_path = <Option<String>>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let output_ok = crate::api::library::export_backup(
-                        api_output_path_str,
-                        api_settings,
-                        api_fonts_path,
-                        api_background_path,
-                    )?;
-                    Ok(output_ok)
-                })(),
-            )
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::library::export_backup(
+                            api_output_path_str,
+                            api_settings,
+                            api_fonts_path,
+                            api_background_path,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -2687,15 +2692,16 @@ fn wire__crate__api__library__has_part_impl(
     )
 }
 fn wire__crate__api__library__import_backup_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
     data_len_: i32,
-) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_async::<flutter_rust_bridge::for_generated::SseCodec, _, _, _>(
         flutter_rust_bridge::for_generated::TaskInfo {
             debug_name: "import_backup",
-            port: None,
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
         },
         move || {
             let message = unsafe {
@@ -2711,16 +2717,20 @@ fn wire__crate__api__library__import_backup_impl(
             let api_fonts_path_str = <String>::sse_decode(&mut deserializer);
             let api_background_path_str = <String>::sse_decode(&mut deserializer);
             deserializer.end();
-            transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
-                (move || {
-                    let output_ok = crate::api::library::import_backup(
-                        api_backup_path_str,
-                        api_fonts_path_str,
-                        api_background_path_str,
-                    )?;
-                    Ok(output_ok)
-                })(),
-            )
+            move |context| async move {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || async move {
+                        let output_ok = crate::api::library::import_backup(
+                            api_backup_path_str,
+                            api_fonts_path_str,
+                            api_background_path_str,
+                        )
+                        .await?;
+                        Ok(output_ok)
+                    })()
+                    .await,
+                )
+            }
         },
     )
 }
@@ -4529,7 +4539,9 @@ fn pde_ffi_dispatcher_primary_impl(
         26 => {
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
+        53 => wire__crate__api__library__export_backup_impl(port, ptr, rust_vec_len, data_len),
         63 => wire__crate__api__library__get_tag_map_impl(port, ptr, rust_vec_len, data_len),
+        65 => wire__crate__api__library__import_backup_impl(port, ptr, rust_vec_len, data_len),
         67 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
         72 => wire__crate__api__library__move_library_impl(port, ptr, rust_vec_len, data_len),
         86 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
@@ -4632,7 +4644,6 @@ fn pde_ffi_dispatcher_sync_impl(
         50 => wire__crate__api__library__create_directory_impl(ptr, rust_vec_len, data_len),
         51 => wire__crate__api__song__empty_line_symbol_impl(ptr, rust_vec_len, data_len),
         52 => wire__crate__api__library__existence_check_impl(ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__library__export_backup_impl(ptr, rust_vec_len, data_len),
         54 => wire__crate__api__theory__get_all_keys_impl(ptr, rust_vec_len, data_len),
         55 => wire__crate__api__library__get_available_sites_impl(ptr, rust_vec_len, data_len),
         56 => wire__crate__api__library__get_base_url_impl(ptr, rust_vec_len, data_len),
@@ -4643,7 +4654,6 @@ fn pde_ffi_dispatcher_sync_impl(
         61 => wire__crate__api__theory__get_fretboard_impl(ptr, rust_vec_len, data_len),
         62 => wire__crate__api__theory__get_standart_tuning_impl(ptr, rust_vec_len, data_len),
         64 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
-        65 => wire__crate__api__library__import_backup_impl(ptr, rust_vec_len, data_len),
         66 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
         68 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
         69 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),

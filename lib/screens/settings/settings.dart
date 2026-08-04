@@ -52,6 +52,7 @@ class _SettingsState extends State<SettingsScreen> {
 		setState(() => _isLoading = false);
 	}
 	void _importBackup() async {
+		setState(() => _isLoading = true);
 		try {
 			final bool result = await _settings.importBackup();
 			if (result && mounted) {
@@ -156,31 +157,35 @@ class _SettingsState extends State<SettingsScreen> {
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
 
-		return Stack(
-			children: [
-				Container(
-					decoration: BoxDecoration(
-						image: (_settings.backgroundImage != null)
-							? DecorationImage(
-								image: FileImage(_settings.backgroundImage!),
-								fit: .cover,
-							)
-							: null,
-					),
-					child: Scaffold(
-						appBar: AppBar( title: Text(AppLocalizations.of(context)!.settingsAppBarTitle) ),
-						body: _buildBody(),
-					),
-				),
-
-				if (_isLoading)
+		return PopScope(
+			canPop: (!_isLoading),
+			onPopInvokedWithResult: (_, _) {},
+			child: Stack(
+				children: [
 					Container(
-						color: Colors.black.withValues(alpha: 0.5),
-						child: Center(
-							child: CircularProgressIndicator(),
+						decoration: BoxDecoration(
+							image: (_settings.backgroundImage != null)
+								? DecorationImage(
+									image: FileImage(_settings.backgroundImage!),
+									fit: .cover,
+								)
+								: null,
+						),
+						child: Scaffold(
+							appBar: AppBar( title: Text(AppLocalizations.of(context)!.settingsAppBarTitle) ),
+							body: _buildBody(),
 						),
 					),
-			],
+
+					if (_isLoading)
+						Container(
+							color: Colors.black.withValues(alpha: 0.5),
+							child: Center(
+								child: CircularProgressIndicator(),
+							),
+						),
+				],
+			),
 		);
 	}
 

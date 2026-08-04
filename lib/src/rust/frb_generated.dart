@@ -245,7 +245,7 @@ abstract class RustLibApi extends BaseApi {
 
   bool crateApiLibraryExistenceCheck({required String pathStr});
 
-  void crateApiLibraryExportBackup({
+  Future<void> crateApiLibraryExportBackup({
     required String outputPathStr,
     required Map<String, String> settings,
     String? fontsPath,
@@ -278,7 +278,7 @@ abstract class RustLibApi extends BaseApi {
 
   bool crateApiLibraryHasPart({required String baseUrl, required String part_});
 
-  Map<String, String> crateApiLibraryImportBackup({
+  Future<Map<String, String>> crateApiLibraryImportBackup({
     required String backupPathStr,
     required String fontsPathStr,
     required String backgroundPathStr,
@@ -1954,21 +1954,26 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "existence_check", argNames: ["pathStr"]);
 
   @override
-  void crateApiLibraryExportBackup({
+  Future<void> crateApiLibraryExportBackup({
     required String outputPathStr,
     required Map<String, String> settings,
     String? fontsPath,
     String? backgroundPath,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(outputPathStr, serializer);
           sse_encode_Map_String_String_None(settings, serializer);
           sse_encode_opt_String(fontsPath, serializer);
           sse_encode_opt_String(backgroundPath, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 53)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 53,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_unit,
@@ -2259,19 +2264,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   );
 
   @override
-  Map<String, String> crateApiLibraryImportBackup({
+  Future<Map<String, String>> crateApiLibraryImportBackup({
     required String backupPathStr,
     required String fontsPathStr,
     required String backgroundPathStr,
   }) {
-    return handler.executeSync(
-      SyncTask(
-        callFfi: () {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_String(backupPathStr, serializer);
           sse_encode_String(fontsPathStr, serializer);
           sse_encode_String(backgroundPathStr, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 65)!;
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 65,
+            port: port_,
+          );
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_Map_String_String_None,
