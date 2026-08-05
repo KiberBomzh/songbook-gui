@@ -79,13 +79,10 @@ pub fn get_as_paragraph<'a>(
         if let Some(k) = key && needs_chords && is_modulation {
             let k = k.to_string();
             if k.chars().count() + 5 > columns { columns = k.chars().count() + 5 }
-            let mut spans = Vec::new();
-            spans.push(
-                Span::styled("Key: ", Style::new().fg(notes_color))
-            );
-            spans.push(
-                Span::styled(k, Style::new().fg(chords_color))
-            );
+            let spans = vec![
+                Span::styled("Key: ", Style::new().fg(notes_color)),
+                Span::styled(k, Style::new().fg(chords_color)),
+            ];
 
             lines.push(Line::from(spans));
         }
