@@ -40,7 +40,7 @@ use crate::song::block::{Block, Line};
 use crate::song::row::ChordPosition;
 
 #[cfg(feature = "colored")]
-use crate::{TITLE_COLOR, NOTES_COLOR};
+use crate::{TITLE_COLOR, NOTES_COLOR, CHORDS_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -331,7 +331,21 @@ impl Song {
         }
         
         let mut is_first = true;
+        let mut last_block_key = self.metadata.key;
         for block in &self.blocks {
+            // is key changed
+            let (key, is_modulation) = if chords {
+                let key = 
+                    if block.key.is_some() { block.key }
+                    else { self.metadata.key };
+
+                let m = last_block_key != key;
+                last_block_key = key;
+
+
+                (key, m)
+            } else { (None, false) };
+
             if is_first { is_first = false }
             else { s.push('\n') }
 
@@ -343,6 +357,12 @@ impl Song {
             if let Some(n) = &block.notes && notes {
                 if !is_first && block.title.is_none() { s.push('\n') }
                 s.push_str(&format!("{}", n.clone().with(NOTES_COLOR)));
+            }
+            if let Some(k) = key && chords && is_modulation {
+                s.push_str(&format!("\n{} {}",
+                        "Key:".to_string().with(NOTES_COLOR),
+                        k.to_string().with(CHORDS_COLOR)
+                    ));
             }
             if !block.lines.is_empty() { s.push('\n') }
             
@@ -399,6 +419,11 @@ impl Song {
 
         self.chord_list = self.chord_list.iter().map(|c| c.transpose(steps, is_flat)).collect();
         for block in &mut self.blocks {
+            let is_flat = if let Some(key) = block.key {
+                let new_key = key.transpose(steps);
+                block.key = Some(new_key);
+                new_key.is_flat()
+            } else { is_flat };
             for line in &mut block.lines {
                 match line {
                     Line::TextBlock(row) => {
@@ -631,7 +656,21 @@ impl fmt::Display for Song {
 
 
         let mut is_first = true;
+        let mut last_block_key = self.metadata.key;
         for block in &self.blocks {
+            // is key changed
+            let (key, is_modulation) = if chords {
+                let key = 
+                    if block.key.is_some() { block.key }
+                    else { self.metadata.key };
+
+                let m = last_block_key != key;
+                last_block_key = key;
+
+
+                (key, m)
+            } else { (None, false) };
+
             if is_first { is_first = false }
             else { s.push('\n') }
 
@@ -644,6 +683,10 @@ impl fmt::Display for Song {
                 if !is_first && block.title.is_none() { s.push('\n') }
                 s.push_str(n);
             }
+            if let Some(k) = key && chords && is_modulation {
+                s.push_str(&format!("\nKey: {}", k));
+            }
+
             if !block.lines.is_empty() { s.push('\n') }
 
             let mut is_first_line = true;

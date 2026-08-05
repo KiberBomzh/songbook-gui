@@ -27,6 +27,8 @@ String rowEnd() => RustLib.instance.api.crateApiSongRowEnd();
 
 String titleSymbol() => RustLib.instance.api.crateApiSongTitleSymbol();
 
+String keySymbol() => RustLib.instance.api.crateApiSongKeySymbol();
+
 String blockNoteSymbol() => RustLib.instance.api.crateApiSongBlockNoteSymbol();
 
 String chordsLineSymbol() =>
@@ -125,6 +127,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
 
   String? getKey();
 
+  String? getKeyWithCapo();
+
   Future<void> getMutSong();
 
   String? getNotes();
@@ -168,15 +172,17 @@ class SimpleBlock {
   final String? title;
   final List<SimpleLine> lines;
   final String? notes;
+  final String? key;
 
-  const SimpleBlock({this.title, required this.lines, this.notes});
+  const SimpleBlock({this.title, required this.lines, this.notes, this.key});
 
   // HINT: Make it `#[frb(sync)]` to let it become the default constructor of Dart class.
   static Future<SimpleBlock> newInstance({required Block block}) =>
       RustLib.instance.api.crateApiSongSimpleBlockNew(block: block);
 
   @override
-  int get hashCode => title.hashCode ^ lines.hashCode ^ notes.hashCode;
+  int get hashCode =>
+      title.hashCode ^ lines.hashCode ^ notes.hashCode ^ key.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -185,7 +191,8 @@ class SimpleBlock {
           runtimeType == other.runtimeType &&
           title == other.title &&
           lines == other.lines &&
-          notes == other.notes;
+          notes == other.notes &&
+          key == other.key;
 }
 
 @freezed

@@ -23,7 +23,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
                 blocks.push(Block {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines: rows.iter().map(|r| Line::TextBlock(r.clone())).collect(),
-                    notes: None
+                    notes: None,
+                    key: None,
                 });
                 title = String::new();
                 rows.clear();
@@ -34,7 +35,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
                         lines: vec!(Line::TextBlock(
                                 Row { chords: Some(chords), text: None, rhythm: None }),
                         ),
-                        notes: None
+                        notes: None,
+                        key: None,
                     });
                     title = String::new();
                     chords = Vec::new();
@@ -44,7 +46,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
                 blocks.push(Block {
                     title: Some(title),
                     lines: Vec::new(),
-                    notes: None
+                    notes: None,
+                    key: None,
                 });
                 title = String::new();
             }
@@ -98,7 +101,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
         blocks.push(Block {
             title: if title.is_empty() { None } else { Some(title) },
             lines: rows.iter().map(|r| Line::TextBlock(r.clone())).collect(),
-            notes: None
+            notes: None,
+            key: None,
         });
     }
 

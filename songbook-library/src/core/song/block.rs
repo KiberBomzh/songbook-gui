@@ -5,10 +5,12 @@ use crossterm::style::Stylize;
 
 use crate::song::row::Row;
 use crate::song::chord::Chord;
+use crate::Key;
 use crate::{
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
+    KEY_SYMBOL,
     ROW_START,
     ROW_END,
     EMPTY_LINE_SYMBOL,
@@ -29,7 +31,8 @@ use crate::{CHORDS_COLOR, NOTES_COLOR};
 pub struct Block {
     pub title: Option<String>,
     pub lines: Vec<Line>,
-    pub notes: Option<String>
+    pub notes: Option<String>,
+    pub key: Option<Key>,
 }
 
 #[derive(Serialize, Deserialize, Debug, PartialEq)]
@@ -78,6 +81,11 @@ impl Block {
             s.push('\n');
             s.push_str(TITLE_SYMBOL);
             s.push_str(title);
+        }
+        if let Some(k) = &self.key {
+            s.push('\n');
+            s.push_str(KEY_SYMBOL);
+            s.push_str(&k.to_string());
         }
         if let Some(n) = &self.notes {
             s.push('\n');
@@ -145,6 +153,7 @@ impl Block {
 
     pub fn from_edited(text: &str) -> Self {
         let mut title: Option<String> = None;
+        let mut key: Option<Key> = None;
         let mut notes: Option<String> = None;
         let mut lines: Vec<Line> = Vec::new();
 
@@ -197,6 +206,9 @@ impl Block {
             } else if line.starts_with(TITLE_SYMBOL) {
                 let t = line[TITLE_SYMBOL.len()..].trim().to_string();
                 if !t.is_empty() { title = Some(t) }
+            } else if line.starts_with(KEY_SYMBOL) {
+                let k = line[KEY_SYMBOL.len()..].trim();
+                key = Key::new(k);
             } else if line.starts_with(BLOCK_NOTE_SYMBOL) {
                 let n = line[BLOCK_NOTE_SYMBOL.len()..].trim().to_string();
                 if !n.is_empty() { notes = Some(n) }
@@ -216,6 +228,6 @@ impl Block {
             }
         }
 
-        return Self { title, lines, notes }
+        return Self { title, lines, notes, key }
     }
 }

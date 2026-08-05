@@ -48,6 +48,7 @@ pub const BLOCK_START: &str = "{block:}";
 pub const BLOCK_END: &str = "{:block}";
 
 pub const TITLE_SYMBOL: &str = "{title}: ";
+pub const KEY_SYMBOL: &str = "{key}: ";
 
 pub const CHORDS_LINE_SYMBOL: &str = "{chords_line}: ";
 pub const NOTE_LINE_SYMBOL: &str = "{note_line}: ";

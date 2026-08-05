@@ -110,6 +110,7 @@ class EditorTextController extends TextEditingController {
 		
 		_addBlockPattern(blockStart(), blockEnd(), theme?[_rawStartEndPrimary]);
 		_addKeyValuePattern(titleSymbol(), keyColor);
+		_addKeyValuePattern(keySymbol(), keyColor);
 		_addKeyValuePattern(blockNoteSymbol(), keyColor);
 		_addKeyValuePattern(chordsLineSymbol(), keyColor);
 		_addKeyValuePattern(noteLineSymbol(), keyColor);

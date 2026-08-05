@@ -109,6 +109,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, HashSet<Chord> ) {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines,
                     notes: None,
+                    key: None,
                 });
                 title = String::new();
                 lines = Vec::new();
@@ -156,6 +157,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, HashSet<Chord> ) {
             title: if title.is_empty() { None } else { Some(title) },
             lines,
             notes: None,
+            key: None,
         });
     }
 

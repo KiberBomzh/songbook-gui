@@ -43,7 +43,21 @@ pub fn get_as_paragraph<'a>(
 
 
     let mut is_first = true;
+    let mut last_block_key = song.metadata.key;
     for block in &song.blocks {
+        // is key changed
+        let (key, is_modulation) = if needs_chords {
+            let key = 
+                if block.key.is_some() { block.key }
+                else { song.metadata.key };
+
+            let m = last_block_key != key;
+            last_block_key = key;
+
+
+            (key, m)
+        } else { (None, false) };
+
         if is_first { is_first = false }
         else { lines.push(Line::default()) }
 
@@ -52,15 +66,29 @@ pub fn get_as_paragraph<'a>(
             if title.chars().count() > columns { columns = title.chars().count() }
             head_block_spans.push(
                 Span::styled(title.to_string() + " ", Style::new().fg(title_color))
-            )
+            );
         }
         if let Some(n) = &block.notes && !n.is_empty() && needs_notes {
             if n.chars().count() > columns { columns = n.chars().count() }
             head_block_spans.push(
                 Span::styled(n, Style::new().fg(notes_color))
-            )
+            );
         }
         if !head_block_spans.is_empty() { lines.push(Line::from(head_block_spans)) }
+
+        if let Some(k) = key && needs_chords && is_modulation {
+            let k = k.to_string();
+            if k.chars().count() + 5 > columns { columns = k.chars().count() + 5 }
+            let mut spans = Vec::new();
+            spans.push(
+                Span::styled("Key: ", Style::new().fg(notes_color))
+            );
+            spans.push(
+                Span::styled(k, Style::new().fg(chords_color))
+            );
+
+            lines.push(Line::from(spans));
+        }
 
 
         for line in &block.lines {

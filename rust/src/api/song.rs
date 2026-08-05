@@ -175,7 +175,7 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
-    pub fn get_key(&self) -> Option<String> {
+    pub fn get_key_with_capo(&self) -> Option<String> {
         let key = self.song.metadata.key?;
         let mut s = String::new();
 
@@ -188,6 +188,13 @@ impl SimpleSong {
 
 
         Some(s)
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
+    pub fn get_key(&self) -> Option<String> {
+        Some(
+            self.song.metadata.key?.to_string()
+        )
     }
 
     #[flutter_rust_bridge::frb(sync)]
@@ -282,7 +289,8 @@ impl SimpleSong {
 pub struct SimpleBlock {
     pub title: Option<String>,
     pub lines: Vec<SimpleLine>,
-    pub notes: Option<String>
+    pub notes: Option<String>,
+    pub key: Option<String>,
 }
 
 impl SimpleBlock {
@@ -322,6 +330,7 @@ impl SimpleBlock {
             title: block.title.clone(),
             lines,
             notes: block.notes.clone(),
+            key: block.key.map(|k| k.to_string()),
         }
     }
 }
@@ -368,6 +377,7 @@ use songbook::{
     BLOCK_START,
     BLOCK_END,
     TITLE_SYMBOL,
+    KEY_SYMBOL,
     CHORDS_LINE_SYMBOL,
     NOTE_LINE_SYMBOL,
     EMPTY_LINE_SYMBOL,
@@ -394,6 +404,7 @@ pub fn get_editor_keywords() -> Vec<String> {
         ROW_START.to_string(),
         ROW_END.to_string(),
         TITLE_SYMBOL.to_string(),
+        KEY_SYMBOL.to_string(),
         BLOCK_NOTE_SYMBOL.to_string(),
         CHORDS_LINE_SYMBOL.to_string(),
         NOTE_LINE_SYMBOL.to_string(),
@@ -449,6 +460,11 @@ pub fn row_end() -> String {
 #[flutter_rust_bridge::frb(sync)]
 pub fn title_symbol() -> String {
     TITLE_SYMBOL.to_string()
+}
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn key_symbol() -> String {
+    KEY_SYMBOL.to_string()
 }
 
 #[flutter_rust_bridge::frb(sync)]

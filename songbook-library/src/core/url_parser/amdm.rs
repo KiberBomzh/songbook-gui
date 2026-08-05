@@ -110,7 +110,8 @@ fn parse_text(document: &Html) -> Option<(Vec<Block>, HashSet<Chord>)> {
                 blocks.push(Block {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines,
-                    notes: None
+                    notes: None,
+                    key: None,
                 });
 
                 title = String::new();
@@ -184,7 +185,8 @@ fn parse_text(document: &Html) -> Option<(Vec<Block>, HashSet<Chord>)> {
         blocks.push(Block {
             title: if title.is_empty() { None } else { Some(title) },
             lines,
-            notes: None
+            notes: None,
+            key: None,
         });
     }
 

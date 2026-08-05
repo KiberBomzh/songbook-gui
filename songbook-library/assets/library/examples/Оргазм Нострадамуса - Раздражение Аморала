@@ -2,7 +2,7 @@ metadata:
   title: Раздражение Аморала
   artist: Оргазм Нострадамуса
   key:
-    keynote: G
+    keynote: F
     is_minor: true
   capo: null
   autoscroll_speed: 360
@@ -12,9 +12,81 @@ metadata:
     rhythm: true
     notes: true
     fingerings: false
+  tags: null
+  fingerings: null
 chord_list:
+- text: ''
+  keynote: A
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: sus4
+  keynote: D
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: sus2
+  keynote: E
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus2
 - text: m
   keynote: D
+  flat: false
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: sus4
+  keynote: E
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: ''
+  keynote: B
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: ''
+  keynote: ASharp
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: sus4
+  keynote: A
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: 5-
+  keynote: C
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Dim
+  sus_or_add: No
+- text: 5-
+  keynote: ASharp
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Dim
+  sus_or_add: No
+- text: m
+  keynote: E
   flat: false
   minor: true
   chord_type: Norm
@@ -28,76 +100,6 @@ chord_list:
   fifth_state: Norm
   sus_or_add: Sus2
 - text: sus4
-  keynote: D
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: ''
-  keynote: ASharp
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: 5-
-  keynote: ASharp
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Dim
-  sus_or_add: No
-- text: sus4
-  keynote: A
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: ''
-  keynote: A
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: m
-  keynote: E
-  flat: false
-  minor: true
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: sus2
-  keynote: E
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus2
-- text: sus4
-  keynote: E
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: ''
-  keynote: C
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: 5-
-  keynote: C
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Dim
-  sus_or_add: No
-- text: sus4
   keynote: B
   flat: false
   minor: false
@@ -105,7 +107,7 @@ chord_list:
   fifth_state: Norm
   sus_or_add: Sus4
 - text: ''
-  keynote: B
+  keynote: C
   flat: false
   minor: false
   chord_type: Norm
@@ -120,6 +122,7 @@ blocks:
     Нежности и дрожь - ужаса для чутких
     А в общем все редкое для редких...
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -219,6 +222,7 @@ blocks:
         sus_or_add: No
     text: В комнатушке моей стало вдруг светло
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -318,6 +322,7 @@ blocks:
         sus_or_add: No
     text: 'Наклонился и сказал: "Пошли со мной'
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -417,6 +422,7 @@ blocks:
         sus_or_add: No
     text: Там всегда светло и там всегда весна
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -516,6 +522,7 @@ blocks:
         sus_or_add: No
     text: Не бывает горя и страданий нет
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -615,6 +622,7 @@ blocks:
         sus_or_add: No
     text: Ну, давай мне руку, ну, пойдем со мной!"
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -714,6 +722,9 @@ blocks:
         sus_or_add: No
     text: Тяжко и свирепо старика я бил
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -813,6 +824,9 @@ blocks:
         sus_or_add: No
     text: Мои звери - это слепыши-кроты
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -912,6 +926,9 @@ blocks:
         sus_or_add: No
     text: Право харкнуть кровью в морду бытия!
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -1011,6 +1028,9 @@ blocks:
         sus_or_add: No
     text: А душа моя - шершавый лёд."
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -1110,4 +1130,5 @@ blocks:
         sus_or_add: No
     text: Ну а я хуярил мебель до утра...
   notes: null
+  key: null
 notes: null

@@ -77,6 +77,7 @@ class _SongState extends State<SongScreen> {
 
 
 	bool _isScreenWide = false;
+	String? _lastBlockKey; // for proper modulation handling
 
 
 	@override
@@ -116,10 +117,10 @@ class _SongState extends State<SongScreen> {
 		}
 		_capo = _song.getCapo();
 
-		String? checkKey = _song.getKey();
+		String? checkKey = _song.getKeyWithCapo();
 		if (checkKey == null) {
 			_song.detectKey();
-			_key = _song.getKey();
+			_key = _song.getKeyWithCapo();
 		} else {
 			_key = checkKey;
 		}
@@ -308,13 +309,13 @@ class _SongState extends State<SongScreen> {
 			autoscrollSpeed: _autoscrollSpeed,
 			transposeSong: (steps) => setState(() {
 				_song.transpose(steps: steps);
-				_key = _song.getKey();
+				_key = _song.getKeyWithCapo();
 				_scheduleSave();
 			}),
 			setCapo: (newCapo) => setState(() {
 				_song.setCapo(capo: newCapo);
 				_capo = _song.getCapo();
-				_key = _song.getKey();
+				_key = _song.getKeyWithCapo();
 				_scheduleSave();
 			}),
 			setAutoscrollSpeed: (newSpeed) => setState(() {
@@ -330,7 +331,7 @@ class _SongState extends State<SongScreen> {
 				context: context,
 				builder: (context) => _keyDialog(onDone: (key) => setState(() {
 					_song.setKey(key: key);
-					_key = _song.getKey();
+					_key = _song.getKeyWithCapo();
 					_scheduleSave();
 				})),
 			),
@@ -340,7 +341,7 @@ class _SongState extends State<SongScreen> {
 				builder: (context) =>  _capoDialog(onDone: (fret) => setState(() {
 					_song.setCapo(capo: fret);
 					_capo = _song.getCapo();
-					_key = _song.getKey();
+					_key = _song.getKeyWithCapo();
 					_scheduleSave();
 				})),
 			),
@@ -486,6 +487,7 @@ class _SongState extends State<SongScreen> {
 		final Map<String, String>? songFingerings = _song.getFingerings();
 		final List<String>? keysSorted = songFingerings?.keys.toList();
 		keysSorted?.sort();
+		_lastBlockKey = _song.getKey();
 
 		return SingleChildScrollView(
 			scrollDirection: Axis.horizontal,
@@ -562,10 +564,14 @@ class _SongState extends State<SongScreen> {
 	}
 
 	Widget _buildBlock(SimpleBlock block) {
+		final key = block.key ?? _song.getKey();
+		final isModulation = key != _lastBlockKey;
+		_lastBlockKey = key;
+
 		return Column(
 			crossAxisAlignment: .start,
 			children: [
-				if (block.title != null || block.notes != null) ...[
+				if (block.title != null || block.notes != null || block.key != null) ...[
 					Row(
 						mainAxisAlignment: (block.title == null)
 							? .end
@@ -582,6 +588,20 @@ class _SongState extends State<SongScreen> {
 								),
 							],
 						]
+					),
+				],
+
+				if (key != null && _showChords && isModulation) ...[
+					Align(
+						alignment: .centerRight,
+						child: Text.rich(
+							TextSpan(
+								children: [
+									TextSpan(text: '${AppLocalizations.of(context)!.songKey}: ', style: _notesStyle),
+									TextSpan(text: key, style: _chordsStyle),
+								],
+							),
+						),
 					),
 				],
 

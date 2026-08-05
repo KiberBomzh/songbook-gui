@@ -52,7 +52,8 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<
             blocks.push( Block {
                 title: if block_title.is_empty() { None } else { Some(block_title) },
                 lines: block_lines,
-                notes: None
+                notes: None,
+                key: None,
             } );
             
             block_title = String::new();
@@ -125,6 +126,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<
                 title: if block_title.is_empty() { None } else { Some(block_title) },
                 lines: block_lines,
                 notes: None,
+                key: None,
             } );
             
             block_title = String::new();
@@ -139,7 +141,8 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<
         blocks.push( Block {
             title: if block_title.is_empty() { None } else { Some(block_title) },
             lines: block_lines,
-            notes: None
+            notes: None,
+            key: None,
         } );
     }
 

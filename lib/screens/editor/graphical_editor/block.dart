@@ -14,6 +14,7 @@ import 'package:songbook/services/settings.dart';
 class Block extends StatefulWidget {
 	String? title;
 	String? note;
+	String? blockKey;
 
 	int index;
 	final Function(int) onDelete;
@@ -25,6 +26,7 @@ class Block extends StatefulWidget {
 		super.key,
 		this.title,
 		this.note,
+		this.blockKey,
 		required this.index,
 		required this.onDelete,
 		required this.onAddNewBlock,
@@ -53,6 +55,7 @@ class Block extends StatefulWidget {
 		String tab = '';
 		String? title;
 		String? note;
+		String? key;
 
 		String textBlockBuf = '';
 
@@ -160,6 +163,8 @@ class Block extends StatefulWidget {
 
 			} else if (line.startsWith(titleSymbol())) {
 				title = parseKeyValueLine(line);
+			} else if (line.startsWith(keySymbol())) {
+				key = parseKeyValueLine(line);
 			} else if (line.startsWith(blockNoteSymbol())) {
 				note = parseKeyValueLine(line);
 			}
@@ -170,6 +175,7 @@ class Block extends StatefulWidget {
 			key: Key(key_str),
 			title: title,
 			note: note,
+			blockKey: key,
 			index: index,
 			onDelete: onDelete,
 			onAddNewBlock: onAddNewBlock,
@@ -185,6 +191,9 @@ class Block extends StatefulWidget {
 
 		if (title != null)
 			result += titleSymbol() + title! + '\n';
+
+		if (blockKey != null)
+			result += keySymbol() + blockKey! + '\n';
 
 		if (note != null)
 			result += blockNoteSymbol() + note! + '\n';
@@ -227,18 +236,21 @@ class _BlockState extends State<Block> {
 
 	late final TextEditingController _titleController;
 	late final TextEditingController _noteController;
+	late final TextEditingController _keyController;
 
 	@override
 	void initState() {
 		super.initState();
 		_titleController = TextEditingController(text: widget.title);
 		_noteController = TextEditingController(text: widget.note);
+		_keyController = TextEditingController(text: widget.blockKey);
 	}
 
 	@override
 	void dispose() {
 		_titleController.dispose();
 		_noteController.dispose();
+		_keyController.dispose();
 		super.dispose();
 	}
 
@@ -277,6 +289,14 @@ class _BlockState extends State<Block> {
 						style: _settings.titleStyle(context),
 						onChanged: (value) => widget.title = value,
 						label: AppLocalizations.of(context)!.editorTitle
+					),
+					const SizedBox(height: 10),
+
+					OneLineTextField(
+						controller: _keyController,
+						style: _settings.chordsStyle(context),
+						onChanged: (value) => widget.blockKey = value,
+						label: AppLocalizations.of(context)!.editorMetadataKey,
 					),
 					const SizedBox(height: 10),
 
