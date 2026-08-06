@@ -90,14 +90,13 @@
 	"settingsTabs": "Tabs",
 	"settingsPlainText": "Plain text",
 
+	"settingsColor": "Color",
 	"settingsBold": "Bold",
 	"settingsItalic": "Italic",
 
 	"settingsChordsColor": "Chords color",
 	"settingsRhythmColor": "Rhythm color",
 	"settingsTextColor": "Text color",
-	"settingsNotesColor": "Notes color",
-	"settingsTitlesColor": "Titles color",
 	"settingsBackground": "Background",
 
 	"settingsExportBackup": "Export backup",

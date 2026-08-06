@@ -90,14 +90,13 @@
 	"settingsTabs": "Табы",
 	"settingsPlainText": "Простой текст",
 
+	"settingsColor": "Цвет",
 	"settingsBold": "Жирный",
 	"settingsItalic": "Курсив",
 
 	"settingsChordsColor": "Цвет аккордов",
 	"settingsRhythmColor": "Цвет ритма",
 	"settingsTextColor": "Цвет текста",
-	"settingsNotesColor": "Цвет заметок",
-	"settingsTitlesColor": "Цвет заголовков",
 	"settingsBackground": "Фон",
 
 	"settingsExportBackup": "Экспортировать бэкап",

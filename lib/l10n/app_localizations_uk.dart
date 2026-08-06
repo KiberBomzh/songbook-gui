@@ -244,6 +244,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsPlainText => 'Простий текст';
 
   @override
+  String get settingsColor => 'Колір';
+
+  @override
   String get settingsBold => 'Жирний';
 
   @override
@@ -257,12 +260,6 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingsTextColor => 'Колір тексту';
-
-  @override
-  String get settingsNotesColor => 'Колір приміток';
-
-  @override
-  String get settingsTitlesColor => 'Колір заголовків';
 
   @override
   String get settingsBackground => 'Фон';

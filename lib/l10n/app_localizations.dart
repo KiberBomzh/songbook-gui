@@ -562,6 +562,12 @@ abstract class AppLocalizations {
   /// **'Plain text'**
   String get settingsPlainText;
 
+  /// No description provided for @settingsColor.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get settingsColor;
+
   /// No description provided for @settingsBold.
   ///
   /// In en, this message translates to:
@@ -591,18 +597,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Text color'**
   String get settingsTextColor;
-
-  /// No description provided for @settingsNotesColor.
-  ///
-  /// In en, this message translates to:
-  /// **'Notes color'**
-  String get settingsNotesColor;
-
-  /// No description provided for @settingsTitlesColor.
-  ///
-  /// In en, this message translates to:
-  /// **'Titles color'**
-  String get settingsTitlesColor;
 
   /// No description provided for @settingsBackground.
   ///

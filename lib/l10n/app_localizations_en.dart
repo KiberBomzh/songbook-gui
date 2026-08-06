@@ -242,6 +242,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsPlainText => 'Plain text';
 
   @override
+  String get settingsColor => 'Color';
+
+  @override
   String get settingsBold => 'Bold';
 
   @override
@@ -255,12 +258,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTextColor => 'Text color';
-
-  @override
-  String get settingsNotesColor => 'Notes color';
-
-  @override
-  String get settingsTitlesColor => 'Titles color';
 
   @override
   String get settingsBackground => 'Background';

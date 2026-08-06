@@ -528,14 +528,14 @@ class _SongState extends State<SongScreen> {
 													child: Column(
 														mainAxisAlignment: .start,
 														children: [
-															Text(k, style: _settings.fingeringsTitleStyle()),
+															Text(k, style: _settings.fingeringsTitleStyle(context)),
 															SizedBox(height: _fontSize * 0.3),
 
 															Padding(
 																padding: .only(
 																	left: _fontSize,
 																),
-																child: Text(f, style: _settings.fingeringsStyle()),
+																child: Text(f, style: _settings.fingeringsStyle(context)),
 															),
 														],
 													),
@@ -675,7 +675,7 @@ class _SongState extends State<SongScreen> {
 												},
 												child: Padding(
 													padding: .all(_fontSize * 0.5),
-													child: Text(f.toString(), style: _settings.fingeringsStyle()),
+													child: Text(f.toString(), style: _settings.fingeringsStyle(context)),
 												),
 											),
 										);

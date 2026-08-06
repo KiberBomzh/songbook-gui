@@ -468,6 +468,24 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
+					text: AppLocalizations.of(context)!.settingsColor,
+					onTap: null,
+					child: ColorItem(
+						color: _settings.titleColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.titleColor(context),
+							);
+							await _settings.setTitleColor(newColor);
+						}
+					)
+				),
+				_buildItem(
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.titleFontFamily),
 					onTap: () async {
@@ -520,6 +538,24 @@ class _SettingsState extends State<SettingsScreen> {
 				],
 			),
 			children: [
+				_buildItem(
+					text: AppLocalizations.of(context)!.settingsColor,
+					onTap: null,
+					child: ColorItem(
+						color: _settings.notesColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.notesColor(context),
+							);
+							await _settings.setNotesColor(newColor);
+						}
+					)
+				),
 				_buildItem(
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.notesFontFamily),
@@ -574,6 +610,24 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
+					text: AppLocalizations.of(context)!.settingsColor,
+					onTap: null,
+					child: ColorItem(
+						color: _settings.fingeringsColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.fingeringsColor(context),
+							);
+							await _settings.setFingeringsColor(newColor);
+						}
+					)
+				),
+				_buildItem(
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.fingeringsFontFamily),
 					onTap: () async {
@@ -626,6 +680,24 @@ class _SettingsState extends State<SettingsScreen> {
 				],
 			),
 			children: [
+				_buildItem(
+					text: AppLocalizations.of(context)!.settingsColor,
+					onTap: null,
+					child: ColorItem(
+						color: _settings.tabColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.tabColor(context),
+							);
+							await _settings.setTabColor(newColor);
+						}
+					)
+				),
 				_buildItem(
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.tabFontFamily),
@@ -680,6 +752,24 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			children: [
 				_buildItem(
+					text: AppLocalizations.of(context)!.settingsColor,
+					onTap: null,
+					child: ColorItem(
+						color: _settings.plainTextColor(context),
+						value: '',
+					).build(
+						context: context,
+						isSelected: false,
+						onTap: (_) async {
+							final String? newColor = await _showColorPickerDialog(
+								context: context,
+								initialColor: _settings.plainTextColor(context),
+							);
+							await _settings.setPlainTextColor(newColor);
+						}
+					)
+				),
+				_buildItem(
 					text: AppLocalizations.of(context)!.settingsFontFamily,
 					child: Text(_settings.plainTextFontFamily),
 					onTap: () async {
@@ -717,7 +807,7 @@ class _SettingsState extends State<SettingsScreen> {
 				children: [
 					ElevatedButton(
 						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(CHORDS_COLOR) != null)
+						onPressed: !_settings.chordsColorIsNull
 							? () => _settings.setChordsColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
@@ -753,7 +843,7 @@ class _SettingsState extends State<SettingsScreen> {
 				children: [
 					ElevatedButton(
 						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(RHYTHM_COLOR) != null)
+						onPressed: !_settings.rhythmColorIsNull
 							? () => _settings.setRhythmColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
@@ -789,7 +879,7 @@ class _SettingsState extends State<SettingsScreen> {
 				children: [
 					ElevatedButton(
 						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(TEXT_COLOR) != null)
+						onPressed: !_settings.textColorIsNull
 							? () => _settings.setTextColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(
@@ -819,85 +909,13 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: AppLocalizations.of(context)!.settingsNotesColor,
-			child: Row(
-				mainAxisAlignment: .end,
-				children: [
-					ElevatedButton(
-						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(NOTES_COLOR) != null)
-							? () => _settings.setNotesColor(null)
-							: null,
-						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-						),
-					),
-
-					const SizedBox(width: 5),
-
-					ColorItem(
-						color: _settings.notesColor(context),
-						value: '',
-					).build(
-						context: context,
-						isSelected: false,
-						onTap: (_) async {
-							final String? newColor = await _showColorPickerDialog(
-								context: context,
-								initialColor: _settings.notesColor(context),
-							);
-							await _settings.setNotesColor(newColor);
-						}
-					)
-				],
-			),
-			onTap: null,
-		),
-
-		_buildItem(
-			text: AppLocalizations.of(context)!.settingsTitlesColor,
-			child: Row(
-				mainAxisAlignment: .end,
-				children: [
-					ElevatedButton(
-						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(TITLE_COLOR) != null)
-							? () => _settings.setTitleColor(null)
-							: null,
-						style: ElevatedButton.styleFrom(
-							backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-						),
-					),
-
-					const SizedBox(width: 5),
-
-					ColorItem(
-						color: _settings.titleColor(context),
-						value: '',
-					).build(
-						context: context,
-						isSelected: false,
-						onTap: (_) async {
-							final String? newColor = await _showColorPickerDialog(
-								context: context,
-								initialColor: _settings.titleColor(context),
-							);
-							await _settings.setTitleColor(newColor);
-						}
-					)
-				],
-			),
-			onTap: null,
-		),
-
-		_buildItem(
 			text: AppLocalizations.of(context)!.settingsBackground,
 			child: Row(
 				mainAxisAlignment: .end,
 				children: [
 					ElevatedButton(
 						child: Text(AppLocalizations.of(context)!.settingsReset),
-						onPressed: (Preferences.getString(BACKGROUND_COLOR) != null)
+						onPressed: !_settings.backgroundColorIsNull
 							? () => _settings.setBackgroundColor(null)
 							: null,
 						style: ElevatedButton.styleFrom(

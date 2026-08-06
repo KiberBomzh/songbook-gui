@@ -90,14 +90,13 @@
     "settingsTabs": "Таби",
     "settingsPlainText": "Простий текст",
 
+    "settingsColor": "Колір",
     "settingsBold": "Жирний",
     "settingsItalic": "Курсив",
 
     "settingsChordsColor": "Колір аккордів",
     "settingsRhythmColor": "Колір ритму",
     "settingsTextColor": "Колір тексту",
-    "settingsNotesColor": "Колір приміток",
-    "settingsTitlesColor": "Колір заголовків",
     "settingsBackground": "Фон",
 
     "settingsExportBackup": "Експортувати бекап",

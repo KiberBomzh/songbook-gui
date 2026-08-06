@@ -244,6 +244,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsPlainText => 'Простой текст';
 
   @override
+  String get settingsColor => 'Цвет';
+
+  @override
   String get settingsBold => 'Жирный';
 
   @override
@@ -257,12 +260,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsTextColor => 'Цвет текста';
-
-  @override
-  String get settingsNotesColor => 'Цвет заметок';
-
-  @override
-  String get settingsTitlesColor => 'Цвет заголовков';
 
   @override
   String get settingsBackground => 'Фон';
