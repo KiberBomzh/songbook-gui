@@ -620,24 +620,26 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	Map<String, File> _customFonts = {};
+
+	bool _isAmoled = false;
+	bool get isAmoled => _isAmoled;
+	Future<void> setAmoled(bool value) async {
+		_isAmoled = value;
+		await Preferences.setBool(IS_AMOLED, value);
+
+		notifyListeners();
+	}
+
+	String _colorAccent = 'blue';
+	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
+	Future<void> setColorAccent(String value) async {
+		_colorAccent = value;
+		await Preferences.setString(COLOR_ACCENT, value);
+
+		notifyListeners();
+	}
 
 	bool? _isDarkTheme;
-	bool _isAmoled = false;
-	String _colorAccent = 'blue';
-	double _editorFontSize = 14;
-	String _editorFontFamily = 'CascadiaMono';
-	double _songFontSize = 14;
-	String _songFontFamily = 'JetBrainsMono';
-	String? _language;
-	Locale? _locale;
-	String? _androidCustomLibPath;
-	bool _sharpOnly = false;
-	bool _lineWrapInSong = true;
-	String? _fingeringSizeInSong;
-	File? _backgroundImage;
-	double _backgroundOpacity = 1.0;
-
 	ThemeMode get themeMode {
 		if (_isDarkTheme != null) {
 			if (_isDarkTheme!) {
@@ -649,35 +651,23 @@ class SettingsProvider extends ChangeNotifier {
 			return ThemeMode.system;
 		}
 	}
+	Future<void> setThemeMode(ThemeMode value) async {
+		final isDark = switch (value) {
+			ThemeMode.dark => true,
+			ThemeMode.light => false,
+			ThemeMode.system => null
+		};
 
-	FingeringSize get fingeringSizeInSong {
-		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
+
+		_isDarkTheme = isDark;
+		if (isDark != null) {
+			await Preferences.setBool(IS_DARK_THEME, isDark);
+		} else {
+			await Preferences.remove(IS_DARK_THEME);
+		}
+
+		notifyListeners();
 	}
-
-	bool get isAmoled => _isAmoled;
-	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
-
-	double get editorFontSize => _editorFontSize;
-	String get editorFontFamily => _editorFontFamily;
-
-	double get songFontSize => _songFontSize;
-	String get songFontFamily => _songFontFamily;
-
-	Locale? get locale => _locale;
-	String? get language => _language;
-
-	String? get androidCustomLibPath => _androidCustomLibPath;
-
-	bool get sharpOnly => _sharpOnly;
-
-	bool get lineWrapInSong => _lineWrapInSong;
-
-	File? get backgroundImage => _backgroundImage;
-	double get backgroundOpacity => _backgroundOpacity;
-
-	List<String> get customFontFamilies => _customFonts.keys.toList();
-
-
 
 	SnackBarThemeData snackBarTheme() => SnackBarThemeData(
 		shape: RoundedRectangleBorder(
@@ -685,7 +675,6 @@ class SettingsProvider extends ChangeNotifier {
 		),
 		elevation: 4,
 	);
-
 	ColorScheme lightColorScheme() => ColorScheme.fromSeed(
 		brightness: .light,
 		seedColor: colorAccent,
@@ -699,7 +688,6 @@ class SettingsProvider extends ChangeNotifier {
 		surfaceContainer: Color(0xFF151515),
 		surfaceContainerHighest: Color(0xFF333333),
 	);
-
 	ThemeData ligthTheme() {
 		final colorScheme = lightColorScheme();
 		final surface = colorScheme.surface.withValues(alpha: _backgroundOpacity);
@@ -738,10 +726,51 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
+
+	Map<String, File> _customFonts = {};
+
+	double _editorFontSize = 14;
+	String _editorFontFamily = 'CascadiaMono';
+	double _songFontSize = 14;
+	String _songFontFamily = 'JetBrainsMono';
+	String? _language;
+	Locale? _locale;
+	String? _androidCustomLibPath;
+	bool _sharpOnly = false;
+	bool _lineWrapInSong = true;
+	String? _fingeringSizeInSong;
+	File? _backgroundImage;
+	double _backgroundOpacity = 1.0;
+
+	FingeringSize get fingeringSizeInSong {
+		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
+	}
+
+
+	double get editorFontSize => _editorFontSize;
+	String get editorFontFamily => _editorFontFamily;
+
+	double get songFontSize => _songFontSize;
+	String get songFontFamily => _songFontFamily;
+
+	Locale? get locale => _locale;
+	String? get language => _language;
+
+	String? get androidCustomLibPath => _androidCustomLibPath;
+
+	bool get sharpOnly => _sharpOnly;
+
+	bool get lineWrapInSong => _lineWrapInSong;
+
+	File? get backgroundImage => _backgroundImage;
+	double get backgroundOpacity => _backgroundOpacity;
+
+	List<String> get customFontFamilies => _customFonts.keys.toList();
+
+
 	SettingsProvider() {
 		_loadAllSettings();
 	}
-
 
 	void _loadAllSettings() async {
 		_titleStyle.load();
@@ -847,39 +876,6 @@ class SettingsProvider extends ChangeNotifier {
 		}
 	}
 
-
-
-	Future<void> setThemeMode(ThemeMode value) async {
-		final isDark = switch (value) {
-			ThemeMode.dark => true,
-			ThemeMode.light => false,
-			ThemeMode.system => null
-		};
-
-
-		_isDarkTheme = isDark;
-		if (isDark != null) {
-			await Preferences.setBool(IS_DARK_THEME, isDark);
-		} else {
-			await Preferences.remove(IS_DARK_THEME);
-		}
-
-		notifyListeners();
-	}
-
-	Future<void> setAmoled(bool value) async {
-		_isAmoled = value;
-		await Preferences.setBool(IS_AMOLED, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setColorAccent(String value) async {
-		_colorAccent = value;
-		await Preferences.setString(COLOR_ACCENT, value);
-
-		notifyListeners();
-	}
 
 	Future<void> setEditorFontSize(double value) async {
 		_editorFontSize = value;
