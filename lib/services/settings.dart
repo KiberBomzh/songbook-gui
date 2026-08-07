@@ -543,6 +543,51 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
+	File? _backgroundImage;
+	File? get backgroundImage => _backgroundImage;
+	Future<void> _loadBackgroundImage() async {
+		final dir = await getApplicationSupportDirectory();
+		final savedFile = File(dir.path + pathDivider + 'background_img');
+		if (savedFile.existsSync()) {
+			_backgroundImage = savedFile;
+		}
+	}
+	Future<void> setBackgroundImage() async {
+		final FilePickerResult? result = await FilePicker.pickFiles(
+			type: FileType.image,
+		);
+
+		if (result != null && result.files.single.path != null) {
+			await resetBackgroundImage();
+			PaintingBinding.instance.imageCache.clear();
+			PaintingBinding.instance.imageCache.clearLiveImages();
+
+			final dir = await getApplicationSupportDirectory();
+			final savedPath = dir.path + pathDivider + 'background_img';
+
+			await File(result.files.single.path!).copy(savedPath);
+			_backgroundImage = File(savedPath);
+
+			notifyListeners();
+		}
+	}
+	Future<void> resetBackgroundImage() async {
+		await _backgroundImage?.delete();
+		_backgroundImage = null;
+
+		notifyListeners();
+	}
+
+	double _backgroundOpacity = 1.0;
+	double get backgroundOpacity => _backgroundOpacity;
+	Future<void> setBackgroundOpacity(double value) async {
+		_backgroundOpacity = value;
+		await Preferences.setDouble(BACKGROUND_OPACITY, value);
+
+		notifyListeners();
+	}
+
+
 	double _editorFontSize = 14;
 	String _editorFontFamily = 'CascadiaMono';
 	double _songFontSize = 14;
@@ -553,13 +598,11 @@ class SettingsProvider extends ChangeNotifier {
 	bool _sharpOnly = false;
 	bool _lineWrapInSong = true;
 	String? _fingeringSizeInSong;
-	File? _backgroundImage;
-	double _backgroundOpacity = 1.0;
+
 
 	FingeringSize get fingeringSizeInSong {
 		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
 	}
-
 
 	double get editorFontSize => _editorFontSize;
 	String get editorFontFamily => _editorFontFamily;
@@ -575,10 +618,6 @@ class SettingsProvider extends ChangeNotifier {
 	bool get sharpOnly => _sharpOnly;
 
 	bool get lineWrapInSong => _lineWrapInSong;
-
-	File? get backgroundImage => _backgroundImage;
-	double get backgroundOpacity => _backgroundOpacity;
-
 
 
 	SettingsProvider() {
@@ -619,15 +658,6 @@ class SettingsProvider extends ChangeNotifier {
 
 		notifyListeners();
 	}
-
-	Future<void> _loadBackgroundImage() async {
-		final dir = await getApplicationSupportDirectory();
-		final savedFile = File(dir.path + pathDivider + 'background_img');
-		if (savedFile.existsSync()) {
-			_backgroundImage = savedFile;
-		}
-	}
-
 
 
 	Future<void> setEditorFontSize(double value) async {
@@ -705,40 +735,6 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 	
-	Future<void> setBackgroundOpacity(double value) async {
-		_backgroundOpacity = value;
-		await Preferences.setDouble(BACKGROUND_OPACITY, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setBackgroundImage() async {
-		final FilePickerResult? result = await FilePicker.pickFiles(
-			type: FileType.image,
-		);
-
-		if (result != null && result.files.single.path != null) {
-			await resetBackgroundImage();
-			PaintingBinding.instance.imageCache.clear();
-			PaintingBinding.instance.imageCache.clearLiveImages();
-
-			final dir = await getApplicationSupportDirectory();
-			final savedPath = dir.path + pathDivider + 'background_img';
-
-			await File(result.files.single.path!).copy(savedPath);
-			_backgroundImage = File(savedPath);
-
-			notifyListeners();
-		}
-	}
-	Future<void> resetBackgroundImage() async {
-		await _backgroundImage?.delete();
-		_backgroundImage = null;
-
-		notifyListeners();
-	}
-
-
 
 	Future<bool> exportBackup() async {
 		final dir = await getApplicationSupportDirectory();
