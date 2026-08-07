@@ -440,19 +440,13 @@ pub fn init_library(app_data_dir: String) {
 
 #[flutter_rust_bridge::frb]
 pub async fn move_library(new_dir: String) -> Result<()> {
-    use std::{env, fs};
+    use std::env;
 
 
     let old_path = PathBuf::from(env::var("APP_DATA_DIR")?).join("songbook");
     let new_path = PathBuf::from(&new_dir).join("songbook");
-    if let Err(_) = fs::rename(&old_path, &new_path) {
-        if let Err(err) = copy_all(&old_path, &new_path) {
-            remove_all(new_path)?;
-            return Err(err);
-        } else {
-            remove_all(old_path)?;
-        }
-    }
+    copy_all(&old_path, new_path)?;
+    remove_all(old_path)?;
 
 
     env::set_var("APP_DATA_DIR", new_dir);
@@ -461,7 +455,7 @@ pub async fn move_library(new_dir: String) -> Result<()> {
 fn remove_all<P: AsRef<Path>>(path: P) -> std::io::Result<()> {
     if path.as_ref().is_file() {
         std::fs::remove_file(path)?;
-    } else if path.as_ref().is_dir() {
+    } else {
         std::fs::remove_dir_all(path)?;
     }
 
