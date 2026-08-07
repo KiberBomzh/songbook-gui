@@ -326,6 +326,19 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	String? _fingeringSizeInSong;
+	FingeringSize get fingeringSizeInSong {
+		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
+	}
+	Future<void> setFingeringSizeInSong(FingeringSize value) async {
+		_fingeringSizeInSong = value.to_string();
+		await Preferences.setString(FINGERING_SIZE_IN_SONG, _fingeringSizeInSong!);
+
+		notifyListeners();
+	}
+	
+
+
 
 	final _tabStyle = FontStyle(
 		color: SettingsColor(
@@ -541,6 +554,13 @@ class SettingsProvider extends ChangeNotifier {
 			snackBarTheme: snackBarTheme(),
 		);
 	}
+	double _calculateOpacity() {
+		final opacity = _backgroundOpacity + ((_backgroundOpacity + 0.2) * 0.25);
+		if (opacity > 1)
+			return _backgroundOpacity;
+		else
+			return opacity;
+	}
 
 
 	File? _backgroundImage;
@@ -588,36 +608,98 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	double _editorFontSize = 14;
-	String _editorFontFamily = 'CascadiaMono';
-	double _songFontSize = 14;
-	String _songFontFamily = 'JetBrainsMono';
 	String? _language;
-	Locale? _locale;
-	String? _androidCustomLibPath;
-	bool _sharpOnly = false;
-	bool _lineWrapInSong = true;
-	String? _fingeringSizeInSong;
+	String? get language => _language;
+	Future<void> setLanguage(String? value) async {
+		_language = value;
+		_locale = (value != null) ? Locale(value) : null;
+		if (value != null)
+			await Preferences.setString(LANGUAGE, value);
+		else
+			await Preferences.remove(LANGUAGE);
 
-
-	FingeringSize get fingeringSizeInSong {
-		return FingeringSize.from_string(_fingeringSizeInSong) ?? FingeringSize.medium;
+		notifyListeners();
 	}
 
-	double get editorFontSize => _editorFontSize;
-	String get editorFontFamily => _editorFontFamily;
-
-	double get songFontSize => _songFontSize;
-	String get songFontFamily => _songFontFamily;
-
+	Locale? _locale;
 	Locale? get locale => _locale;
-	String? get language => _language;
+	void setLocale(Locale? value) {
+		_locale = value;
+	}
 
+
+	String? _androidCustomLibPath;
 	String? get androidCustomLibPath => _androidCustomLibPath;
+	Future<void> setAndroidCustomLibPath(String? value) async {
+		_androidCustomLibPath = value;
+		if (value != null)
+			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, value);
+		else
+			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
 
+		notifyListeners();
+	}
+
+
+	double _editorFontSize = 14;
+	double get editorFontSize => _editorFontSize;
+	Future<void> setEditorFontSize(double value) async {
+		_editorFontSize = value;
+		await Preferences.setDouble(EDITOR_FONT_SIZE, value);
+
+		notifyListeners();
+	}
+
+
+	String _editorFontFamily = 'CascadiaMono';
+	String get editorFontFamily => _editorFontFamily;
+	Future<void> setEditorFontFamily(String value) async {
+		_editorFontFamily = value;
+		await Preferences.setString(EDITOR_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+
+	double _songFontSize = 14;
+	double get songFontSize => _songFontSize;
+	Future<void> setSongFontSize(double value) async {
+		_songFontSize = value;
+		await Preferences.setDouble(SONG_FONT_SIZE, value);
+
+		notifyListeners();
+	}
+
+
+	String _songFontFamily = 'JetBrainsMono';
+	String get songFontFamily => _songFontFamily;
+	Future<void> setSongFontFamily(String value) async {
+		_songFontFamily = value;
+		await Preferences.setString(SONG_FONT_FAMILY, value);
+
+		notifyListeners();
+	}
+
+
+	bool _sharpOnly = false;
 	bool get sharpOnly => _sharpOnly;
+	Future<void> setSharpOnly(bool value) async {
+		_sharpOnly = value;
+		await Preferences.setBool(SHARP_ONLY, value);
+		rust_theory.setSharpOnly(isSharpOnly: value);
 
+		notifyListeners();
+	}
+
+
+	bool _lineWrapInSong = true;
 	bool get lineWrapInSong => _lineWrapInSong;
+	Future<void> setLineWrapInSong(bool value) async {
+		_lineWrapInSong = value;
+		await Preferences.setBool(LINE_WRAP_IN_SONG, value);
+
+		notifyListeners();
+	}
 
 
 	SettingsProvider() {
@@ -659,82 +741,6 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
-
-	Future<void> setEditorFontSize(double value) async {
-		_editorFontSize = value;
-		await Preferences.setDouble(EDITOR_FONT_SIZE, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setEditorFontFamily(String value) async {
-		_editorFontFamily = value;
-		await Preferences.setString(EDITOR_FONT_FAMILY, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setSongFontSize(double value) async {
-		_songFontSize = value;
-		await Preferences.setDouble(SONG_FONT_SIZE, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setSongFontFamily(String value) async {
-		_songFontFamily = value;
-		await Preferences.setString(SONG_FONT_FAMILY, value);
-
-		notifyListeners();
-	}
-
-	Future<void> setLanguage(String? value) async {
-		_language = value;
-		_locale = (value != null) ? Locale(value) : null;
-		if (value != null)
-			await Preferences.setString(LANGUAGE, value);
-		else
-			await Preferences.remove(LANGUAGE);
-
-		notifyListeners();
-	}
-	
-	void setLocale(Locale? value) {
-		_locale = value;
-	}
-
-	Future<void> setAndroidCustomLibPath(String? value) async {
-		_androidCustomLibPath = value;
-		if (value != null)
-			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, value);
-		else
-			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
-
-		notifyListeners();
-	}
-
-	Future<void> setSharpOnly(bool value) async {
-		_sharpOnly = value;
-		await Preferences.setBool(SHARP_ONLY, value);
-		rust_theory.setSharpOnly(isSharpOnly: value);
-
-		notifyListeners();
-	}
-
-	Future<void> setLineWrapInSong(bool value) async {
-		_lineWrapInSong = value;
-		await Preferences.setBool(LINE_WRAP_IN_SONG, value);
-
-		notifyListeners();
-	}
-	
-	Future<void> setFingeringSizeInSong(FingeringSize value) async {
-		_fingeringSizeInSong = value.to_string();
-		await Preferences.setString(FINGERING_SIZE_IN_SONG, _fingeringSizeInSong!);
-
-		notifyListeners();
-	}
-	
 
 	Future<bool> exportBackup() async {
 		final dir = await getApplicationSupportDirectory();
@@ -838,7 +844,6 @@ class SettingsProvider extends ChangeNotifier {
 		return true;
 	}
 	Future<void> _importAllSettingsFromMap(Map<String, String> settings) async {
-
 		await _titleStyle.import(settings);
 		await _notesStyle.import(settings);
 		await _fingeringsStyle.import(settings);
@@ -927,14 +932,5 @@ class SettingsProvider extends ChangeNotifier {
 	Future<void> resetLibrary() async {
 		rust_lib.resetLibrary();
 		Restart.restartApp();
-	}
-
-
-	double _calculateOpacity() {
-		final opacity = _backgroundOpacity + ((_backgroundOpacity + 0.2) * 0.25);
-		if (opacity > 1)
-			return _backgroundOpacity;
-		else
-			return opacity;
 	}
 }
