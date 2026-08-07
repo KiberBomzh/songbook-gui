@@ -8,7 +8,9 @@ import 'package:restart_app/restart_app.dart';
 
 import 'package:songbook/main.dart';
 import 'package:songbook/services/preferences.dart';
+import 'package:songbook/services/font_style.dart';
 import 'package:songbook/services/keys.dart';
+import 'package:songbook/services/functions.dart';
 import 'package:songbook/src/rust/api/library.dart' as rust_lib;
 import 'package:songbook/src/rust/api/theory.dart' as rust_theory;
 import 'package:songbook/l10n/app_localizations.dart';
@@ -67,136 +69,6 @@ const List<String> FONT_FAMILIES = [
 	'PTMono',
 ];
 
-class SettingsColor {
-	String? str;
-	final String key;
-	final Color Function(BuildContext) withContext;
-
-	SettingsColor({
-		this.str,
-		required this.key,
-		required this.withContext,
-	});
-
-	bool isNull() => Preferences.getString(key) == null;
-
-	Color? get() => _stringToColor(str);
-	Future<void> set(String? value) async {
-		str = value;
-		if (value != null)
-			await Preferences.setString(key, value);
-		else
-			await Preferences.remove(key);
-	}
-
-	void load() => str = Preferences.getString(key);
-
-	void export(Map<String, String> settings) {
-		if (str != null)
-			settings[key] = str!;
-	}
-	Future<void> import(Map<String, String> settings) async {
-		await set(settings[key]);
-	}
-}
-
-class FontStyle {
-	final SettingsColor color;
-	String? fontFamily;
-	bool bold;
-	bool italic;
-
-	final bool defaultBold;
-	final bool defaultItalic;
-
-	final String fontFamilyKey;
-	final String boldKey;
-	final String italicKey;
-
-	FontStyle({
-		required this.color,
-		required this.fontFamily,
-		required this.bold,
-		required this.italic,
-		required this.defaultBold,
-		required this.defaultItalic,
-		required this.fontFamilyKey,
-		required this.boldKey,
-		required this.italicKey,
-	});
-
-	bool isNull() {
-		return (
-			fontFamily == null
-				&&
-			bold == defaultBold
-				&&
-			italic == defaultItalic
-				&&
-			color.isNull()
-		);
-	}
-
-	Future<void> setFontFamily(String value) async {
-		fontFamily = value;
-		await Preferences.setString(fontFamilyKey, value);
-	}
-	Future<void> setBold(bool value) async {
-		bold = value;
-		await Preferences.setBool(boldKey, value);
-	}
-	Future<void> setItalic(bool value) async {
-		italic = value;
-		await Preferences.setBool(italicKey, value);
-	}
-
-	Future<void> reset() async {
-		fontFamily = null;
-		await Preferences.remove(fontFamilyKey);
-
-		bold = defaultBold;
-		await Preferences.remove(boldKey);
-
-		italic = defaultItalic;
-		await Preferences.remove(italicKey);
-
-		await color.set(null);
-	}
-
-	void load() {
-		fontFamily = Preferences.getString(fontFamilyKey);
-		bold = Preferences.getBool(boldKey) ?? defaultBold;
-		italic = Preferences.getBool(italicKey) ?? defaultItalic;
-		color.load();
-	}
-
-	void export(Map<String, String> settings) {
-		if (fontFamily != null)
-			settings[fontFamilyKey] = fontFamily!;
-
-		settings[boldKey] = bold.toString();
-		settings[italicKey] = italic.toString();
-		color.export(settings);
-
-	}
-	Future<void> import(Map<String, String> settings) async {
-		fontFamily = settings[fontFamilyKey];
-		if (fontFamily != null)
-			await Preferences.setString(fontFamilyKey, fontFamily!);
-		else
-			await Preferences.remove(fontFamilyKey);
-
-
-		bold = _boolFromString(settings[boldKey]) ?? defaultBold;
-		await Preferences.setBool(boldKey, bold);
-
-
-		italic = _boolFromString(settings[italicKey]) ?? defaultItalic;
-		await Preferences.setBool(italicKey, italic);
-
-		await color.import(settings);
-	}
-}
 
 
 class SettingsProvider extends ChangeNotifier {
@@ -586,7 +458,7 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 	String _colorAccent = 'blue';
-	Color get colorAccent => _stringToColor(_colorAccent) ?? Colors.blue;
+	Color get colorAccent => stringToColor(_colorAccent) ?? Colors.blue;
 	Future<void> setColorAccent(String value) async {
 		_colorAccent = value;
 		await Preferences.setString(COLOR_ACCENT, value);
@@ -1066,14 +938,14 @@ class SettingsProvider extends ChangeNotifier {
 		await _rhythmColor.import(settings);
 
 
-		_isDarkTheme = _boolFromString(settings[IS_DARK_THEME]);
+		_isDarkTheme = boolFromString(settings[IS_DARK_THEME]);
 		if (_isDarkTheme != null)
 			await Preferences.setBool(IS_DARK_THEME, _isDarkTheme!);
 		else
 			await Preferences.remove(IS_DARK_THEME);
 
 
-		_isAmoled = _boolFromString(settings[IS_AMOLED]) ?? false;
+		_isAmoled = boolFromString(settings[IS_AMOLED]) ?? false;
 		await Preferences.setBool(IS_AMOLED, _isAmoled);
 		
 
@@ -1081,25 +953,25 @@ class SettingsProvider extends ChangeNotifier {
 		await Preferences.setString(COLOR_ACCENT, _colorAccent);
 
 
-		_editorFontSize = _doubleFromString(settings[EDITOR_FONT_SIZE]) ?? 14;
+		_editorFontSize = doubleFromString(settings[EDITOR_FONT_SIZE]) ?? 14;
 		await Preferences.setDouble(EDITOR_FONT_SIZE, _editorFontSize);
 
 		_editorFontFamily = settings[EDITOR_FONT_FAMILY] ?? 'CascadiaMono';
 		await Preferences.setString(EDITOR_FONT_FAMILY, _editorFontFamily);
 
 
-		_songFontSize = _doubleFromString(settings[SONG_FONT_SIZE]) ?? 14;
+		_songFontSize = doubleFromString(settings[SONG_FONT_SIZE]) ?? 14;
 		await Preferences.setDouble(SONG_FONT_SIZE, _songFontSize);
 
 		_songFontFamily = settings[SONG_FONT_FAMILY] ?? 'JetBrainsMono';
 		await Preferences.setString(SONG_FONT_FAMILY, _songFontFamily);
 
 
-		_sharpOnly = _boolFromString(settings[SHARP_ONLY]) ?? true;
+		_sharpOnly = boolFromString(settings[SHARP_ONLY]) ?? true;
 		await Preferences.setBool(SHARP_ONLY, _sharpOnly);
 
 
-		_lineWrapInSong = _boolFromString(settings[LINE_WRAP_IN_SONG]) ?? true;
+		_lineWrapInSong = boolFromString(settings[LINE_WRAP_IN_SONG]) ?? true;
 		await Preferences.setBool(LINE_WRAP_IN_SONG, _lineWrapInSong);
 
 
@@ -1110,7 +982,7 @@ class SettingsProvider extends ChangeNotifier {
 			await Preferences.remove(FINGERING_SIZE_IN_SONG);
 
 
-		_backgroundOpacity = _doubleFromString(settings[BACKGROUND_OPACITY]) ?? 1.0;
+		_backgroundOpacity = doubleFromString(settings[BACKGROUND_OPACITY]) ?? 1.0;
 		await Preferences.setDouble(BACKGROUND_OPACITY, _backgroundOpacity);
 
 
@@ -1152,49 +1024,4 @@ class SettingsProvider extends ChangeNotifier {
 		else
 			return opacity;
 	}
-}
-
-Color? _stringToColor(String? colorStr) {
-	if (colorStr == null) {
-		return null;
-	}
-
-	if (colorStr.startsWith('#')) {
-		return Color(int.parse(colorStr.substring(1), radix: 16));
-	}
-
-	return switch (colorStr) {
-		'red' => Colors.red,
-		'pink' => Colors.pink,
-		'purple' => Colors.purple,
-		'deepPurple' => Colors.deepPurple,
-		'indigo' => Colors.indigo,
-		'blue' => Colors.blue,
-		'lightBlue' => Colors.lightBlue,
-		'cyan' => Colors.cyan,
-		'green' => Colors.green,
-		'lightGreen' => Colors.lightGreen,
-		'lime' => Colors.lime,
-		'yellow' => Colors.yellow,
-		'amber' => Colors.amber,
-		'orange' => Colors.orange,
-		'deepOrange' => Colors.deepOrange,
-		'brown' => Colors.brown,
-		_ => null
-	};
-}
-bool? _boolFromString(String? value) {
-	if (value == 'true') {
-		return true;
-	} else if (value == 'false') {
-		return false;
-	} else {
-		return null;
-	}
-}
-double? _doubleFromString(String? value) {
-	if (value == null)
-		return null;
-	else
-		return double.tryParse(value);
 }
