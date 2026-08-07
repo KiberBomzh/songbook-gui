@@ -91,6 +91,8 @@ abstract class Block implements RustOpaqueInterface {}
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<SimpleSong>>
 abstract class SimpleSong implements RustOpaqueInterface {
+  String asChordpro();
+
   String asText();
 
   void changeFromEdited({required String s});

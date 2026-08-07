@@ -150,6 +150,119 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn as_chordpro(&self) -> String {
+        let mut s = String::new();
+        s.push_str(&format!("{{title: {}}}\n", self.song.metadata.title));
+        s.push_str(&format!("{{artist: {}}}\n", self.song.metadata.artist));
+        if let Some(key) = self.song.metadata.key {
+            s.push_str(&format!("{{key: {}}}\n", key));
+        }
+        if let Some(capo) = self.song.metadata.capo {
+            s.push_str(&format!("{{capo: {}}}\n", capo));
+        }
+        if let Some(tags) = &self.song.metadata.tags {
+            for tag in tags {
+                s.push_str(&format!("{{tag: {}}}\n", tag));
+            }
+        }
+        s.push('\n');
+
+        for block in &self.song.blocks {
+            s.push_str("{start_of_verse");
+            if let Some(title) = &block.title {
+                s.push_str(&format!(": label=\"{}\"", title));
+            }
+            s.push_str("}\n");
+
+            if let Some(note) = &block.notes {
+                s.push_str(&format!("{{comment: {}}}\n", note));
+            }
+
+            for line in &block.lines {
+                match line {
+                    Line::TextBlock(row) => {
+                        use songbook::song::row::ChordPosition;
+                        if let Some(chords) = &row.chords {
+                            if let Some(text) = &row.text {
+                                let mut map: HashMap<usize, String> = HashMap::new();
+                                for cp in chords {
+                                    match cp {
+                                        ChordPosition::UpBeat(c) =>
+                                            s.push_str(&format!("[{c}] ")),
+                                        ChordPosition::OnIndex{index: i, chord: c} => {
+                                            map.insert(*i, format!("[{c}]"));
+                                        },
+                                    }
+                                }
+
+                                if !map.is_empty() {
+                                    for (i, symbol) in text.chars().enumerate() {
+                                        if let Some(c) = map.get(&i) {
+                                            s.push_str(c);
+                                        }
+                                        s.push(symbol);
+                                    }
+                                } else {
+                                    s.push_str(text);
+                                }
+                                s.push('\n');
+                            } else {
+                                s.push_str(&chords
+                                    .iter()
+                                    .map(|cp| match cp {
+                                        ChordPosition::OnIndex{index: _, chord: c} => format!("[{c}]"),
+                                        ChordPosition::UpBeat(c) => format!("[{c}]"),
+                                    })
+                                    .collect::<Vec<String>>()
+                                    .join(" ")
+                                );
+                                s.push('\n');
+                            }
+                        } else { 
+                            if let Some(text) = &row.text {
+                                s.push_str(text);
+                            }
+                            s.push('\n');
+                        }
+                    },
+                    Line::ChordsLine(chords) => {
+                        s.push_str(&chords
+                            .iter()
+                            .map(|c| format!("[{c}]"))
+                            .collect::<Vec<String>>()
+                            .join(" ")
+                        );
+                        s.push('\n');
+                    },
+                    Line::NoteLine(note) => {
+                        s.push_str("{comment: ");
+                        s.push_str(note);
+                        s.push_str("}\n");
+                    },
+                    Line::PlainText(text) => {
+                        s.push_str("{start_of_textblock}\n");
+                        s.push_str(text);
+                        if !text.ends_with('\n') { s.push('\n'); }
+                        s.push_str("{end_of_textblock}\n");
+                    },
+                    Line::Tab(tab) => {
+                        s.push_str("{start_of_tab}\n");
+                        s.push_str(tab);
+                        if !tab.ends_with('\n') { s.push('\n'); }
+                        s.push_str("{end_of_tab}\n");
+                    },
+                    Line::EmptyLine => s.push('\n'),
+                }
+            }
+
+            s.push_str("{end_of_verse}\n");
+        }
+
+
+        s
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn get_blocks(&self) -> Vec<SimpleBlock> {
         let mut blocks = Vec::new();
         for block in &self.song.blocks {

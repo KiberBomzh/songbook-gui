@@ -425,6 +425,10 @@ class _SongState extends State<SongScreen> {
 								Clipboard.setData(ClipboardData(text: _song.asText()));
 								break;
 
+							case ('chordpro'):
+								Clipboard.setData(ClipboardData(text: _song.asChordpro()));
+								break;
+
 							case ('songbook'):
 								final pathMaybe = _song.getPath();
 								if (pathMaybe == null) {
@@ -451,6 +455,10 @@ class _SongState extends State<SongScreen> {
 							PopupMenuItem(
 								value: 'text',
 								child: Text(AppLocalizations.of(context)!.songExportOptionText),
+							),
+							const PopupMenuItem(
+								value: 'chordpro',
+								child: Text('ChordPro'),
 							),
 							const PopupMenuItem(
 								value: 'songbook',
