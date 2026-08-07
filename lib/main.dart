@@ -9,6 +9,7 @@ import 'package:songbook/src/rust/frb_generated.dart';
 
 import 'package:songbook/screens/library/library.dart';
 import 'package:songbook/services/settings.dart';
+import 'package:songbook/services/preferences.dart';
 
 
 String pathDivider = '/';
