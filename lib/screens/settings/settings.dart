@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 
 import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:restart_app/restart_app.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'package:songbook/screens/settings/select_font_family.dart';
 import 'package:songbook/services/settings.dart';
 
 import 'package:songbook/l10n/app_localizations.dart';
-import 'package:songbook/src/rust/api/library.dart';
 
 
 class SettingsScreen extends StatefulWidget {
@@ -74,51 +70,6 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 				);
 		}
-	}
-
-	void _setLibPath() async {
-		setState(() => _isLoading = true);
-
-		final String? selectedDir = await FilePicker.getDirectoryPath();
-		if (selectedDir == null)
-			return;
-
-		try {
-			await moveLibrary(newDir: selectedDir);
-			_settings.setAndroidCustomLibPath(selectedDir);
-			Restart.restartApp();
-		} catch (e) {
-			debugPrint(e.toString());
-			if (mounted)
-				ScaffoldMessenger.of(context).showSnackBar(
-					SnackBar(
-						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
-						duration: Duration(seconds: 3),
-					),
-				);
-		}
-
-		setState(() => _isLoading = false);
-	}
-	void _resetLibPath() async {
-		setState(() => _isLoading = true);
-
-		try {
-			await moveLibrary(newDir: (await getExternalStorageDirectory())!.path);
-			_settings.setAndroidCustomLibPath(null);
-			Restart.restartApp();
-		} catch (e) {
-			debugPrint(e.toString());
-			if (mounted)
-				ScaffoldMessenger.of(context).showSnackBar(
-					SnackBar(
-						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
-						duration: Duration(seconds: 3),
-					),
-				);
-		}
-
-		setState(() => _isLoading = false);
 	}
 
 	final List<ColorItem> _colors = [
@@ -236,21 +187,6 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			onTap: null,
 		),
-
-		if (Platform.isAndroid)
-			_buildItem(
-				text: AppLocalizations.of(context)!.settingsCustomLibPath,
-				child: ElevatedButton(
-					child: Text(AppLocalizations.of(context)!.settingsReset),
-					onPressed: (_settings.androidCustomLibPath != null)
-						? () => _resetLibPath()
-						: null,
-					style: ElevatedButton.styleFrom(
-						backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-					),
-				),
-				onTap: _setLibPath,
-			),
 
 		_buildItem(
 			text: AppLocalizations.of(context)!.settingsTheme,

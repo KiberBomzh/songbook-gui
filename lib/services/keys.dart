@@ -41,4 +41,3 @@ const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
 const String BACKGROUND_OPACITY = 'background_opacity';
 const String LANGUAGE = 'language';
-const String ANDROID_CUSTOM_LIB_PATH = 'android_custom_lib_path';

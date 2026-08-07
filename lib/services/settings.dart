@@ -628,19 +628,6 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
-	String? _androidCustomLibPath;
-	String? get androidCustomLibPath => _androidCustomLibPath;
-	Future<void> setAndroidCustomLibPath(String? value) async {
-		_androidCustomLibPath = value;
-		if (value != null)
-			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, value);
-		else
-			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
-
-		notifyListeners();
-	}
-
-
 	double _editorFontSize = 14;
 	double get editorFontSize => _editorFontSize;
 	Future<void> setEditorFontSize(double value) async {
@@ -729,7 +716,6 @@ class SettingsProvider extends ChangeNotifier {
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
-		_androidCustomLibPath = Preferences.getString(ANDROID_CUSTOM_LIB_PATH);
 		_language = Preferences.getString(LANGUAGE);
 		if (_language != null)
 			_locale = Locale(_language!);
@@ -816,8 +802,6 @@ class SettingsProvider extends ChangeNotifier {
 		if (_language != null)
 			settings[LANGUAGE] = _language!;
 
-		if (_androidCustomLibPath != null)
-			settings[ANDROID_CUSTOM_LIB_PATH] = _androidCustomLibPath!;
 
 		return settings;
 	}
@@ -911,12 +895,6 @@ class SettingsProvider extends ChangeNotifier {
 		} else {
 			await Preferences.remove(LANGUAGE);
 		}
-
-		_androidCustomLibPath = settings[ANDROID_CUSTOM_LIB_PATH];
-		if (_androidCustomLibPath != null)
-			await Preferences.setString(ANDROID_CUSTOM_LIB_PATH, _androidCustomLibPath!);
-		else
-			await Preferences.remove(ANDROID_CUSTOM_LIB_PATH);
 
 
 		notifyListeners();

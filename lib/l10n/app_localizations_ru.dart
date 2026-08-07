@@ -181,9 +181,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLanguageSystem => 'Системный';
 
   @override
-  String get settingsCustomLibPath => 'Путь к библиотеке';
-
-  @override
   String get settingsTheme => 'Тема';
 
   @override

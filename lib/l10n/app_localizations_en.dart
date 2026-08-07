@@ -179,9 +179,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageSystem => 'System';
 
   @override
-  String get settingsCustomLibPath => 'Library path';
-
-  @override
   String get settingsTheme => 'Theme';
 
   @override

@@ -436,12 +436,6 @@ abstract class AppLocalizations {
   /// **'System'**
   String get settingsLanguageSystem;
 
-  /// No description provided for @settingsCustomLibPath.
-  ///
-  /// In en, this message translates to:
-  /// **'Library path'**
-  String get settingsCustomLibPath;
-
   /// No description provided for @settingsTheme.
   ///
   /// In en, this message translates to:

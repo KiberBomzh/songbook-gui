@@ -7,8 +7,6 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 import 'song.dart';
 
-// These functions are ignored because they are not marked as `pub`: `copy_all`, `copy_recursive`, `remove_all`
-
 Future<void> exportBackup({
   required String outputPathStr,
   required Map<String, String> settings,
@@ -117,6 +115,3 @@ List<String> getAvailableSites() =>
 
 void initLibrary({required String appDataDir}) =>
     RustLib.instance.api.crateApiLibraryInitLibrary(appDataDir: appDataDir);
-
-Future<void> moveLibrary({required String newDir}) =>
-    RustLib.instance.api.crateApiLibraryMoveLibrary(newDir: newDir);

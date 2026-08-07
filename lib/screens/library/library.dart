@@ -36,13 +36,11 @@ class LibraryScreen extends StatefulWidget {
 	final String? path;
 	final List<String>? copyBuffer;
 	final List<String>? cutBuffer;
-	final SettingsProvider? settings;
 	const LibraryScreen({
 		super.key,
 		this.path,
 		this.copyBuffer,
 		this.cutBuffer,
-		this.settings,
 	});
 
 	@override
@@ -97,10 +95,8 @@ class _LibraryState extends State<LibraryScreen> {
 	Future<void> _loadDirectory() async {
 		if (Platform.isAndroid && !_isAppDirSet) {
 			// Установка переменной окружения с путем к библиотеке
-			final String? customDir = widget.settings?.androidCustomLibPath;
-			final appDataDir = 
-				customDir ?? (await getExternalStorageDirectory())!.path;
-			initLibrary(appDataDir: appDataDir);
+			final appDataDir = await getExternalStorageDirectory();
+			initLibrary(appDataDir: appDataDir!.path);
 			_isAppDirSet = true;
 		}
 		var (d, f, p) = readDirectory(pathStr: widget.path);

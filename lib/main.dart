@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
 			theme: settings.ligthTheme(),
 			darkTheme: settings.darkTheme(),
 			themeMode: settings.themeMode,
-			home: LibraryScreen(settings: settings),
+			home: LibraryScreen(),
 
 			supportedLocales: LANGUAGES.keys.map((key) => Locale(key)).toList(),
 			localizationsDelegates: [
