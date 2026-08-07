@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import 'package:songbook/services/settings.dart';
+import 'package:songbook/services/font_manager.dart';
 import 'package:songbook/l10n/app_localizations.dart';
 
 
@@ -16,11 +14,8 @@ class SelectFontFamily extends StatefulWidget {
 }
 
 class _SelectFontFamilyState extends State<SelectFontFamily> {
-	late SettingsProvider _settings;
-
-
 	final List<String> _fonts = FONT_FAMILIES;
-	late List<String> _customFonts;
+	List<String> _customFonts = FontManager.getCustom();
 	String? _selected;
 
 	@override
@@ -30,15 +25,12 @@ class _SelectFontFamilyState extends State<SelectFontFamily> {
 	}
 
 	void _loadCustomFonts() => setState(() {
-		_customFonts = _settings.customFontFamilies;
+		_customFonts = FontManager.getCustom();
 	});
 
 
 	@override
 	Widget build(BuildContext context) {
-		_settings = context.watch<SettingsProvider>();
-		_customFonts = _settings.customFontFamilies;
-
 		return DraggableScrollableSheet(
 			expand: false,
 			snap: true,
@@ -113,7 +105,7 @@ class _SelectFontFamilyState extends State<SelectFontFamily> {
 							IconButton(
 								icon: Icon(Icons.delete),
 								onPressed: () async {
-									await _settings.removeCustomFont(family);
+									await FontManager.remove(family);
 									_loadCustomFonts();
 
 									if (_selected == family) {
@@ -142,7 +134,7 @@ class _SelectFontFamilyState extends State<SelectFontFamily> {
 			),
 		),
 		onTap: () async {
-			await _settings.addNewCustomFont();
+			await FontManager.addNew();
 			_loadCustomFonts();
 		},
 	);
