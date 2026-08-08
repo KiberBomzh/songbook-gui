@@ -181,12 +181,12 @@ impl Row {
                 for beat in beats {
                     match beat {
                         Beat::UpBeat(symbol) => {
-                            chord_string.push(*symbol);
-                            chord_string.push(' ');
+                            rhythm_string.push(*symbol);
+                            rhythm_string.push(' ');
                         }
                         Beat::OnIndex { symbol, .. } => {
-                            chord_string.push(*symbol);
-                            chord_string.push(' ');
+                            rhythm_string.push(*symbol);
+                            rhythm_string.push(' ');
                         }
                     }
                 }
@@ -339,7 +339,7 @@ impl Row {
         
         
         
-        // Если аккордов нет но есть ритм
+        // Если аккордов нет но есть ритм и текст
         if let Some(beats) = &self.rhythm {
             let mut whitespaces = 0;
             let mut added_indent = 0;
@@ -432,3 +432,150 @@ fn rhythm_from_edited(line: &str, whitespaces: usize) -> Option<Vec<Beat>> {
     else { Some(beats) }
 }
 
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::song::chord::Chord;
+
+
+    #[test]
+    fn get_strings_chords_only() {
+        use ChordPosition::*;
+
+        let chords = vec![
+            UpBeat(Chord::new("Am").unwrap()),
+            UpBeat(Chord::new("Dm").unwrap()),
+            OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ]; // index here is not for ordering, with wrong order nothing will work
+        let row = Row {
+            chords: Some(chords),
+            rhythm: None,
+            text: None,
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(text, String::new());
+        assert_eq!(chords, String::from("Am Dm F G Esus2 "));
+    }
+
+    #[test]
+    fn get_strings_rhythm_only() {
+        use Beat::*;
+
+        let rhythm = vec![
+            UpBeat('.'),
+            UpBeat('/'),
+            UpBeat('№'),
+            OnIndex{index: 4, symbol: '|'},
+            OnIndex{index: 5000, symbol: '\\'},
+        ];
+        let row = Row {
+            chords: None,
+            rhythm: Some(rhythm),
+            text: None,
+        };
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / № | \\ "));
+        assert_eq!(chords, String::new());
+        assert_eq!(text, String::new());
+    }
+
+    #[test]
+    fn get_strings_text_only() {
+        let row = Row {
+            chords: None,
+            rhythm: None,
+            text: Some(String::from("Some text here и вот так")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(chords, String::new());
+        assert_eq!(text, String::from("Some text here и вот так"));
+    }
+
+    #[test]
+    fn get_strings_rhythm_and_text() {
+        use Beat::*;
+
+        let rhythm = vec![
+            UpBeat('.'),
+            UpBeat('/'),
+            UpBeat('№'),
+            OnIndex{index: 4, symbol: '|'},
+            OnIndex{index: 10, symbol: '\\'},
+        ];
+
+        let row = Row {
+            chords: None,
+            rhythm: Some(rhythm),
+            text: Some(String::from("Some text here")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / №     |     \\ "));
+        assert_eq!(text,   String::from("      Some text here"));
+        assert_eq!(chords, String::new());
+    }
+
+    #[test]
+    fn get_strings_chords_and_text() {
+        use ChordPosition::*;
+
+        let chords = vec![
+            UpBeat(Chord::new("Am").unwrap()),
+            UpBeat(Chord::new("Dm").unwrap()),
+            OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ];
+        let row = Row {
+            chords: Some(chords),
+            rhythm: None,
+            text: Some(String::from("Some text here")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(chords, String::from("Am Dm F G    Esus2  "));
+        assert_eq!(text,   String::from("      Some text here"));
+    }
+
+    #[test]
+    fn get_strings_chords_and_rhythm() {
+        let chords = vec![
+            ChordPosition::UpBeat(Chord::new("Am").unwrap()),
+            ChordPosition::UpBeat(Chord::new("Dm").unwrap()),
+            ChordPosition::OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            ChordPosition::OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            ChordPosition::OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ];
+        let rhythm = vec![
+            Beat::UpBeat('.'),
+            Beat::UpBeat('/'),
+            Beat::UpBeat('№'),
+            Beat::OnIndex{index: 4, symbol: '|'},
+            Beat::OnIndex{index: 5000, symbol: '\\'},
+        ];
+        let row = Row {
+            chords: Some(chords),
+            rhythm: Some(rhythm),
+            text: None,
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / № | \\ "));
+        assert_eq!(chords, String::from("Am Dm F G Esus2 "));
+        assert_eq!(text,   String::new());
+    }
+}
