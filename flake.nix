@@ -1,6 +1,4 @@
 {
-  description = "Flutter Android app with Rust backend";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -29,32 +27,64 @@
           includeSources = false;
         };
         androidSdk = androidComposition.androidsdk;
-        
-      in {
-        devShell = with pkgs; mkShell {
+
+		androidEnv = {
           ANDROID_SDK_ROOT = "${androidSdk}/libexec/android-sdk";
           ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
-          JAVA_HOME = "${jdk}";
-          
-          buildInputs = [
-            flutter
-            androidSdk
-            jdk21
-            gradle
-            
-			rustup
-            cargo-ndk
-          ];
-          
-          shellHook = ''
-			export HOME="$PWD/.nix-cache";
+		};
+        
+      in {
+        devShells = {
+			android = with pkgs; mkShell {
+			  inherit (androidEnv) ANDROID_SDK_ROOT ANDROID_HOME;
+			  JAVA_HOME = "${jdk}";
 
-			export PUB_CACHE="$HOME/.pub-cache";
-			export GRADLE_USER_HOME="$HOME/.gradle";
-			export CARGO_HOME="$HOME/.cargo";
-			export RUSTUP_HOME="$HOME/.rustup";
-          '';
-        };
+			  buildInputs = [
+				flutter
+				androidSdk
+				jdk21
+				gradle
+				
+				rustup
+				cargo-ndk
+			  ];
+          
+			  shellHook = ''
+				export HOME="$PWD/.nix-cache"
+
+				export PUB_CACHE="$HOME/.pub-cache"
+				export GRADLE_USER_HOME="$HOME/.gradle"
+				export CARGO_HOME="$HOME/.cargo"
+				export RUSTUP_HOME="$HOME/.rustup"
+			  '';
+			};
+
+			linux = with pkgs; mkShell {
+			  buildInputs = [
+				flutter
+				rustup
+
+				libGL
+
+				mesa-demos
+			  ];
+
+			  shellHook = ''
+				export HOME="$PWD/.nix-cache"
+
+				export PUB_CACHE="$HOME/.pub-cache"
+				export CARGO_HOME="$HOME/.cargo"
+				export RUSTUP_HOME="$HOME/.rustup"
+
+				export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
+				export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
+			  '';
+			};
+
+			default = self.devShells.${system}.android;
+		};
+
+		devShell = self.devShells.${system}.default;
       }
     );
 }
