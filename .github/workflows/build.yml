@@ -11,10 +11,27 @@ jobs:
         runs-on: ubuntu-22.04
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
-            - name: Setup Nix
-              uses: cachix/install-nix-action@v31
+            - name: Set up Java Development Kit
+              uses: actions/setup-java@v4
+              with:
+                  distribution: "temurin"
+                  java-version: "21"
+
+            - name: Setup Rust
+              uses: dtolnay/rust-toolchain@stable
+              with:
+                  targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
+
+            - name: Setup Flutter
+              uses: subosito/flutter-action@v2
+              with:
+                  flutter-version: "3.44.4"
+                  channel: "stable"
+
+            - name: Flutter pub get
+              run: flutter pub get
 
             - name: Download Android Keystore
               run: |
@@ -26,9 +43,8 @@ jobs:
 
             - name: Build Android APK
               run: |
-                  nix develop --ignore-env --command bash -c "
-                      flutter build apk &&
-                      flutter build apk --split-per-abi"
+                  flutter build apk
+                  flutter build apk --split-per-abi
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
@@ -41,7 +57,7 @@ jobs:
         runs-on: ubuntu-22.04
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Setup Rust
               uses: dtolnay/rust-toolchain@stable
@@ -90,7 +106,7 @@ jobs:
         runs-on: windows-2022
         steps:
             - name: Checkout code
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - name: Setup Rust
               uses: dtolnay/rust-toolchain@stable
