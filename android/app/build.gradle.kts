@@ -39,20 +39,24 @@ android {
 
 	signingConfigs {
 		create("release") {
-			keyAlias = keystoreProperties["keyAlias"] as String?
-			keyPassword = keystoreProperties["keyPassword"] as String?
-			storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
-			storePassword = keystoreProperties["storePassword"] as String?
+			if (keystorePropertiesFile.exists()) {
+				keyAlias = keystoreProperties["keyAlias"] as String?
+				keyPassword = keystoreProperties["keyPassword"] as String?
+				storeFile = (keystoreProperties["storeFile"] as String?)?.let { rootProject.file(it) }
+				storePassword = keystoreProperties["storePassword"] as String?
 
-			enableV1Signing = true
-			enableV2Signing = true
-			enableV3Signing = true
+				enableV1Signing = true
+				enableV2Signing = true
+				enableV3Signing = true
+			} else {
+				println("Keystore properties file not found. No signing configuration will be applied.")
+			}
 		}
 	}
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("release")
+            signingConfig = signingConfigs.findByName("release")
         }
 
 		debug {
