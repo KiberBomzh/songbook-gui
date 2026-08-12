@@ -33,6 +33,9 @@ jobs:
             - name: Flutter pub get
               run: flutter pub get
 
+            - name: Removing Flutter BuildID
+              run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${PUB_CACHE}/hosted/*/jni-*/src/CMakeLists.txt
+
             - name: Download Android Keystore
               run: |
                   wget -q -O ~/android-dev.zip "${{ secrets.ANDROID_KEY_URL }}"
