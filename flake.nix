@@ -41,12 +41,10 @@
 
 			  buildInputs = [
 				flutter
+				rustup
 				androidSdk
 				jdk21
 				gradle
-				
-				rustup
-				cargo-ndk
 			  ];
           
 			  shellHook = ''
