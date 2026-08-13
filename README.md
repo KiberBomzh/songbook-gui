@@ -4,6 +4,11 @@ Core is written in rust. GUI is written with flutter.
 
 **The project is still under active development so it can have some bugs!**
 
+![](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kiber_bomzh.songbook&label=IzzyOnDroid)
+[![IzzyOnDroid Yearly Downloads](https://img.shields.io/badge/dynamic/json?url=https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/yearly/rolling.json&query=$.['<packageName>']&label=IzzyOnDroid%20yearly%20downloads)](https://apt.izzysoft.de/packages/<packageName>)
+![](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kiber_bomzh.songbook&label=IzzyOnDroid&style=for-the-badge)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="80" alt="Get it at IzzyOnDroid">](https://apt.izzysoft.de/packages/com.kiber_bomzh.songbook)
+
 # Main features
 - All songs are just Yaml files in folders (for Android library root folder is Android/data/com.kiber_bomzh.songbook/files/songbook/library, for Windows and Linux look [here](https://docs.rs/dirs/latest/dirs/fn.data_dir.html))
 - There's versions for Windows, Linux and Android and their data is fully compatible
