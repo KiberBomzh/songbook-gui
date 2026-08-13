@@ -5,8 +5,8 @@ Core is written in rust. GUI is written with flutter.
 **The project is still under active development so it can have some bugs!**
 
 ![](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kiber_bomzh.songbook&label=IzzyOnDroid)
-[![IzzyOnDroid Yearly Downloads](https://img.shields.io/badge/dynamic/json?url=https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/yearly/rolling.json&query=$.['<packageName>']&label=IzzyOnDroid%20yearly%20downloads)](https://apt.izzysoft.de/packages/<packageName>)
-![](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.kiber_bomzh.songbook&label=IzzyOnDroid&style=for-the-badge)
+[![IzzyOnDroid Yearly Downloads](https://img.shields.io/badge/dynamic/json?url=https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/yearly/rolling.json&query=$.['com.kiber_bomzh.songbook']&label=IzzyOnDroid%20yearly%20downloads)](https://apt.izzysoft.de/packages/com.kiber_bomzh.songbook)
+[![RB Status](https://shields.rbtlog.dev/simple/<com.kiber_bomzh.songbook>?style=for-the-badge)](https://shields.rbtlog.dev/com.kiber_bomzh.songbook)
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="80" alt="Get it at IzzyOnDroid">](https://apt.izzysoft.de/packages/com.kiber_bomzh.songbook)
 
 # Main features
