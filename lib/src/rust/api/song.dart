@@ -107,11 +107,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
       .api
       .crateApiSongSimpleSongFromSongbookpro(pathStr: pathStr);
 
-  static Future<SimpleSong?> fromUrl({
-    required String url,
-    required String html,
-  }) =>
-      RustLib.instance.api.crateApiSongSimpleSongFromUrl(url: url, html: html);
+  static Future<SimpleSong?> fromUrl({required String url}) =>
+      RustLib.instance.api.crateApiSongSimpleSongFromUrl(url: url);
 
   String getArtist();
 

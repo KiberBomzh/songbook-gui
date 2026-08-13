@@ -135,7 +135,7 @@ enum AddSubcommand {
 
     FromSbp { path: PathBuf },
 
-    #[cfg(feature = "reqwest")]
+    #[cfg(feature = "from_url")]
     FromUrl { url: String },
     
     Empty {
@@ -158,11 +158,11 @@ enum BackupSubcommand {
 
 macro_rules! main_wrapper {
     ($($t:tt)*) => {
-        #[cfg(any(feature = "reqwest", feature = "tui"))]
+        #[cfg(any(feature = "from_url", feature = "tui"))]
         #[tokio::main]
         async fn main() { $($t)* }
 
-        #[cfg(all(not(feature = "reqwest"), not(feature = "tui")))]
+        #[cfg(all(not(feature = "from_url"), not(feature = "tui")))]
         fn main() { $($t)* }
     };
 }
@@ -292,7 +292,7 @@ main_wrapper! {
                         }
                     }
                 },
-                #[cfg(feature = "reqwest")]
+                #[cfg(feature = "from_url")]
                 AddSubcommand::FromUrl { url } => {
                     if let Some(song) = Song::from_url(&url).await {
                         song_library::add(&song)

@@ -8,14 +8,9 @@ crate-type = ["cdylib", "staticlib"]
 
 [dependencies]
 flutter_rust_bridge = "=2.12.0"
+songbook = { path = "../songbook-library", features = ["song_library", "from_url"] }
 anyhow = "1.0.102"
 zip = "8.6.0"
-
-[target.'cfg(target_os = "android")'.dependencies]
-songbook = { path = "../songbook-library", features = ["song_library", "from_url"] }
-
-[target.'cfg(not(target_os = "android"))'.dependencies]
-songbook = { path = "../songbook-library", features = ["song_library", "reqwest"] }
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

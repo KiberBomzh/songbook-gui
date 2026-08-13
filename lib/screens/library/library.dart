@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:songbook/main.dart';
 import 'package:songbook/screens/song/song.dart';
@@ -953,17 +952,7 @@ class _LibraryState extends State<LibraryScreen> {
 		try {
 			setState(() => _isLoading = true);
 			SimpleSong? song;
-			if (Platform.isAndroid) {
-				final baseUrl = getBaseUrl(url: link);
-				if (!getAvailableSites().any((site) => hasPart(baseUrl: baseUrl, part_: site))) {
-					throw "The url is not available!";
-				}
-				final url = Uri.parse(link);
-				final response = await http.get(url);
-				song = await SimpleSong.fromUrl(url: link, html: response.body);
-			} else {
-				song = await SimpleSong.fromUrl(url: link, html: "");
-			}
+			song = await SimpleSong.fromUrl(url: link);
 			
 
 			if (song != null) {

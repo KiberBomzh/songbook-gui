@@ -49,13 +49,8 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb]
-    pub async fn from_url(url: String, _html: String) -> Option<Self> {
-        #[cfg(target_os = "android")]
-        let song = Song::from_url(&url, &_html).await?;
-
-        #[cfg(not(target_os = "android"))]
+    pub async fn from_url(url: String) -> Option<Self> {
         let song = Song::from_url(&url).await?;
-
         Some(Self { song, path: String::new() })
     }
 

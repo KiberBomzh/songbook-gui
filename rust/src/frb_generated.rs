@@ -828,13 +828,12 @@ fn wire__crate__api__song__SimpleSong_from_url_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
-            let api__html = <String>::sse_decode(&mut deserializer);
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, ()>(
                     (move || async move {
                         let output_ok = Result::<_, ()>::Ok(
-                            crate::api::song::SimpleSong::from_url(api_url, api__html).await,
+                            crate::api::song::SimpleSong::from_url(api_url).await,
                         )?;
                         Ok(output_ok)
                     })()

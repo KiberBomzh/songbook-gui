@@ -232,7 +232,7 @@ impl App {
                             None
                         } else { None }
                     },
-                    #[cfg(feature = "reqwest")]
+                    #[cfg(feature = "from_url")]
                     'u' => {
                         let url = command_data
                             .chars()

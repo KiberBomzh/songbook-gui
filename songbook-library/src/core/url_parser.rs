@@ -17,14 +17,10 @@ pub const AVAILABLE_SITES: [&str; 6] = [
 
 
 impl crate::Song {
-    pub async fn from_url(url: &str,
-        #[cfg(not(feature = "reqwest"))]
-        html: &str
-    ) ->Option<Self> {
+    pub async fn from_url(url: &str) ->Option<Self> {
         let base_url: &str = &get_base_url(url);
 
 
-        #[cfg(feature = "reqwest")]
         let html: &str = 
             &if AVAILABLE_SITES.iter().any(|site| has_part(base_url, site)) {
                reqwest::get(url)
