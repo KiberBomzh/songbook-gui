@@ -36,9 +36,9 @@ jobs:
             - name: Removing Flutter BuildID
               run: sed -i -e 's/-Wl,/-Wl,--build-id=none,/' ${PUB_CACHE}/hosted/*/jni-*/src/CMakeLists.txt
 
-            - name: Download Android Keystore
+            - name: Setup Android Keystore
               run: |
-                  wget -q -O ~/android-dev.zip "${{ secrets.ANDROID_KEY_URL }}"
+                  echo "${{ secrets.ANDROID_KEY }}" | base64 -d > ~/android-dev.zip
                   unzip ~/android-dev.zip key.properties -d android/
                   unzip ~/android-dev.zip kiberbomzh-key.jks -d android/app/
                   rm ~/android-dev.zip
