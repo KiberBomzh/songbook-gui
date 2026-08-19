@@ -4,7 +4,8 @@
 		flake-utils.url = "github:numtide/flake-utils";
 	};
 
-	outputs = { self, nixpkgs, flake-utils, ... }: flake-utils.lib.eachDefaultSystem (system:
+	outputs = { self, nixpkgs, flake-utils, ... }:
+	flake-utils.lib.eachDefaultSystem (system:
 		let
 			pkgs = import nixpkgs {
 				inherit system;
@@ -14,6 +15,7 @@
 				};
 			};
  
+
 			androidComposition = pkgs.androidenv.composeAndroidPackages {
 				abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" ];
 				buildToolsVersions = [ "35.0.0" ];
@@ -32,6 +34,53 @@
 				ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
 			};
 
+
+			frb_src = pkgs.fetchFromGitHub {
+				owner = "fzyzcjy";
+				repo = "flutter_rust_bridge";
+				rev = "62b9330ed2f900535e34d8443ff82dc54070579a";
+				hash = "sha256-8lLHnJ3IWDZHsj444Gvl0BN+wRlc5JeQfdOQi0QG1Wg=";
+				fetchSubmodules = true;
+			};
+
+			flutter_rust_bridge_codegen = pkgs.rustPlatform.buildRustPackage {
+				name = "flutter_rust_bridge_codegen";
+				version = "2.12.0";
+				src = frb_src;
+
+				cargoToml = "frb_codegen/Cargo.toml";
+				cargoHash = "sha256-R6Brxb8OGkInAH/+GPoxc2f/bSWcsWP3aUMh1VrKBuc=";
+
+
+				checkFlags = [
+					# skipping these tests, as they rely on a specific directory structure, which nix messes up. We can't patch the tests.
+					"--skip=library::codegen::config::internal_config_parser::tests::test_parse_rust_output_faulty"
+					"--skip=library::codegen::config::internal_config_parser::tests::test_parse_single_rust_input"
+					"--skip=library::codegen::config::internal_config_parser::tests::test_parse_wildcard_rust_input"
+					"--skip=library::codegen::generator::api_dart::tests::test_functions"
+					"--skip=library::codegen::generator::api_dart::tests::test_simple"
+					"--skip=library::codegen::parser::tests::test_error_non_opaque_mut"
+					"--skip=library::codegen::parser::tests::test_generics"
+					"--skip=library::codegen::parser::tests::test_methods"
+					"--skip=library::codegen::parser::tests::test_multi_input_file"
+					"--skip=library::codegen::parser::tests::test_non_qualified_names"
+					"--skip=library::codegen::parser::tests::test_qualified_names"
+					"--skip=library::codegen::parser::tests::test_simple"
+					"--skip=library::codegen::parser::tests::test_unused_struct_enum"
+					"--skip=library::codegen::parser::tests::test_use_type_in_another_file"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_config_file"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_from_naive_generate_command_args"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_config_file_faulty_file"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_from_files_auto_pubspec_yaml"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_from_files_auto_flutter_rust_bridge_yaml"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_mode_from_files_auto_pubspec_yaml_faulty"
+					"--skip=binary::commands_parser::tests::test_compute_codegen_config_from_both_file_and_command_line"
+					"--skip=tests::test_execute_generate_on_frb_example_dart_minimal"
+					"--skip=tests::test_execute_generate_on_frb_example_pure_dart"
+					"--skip=library::utils::logs::configure_opinionated_logging"
+				];
+			};
+
 		in {
 			devShells = {
 				android = with pkgs; mkShell {
@@ -40,6 +89,7 @@
 
 					buildInputs = [
 						flutter
+						flutter_rust_bridge_codegen
 						rustup
 						androidSdk
 						jdk21
@@ -59,6 +109,7 @@
 				linux = with pkgs; mkShell {
 					buildInputs = [
 						flutter
+						flutter_rust_bridge_codegen
 						rustup
 
 						libGL
@@ -80,8 +131,6 @@
 
 				default = self.devShells.${system}.android;
 			};
-
-			devShell = self.devShells.${system}.default;
 		}
 	);
 }
