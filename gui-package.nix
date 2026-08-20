@@ -29,17 +29,6 @@ let
 		rustLib
 	];
 
-	desktopItem = pkgs.makeDesktopItem {
-		name = "songbook";
-		desktopName = "songbook";
-		exec = "songbook-gui";
-		icon = "songbook-icon";
-		categories = [ "AudioVideo" ];
-		type = "Application";
-		terminal = false;
-		startupNotify = true;
-	};
-
 in 
 	pkgs.flutter.buildFlutterApplication {
 		pname = "songbook-gui";
@@ -48,11 +37,7 @@ in
 		
 		pubspecLock = importYaml "${src}/pubspec.lock";
 
-		desktopItems = [ desktopItem ];
-
-
 		buildInputs = flutterBuildInputs;
-
 		nativeBuildInputs = with pkgs; [
 			jdk21
 		];
@@ -74,6 +59,9 @@ in
 
 
 			mkdir -p $out/share/icons
-			cp "${src}/assets/icon.png" $out/share/icons/songbook-icon.png
+			cp "${src}/assets/icon.png" $out/share/icons/icon.png
+
+			mkdir -p $out/share/applications
+			sed 's/Exec=songbook/Exec=songbook-gui/' ${src}/linux/AppDir/songbook.desktop > $out/share/applications/songbook.desktop
 		'';
 	}
