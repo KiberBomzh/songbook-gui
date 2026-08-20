@@ -54,7 +54,7 @@ in
 
 			wrapProgram $out/app/songbook-gui/songbook \
 				--set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath flutterBuildInputs}" \
-				--set LIBGL_DRIVERS_PATH "${pkgs.mesa}lib/dri}" \
+				--set LIBGL_DRIVERS_PATH "${pkgs.mesa}/lib/dri}" \
 				--set GTK_PIXBUF_MODULE_FILE "${pkgs.gdk-pixbuf.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
 
 
