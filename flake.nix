@@ -82,6 +82,13 @@
 			};
 
 		in {
+			packages = {
+				default = self.packages.${system}.gui;
+
+				gui = pkgs.callPackage ./gui-package.nix { src = self; };
+				tui = pkgs.callPackage ./tui-package.nix { src = "${self}/songbook-library"; };
+			};
+
 			devShells = {
 				android = with pkgs; mkShell {
 					inherit (androidEnv) ANDROID_SDK_ROOT ANDROID_HOME;

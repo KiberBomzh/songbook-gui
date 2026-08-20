@@ -44,4 +44,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# flake.nix
 .nix-cache
+
+# Rust workspaces
+target/
