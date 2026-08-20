@@ -113,31 +113,38 @@
 					'';
 				};
 
-				linux = with pkgs; mkShell {
-					buildInputs = [
-						flutter
-						flutter_rust_bridge_codegen
-						rustup
-
+				linux = let
+					runtimeDeps = with pkgs; [
 						libGL
-
-						mesa-demos
+						stdenv.cc.cc.lib
 					];
+				in
+					with pkgs; mkShell {
+						buildInputs = [
+							flutter
+							flutter_rust_bridge_codegen
+							rustup
+						] ++ runtimeDeps;
 
-					shellHook = ''
-						export HOME="$PWD/.nix-cache"
+						shellHook = ''
+							export HOME="$PWD/.nix-cache"
 
-						export PUB_CACHE="$HOME/.pub-cache"
-						export CARGO_HOME="$HOME/.cargo"
-						export RUSTUP_HOME="$HOME/.rustup"
+							export PUB_CACHE="$HOME/.pub-cache"
+							export CARGO_HOME="$HOME/.cargo"
+							export RUSTUP_HOME="$HOME/.rustup"
 
-						export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
-						export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
-					'';
+							export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
+
+							export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
+							export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
+
+
+							export FLUTTER_ENGINE_DISABLE_AOT=true
+						'';
+					};
+
+					default = self.devShells.${system}.android;
 				};
-
-				default = self.devShells.${system}.android;
-			};
 		}
 	);
 }
