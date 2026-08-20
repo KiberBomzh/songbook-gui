@@ -29,6 +29,17 @@ let
 		rustLib
 	];
 
+	desktopItem = pkgs.makeDesktopItem {
+		name = "songbook";
+		desktopName = "songbook";
+		exec = "songbook-gui";
+		icon = "songbook-icon";
+		categories = [ "AudioVideo" ];
+		type = "Application";
+		terminal = false;
+		startupNotify = true;
+	};
+
 in 
 	pkgs.flutter.buildFlutterApplication {
 		pname = "songbook-gui";
@@ -36,6 +47,8 @@ in
 		src = src;
 		
 		pubspecLock = importYaml "${src}/pubspec.lock";
+
+		desktopItems = [ desktopItem ];
 
 
 		buildInputs = flutterBuildInputs;
@@ -58,5 +71,9 @@ in
 				--set LD_LIBRARY_PATH "${pkgs.lib.makeLibraryPath flutterBuildInputs}" \
 				--set LIBGL_DRIVERS_PATH "${pkgs.mesa}lib/dri}" \
 				--set GTK_PIXBUF_MODULE_FILE "${pkgs.gdk-pixbuf.out}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
+
+
+			mkdir -p $out/share/icons
+			cp "${src}/assets/icon.png" $out/share/icons/songbook-icon.png
 		'';
 	}
