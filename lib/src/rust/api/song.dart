@@ -9,6 +9,8 @@ import 'package:freezed_annotation/freezed_annotation.dart' hide protected;
 import 'theory.dart';
 part 'song.freezed.dart';
 
+// These functions are ignored because they are not marked as `pub`: `get_key_without_capo`
+
 String getEditorHelpMsg() =>
     RustLib.instance.api.crateApiSongGetEditorHelpMsg();
 

@@ -301,15 +301,27 @@ impl SimpleSong {
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_key(&self) -> Option<String> {
         Some(
-            self.song.metadata.key?.to_string()
+            self.get_key_without_capo()?.to_string()
         )
     }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_simple_key(&self) -> Option<super::theory::SimpleKey> {
-        let key = self.song.metadata.key?;
+        let key = self.get_key_without_capo()?;
 
         Some( super::theory::SimpleKey { key: key } )
+    }
+
+    fn get_key_without_capo(&self) -> Option<songbook::Key> {
+        let key = self.song.metadata.key?;
+
+        Some(
+            if let Some(capo) = self.song.metadata.capo{
+                key.transpose(-(capo.try_into().ok()?))
+            } else {
+                key
+            }
+        )
     }
 
     #[flutter_rust_bridge::frb(sync)]
