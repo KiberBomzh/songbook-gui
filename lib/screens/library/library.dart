@@ -117,7 +117,7 @@ class _LibraryState extends State<LibraryScreen> {
 		if (query.startsWith('#')) {
 			_files = await tagSearch(
 				tags: query.split(', ').map((tag) {
-					if (tag.isEmpty)
+					if (tag.isEmpty || !tag.startsWith('#'))
 						return '';
 
 					return tag = tag.substring(1);
