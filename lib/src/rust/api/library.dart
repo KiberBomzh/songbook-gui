@@ -84,11 +84,13 @@ void addNewSong({
   required String title,
   required String text,
   required String pathStr,
+  Set<String>? tags,
 }) => RustLib.instance.api.crateApiLibraryAddNewSong(
   artist: artist,
   title: title,
   text: text,
   pathStr: pathStr,
+  tags: tags,
 );
 
 void importSong({required SimpleSong song, required String dirPath}) => RustLib

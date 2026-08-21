@@ -70,18 +70,20 @@ class _LibraryState extends State<LibraryScreen> {
 
 	bool _isLoading = false;
 
+	Set<String>? _currentTags;
+
 
 	@override
 	void initState() {
 		super.initState();
-
-		_loadDirectory();
 
 		_copyBuffer = widget.copyBuffer ?? [];
 		_cutBuffer = widget.cutBuffer ?? [];
 
 		_searchTextController = TextEditingController();
 		_searchFocusNode = FocusNode();
+
+		_loadDirectory();
 	}
 
 	@override
@@ -101,6 +103,8 @@ class _LibraryState extends State<LibraryScreen> {
 		var (d, f, p) = readDirectory(pathStr: widget.path);
 		setState(() {
 			_isSearchMode = false;
+			_searchTextController.text = '';
+			_currentTags = null;
 			_dirs = d;
 			_files = f;
 			_currentPath = p;
@@ -114,16 +118,22 @@ class _LibraryState extends State<LibraryScreen> {
 			_isLoadingSearchResults = true;
 		});
 		_dirs.clear();
+
 		if (query.startsWith('#')) {
+			_currentTags = {};
 			_files = await tagSearch(
 				tags: query.split(', ').map((tag) {
 					if (tag.isEmpty || !tag.startsWith('#'))
 						return '';
 
-					return tag = tag.substring(1);
+					tag = tag.substring(1);
+					_currentTags?.add(tag);
+
+					return tag;
 				}).toList()
 			);
 		} else {
+			_currentTags == null;
 			_files = search(pathStr: _currentPath, query: query);
 		}
 
@@ -254,7 +264,6 @@ class _LibraryState extends State<LibraryScreen> {
 
 				if (_isSearchMode) {
 					setState(() => _isSearchMode = false);
-					_searchTextController.text = '';
 					_loadDirectory();
 					return;
 				}
@@ -956,6 +965,7 @@ class _LibraryState extends State<LibraryScreen> {
 			
 
 			if (song != null) {
+				song.setTags(tags: (_isSearchMode) ? _currentTags : null);
 				importSong(song: song, dirPath: _currentPath);
 				_loadDirectory();
 			} else {
@@ -1028,6 +1038,7 @@ class _LibraryState extends State<LibraryScreen> {
 			final file = files[i]!;
 			try { // в песни ниже поле path пустое
 				SimpleSong song = SimpleSong.fromChordpro(pathStr: file);
+				song.setTags(tags: (_isSearchMode) ? _currentTags : null);
 				importSong(song: song, dirPath: _currentPath);
 		} catch (e) {
 				continue;
@@ -1045,6 +1056,7 @@ class _LibraryState extends State<LibraryScreen> {
 				for (int i = 0; i < songs.length; i++) {
 					final song = songs[i];
 					try {
+						song.setTags(tags: (_isSearchMode) ? _currentTags : null);
 						importSong(song: song, dirPath: _currentPath);
 					} catch (e) {
 						continue;
@@ -1063,6 +1075,7 @@ class _LibraryState extends State<LibraryScreen> {
 			final file = files[i]!;
 			try { // в песни ниже поле path пустое
 				SimpleSong song = SimpleSong.open(pathStr: file);
+				song.setTags(tags: (_isSearchMode) ? _currentTags : null);
 				importSong(song: song, dirPath: _currentPath);
 		} catch (e) {
 				continue;
@@ -1104,7 +1117,8 @@ class _LibraryState extends State<LibraryScreen> {
 					artist: artist,
 					title: title,
 					text: text,
-					pathStr: path
+					pathStr: path,
+					tags: (_isSearchMode) ? _currentTags : null,
 				);
 				_loadDirectory();
 

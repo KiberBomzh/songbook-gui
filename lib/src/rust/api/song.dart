@@ -166,6 +166,8 @@ abstract class SimpleSong implements RustOpaqueInterface {
     required bool fingerings,
   });
 
+  void setTags({Set<String>? tags});
+
   void transpose({required int steps});
 }
 

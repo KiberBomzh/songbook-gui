@@ -118,6 +118,15 @@ impl SimpleSong {
     }
 
     #[flutter_rust_bridge::frb(sync)]
+    pub fn set_tags(&mut self, tags: Option<std::collections::HashSet<String>>) {
+        self.song.metadata.tags = if let Some(t) = tags {
+            Some(
+                std::collections::BTreeSet::from_iter(t.iter().map(|i| i.clone()))
+            )
+        } else { None };
+    }
+
+    #[flutter_rust_bridge::frb(sync)]
     pub fn set_fingering(&mut self, 
         fingering: &super::theory::SimpleFingering
     ) -> Result<()> {

@@ -346,12 +346,19 @@ pub fn add_new_song(
     artist: String,
     title: String,
     text: String,
-    path_str: String
+    path_str: String,
+    tags: Option<std::collections::HashSet<String>>,
 ) -> Result<()> {
     let path = PathBuf::from(path_str);
     let song = {
         let (blocks, chord_list) = songbook::file_reader::txt_reader::read_from_txt(&text);
-        let metadata = Metadata::new(title, artist);
+        let mut metadata = Metadata::new(title, artist);
+        if let Some(t) = tags {
+            metadata.tags = Some(
+                std::collections::BTreeSet::from_iter(t.iter().map(|i| i.clone()))
+            );
+        }
+
         let mut s = Song { blocks, chord_list, metadata, notes: None };
         s.detect_key();
 
