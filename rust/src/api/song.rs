@@ -86,9 +86,10 @@ impl SimpleSong {
         if let Some(song_capo) = self.song.metadata.capo {
             let song_capo: i32 = song_capo.into();
             let capo: i32 = capo.into();
-            self.transpose(capo - song_capo);
+            self.transpose( -(capo - song_capo) );
         } else {
-            self.transpose(capo.into());
+            let c: i32 = capo.into();
+            self.transpose( -c );
         }
 
         self.song.metadata.capo =
@@ -297,7 +298,7 @@ impl SimpleSong {
         let mut s = String::new();
 
         if let Some(capo) = self.song.metadata.capo{
-            let key_without_capo = key.transpose(-(capo.try_into().ok()?));
+            let key_without_capo = key.transpose( capo.try_into().ok()? );
             s.push_str(&format!("{key_without_capo}/({key})"));
         } else {
             s = key.to_string();
@@ -326,7 +327,7 @@ impl SimpleSong {
 
         Some(
             if let Some(capo) = self.song.metadata.capo{
-                key.transpose(-(capo.try_into().ok()?))
+                key.transpose( capo.try_into().ok()? )
             } else {
                 key
             }

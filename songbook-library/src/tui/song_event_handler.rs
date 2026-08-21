@@ -150,9 +150,10 @@ impl App {
                 if let Some(song_capo) = song.metadata.capo {
                     let song_capo: i32 = song_capo.into();
                     let capo: i32 = capo.into();
-                    song.transpose(capo - song_capo);
+                    song.transpose( -(capo - song_capo) );
                 } else {
-                    song.transpose(capo.into());
+                    let c: i32 = capo.into();
+                    song.transpose( -c );
                 }
                 song.metadata.capo =
                     if capo == 0 { None }

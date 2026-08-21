@@ -90,7 +90,7 @@ impl App {
                 t_top_buf.push_str("Key: ");
                 t_top_buf.push_str(&if let Some(capo) = &song.metadata.capo {
                     format!("{}/({})",
-                        key.transpose(0 - <u8 as Into<i32>>::into(*capo)),
+                        key.transpose( capo.into() ),
                         key
                     )
                 } else {
