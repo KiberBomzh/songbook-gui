@@ -128,6 +128,7 @@
 					runtimeDeps = with pkgs; [
 						libGL
 						stdenv.cc.cc.lib
+						gtk3
 					];
 				in
 					with pkgs; mkShell {
