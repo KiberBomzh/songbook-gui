@@ -71,14 +71,26 @@ impl SimpleSong {
     #[flutter_rust_bridge::frb(sync)]
     pub fn set_key(&mut self, key: super::theory::SimpleKey) {
         let key = key.key;
+
+        // transposing without capo
         loop {
-            if let Some(song_key) = self.song.metadata.key {
+            if let Some(song_key) = self.get_key_without_capo() {
                 if song_key.get_note() != key.get_note() {
                     self.song.transpose(1);
-                } else { break }
-            } else { break }
+                    continue
+                }
+            }
+
+            break
         }
-        self.song.metadata.key = Some(key);
+
+
+        self.song.metadata.key = Some(
+            if let Some(capo) = self.song.metadata.capo {
+                let c: i32 = capo.into();
+                key.transpose( -c )
+            } else { key }
+        );
     }
 
     #[flutter_rust_bridge::frb(sync)]
@@ -297,8 +309,8 @@ impl SimpleSong {
         let key = self.song.metadata.key?;
         let mut s = String::new();
 
-        if let Some(capo) = self.song.metadata.capo{
-            let key_without_capo = key.transpose( capo.try_into().ok()? );
+        if self.song.metadata.capo.is_some() {
+            let key_without_capo = self.get_key_without_capo()?;
             s.push_str(&format!("{key_without_capo}/({key})"));
         } else {
             s = key.to_string();
