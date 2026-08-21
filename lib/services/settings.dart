@@ -712,13 +712,16 @@ class SettingsProvider extends ChangeNotifier {
 		_editorFontFamily = Preferences.getString(EDITOR_FONT_FAMILY) ?? 'CascadiaMono';
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
 		_songFontFamily = Preferences.getString(SONG_FONT_FAMILY) ?? 'JetBrainsMono';
-		_sharpOnly = Preferences.getBool(SHARP_ONLY) ?? false;
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
+
 		_language = Preferences.getString(LANGUAGE);
 		if (_language != null)
 			_locale = Locale(_language!);
+
+		_sharpOnly = Preferences.getBool(SHARP_ONLY) ?? false;
+		rust_theory.setSharpOnly(isSharpOnly: _sharpOnly);
 
 		await _loadBackgroundImage();
 		await FontManager.load();
