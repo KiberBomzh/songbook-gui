@@ -30,9 +30,7 @@ pub async fn export_backup(
 
     let output_path = PathBuf::from(output_path_str);
 
-    let base_path = if let Some(p) = get_base_path() {
-        p.join("songbook")
-    } else {
+    let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow!("Cannot get base path!"));
     };
     let temp_dir = base_path.join("temp");
@@ -122,9 +120,7 @@ pub async fn import_backup(
 
     let mut settings = HashMap::new();
 
-    let base_path = if let Some(p) = get_base_path() {
-        p.join("songbook")
-    } else {
+    let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow!("Cannot get base path!"));
     };
     let temp_dir = base_path.join("temp_dir");
@@ -390,9 +386,7 @@ pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: String) -> 
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn reset_library() -> Result<()> {
-    let lib_path = if let Some(p) = get_base_path() {
-        p.join("songbook")
-    } else {
+    let lib_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow!("Cannot get base path!"));
     };
     std::fs::remove_dir_all(lib_path)?;
@@ -435,7 +429,7 @@ pub fn get_available_sites() -> Vec<String> {
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn init_library(app_data_dir: String) {
-    std::env::set_var("APP_DATA_DIR", app_data_dir);
+    std::env::set_var("SONGBOOK_DATA_DIR", app_data_dir);
 }
 
 #[flutter_rust_bridge::frb(init)]

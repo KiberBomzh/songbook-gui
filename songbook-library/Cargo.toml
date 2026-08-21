@@ -41,7 +41,6 @@ default = []
 colored = ["dep:crossterm"]
 from_url = ["dep:scraper", "dep:reqwest", "dep:tokio"]
 song_library = ["dep:dirs", "dep:edit", "dep:include_dir", "dep:serde_yaml"]
-termux = []
 cli = ["dep:clap", "song_library"]
 tui = ["dep:ratatui", "dep:rfd", "dep:toml", "dep:tokio", "cli", "colored"]
 
