@@ -81,6 +81,20 @@
 				];
 			};
 
+			baseShellHook = ''
+				OLD_HOME=$HOME
+				export HOME="$PWD/.nix-cache"
+
+				export PUB_CACHE="$HOME/.pub-cache"
+				export CARGO_HOME="$HOME/.cargo"
+				export RUSTUP_HOME="$HOME/.rustup"
+
+				# nvim settings symlinks
+				ln -sf $OLD_HOME/.config/nvim $HOME/.config/nvim
+				ln -sf $OLD_HOME/.local/share/nvim $HOME/.local/share/nvim
+				ln -sf $OLD_HOME/.cache/nvim $HOME/.cache/nvim
+			'';
+
 		in {
 			packages = {
 				default = self.packages.${system}.gui;
@@ -104,12 +118,9 @@
 					];
 
 					shellHook = ''
-						export HOME="$PWD/.nix-cache"
+						${baseShellHook}
 
-						export PUB_CACHE="$HOME/.pub-cache"
 						export GRADLE_USER_HOME="$HOME/.gradle"
-						export CARGO_HOME="$HOME/.cargo"
-						export RUSTUP_HOME="$HOME/.rustup"
 					'';
 				};
 
@@ -127,11 +138,7 @@
 						] ++ runtimeDeps;
 
 						shellHook = ''
-							export HOME="$PWD/.nix-cache"
-
-							export PUB_CACHE="$HOME/.pub-cache"
-							export CARGO_HOME="$HOME/.cargo"
-							export RUSTUP_HOME="$HOME/.rustup"
+							${baseShellHook}
 
 							export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
 
