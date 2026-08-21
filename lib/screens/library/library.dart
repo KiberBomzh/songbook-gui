@@ -97,7 +97,7 @@ class _LibraryState extends State<LibraryScreen> {
 		if (Platform.isAndroid && !_isAppDirSet) {
 			// Установка переменной окружения с путем к библиотеке
 			final appDataDir = await getExternalStorageDirectory();
-			initLibrary(appDataDir: appDataDir!.path);
+			initLibrary(appDataDir: appDataDir!.path + "/songbook");
 			_isAppDirSet = true;
 		}
 		var (d, f, p) = readDirectory(pathStr: widget.path);
