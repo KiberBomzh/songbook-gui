@@ -95,6 +95,26 @@
 				ln -sf $OLD_HOME/.cache/nvim $HOME/.cache/nvim
 			'';
 
+			baseShellBuildInputs = [
+				pkgs.flutter
+				pkgs.rustup
+
+				flutter_rust_bridge_codegen
+			];
+
+			androidBuildInputs = [
+				pkgs.jdk21
+				pkgs.gradle
+
+				androidSdk
+			];
+
+			runtimeLinuxDeps = with pkgs; [
+				libGL
+				stdenv.cc.cc.lib
+				gtk3
+			];
+
 		in {
 			packages = {
 				default = self.packages.${system}.gui;
@@ -108,14 +128,7 @@
 					inherit (androidEnv) ANDROID_SDK_ROOT ANDROID_HOME;
 					JAVA_HOME = "${jdk}";
 
-					buildInputs = [
-						flutter
-						flutter_rust_bridge_codegen
-						rustup
-						androidSdk
-						jdk21
-						gradle
-					];
+					buildInputs = baseShellBuildInputs ++ androidBuildInputs;
 
 					shellHook = ''
 						${baseShellHook}
@@ -124,23 +137,13 @@
 					'';
 				};
 
-				linux = let
-					runtimeDeps = with pkgs; [
-						libGL
-						stdenv.cc.cc.lib
-						gtk3
-					];
-				in with pkgs; mkShell {
-					buildInputs = [
-						flutter
-						flutter_rust_bridge_codegen
-						rustup
-					] ++ runtimeDeps;
+				linux = with pkgs; mkShell {
+					buildInputs = baseShellBuildInputs ++ runtimeLinuxDeps;
 
 					shellHook = ''
 						${baseShellHook}
 
-						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLinuxDeps}:$LD_LIBRARY_PATH"
 
 						export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
 						export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
@@ -150,24 +153,11 @@
 					'';
 				};
 
-				default = let
-					runtimeDeps = with pkgs; [
-						libGL
-						stdenv.cc.cc.lib
-						gtk3
-					];
-				in with pkgs; mkShell {
+				default = with pkgs; mkShell {
 					inherit (androidEnv) ANDROID_SDK_ROOT ANDROID_HOME;
 					JAVA_HOME = "${jdk}";
 
-					buildInputs = [
-						flutter
-						flutter_rust_bridge_codegen
-						rustup
-						androidSdk
-						jdk21
-						gradle
-					] ++ runtimeDeps;
+					buildInputs = baseShellBuildInputs ++ androidBuildInputs ++ runtimeLinuxDeps;
 
 					shellHook = ''
 						${baseShellHook}
@@ -175,7 +165,7 @@
 						export GRADLE_USER_HOME="$HOME/.gradle"
 
 
-						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeLinuxDeps}:$LD_LIBRARY_PATH"
 
 						export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
 						export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
