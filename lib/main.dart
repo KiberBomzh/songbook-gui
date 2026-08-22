@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:songbook/l10n/app_localizations.dart';
 
 import 'package:songbook/src/rust/frb_generated.dart';
+import 'package:songbook/src/rust/api/library.dart' as rust_lib;
 
 import 'package:songbook/screens/library/library.dart';
 import 'package:songbook/services/settings.dart';
@@ -21,6 +23,11 @@ Future<void> main() async {
 	WidgetsFlutterBinding.ensureInitialized();
 	await RustLib.init();
 	await Preferences.init();
+	if (Platform.isAndroid) {
+		// Установка переменной окружения с путем к библиотеке
+		final appDataDir = await getExternalStorageDirectory();
+		rust_lib.initLibrary(appDataDir: appDataDir!.path + "/songbook");
+	}
 	runApp(
 		ChangeNotifierProvider(
 			create: (_) => SettingsProvider(),

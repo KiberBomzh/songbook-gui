@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +19,6 @@ import 'package:songbook/src/rust/api/song.dart';
 import 'package:songbook/l10n/app_localizations.dart';
 
 
-var _isAppDirSet = false;
 const Duration _beforeDeleteDuration = Duration(seconds: 3);
 const Duration _beforeMoveDuration = Duration(seconds: 3);
 
@@ -94,12 +91,6 @@ class _LibraryState extends State<LibraryScreen> {
 	}
 
 	Future<void> _loadDirectory() async {
-		if (Platform.isAndroid && !_isAppDirSet) {
-			// Установка переменной окружения с путем к библиотеке
-			final appDataDir = await getExternalStorageDirectory();
-			initLibrary(appDataDir: appDataDir!.path + "/songbook");
-			_isAppDirSet = true;
-		}
 		var (d, f, p) = readDirectory(pathStr: widget.path);
 		setState(() {
 			_isSearchMode = false;
