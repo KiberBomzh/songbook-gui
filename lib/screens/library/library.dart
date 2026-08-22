@@ -539,6 +539,8 @@ class _LibraryState extends State<LibraryScreen> {
 						path: itemPath,
 						isDir: isItemDir,
 						onTap: () async {
+							_searchFocusNode.unfocus();
+
 							if (!_isSelectMode) {
 								await Navigator.push(context,
 									MaterialPageRoute(
@@ -561,6 +563,8 @@ class _LibraryState extends State<LibraryScreen> {
 								_switchSelectionForPath(itemPath);
 						},
 						onLongPress: () {
+							_searchFocusNode.unfocus();
+
 							if (_isSelectMode) {
 								if (_selected.contains(itemPath)) {
 									_switchSelectionForPath(itemPath);
