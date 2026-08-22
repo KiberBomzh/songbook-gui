@@ -130,29 +130,61 @@
 						stdenv.cc.cc.lib
 						gtk3
 					];
-				in
-					with pkgs; mkShell {
-						buildInputs = [
-							flutter
-							flutter_rust_bridge_codegen
-							rustup
-						] ++ runtimeDeps;
+				in with pkgs; mkShell {
+					buildInputs = [
+						flutter
+						flutter_rust_bridge_codegen
+						rustup
+					] ++ runtimeDeps;
 
-						shellHook = ''
-							${baseShellHook}
+					shellHook = ''
+						${baseShellHook}
 
-							export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
 
-							export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
-							export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
 
 
-							export FLUTTER_ENGINE_DISABLE_AOT=true
-						'';
-					};
-
-					default = self.devShells.${system}.android;
+						export FLUTTER_ENGINE_DISABLE_AOT=true
+					'';
 				};
+
+				default = let
+					runtimeDeps = with pkgs; [
+						libGL
+						stdenv.cc.cc.lib
+						gtk3
+					];
+				in with pkgs; mkShell {
+					inherit (androidEnv) ANDROID_SDK_ROOT ANDROID_HOME;
+					JAVA_HOME = "${jdk}";
+
+					buildInputs = [
+						flutter
+						flutter_rust_bridge_codegen
+						rustup
+						androidSdk
+						jdk21
+						gradle
+					] ++ runtimeDeps;
+
+					shellHook = ''
+						${baseShellHook}
+
+						export GRADLE_USER_HOME="$HOME/.gradle"
+
+
+						export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath runtimeDeps}:$LD_LIBRARY_PATH"
+
+						export LD_LIBRARY_PATH="$PWD/build/linux/x64/debug/bundle/lib:$LD_LIBRARY_PATH"
+						export LD_LIBRARY_PATH="$PWD/build/linux/x64/release/bundle/lib:$LD_LIBRARY_PATH"
+
+
+						export FLUTTER_ENGINE_DISABLE_AOT=true
+					'';
+				};
+			};
 		}
 	);
 }
