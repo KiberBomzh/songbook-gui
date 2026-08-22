@@ -28,6 +28,10 @@ pub use crate::song::chord::Chord;
 
 pub const STANDART_TUNING: [Note; STRINGS] = [E, B, G, D, A, E];
 
+// env vars
+pub const DATA_DIR: &str = "SONGBOOK_DATA_DIR";
+pub const SHARP_ONLY: &str = "SONGBOOK_SHARP_ONLY";
+
 
 pub const METADATA_START: &str = "{metadata:}";
 pub const METADATA_END: &str = "{:metadata}";

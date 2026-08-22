@@ -573,7 +573,7 @@ pub fn get_base_path() -> Option<PathBuf> {
 fn get_local_data_dir() -> Result<PathBuf> {
     Ok(
         PathBuf::from(
-            std::env::var("SONGBOOK_DATA_DIR")?
+            std::env::var(crate::DATA_DIR)?
         )
     )
 }

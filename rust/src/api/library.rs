@@ -436,7 +436,7 @@ pub fn get_available_sites() -> Vec<String> {
 
 #[flutter_rust_bridge::frb(sync)]
 pub fn init_library(app_data_dir: String) {
-    std::env::set_var("SONGBOOK_DATA_DIR", app_data_dir);
+    std::env::set_var(songbook::DATA_DIR, app_data_dir);
 }
 
 #[flutter_rust_bridge::frb(init)]
