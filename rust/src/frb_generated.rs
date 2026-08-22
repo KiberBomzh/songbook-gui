@@ -40,7 +40,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.12.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 909934039;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 2119632847;
 
 // Section: executor
 
@@ -2743,6 +2743,35 @@ fn wire__crate__api__theory__get_fretboard_impl(
         },
     )
 }
+fn wire__crate__api__theory__get_sharp_only_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_sharp_only",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Result::<_, ()>::Ok(crate::api::theory::get_sharp_only())?;
+                Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__theory__get_standart_tuning_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -4531,6 +4560,17 @@ impl SseDecode for Option<SimpleSong> {
     }
 }
 
+impl SseDecode for Option<bool> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<bool>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<u64> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -4696,11 +4736,11 @@ fn pde_ffi_dispatcher_primary_impl(
             wire__crate__api__song__SimpleSong_get_mut_song_impl(port, ptr, rust_vec_len, data_len)
         }
         56 => wire__crate__api__library__export_backup_impl(port, ptr, rust_vec_len, data_len),
-        66 => wire__crate__api__library__get_tag_map_impl(port, ptr, rust_vec_len, data_len),
-        68 => wire__crate__api__library__import_backup_impl(port, ptr, rust_vec_len, data_len),
-        70 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
-        89 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
-        104 => wire__crate__api__library__tag_search_impl(port, ptr, rust_vec_len, data_len),
+        67 => wire__crate__api__library__get_tag_map_impl(port, ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__library__import_backup_impl(port, ptr, rust_vec_len, data_len),
+        71 => wire__crate__api__library__init_app_impl(port, ptr, rust_vec_len, data_len),
+        90 => wire__crate__api__song__simple_block_new_impl(port, ptr, rust_vec_len, data_len),
+        105 => wire__crate__api__library__tag_search_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4812,47 +4852,48 @@ fn pde_ffi_dispatcher_sync_impl(
         62 => wire__crate__api__theory__get_fingerings_for_chord_impl(ptr, rust_vec_len, data_len),
         63 => wire__crate__api__library__get_forbidden_chars_impl(ptr, rust_vec_len, data_len),
         64 => wire__crate__api__theory__get_fretboard_impl(ptr, rust_vec_len, data_len),
-        65 => wire__crate__api__theory__get_standart_tuning_impl(ptr, rust_vec_len, data_len),
-        67 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
-        69 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
-        71 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
-        72 => wire__crate__api__song__key_symbol_impl(ptr, rust_vec_len, data_len),
-        73 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),
-        74 => wire__crate__api__song__metadata_start_impl(ptr, rust_vec_len, data_len),
-        75 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
-        76 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
-        77 => wire__crate__api__song__note_line_symbol_impl(ptr, rust_vec_len, data_len),
-        78 => wire__crate__api__song__plain_text_end_impl(ptr, rust_vec_len, data_len),
-        79 => wire__crate__api__song__plain_text_start_impl(ptr, rust_vec_len, data_len),
-        80 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
-        81 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
-        82 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
-        83 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
-        84 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
-        85 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
-        86 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
-        87 => wire__crate__api__theory__set_fingering_global_impl(ptr, rust_vec_len, data_len),
-        88 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
-        90 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
-        91 => {
+        65 => wire__crate__api__theory__get_sharp_only_impl(ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__theory__get_standart_tuning_impl(ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__library__has_part_impl(ptr, rust_vec_len, data_len),
+        70 => wire__crate__api__library__import_song_impl(ptr, rust_vec_len, data_len),
+        72 => wire__crate__api__library__init_library_impl(ptr, rust_vec_len, data_len),
+        73 => wire__crate__api__song__key_symbol_impl(ptr, rust_vec_len, data_len),
+        74 => wire__crate__api__song__metadata_end_impl(ptr, rust_vec_len, data_len),
+        75 => wire__crate__api__song__metadata_start_impl(ptr, rust_vec_len, data_len),
+        76 => wire__crate__api__library__move_file_or_dir_impl(ptr, rust_vec_len, data_len),
+        77 => wire__crate__api__library__move_path_list_in_impl(ptr, rust_vec_len, data_len),
+        78 => wire__crate__api__song__note_line_symbol_impl(ptr, rust_vec_len, data_len),
+        79 => wire__crate__api__song__plain_text_end_impl(ptr, rust_vec_len, data_len),
+        80 => wire__crate__api__song__plain_text_start_impl(ptr, rust_vec_len, data_len),
+        81 => wire__crate__api__library__read_directory_impl(ptr, rust_vec_len, data_len),
+        82 => wire__crate__api__library__remove_from_library_impl(ptr, rust_vec_len, data_len),
+        83 => wire__crate__api__library__reset_library_impl(ptr, rust_vec_len, data_len),
+        84 => wire__crate__api__song__rhythm_symbol_impl(ptr, rust_vec_len, data_len),
+        85 => wire__crate__api__song__row_end_impl(ptr, rust_vec_len, data_len),
+        86 => wire__crate__api__song__row_start_impl(ptr, rust_vec_len, data_len),
+        87 => wire__crate__api__library__search_impl(ptr, rust_vec_len, data_len),
+        88 => wire__crate__api__theory__set_fingering_global_impl(ptr, rust_vec_len, data_len),
+        89 => wire__crate__api__theory__set_sharp_only_impl(ptr, rust_vec_len, data_len),
+        91 => wire__crate__api__song__song_artist_symbol_impl(ptr, rust_vec_len, data_len),
+        92 => {
             wire__crate__api__song__song_autoscroll_delay_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        92 => {
+        93 => {
             wire__crate__api__song__song_autoscroll_speed_symbol_impl(ptr, rust_vec_len, data_len)
         }
-        93 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
-        94 => wire__crate__api__song__song_fingerings_end_impl(ptr, rust_vec_len, data_len),
-        95 => wire__crate__api__song__song_fingerings_start_impl(ptr, rust_vec_len, data_len),
-        96 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
-        97 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
-        98 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
-        99 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
-        100 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
-        101 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
-        102 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
-        103 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
-        105 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
-        106 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
+        94 => wire__crate__api__song__song_capo_symbol_impl(ptr, rust_vec_len, data_len),
+        95 => wire__crate__api__song__song_fingerings_end_impl(ptr, rust_vec_len, data_len),
+        96 => wire__crate__api__song__song_fingerings_start_impl(ptr, rust_vec_len, data_len),
+        97 => wire__crate__api__song__song_key_symbol_impl(ptr, rust_vec_len, data_len),
+        98 => wire__crate__api__song__song_note_end_symbol_impl(ptr, rust_vec_len, data_len),
+        99 => wire__crate__api__song__song_note_start_symbol_impl(ptr, rust_vec_len, data_len),
+        100 => wire__crate__api__song__song_show_options_symbol_impl(ptr, rust_vec_len, data_len),
+        101 => wire__crate__api__song__song_tags_symbol_impl(ptr, rust_vec_len, data_len),
+        102 => wire__crate__api__song__song_title_symbol_impl(ptr, rust_vec_len, data_len),
+        103 => wire__crate__api__song__tab_end_symbol_impl(ptr, rust_vec_len, data_len),
+        104 => wire__crate__api__song__tab_start_symbol_impl(ptr, rust_vec_len, data_len),
+        106 => wire__crate__api__song__text_symbol_impl(ptr, rust_vec_len, data_len),
+        107 => wire__crate__api__song__title_symbol_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -5400,6 +5441,16 @@ impl SseEncode for Option<SimpleSong> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <SimpleSong>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<bool> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <bool>::sse_encode(value, serializer);
         }
     }
 }

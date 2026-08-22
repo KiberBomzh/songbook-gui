@@ -720,8 +720,15 @@ class SettingsProvider extends ChangeNotifier {
 		if (_language != null)
 			_locale = Locale(_language!);
 
-		_sharpOnly = Preferences.getBool(SHARP_ONLY) ?? false;
-		rust_theory.setSharpOnly(isSharpOnly: _sharpOnly);
+
+		// Checking is shapr_only env var preinstaled before starting app
+		final sharpOnlyEnv = rust_theory.getSharpOnly();
+		_sharpOnly = sharpOnlyEnv ??
+			Preferences.getBool(SHARP_ONLY) ??
+			false;
+		// if it's preinstalled do not set var in env
+		if (sharpOnlyEnv == null)
+			rust_theory.setSharpOnly(isSharpOnly: _sharpOnly);
 
 		await _loadBackgroundImage();
 		await FontManager.load();

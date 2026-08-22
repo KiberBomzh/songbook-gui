@@ -19,6 +19,8 @@ SimpleNoteArray25Array6 getFretboard({required SimpleNoteArray6 tuning}) =>
 void setSharpOnly({required bool isSharpOnly}) =>
     RustLib.instance.api.crateApiTheorySetSharpOnly(isSharpOnly: isSharpOnly);
 
+bool? getSharpOnly() => RustLib.instance.api.crateApiTheoryGetSharpOnly();
+
 SimpleNoteArray6 getStandartTuning() =>
     RustLib.instance.api.crateApiTheoryGetStandartTuning();
 
