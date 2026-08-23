@@ -95,6 +95,8 @@ class _LibraryState extends State<LibraryScreen> {
 		setState(() {
 			_isSearchMode = false;
 			_searchTextController.text = '';
+			_isSelectMode = false;
+			_selected.clear();
 			_currentTags = null;
 			_dirs = d;
 			_files = f;
@@ -503,91 +505,94 @@ class _LibraryState extends State<LibraryScreen> {
 				child: CircularProgressIndicator(),
 			);
 
-		return ListView.builder(
-			itemCount: _dirs.length + _files.length,
-			itemBuilder: (context, dirsIndex) {
-				final filesIndex = dirsIndex - _dirs.length;
-				final bool isItemDir = (dirsIndex < _dirs.length);
-				final itemPath = isItemDir
-					? _dirs[dirsIndex]
-					: _files[filesIndex];
+		return RefreshIndicator(
+			onRefresh: _loadDirectory,
+			child: ListView.builder(
+				itemCount: _dirs.length + _files.length,
+				itemBuilder: (context, dirsIndex) {
+					final filesIndex = dirsIndex - _dirs.length;
+					final bool isItemDir = (dirsIndex < _dirs.length);
+					final itemPath = isItemDir
+						? _dirs[dirsIndex]
+						: _files[filesIndex];
 
-				final itemName = _getPathName(itemPath);
+					final itemName = _getPathName(itemPath);
 
-				if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath) || _moved.contains(itemPath))
-					return SizedBox();
+					if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath) || _moved.contains(itemPath))
+						return SizedBox();
 
 
-				return Container(
-					margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10), 
-					height: 70,
-					decoration: BoxDecoration(
-						color: Theme.of(context).colorScheme.surfaceContainer,
-						borderRadius: .circular(10),
-					),
-					child: _buildItem(
-						name: itemName,
-						path: itemPath,
-						isDir: isItemDir,
-						onTap: () async {
-							_searchFocusNode.unfocus();
+					return Container(
+						margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+						height: 70,
+						decoration: BoxDecoration(
+							color: Theme.of(context).colorScheme.surfaceContainer,
+							borderRadius: .circular(10),
+						),
+						child: _buildItem(
+							name: itemName,
+							path: itemPath,
+							isDir: isItemDir,
+							onTap: () async {
+								_searchFocusNode.unfocus();
 
-							if (!_isSelectMode) {
-								await Navigator.push(context,
-									MaterialPageRoute(
-										builder: (context) {
-											if (isItemDir)
-												return LibraryScreen(
-													path: itemPath,
-													copyBuffer: _copyBuffer,
-													cutBuffer: _cutBuffer,
-												);
-											else
-												return SongScreen(path: itemPath);
-										},
-									),
-								);
+								if (!_isSelectMode) {
+									await Navigator.push(context,
+										MaterialPageRoute(
+											builder: (context) {
+												if (isItemDir)
+													return LibraryScreen(
+														path: itemPath,
+														copyBuffer: _copyBuffer,
+														cutBuffer: _cutBuffer,
+													);
+												else
+													return SongScreen(path: itemPath);
+											},
+										),
+									);
 
-								if (!_isSearchMode)
-									_loadDirectory();
-							} else
-								_switchSelectionForPath(itemPath);
-						},
-						onLongPress: () {
-							_searchFocusNode.unfocus();
-
-							if (_isSelectMode) {
-								if (_selected.contains(itemPath)) {
+									if (!_isSearchMode)
+										_loadDirectory();
+								} else
 									_switchSelectionForPath(itemPath);
-									return;
-								}
+							},
+							onLongPress: () {
+								_searchFocusNode.unfocus();
 
-								final List<String> allPaths = _dirs + _files;
-								final int currentIndex = allPaths.indexOf(itemPath);
-								final int lastAddedIndex = allPaths.indexOf(_selected.last);
-
-								final betweenPaths = (currentIndex > lastAddedIndex)
-									? allPaths.sublist(lastAddedIndex, currentIndex + 1)
-									: allPaths.sublist(currentIndex, lastAddedIndex);
-
-
-								setState(() {
-									for (int i = 0; i < betweenPaths.length; i++) {
-										final String path = betweenPaths[i];
-										if (!_selected.contains(path))
-											_selected.add(path);
+								if (_isSelectMode) {
+									if (_selected.contains(itemPath)) {
+										_switchSelectionForPath(itemPath);
+										return;
 									}
-								});
-							} else {
-								setState(() {
-									_isSelectMode = true;
-									_selected.add(itemPath);
-								});
-							}
-						},
-					),
-				);
-			},
+
+									final List<String> allPaths = _dirs + _files;
+									final int currentIndex = allPaths.indexOf(itemPath);
+									final int lastAddedIndex = allPaths.indexOf(_selected.last);
+
+									final betweenPaths = (currentIndex > lastAddedIndex)
+										? allPaths.sublist(lastAddedIndex, currentIndex + 1)
+										: allPaths.sublist(currentIndex, lastAddedIndex);
+
+
+									setState(() {
+										for (int i = 0; i < betweenPaths.length; i++) {
+											final String path = betweenPaths[i];
+											if (!_selected.contains(path))
+												_selected.add(path);
+										}
+									});
+								} else {
+									setState(() {
+										_isSelectMode = true;
+										_selected.add(itemPath);
+									});
+								}
+							},
+						),
+					);
+				},
+			),
 		);
 	}
 
