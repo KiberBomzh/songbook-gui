@@ -757,9 +757,9 @@ class SettingsProvider extends ChangeNotifier {
 
 		// Checking is shapr_only env var preinstaled before starting app
 		final sharpOnlyEnv = rust_theory.getSharpOnly();
-		_sharpOnly = sharpOnlyEnv ??
-			Preferences.getBool(SHARP_ONLY) ??
-			false;
+		_sharpOnly = sharpOnlyEnv
+			?? Preferences.getBool(SHARP_ONLY)
+			?? false;
 		// if it's preinstalled do not set var in env
 		if (sharpOnlyEnv == null)
 			rust_theory.setSharpOnly(isSharpOnly: _sharpOnly);
