@@ -67,6 +67,7 @@
 
 	"settingsLanguage": "Language",
 	"settingsLanguageSystem": "System",
+	"settingsLibPath": "Library path",
 	"settingsTheme": "Theme",
 	"settingsAmoled": "Amoled",
 	"settingsAccent": "Accent",

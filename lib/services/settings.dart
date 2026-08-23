@@ -688,12 +688,46 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	late String _libPath;
+	String get libPath => _libPath;
+	bool get libPathIsNull => Preferences.getString(LIB_PATH) == null;
+	Future<void> setLibPath(String value) async {
+		await rust_lib.moveLibrary(newDir: value);
 
-	SettingsProvider() {
-		_loadAllSettings();
+		_libPath = value;
+		await Preferences.setString(LIB_PATH, value);
+
+		notifyListeners();
+	}
+	Future<void> resetLibPath() async {
+		if (Platform.isAndroid) {
+			final appDataDir = await getExternalStorageDirectory();
+			final dataDir = appDataDir!.path + pathDivider + "songbook";
+			await rust_lib.moveLibrary(newDir: dataDir);
+
+			_libPath = dataDir;
+		} else {
+			final dataDir = rust_lib.getDefaultLibraryPath()! + pathDivider + "songbook";
+			await rust_lib.moveLibrary(newDir: dataDir);
+
+			_libPath = dataDir;
+		}
+
+		await Preferences.remove(LIB_PATH);
+
+
+		notifyListeners();
 	}
 
-	void _loadAllSettings() async {
+
+	SettingsProvider._create();
+	static Future<SettingsProvider> create() async {
+		final s = SettingsProvider._create();
+		await s._loadAllSettings();
+		return s;
+	}
+
+	Future<void> _loadAllSettings() async {
 		_titleStyle.load();
 		_notesStyle.load();
 		_fingeringsStyle.load();
@@ -729,6 +763,26 @@ class SettingsProvider extends ChangeNotifier {
 		// if it's preinstalled do not set var in env
 		if (sharpOnlyEnv == null)
 			rust_theory.setSharpOnly(isSharpOnly: _sharpOnly);
+
+
+		final libPathEnv = rust_lib.getDataDirEnv();
+		if (libPathEnv == null) {
+			final libPathPrefs = Preferences.getString(LIB_PATH);
+			if (libPathPrefs == null) {
+				if (Platform.isAndroid) {
+					_libPath = (await getExternalStorageDirectory())!.path + pathDivider + "songbook";
+				} else {
+					_libPath = rust_lib.getDefaultLibraryPath()! + pathDivider + "songbook";
+				}
+			} else {
+				_libPath = libPathPrefs;
+			}
+
+			rust_lib.setDataDirEnv(dataDir: _libPath);
+		} else {
+			_libPath = libPathEnv;
+		}
+
 
 		await _loadBackgroundImage();
 		await FontManager.load();
@@ -913,6 +967,7 @@ class SettingsProvider extends ChangeNotifier {
 
 	Future<void> resetToDefault() async {
 		await resetBackgroundImage();
+		await resetLibPath();
 		await FontManager.reset();
 		await Preferences.clear();
 		_loadAllSettings();

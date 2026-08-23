@@ -1,4 +1,4 @@
-use std::path::PathBuf;
+use std::path::{PathBuf, Path};
 pub use std::collections::{HashMap, HashSet};
 
 use anyhow::{Result, anyhow};
@@ -435,9 +435,95 @@ pub fn get_available_sites() -> Vec<String> {
 
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn init_library(app_data_dir: String) {
-    std::env::set_var(songbook::DATA_DIR, app_data_dir);
+pub fn get_default_library_path() -> Option<String> {
+    dirs::data_dir()?.to_str().map(|s| s.to_string())
+} // dont use this function on android!
+
+#[flutter_rust_bridge::frb(sync)]
+pub fn set_data_dir_env(data_dir: String) {
+    std::env::set_var(songbook::DATA_DIR, data_dir);
 }
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_data_dir_env() -> Option<String> {
+    std::env::var(songbook::DATA_DIR).ok()
+}
+
+#[flutter_rust_bridge::frb]
+pub async fn move_library(new_dir: String) -> Result<()> {
+    use std::env;
+
+
+    let old_path = get_base_path().ok_or(anyhow!("Cannot get base path!"))?;
+    let new_path = PathBuf::from(&new_dir);
+
+
+    let lib_dir = "library";
+    let fings_dir = "fingerings";
+
+    move_all(old_path.join(lib_dir), new_path.join(lib_dir))?;
+    move_all(old_path.join(fings_dir), new_path.join(fings_dir))?;
+
+
+    env::set_var(songbook::DATA_DIR, new_dir);
+    Ok(())
+}
+fn move_all<P, Q>(old_path: P, new_path: Q) -> Result<()>
+    where
+        P: AsRef<Path>,
+        Q: AsRef<Path>
+{
+    use std::fs;
+
+
+    if let Err(_) = fs::rename(old_path.as_ref(), new_path.as_ref()) {
+        if let Err(err) = copy_all(old_path.as_ref(), new_path.as_ref()) {
+            remove_all(new_path)?;
+            return Err(err);
+        } else {
+            remove_all(old_path)?;
+        }
+    }
+
+
+    Ok(())
+}
+
+fn remove_all<P: AsRef<Path>>(path: P) -> std::io::Result<()> {
+    if path.as_ref().is_file() {
+        std::fs::remove_file(path)?;
+    } else if path.as_ref().is_dir() {
+        std::fs::remove_dir_all(path)?;
+    }
+
+    Ok(())
+}
+fn copy_all<P, Q>(i_path: P, o_path: Q) -> Result<()>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>
+{
+    if i_path.as_ref().is_file() {
+        std::fs::copy(i_path, o_path)?;
+    } else if i_path.as_ref().is_dir() {
+        std::fs::create_dir_all(o_path.as_ref())?;
+        copy_recursive(i_path, o_path)?;
+    }
+
+    Ok(())
+}
+fn copy_recursive<P, Q>(i_path: P, o_path: Q) -> Result<()>
+where
+    P: AsRef<Path>,
+    Q: AsRef<Path>
+{
+    for entry in i_path.as_ref().read_dir()? {
+        let path = entry?.path();
+        let new_path = o_path.as_ref().join(path.strip_prefix(i_path.as_ref())?);
+        copy_all(path, new_path)?;
+    }
+    Ok(())
+}
+
 
 #[flutter_rust_bridge::frb(init)]
 pub fn init_app() {

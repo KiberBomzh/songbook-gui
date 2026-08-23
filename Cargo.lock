@@ -2539,6 +2539,7 @@ name = "rust_lib_songbook"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "dirs",
  "flutter_rust_bridge",
  "songbook",
  "zip",

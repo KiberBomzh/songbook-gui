@@ -11,6 +11,7 @@ flutter_rust_bridge = "=2.12.0"
 songbook = { path = "../songbook-library", features = ["song_library", "from_url"] }
 anyhow = "1.0.102"
 zip = "8.6.0"
+dirs = "6.0.0"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

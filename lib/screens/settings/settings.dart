@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:songbook/screens/settings/select_font_family.dart';
 import 'package:songbook/services/settings.dart';
@@ -70,6 +73,49 @@ class _SettingsState extends State<SettingsScreen> {
 					),
 				);
 		}
+	}
+
+	void _setLibPath() async {
+		setState(() => _isLoading = true);
+
+		final String? selectedDir = await FilePicker.getDirectoryPath();
+		if (selectedDir == null)
+			return;
+
+		try {
+			await _settings.setLibPath(selectedDir);
+			Restart.restartApp();
+		} catch (e) {
+			debugPrint(e.toString());
+			if (mounted)
+				ScaffoldMessenger.of(context).showSnackBar(
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
+						duration: Duration(seconds: 3),
+					),
+				);
+		}
+
+		setState(() => _isLoading = false);
+	}
+	void _resetLibPath() async {
+		setState(() => _isLoading = true);
+
+		try {
+			await _settings.resetLibPath();
+			Restart.restartApp();
+		} catch (e) {
+			debugPrint(e.toString());
+			if (mounted)
+				ScaffoldMessenger.of(context).showSnackBar(
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
+						duration: Duration(seconds: 3),
+					),
+				);
+		}
+
+		setState(() => _isLoading = false);
 	}
 
 	final List<ColorItem> _colors = [
@@ -186,6 +232,27 @@ class _SettingsState extends State<SettingsScreen> {
 				],
 			),
 			onTap: null,
+		),
+
+		_buildItem(
+			text: AppLocalizations.of(context)!.settingsLibPath,
+			child: ElevatedButton(
+				child: Text(AppLocalizations.of(context)!.settingsReset),
+				onPressed: (!_settings.libPathIsNull)
+					? () => _resetLibPath()
+					: null,
+				style: ElevatedButton.styleFrom(
+					backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+				),
+			),
+			onTap: () async {
+				if (Platform.isAndroid) {
+					if ( await Permission.manageExternalStorage.request().isGranted )
+						_setLibPath();
+				} else {
+					_setLibPath();
+				}
+			},
 		),
 
 		_buildItem(

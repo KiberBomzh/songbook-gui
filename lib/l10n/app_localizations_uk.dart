@@ -181,6 +181,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsLanguageSystem => 'Системна';
 
   @override
+  String get settingsLibPath => 'Розташування бібліотеки';
+
+  @override
   String get settingsTheme => 'Тема';
 
   @override
