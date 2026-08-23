@@ -20,7 +20,7 @@
 				abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" ];
 				buildToolsVersions = [ "35.0.0" ];
 				cmakeVersions = [ "3.22.1" ];
-				platformVersions = [ "33" "34" "35" "36" ];
+				platformVersions = [ "33" "34" "35" "36" "37" ];
 				ndkVersion = "28.2.13676358";
 				includeNDK = true;
 				includeEmulator = false;
