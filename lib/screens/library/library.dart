@@ -60,7 +60,7 @@ class _LibraryState extends State<LibraryScreen> {
 	List<String> _cutBuffer = [];
 
 	bool _isSearchMode = false;
-	bool _isLoadingSearchResults = false;
+	bool _isLoadingLib = false;
 	late final TextEditingController _searchTextController;
 	late final FocusNode _searchFocusNode;
 	Timer? _searchTimer;
@@ -91,7 +91,10 @@ class _LibraryState extends State<LibraryScreen> {
 	}
 
 	Future<void> _loadDirectory() async {
+		setState(() { _isLoadingLib = true; });
+
 		var (d, f, p) = readDirectory(pathStr: widget.path);
+
 		setState(() {
 			_isSearchMode = false;
 			_searchTextController.text = '';
@@ -102,13 +105,15 @@ class _LibraryState extends State<LibraryScreen> {
 			_files = f;
 			_currentPath = p;
 			_isCurrentDirEmpty = (_dirs.isEmpty && _files.isEmpty);
+
+			_isLoadingLib = false;
 		});
 	}
 
 	void _search(String query) async {
 		setState(() {
 			_isCurrentDirEmpty = false;
-			_isLoadingSearchResults = true;
+			_isLoadingLib = true;
 		});
 		_dirs.clear();
 
@@ -132,7 +137,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 		setState(() {
 			_isCurrentDirEmpty = _files.isEmpty;
-			_isLoadingSearchResults = false;
+			_isLoadingLib = false;
 		});
 	}
 	void _scheduleSearch(String query) {
@@ -500,7 +505,7 @@ class _LibraryState extends State<LibraryScreen> {
 
 
 	Widget _buildBody() {
-		if (_isLoadingSearchResults)
+		if (_isLoadingLib)
 			return const Center(
 				child: CircularProgressIndicator(),
 			);
