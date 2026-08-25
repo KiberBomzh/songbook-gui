@@ -67,7 +67,7 @@
 
     "settingsLanguage": "Мова",
 	"settingsLanguageSystem": "Системна",
-	"settingsLibPath": "Розташування бібліотеки",
+	"settingsLibPath": "Шлях до бібліотеки",
     "settingsTheme": "Тема",
     "settingsAmoled": "Амолед",
     "settingsAccent": "Акцент",
