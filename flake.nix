@@ -89,6 +89,8 @@
 				export CARGO_HOME="$HOME/.cargo"
 				export RUSTUP_HOME="$HOME/.rustup"
 
+				export PS1="\[\e[0;34m\]\w\n\[\e[0;32m\]\$\[\e[00m\] "
+
 				# nvim settings symlinks
 				ln -sf $OLD_HOME/.config/nvim $HOME/.config/nvim
 				ln -sf $OLD_HOME/.local/share/nvim $HOME/.local/share/nvim
