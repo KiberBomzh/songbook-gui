@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:songbook/l10n/app_localizations.dart';
+import 'package:zikzak_share_handler/zikzak_share_handler.dart';
 
 import 'package:songbook/src/rust/frb_generated.dart';
 
 import 'package:songbook/screens/library/library.dart';
+import 'package:songbook/utils/share_viewer.dart';
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/services/preferences.dart';
 
@@ -31,8 +33,37 @@ Future<void> main() async {
 }
 
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
 	const MyApp({super.key});
+
+	@override
+	State<MyApp> createState() => _MyAppState();
+}
+class _MyAppState extends State<MyApp> {
+	SharedMedia? _media;
+
+
+	@override
+	void initState() {
+		super.initState();
+		_initPlatformState();
+	}
+
+	Future<void> _initPlatformState() async {
+		final handler = ShareHandlerPlatform.instance;
+		_media = await handler.getInitialSharedMedia();
+
+		handler.sharedMediaStream.listen((media) {
+			if (!mounted)
+				return;
+
+			setState(() => this._media = media);
+		});
+		if (!mounted)
+			return;
+
+		setState(() {});
+	}
 
 	@override
 	Widget build(BuildContext context) {
@@ -43,7 +74,9 @@ class MyApp extends StatelessWidget {
 			theme: settings.ligthTheme(),
 			darkTheme: settings.darkTheme(),
 			themeMode: settings.themeMode,
-			home: LibraryScreen(),
+			home: (_media != null)
+				? ShareViewer(media: _media!)
+				: LibraryScreen(),
 
 			supportedLocales: LANGUAGES.keys.map((key) => Locale(key)).toList(),
 			localizationsDelegates: [

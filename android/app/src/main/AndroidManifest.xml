@@ -26,6 +26,18 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.SEND"/>
+				<category android:name="android.intent.category.DEFAULT"/>
+				<data android:mimeType="text/x-yaml"/>
+				<data android:mimeType="text/yaml"/>
+				<data android:mimeType="text/yml"/>
+				<data android:mimeType="application/x-yaml"/>
+				<data android:mimeType="application/yaml"/>
+				<data android:mimeType="application/yml"/>
+				<data android:mimeType="*/*"/>
+			</intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
