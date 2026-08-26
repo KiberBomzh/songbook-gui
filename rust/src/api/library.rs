@@ -371,9 +371,13 @@ pub fn add_new_song(
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: String) -> Result<()> {
+pub fn import_song(mut song: crate::api::song::SimpleSong, dir_path: Option<String>) -> Result<()> {
     let song = song.get_mut_song();
-    let current_dir = PathBuf::from(dir_path);
+    let current_dir = if let Some(p) = dir_path {
+        PathBuf::from(p)
+    } else { 
+        get_lib_path()?
+    };
     let song_name = 
         get_without_forbidden_chars( format!("{} - {}", song.metadata.artist, song.metadata.title));
     let mut song_path = current_dir.join(&song_name);

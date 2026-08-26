@@ -2992,7 +2992,7 @@ fn wire__crate__api__library__import_song_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_song = <SimpleSong>::sse_decode(&mut deserializer);
-            let api_dir_path = <String>::sse_decode(&mut deserializer);
+            let api_dir_path = <Option<String>>::sse_decode(&mut deserializer);
             deserializer.end();
             transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                 (move || {

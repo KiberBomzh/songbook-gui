@@ -297,10 +297,7 @@ abstract class RustLibApi extends BaseApi {
     required String backgroundPathStr,
   });
 
-  void crateApiLibraryImportSong({
-    required SimpleSong song,
-    required String dirPath,
-  });
+  void crateApiLibraryImportSong({required SimpleSong song, String? dirPath});
 
   Future<void> crateApiLibraryInitApp();
 
@@ -2468,10 +2465,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
-  void crateApiLibraryImportSong({
-    required SimpleSong song,
-    required String dirPath,
-  }) {
+  void crateApiLibraryImportSong({required SimpleSong song, String? dirPath}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
@@ -2480,7 +2474,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             song,
             serializer,
           );
-          sse_encode_String(dirPath, serializer);
+          sse_encode_opt_String(dirPath, serializer);
           return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 72)!;
         },
         codec: SseCodec(
