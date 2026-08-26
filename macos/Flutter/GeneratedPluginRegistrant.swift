@@ -11,7 +11,6 @@ import restart_app
 import share_plus
 import shared_preferences_foundation
 import wakelock_plus
-import zikzak_share_handler_macos
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FilePickerPlugin.register(with: registry.registrar(forPlugin: "FilePickerPlugin"))
@@ -20,5 +19,4 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   WakelockPlusMacosPlugin.register(with: registry.registrar(forPlugin: "WakelockPlusMacosPlugin"))
-  ShareHandlerMacosPlatform.register(with: registry.registrar(forPlugin: "ShareHandlerMacosPlatform"))
 }

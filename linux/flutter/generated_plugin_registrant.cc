@@ -8,7 +8,6 @@
 
 #include <restart_app/restart_app_plugin.h>
 #include <url_launcher_linux/url_launcher_plugin.h>
-#include <zikzak_share_handler_linux/share_handler_linux_platform.h>
 
 void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) restart_app_registrar =
@@ -17,7 +16,4 @@ void fl_register_plugins(FlPluginRegistry* registry) {
   g_autoptr(FlPluginRegistrar) url_launcher_linux_registrar =
       fl_plugin_registry_get_registrar_for_plugin(registry, "UrlLauncherPlugin");
   url_launcher_plugin_register_with_registrar(url_launcher_linux_registrar);
-  g_autoptr(FlPluginRegistrar) zikzak_share_handler_linux_registrar =
-      fl_plugin_registry_get_registrar_for_plugin(registry, "ShareHandlerLinuxPlatform");
-  share_handler_linux_platform_register_with_registrar(zikzak_share_handler_linux_registrar);
 }

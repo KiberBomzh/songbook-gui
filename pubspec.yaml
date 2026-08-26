@@ -26,7 +26,6 @@ dependencies:
   linked_scroll_controller: ^0.2.0
   drag_and_drop_lists: ^0.4.2
   permission_handler: ^13.0.1
-  zikzak_share_handler: ^1.0.1
   open_with_app: ^0.2.0
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4

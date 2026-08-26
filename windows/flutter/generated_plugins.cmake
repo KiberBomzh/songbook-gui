@@ -7,7 +7,6 @@ list(APPEND FLUTTER_PLUGIN_LIST
   restart_app
   share_plus
   url_launcher_windows
-  zikzak_share_handler_windows
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

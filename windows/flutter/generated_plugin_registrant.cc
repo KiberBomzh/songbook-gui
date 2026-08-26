@@ -10,7 +10,6 @@
 #include <restart_app/restart_app_plugin_c_api.h>
 #include <share_plus/share_plus_windows_plugin_c_api.h>
 #include <url_launcher_windows/url_launcher_windows.h>
-#include <zikzak_share_handler_windows/share_handler_windows_platform.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   PermissionHandlerWindowsPluginRegisterWithRegistrar(
@@ -21,6 +20,4 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("SharePlusWindowsPluginCApi"));
   UrlLauncherWindowsRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("UrlLauncherWindows"));
-  ShareHandlerWindowsPlatformRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("ShareHandlerWindowsPlatform"));
 }
