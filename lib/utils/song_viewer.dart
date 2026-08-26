@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:restart_app/restart_app.dart';
+
 import 'package:songbook/l10n/app_localizations.dart';
 import 'package:songbook/src/rust/api/library.dart' as lib;
 import 'package:songbook/src/rust/api/song.dart' as song;
@@ -23,7 +25,7 @@ class SongViewer extends StatelessWidget {
 				actions: [
 					TextButton(
 						child: Text('Cancel'),
-						onPressed: () => Navigator.of(context).pop(),
+						onPressed: () => Restart.restartApp(),
 					),
 					ElevatedButton(
 						child: Text('Save'),
@@ -31,6 +33,7 @@ class SongViewer extends StatelessWidget {
 							try {
 								final s = song.SimpleSong.open(pathStr: path);
 								lib.importSong(song: s, dirPath: null);
+								Restart.restartApp();
 							} catch (e) {
 								debugPrint(e.toString());
 								ScaffoldMessenger.of(context).showSnackBar(
