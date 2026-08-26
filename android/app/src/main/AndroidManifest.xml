@@ -36,7 +36,7 @@
 				<data android:mimeType="application/x-yaml"/>
 				<data android:mimeType="application/yaml"/>
 				<data android:mimeType="application/yml"/>
-				<data android:mimeType="*/*"/>
+				<data android:mimeType="*/*" />
 			</intent-filter>
 
 			<intent-filter>
@@ -45,6 +45,12 @@
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data android:scheme="file" />
 				<data android:scheme="content" />
+				<data android:mimeType="text/x-yaml"/>
+				<data android:mimeType="text/yaml"/>
+				<data android:mimeType="text/yml"/>
+				<data android:mimeType="application/x-yaml"/>
+				<data android:mimeType="application/yaml"/>
+				<data android:mimeType="application/yml"/>
 				<data android:mimeType="*/*" />
 				<data android:pathPattern=".*\\.yaml" />
 				<data android:pathPattern=".*\\.yml" />
