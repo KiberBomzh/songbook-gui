@@ -372,8 +372,8 @@ class _LibraryState extends State<LibraryScreen> {
 			body: _isCurrentDirEmpty
 				? Center( child: Text(AppLocalizations.of(context)!.libraryEmpty) )
 				: _buildBody(),
-			floatingActionButtonLocation: ExpandableFab.location,
 			floatingActionButton: _buildFAB(),
+			floatingActionButtonLocation: ExpandableFab.location,
 		);
 	}
 
@@ -1010,26 +1010,27 @@ class _LibraryState extends State<LibraryScreen> {
 			ImportFormat.yaml => ['yml', 'yaml'],
 		};
 
-		final FilePickerResult? result = await FilePicker.pickFiles(
-			allowMultiple: true,
+		final List<PlatformFile> files = await FilePicker.pickFiles(
 			type: FileType.custom,
 			allowedExtensions: extensions,
 		);
 
-		if (result == null)
+		if (files.isEmpty)
 			return;
+
+		final paths = files.map((file) => file.path).toList();
 
 		switch (importFormat) {
 			case (ImportFormat.chordPro):
-				_addFromChordPro(result.paths);
+				_addFromChordPro(paths);
 				break;
 
 			case (ImportFormat.songBookPro):
-				_addFromSongBookPro(result.paths);
+				_addFromSongBookPro(paths);
 				break;
 
 			case (ImportFormat.yaml):
-				_addFromYaml(result.paths);
+				_addFromYaml(paths);
 				break;
 		}
 

@@ -573,11 +573,11 @@ class SettingsProvider extends ChangeNotifier {
 		}
 	}
 	Future<void> setBackgroundImage() async {
-		final FilePickerResult? result = await FilePicker.pickFiles(
+		final file = await FilePicker.pickFile(
 			type: FileType.image,
 		);
 
-		if (result != null && result.files.single.path != null) {
+		if (file != null && file.path != null) {
 			await resetBackgroundImage();
 			PaintingBinding.instance.imageCache.clear();
 			PaintingBinding.instance.imageCache.clearLiveImages();
@@ -585,7 +585,7 @@ class SettingsProvider extends ChangeNotifier {
 			final dir = await getApplicationSupportDirectory();
 			final savedPath = dir.path + pathDivider + 'background_img';
 
-			await File(result.files.single.path!).copy(savedPath);
+			await File(file.path!).copy(savedPath);
 			_backgroundImage = File(savedPath);
 
 			notifyListeners();
@@ -814,23 +814,15 @@ class SettingsProvider extends ChangeNotifier {
 
 		final now = DateTime.now();
 		final String date = "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
-		String? outputPath = await FilePicker.saveFile(
+		final outputPath = await FilePicker.saveFile(
 			dialogTitle: 'Save backup as...',
 			fileName: 'songbook_backup_$date.zip',
-			bytes: (Platform.isAndroid)
-				? await tempBackup.readAsBytes()
-				: null,
+			bytes: await tempBackup.readAsBytes(),
 		);
-		if (outputPath == null) {
-			await tempBackup.delete();
+
+		await tempBackup.delete();
+		if (outputPath == null)
 			return false;
-		} else {
-			if (Platform.isAndroid) {
-				await tempBackup.delete();
-			} else {
-				await tempBackup.rename(outputPath);
-			}
-		}
 
 		return true;
 	}
@@ -871,14 +863,14 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 	Future<bool> importBackup() async {
-		final FilePickerResult? result = await FilePicker.pickFiles(
+		final file = await FilePicker.pickFile(
 			type: FileType.custom,
 			allowedExtensions: ['zip'],
 		);
-		if (result == null || result.files.single.path == null)
+		if (file == null || file.path == null)
 			return false;
 
-		final String backupPath = result.files.single.path!;
+		final String backupPath = file.path!;
 
 		final dir = await getApplicationSupportDirectory();
 		final fontsPath = dir.path + pathDivider + 'fonts';

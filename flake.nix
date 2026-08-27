@@ -45,7 +45,7 @@
 
 			flutter_rust_bridge_codegen = pkgs.rustPlatform.buildRustPackage {
 				name = "flutter_rust_bridge_codegen";
-				version = "2.12.0";
+				version = "2.13.0";
 				src = frb_src;
 
 				cargoToml = "frb_codegen/Cargo.toml";

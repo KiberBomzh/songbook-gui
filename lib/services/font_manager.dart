@@ -25,15 +25,14 @@ class FontManager {
 	}
 
 	static Future<void> addNew() async {
-		FilePickerResult? result = await FilePicker.pickFiles(
+		List<PlatformFile> files = await FilePicker.pickFiles(
 			type: FileType.custom,
 			allowedExtensions: ['ttf', 'otf'],
-			allowMultiple: true,
 		);
-		if (result == null)
+		if (files.isEmpty)
 			return;
 
-		for (final file in result.files) {
+		for (final file in files) {
 			if (file.path != null) {
 				final sourceFile = File(file.path!);
 
