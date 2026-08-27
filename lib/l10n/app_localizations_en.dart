@@ -444,6 +444,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get done => 'Done';
 
   @override
+  String get select => 'Select';
+
+  @override
   String get hintText => 'Type something...';
 
   @override

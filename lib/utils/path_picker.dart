@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
+import 'package:songbook/l10n/app_localizations.dart';
+
 import 'package:songbook/functions/get_path_name.dart';
 import 'package:songbook/services/settings.dart';
 
@@ -131,7 +133,7 @@ class _PathPickerState extends State<PathPicker> {
 							width: double.infinity,
 							height: 80,
 							child: Center(
-								child: Text('Select'),
+								child: Text(AppLocalizations.of(context)!.select),
 							),
 						),
 					),

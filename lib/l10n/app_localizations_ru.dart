@@ -446,6 +446,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get done => 'Завершить';
 
   @override
+  String get select => 'Выбрать';
+
+  @override
   String get hintText => 'Напечатайте что-нибудь...';
 
   @override

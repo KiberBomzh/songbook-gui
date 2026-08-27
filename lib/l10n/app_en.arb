@@ -169,6 +169,7 @@
 	"cancel": "Cancel",
 	"ok": "OK",
 	"done": "Done",
+	"select": "Select",
 	"hintText": "Type something...",
 	"notValidInput": "Not valid input!",
 	"valueMustBeBiggerThan0": "Value must be bigger than 0!",
