@@ -11,6 +11,7 @@ import 'package:songbook/screens/editor/editor.dart';
 import 'package:songbook/screens/settings/settings.dart';
 import 'package:songbook/screens/library/add_song.dart';
 import 'package:songbook/functions/set_name_dialog.dart';
+import 'package:songbook/functions/get_path_name.dart';
 import 'package:songbook/services/settings.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
@@ -389,7 +390,7 @@ class _LibraryState extends State<LibraryScreen> {
 					contentPadding: const EdgeInsets.all(5),
 					hintText: (widget.path == null)
 						? AppLocalizations.of(context)!.libraryTitle
-						: _getPathName(_currentPath),
+						: getPathName(_currentPath),
 					border: OutlineInputBorder(borderSide: .none),
 				),
 				onChanged: _scheduleSearch,
@@ -398,7 +399,7 @@ class _LibraryState extends State<LibraryScreen> {
 		} else {
 			return Text( (widget.path == null)
 				? AppLocalizations.of(context)!.libraryTitle
-				: _getPathName(_currentPath),
+				: getPathName(_currentPath),
 			);
 		}
 	}
@@ -423,7 +424,7 @@ class _LibraryState extends State<LibraryScreen> {
 						child: Text(AppLocalizations.of(context)!.libraryOptionRename),
 						onPressed: () {
 							String path = _selected[0];
-							_rename(_getPathName(path));
+							_rename(getPathName(path));
 
 							if (_copyBuffer.contains(path))
 								_copyBuffer.remove(path);
@@ -521,7 +522,7 @@ class _LibraryState extends State<LibraryScreen> {
 						? _dirs[dirsIndex]
 						: _files[filesIndex];
 
-					final itemName = _getPathName(itemPath);
+					final itemName = getPathName(itemPath);
 
 					if (_cutBuffer.contains(itemPath) || _deleted.contains(itemPath) || _moved.contains(itemPath))
 						return SizedBox();
@@ -1161,11 +1162,6 @@ class _LibraryState extends State<LibraryScreen> {
 		final String path = _currentPath + pathDivider + name;
 		
 		return existenceCheck(pathStr: path);
-	}
-
-
-	String _getPathName(String path) {
-		return path.substring(path.lastIndexOf(pathDivider) + 1);
 	}
 
 	void _switchSelectionForPath(String path) => setState(() {
