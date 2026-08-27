@@ -111,6 +111,8 @@ List<String> getForbiddenChars() =>
 List<String> getAvailableSites() =>
     RustLib.instance.api.crateApiLibraryGetAvailableSites();
 
+String getLibraryPath() => RustLib.instance.api.crateApiLibraryGetLibraryPath();
+
 String? getDefaultLibraryPath() =>
     RustLib.instance.api.crateApiLibraryGetDefaultLibraryPath();
 

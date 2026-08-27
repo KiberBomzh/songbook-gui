@@ -427,6 +427,11 @@ pub fn get_available_sites() -> Vec<String> {
         .to_vec()
 }
 
+#[flutter_rust_bridge::frb(sync)]
+pub fn get_library_path() -> Result<String> {
+    get_lib_path().map(|p| p.to_string_lossy().to_string())
+}
+
 
 
 
