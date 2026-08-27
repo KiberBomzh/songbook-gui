@@ -449,6 +449,12 @@ class AppLocalizationsUk extends AppLocalizations {
   String get select => 'Обрати';
 
   @override
+  String get save => 'Зберегти';
+
+  @override
+  String get saveAs => 'Зберегти як...';
+
+  @override
   String get hintText => 'Напишіть щось...';
 
   @override

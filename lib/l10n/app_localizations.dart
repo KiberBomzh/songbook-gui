@@ -970,6 +970,18 @@ abstract class AppLocalizations {
   /// **'Select'**
   String get select;
 
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @saveAs.
+  ///
+  /// In en, this message translates to:
+  /// **'Save as...'**
+  String get saveAs;
+
   /// No description provided for @hintText.
   ///
   /// In en, this message translates to:

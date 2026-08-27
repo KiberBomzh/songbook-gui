@@ -24,14 +24,14 @@ class SongViewer extends StatelessWidget {
 			appBar: AppBar(
 				actions: [
 					TextButton(
-						child: Text('Cancel'),
+						child: Text(AppLocalizations.of(context)!.cancel),
 						onPressed: () => Restart.restartApp(),
 					),
 
 					Spacer(),
 
 					ElevatedButton(
-						child: Text('Save as...'),
+						child: Text(AppLocalizations.of(context)!.saveAs),
 						style: ElevatedButton.styleFrom(
 							backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
 							foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
@@ -66,7 +66,7 @@ class SongViewer extends StatelessWidget {
 					const SizedBox(width: 5),
 
 					ElevatedButton(
-						child: Text('Save'),
+						child: Text(AppLocalizations.of(context)!.save),
 						style: ElevatedButton.styleFrom(
 							backgroundColor: Theme.of(context).colorScheme.primaryContainer,
 							foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,

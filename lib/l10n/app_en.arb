@@ -170,6 +170,8 @@
 	"ok": "OK",
 	"done": "Done",
 	"select": "Select",
+	"save": "Save",
+	"saveAs": "Save as...",
 	"hintText": "Type something...",
 	"notValidInput": "Not valid input!",
 	"valueMustBeBiggerThan0": "Value must be bigger than 0!",

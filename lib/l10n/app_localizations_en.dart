@@ -447,6 +447,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get select => 'Select';
 
   @override
+  String get save => 'Save';
+
+  @override
+  String get saveAs => 'Save as...';
+
+  @override
   String get hintText => 'Type something...';
 
   @override
