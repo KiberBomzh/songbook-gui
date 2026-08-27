@@ -108,12 +108,6 @@ bool existenceCheck({required String pathStr}) =>
 List<String> getForbiddenChars() =>
     RustLib.instance.api.crateApiLibraryGetForbiddenChars();
 
-String getBaseUrl({required String url}) =>
-    RustLib.instance.api.crateApiLibraryGetBaseUrl(url: url);
-
-bool hasPart({required String baseUrl, required String part_}) =>
-    RustLib.instance.api.crateApiLibraryHasPart(baseUrl: baseUrl, part_: part_);
-
 List<String> getAvailableSites() =>
     RustLib.instance.api.crateApiLibraryGetAvailableSites();
 

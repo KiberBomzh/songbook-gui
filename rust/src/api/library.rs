@@ -421,14 +421,6 @@ pub fn get_forbidden_chars() -> Vec<char> {
 }
 
 #[flutter_rust_bridge::frb(sync)]
-pub fn get_base_url(url: String) -> String {
-    songbook::url_parser::get_base_url(&url)
-}
-#[flutter_rust_bridge::frb(sync)]
-pub fn has_part(base_url: String, part: String) -> bool {
-    songbook::url_parser::has_part(&base_url, &part)
-}
-#[flutter_rust_bridge::frb(sync)]
 pub fn get_available_sites() -> Vec<String> {
     songbook::url_parser::AVAILABLE_SITES
         .map(|s| s.to_string())
