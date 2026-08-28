@@ -118,3 +118,7 @@ cargo install songbook --features tui
 - `ls` - show files in a directory
 - `tree` - show library as a tree
 - `mkdir` - create a directory
+
+# Environment variables
+- `SONGBOOK_DATA_DIR` - path to data directory
+- `SONGBOOK_SHARP_ONLY` - possible values: 0 or 1. If value is 1 flat notes will not be used
