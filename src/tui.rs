@@ -21,13 +21,14 @@ use config::Config;
 
 
 const DEFAULT_AUTOSCROLL_SPEED: Duration = Duration::from_millis(2500);
+const DEFAULT_AUTOSCROLL_DELAY: Duration = Duration::from_secs(3);
 
 
 
-pub fn main() -> Result<()> {
+pub async fn main() -> Result<()> {
     let mut terminal = ratatui::init();
     let mut app = App::new()?;
-    let app_result = app.run(&mut terminal);
+    let app_result = app.run(&mut terminal).await;
 
     ratatui::restore();
 
@@ -90,8 +91,11 @@ struct App {
     scroll_x_max: usize,
 
     autoscroll: bool,
+    delay: bool,
     autoscroll_speed: Duration,
-    last_scroll_time: Instant
+    autoscroll_delay: Duration,
+    last_scroll_time: Instant,
+    delay_start: Instant,
 }
 
 impl App {
@@ -127,11 +131,14 @@ impl App {
             scroll_y_max: 0,
             scroll_x_max: 0,
             autoscroll: false,
+            delay: false,
             autoscroll_speed: DEFAULT_AUTOSCROLL_SPEED,
-            last_scroll_time: Instant::now()
+            autoscroll_delay: DEFAULT_AUTOSCROLL_DELAY,
+            last_scroll_time: Instant::now(),
+            delay_start: Instant::now(),
         })
     }
-    fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<()> {
+    async fn run(&mut self, terminal: &mut DefaultTerminal) -> Result<()> {
         while !self.exit {
             terminal.draw(|frame| self.draw(frame))?;
             self.update_scroll();
@@ -139,7 +146,7 @@ impl App {
 
                 #[allow(clippy::single_match)]
                 match crossterm::event::read()? {
-                    Event::Key(key_event) => self.handle_key_event(key_event, terminal)?,
+                    Event::Key(key_event) => self.handle_key_event(key_event, terminal).await?,
                     _ => {}
                 }
             }
@@ -155,15 +162,15 @@ impl App {
         }
     }
 
-    fn handle_key_event(&mut self, key_event: KeyEvent, terminal: &mut DefaultTerminal) -> Result<()> {
+    async fn handle_key_event(&mut self, key_event: KeyEvent, terminal: &mut DefaultTerminal) -> Result<()> {
         match self.current_screen {
-            Screen::Main => self.handle_main_key_event(key_event, terminal)?,
+            Screen::Main => self.handle_main_key_event(key_event, terminal).await?,
             Screen::Help => self.handle_help_key_event(key_event)?,
         }
         Ok(())
     }
 
-    fn handle_main_key_event(&mut self, key_event: KeyEvent, terminal: &mut DefaultTerminal) -> Result<()> {
+    async fn handle_main_key_event(&mut self, key_event: KeyEvent, terminal: &mut DefaultTerminal) -> Result<()> {
         let mut is_song_changed = false;
         if key_event.kind.is_press() {
             match key_event.code {
@@ -178,7 +185,7 @@ impl App {
                 KeyCode::Enter if self.is_long_command => {
                     if !self.long_command.is_empty() {
                         match self.focus {
-                            Focus::Library => self.handle_long_command_in_library()?,
+                            Focus::Library => self.handle_long_command_in_library().await?,
                             Focus::Song => self.handle_long_command_in_song(&mut is_song_changed)?
                         }
                     }
@@ -208,6 +215,12 @@ impl App {
                     is_song_changed = true;
                     song.metadata.autoscroll_speed = Some(new_speed);
                 }
+            }
+            if let Some(delay) = song.metadata.autoscroll_delay &&
+                Duration::from_secs(delay) == self.autoscroll_delay {
+            } else {
+                is_song_changed = true;
+                song.metadata.autoscroll_delay = Some(self.autoscroll_delay.as_secs());
             }
 
 
@@ -253,6 +266,12 @@ impl App {
 
 
     fn update_scroll(&mut self) {
+        if self.delay {
+            if Instant::now().duration_since(self.delay_start) > self.autoscroll_delay {
+                self.delay = false;
+                self.autoscroll = true;
+            } else { return }
+        }
         if !self.autoscroll { return }
         if self.last_scroll_time.elapsed() < self.autoscroll_speed { return }
 

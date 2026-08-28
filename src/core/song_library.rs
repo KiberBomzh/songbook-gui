@@ -6,7 +6,7 @@ use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind};
 use std::process::{Command, Stdio};
 
 use include_dir::{include_dir, Dir};
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 
 #[cfg(feature = "colored")]
 use crossterm::{
@@ -28,8 +28,7 @@ pub const FORBIDDEN_CHARS: [char; 10] = ['<', '>', ':', '/', '\\', '|', '?', '*'
 
 pub fn init() -> Result<()> {
     let assets: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/assets");
-    if let Some(mut path) = get_base_path() {
-        path.push("songbook");
+    if let Some(path) = get_base_path() {
         if !path.exists() { fs::create_dir_all(&path)? }
         assets.extract(&path)?;
         Ok(())
@@ -49,8 +48,11 @@ pub fn show(
     #[cfg(feature = "colored")]
     is_colored: bool
 ) -> Result<()> {
-    let mut path = get_lib_path()?;
-    path = path.join(song_path);
+    let path = if song_path.is_file() {
+        song_path.to_path_buf()
+    } else {
+        get_lib_path()?.join(song_path)
+    };
 
     let file = File::open(path)?;
     let reader = BufReader::new(file);
@@ -72,11 +74,11 @@ pub fn show(
         if is_colored {
             song.get_colored()
         } else {
-            song.get_song_as_text()
+            song.to_string()
         };
 
     #[cfg(not(feature = "colored"))]
-    let text = song.get_song_as_text();
+    let text = song.to_string();
 
     print(&text)?;
 
@@ -85,9 +87,13 @@ pub fn show(
 }
 
 
-pub fn edit(added_path: &Path) -> Result<()> {
-    let mut path = get_lib_path()?;
-    path = path.join(added_path);
+pub fn edit(maybe_path: &Path) -> Result<()> {
+    let path = if maybe_path.is_file() {
+        maybe_path.to_path_buf()
+    } else {
+        get_lib_path()?.join(maybe_path)
+    };
+
     if !path.exists() {
         return Err( Error::new(ErrorKind::NotFound, "There's no such file!").into() )
     }
@@ -131,9 +137,7 @@ pub fn add(song: &Song) -> Result<()> {
 
 
 pub fn export_backup(out_path: &Path) -> Result<()> {
-    let base_path = if let Some(p) = get_base_path() {
-        p.join("songbook")
-    } else {
+    let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow::anyhow!("Cannot get base path!"));
     };
     let lib_path = base_path.join("library");
@@ -182,9 +186,7 @@ fn add_in_zip_recursive(
 }
 
 pub fn import_backup(path: &Path) -> Result<()> {
-    let base_path = if let Some(p) = get_base_path() {
-        p.join("songbook")
-    } else {
+    let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow::anyhow!("Cannot get base path!"));
     };
     let lib_path = base_path.join("library");
@@ -482,20 +484,16 @@ pub fn mkdir(added_path: &Path) -> Result<()> {
     Ok(())
 }
 
-pub fn add_fingering(fing: &Fingering) -> Result<(), Box<dyn std::error::Error>> {
-    let mut path: PathBuf = get_base_path()
-        .ok_or("Cannot get path for data!")?;
-    path.push("songbook");
-    path.push("fingerings");
+pub fn add_fingering(fing: &Fingering) -> Result<()> {
+    let path = get_fingerings_path()?;
     if !path.exists() { fs::create_dir_all(&path)? }
 
     let fing_name = get_without_forbidden_chars(
         fing.get_title()
-            .ok_or("Cannot get the fingering title!")?
+            .ok_or(anyhow!("Cannot get the fingering title!"))?
     );
-    path.push(&fing_name);
 
-    let file = File::create(path)?;
+    let file = File::create(path.join(fing_name))?;
     let writer = BufWriter::new(file);
 
     serde_yaml::to_writer(writer, &fing)?;
@@ -504,13 +502,8 @@ pub fn add_fingering(fing: &Fingering) -> Result<(), Box<dyn std::error::Error>>
     Ok(())
 }
 
-pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>, Box<dyn std::error::Error>> {
-    let mut path: PathBuf = get_base_path()
-        .ok_or("Cannot get path for data!")?;
-    path.push("songbook");
-    path.push("fingerings");
-    path.push(chord_name);
-    
+pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>> {
+    let path: PathBuf = get_fingerings_path()?.join(chord_name);
     if !path.exists() { return Ok(None) }
 
     let file = File::open(path)?;
@@ -552,9 +545,15 @@ pub fn get_free_path(mut path: PathBuf, name: &str) -> PathBuf {
     return path
 }
 
+pub fn get_fingerings_path() -> Result<PathBuf> {
+    Ok( get_base_path()
+        .ok_or(anyhow!("Cannot get data directory!"))?
+        .join("fingerings")
+    )
+}
+
 pub fn get_lib_path() -> Result<PathBuf> {
     if let Some(mut path) = get_base_path() {
-        path.push("songbook");
         path.push("library");
 
         Ok(path)
@@ -564,22 +563,17 @@ pub fn get_lib_path() -> Result<PathBuf> {
 
 
 pub fn get_base_path() -> Option<PathBuf> {
-    #[cfg(not(target_os = "android"))]
-    return dirs::data_dir();
-    
-    #[cfg(feature = "termux")]
-    return dirs::data_dir();
-
-    #[cfg(target_os = "android")]
-    #[cfg(not(feature = "termux"))]
-    if let Ok(p) = get_local_data_dir() { Some(p) }
-    else { None }
+    Some(
+        if let Ok(p) = get_local_data_dir() { p }
+        else { dirs::data_dir()?.join("songbook") }
+    )
 }
 
 
-#[cfg(target_os = "android")]
-#[cfg(not(feature = "termux"))]
 fn get_local_data_dir() -> Result<PathBuf> {
-    let path_str = std::env::var("APP_DATA_DIR")?;
-    return Ok(PathBuf::from(path_str))
+    Ok(
+        PathBuf::from(
+            std::env::var(crate::DATA_DIR)?
+        )
+    )
 }

@@ -2,6 +2,8 @@ pub mod block;
 pub mod row;
 pub mod chord;
 
+use std::fmt;
+use std::collections::{HashSet, BTreeSet, BTreeMap};
 use serde::{Serialize, Deserialize};
 
 #[cfg(feature = "colored")]
@@ -16,7 +18,11 @@ use crate::{
     SONG_KEY_SYMBOL,
     SONG_CAPO_SYMBOL,
     SONG_AUTOSCROLL_SPEED_SYMBOL,
+    SONG_AUTOSCROLL_DELAY_SYMBOL,
     SONG_SHOW_OPTIONS_SYMBOL,
+    SONG_TAGS_SYMBOL,
+    SONG_FINGERINGS_START,
+    SONG_FINGERINGS_END,
 
     BLOCK_START,
     BLOCK_END,
@@ -34,13 +40,13 @@ use crate::song::block::{Block, Line};
 use crate::song::row::ChordPosition;
 
 #[cfg(feature = "colored")]
-use crate::{TITLE_COLOR, NOTES_COLOR};
+use crate::{TITLE_COLOR, NOTES_COLOR, CHORDS_COLOR};
 
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Song {
     pub metadata: Metadata,
-    pub chord_list: Vec<Chord>,
+    pub chord_list: HashSet<Chord>,
     pub blocks: Vec<Block>,
     pub notes: Option<String> // Заметки по песне в общем
 }
@@ -65,7 +71,10 @@ pub struct Metadata {
     pub key: Option<Key>,
     pub capo: Option<u8>,
     pub autoscroll_speed: Option<u64>, // in milliseconds
+    pub autoscroll_delay: Option<u64>, // in seconds
     pub show_options: Option<ShowOptions>,
+    pub tags: Option<BTreeSet<String>>, // in Option for compatibility
+    pub fingerings: Option<BTreeMap<Chord, Fingering>>
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy)]
@@ -78,6 +87,20 @@ pub struct ShowOptions {
 
 
 impl Metadata {
+    pub fn new(title: String, artist: String) -> Self{
+        Self {
+            title,
+            artist,
+            key: None,
+            capo: None,
+            autoscroll_speed: None,
+            autoscroll_delay: None,
+            show_options: None,
+            tags: None,
+            fingerings: None,
+        }
+    }
+
     fn get_for_editing(&self, s: &mut String) {
         s.push_str(METADATA_START);
         s.push('\n');
@@ -109,12 +132,47 @@ impl Metadata {
         }
         s.push('\n');
 
+        s.push_str(SONG_AUTOSCROLL_DELAY_SYMBOL);
+        if let Some(delay) = self.autoscroll_delay {
+            s.push_str(&delay.to_string())
+        }
+        s.push('\n');
+
         if let Some(opt) = self.show_options {
             s.push_str(SONG_SHOW_OPTIONS_SYMBOL);
             if opt.chords { s.push_str("c ") }
             if opt.rhythm { s.push_str("r ") }
             if opt.notes { s.push_str("n ") }
             if opt.fingerings { s.push_str("f ") }
+            s.push('\n');
+        }
+
+        if let Some(tags) = &self.tags {
+            s.push_str(SONG_TAGS_SYMBOL);
+            s.push_str(&
+                tags.iter().enumerate()
+                .map(|(i, t)| {
+                    if i == 0 {
+                        t.clone()
+                    } else {
+                        ", ".to_string() + t
+                    }
+                }).collect::<String>()
+            );
+            s.push('\n');
+        }
+
+        if let Some(fingerings) = &self.fingerings {
+            s.push_str(SONG_FINGERINGS_START);
+            s.push('\n');
+            for (chord, fingering) in fingerings {
+                s.push_str(&chord.to_string());
+                s.push('\t');
+                
+                s.push_str(&fingering.get_for_editing());
+                s.push('\n');
+            }
+            s.push_str(SONG_FINGERINGS_END);
             s.push('\n');
         }
 
@@ -132,9 +190,22 @@ impl Metadata {
         let mut key: Option<Key> = None;
         let mut capo: Option<u8> = None;
         let mut autoscroll_speed: Option<u64> = None;
+        let mut autoscroll_delay: Option<u64> = None;
         let mut opts: Option<ShowOptions> = None;
+        let mut tags: BTreeSet<String> = BTreeSet::new();
+
+        let mut fingerings_lines = String::new();
+        let mut is_in_fingerings = false;
         for line in text.lines() {
-            if line.starts_with(SONG_TITLE_SYMBOL) {
+            if line.starts_with(SONG_FINGERINGS_END) {
+                is_in_fingerings = false;
+            } else if line.starts_with(SONG_FINGERINGS_START) {
+                is_in_fingerings = true;
+            } else if is_in_fingerings {
+                fingerings_lines.push_str(line);
+                fingerings_lines.push('\n');
+
+            } else if line.starts_with(SONG_TITLE_SYMBOL) {
                 title = line[SONG_TITLE_SYMBOL.len()..].trim().to_string();
             } else if line.starts_with(SONG_ARTIST_SYMBOL) {
                 artist = line[SONG_ARTIST_SYMBOL.len()..].trim().to_string();
@@ -149,6 +220,10 @@ impl Metadata {
                 if let Ok(s) = line[SONG_AUTOSCROLL_SPEED_SYMBOL.len()..].trim().parse::<u64>() {
                     autoscroll_speed = Some(s)
                 }
+            } else if line.starts_with(SONG_AUTOSCROLL_DELAY_SYMBOL) {
+                if let Ok(d) = line[SONG_AUTOSCROLL_DELAY_SYMBOL.len()..].trim().parse::<u64>() {
+                    autoscroll_delay = Some(d)
+                }
             } else if line.starts_with(SONG_SHOW_OPTIONS_SYMBOL) {
                 let opts_str = line[SONG_SHOW_OPTIONS_SYMBOL.len()..].trim();
                 opts = Some( ShowOptions {
@@ -157,6 +232,12 @@ impl Metadata {
                     notes: opts_str.contains('n'),
                     fingerings: opts_str.contains('f'),
                 });
+            } else if line.starts_with(SONG_TAGS_SYMBOL) {
+                let tags_str = line[SONG_TAGS_SYMBOL.len()..].trim();
+                for tag in tags_str.split(", ") {
+                    if tag.trim().is_empty() { continue };
+                    tags.insert(tag.to_string());
+                }
             }
         }
 
@@ -165,7 +246,44 @@ impl Metadata {
         self.key = key;
         self.capo = capo;
         self.autoscroll_speed = autoscroll_speed;
+        self.autoscroll_delay = autoscroll_delay;
         self.show_options = opts;
+        self.tags = if tags.is_empty() { None } else { Some(tags) };
+        self.parse_fingerings(fingerings_lines);
+    }
+    fn parse_fingerings(&mut self, s: String) {
+        if s.is_empty() {
+            self.fingerings = None;
+            return;
+        }
+
+        let mut fingerings = BTreeMap::new();
+        for line in s.lines() {
+            if let Some(i) = line.find('\t') {
+                let chord = 
+                    if let Some(c) = Chord::new(&line[..i]) { c } else { continue };
+
+                let mut strings = ["x"; super::STRINGS];
+                for (i, c) in line[i + 1..].split_whitespace().enumerate() {
+                    if i > strings.len() - 1 { break }
+                    strings[i] = c;
+                }
+                let fingering = 
+                    if let Some(f) = 
+                        Fingering::from(
+                            strings,
+                            Some(line[..i].to_string())
+                        ) { f } else { continue };
+
+                fingerings.insert(chord, fingering);
+            }
+        }
+
+        self.fingerings = if fingerings.is_empty() {
+            None
+        } else {
+            Some(fingerings)
+        };
     }
 
     pub fn get_show_options(&self) -> (bool, bool, bool, bool) {
@@ -181,97 +299,13 @@ impl Metadata {
 impl Song {
     pub fn new(title: &str, artist: &str) -> Self {
         Self {
-            metadata: Metadata {
-                title: title.to_string(), 
-                artist: artist.to_string(),
-                key: None,
-                capo: None,
-                autoscroll_speed: None,
-                show_options: None,
-            },
-            chord_list: Vec::new(),
+            metadata: Metadata::new(title.to_string(), artist.to_string()),
+            chord_list: HashSet::new(),
             blocks: Vec::new(),
             notes: None
         }
     }
 
-    pub fn get_song_as_text(&self) -> String {
-        let (chords, _rhythm, notes, fingerings) = self.metadata.get_show_options();
-        let mut s = String::new();
-
-
-        if !self.metadata.artist.is_empty() && !self.metadata.title.is_empty() {
-            s.push_str( &format!("{} - {}", self.metadata.artist, self.metadata.title) );
-            s.push_str("\n\n");
-        }
-
-        if let Some(n) = &self.notes && notes {
-            s.push_str(n);
-            s.push('\n');
-        }
-
-        if chords && fingerings {
-            let fings = self.get_fingerings();
-            
-            if let Some(text) = sum_text_in_fingerings(&fings, None) {
-                s.push_str(&text);
-            }
-        }
-
-        s.push_str(&self.string());
-
-
-        return s
-    }
-
-    pub fn print(&self) {
-        println!("{}", self.get_song_as_text());
-    }
-
-    pub fn string(&self) -> String {
-        let (chords, rhythm, notes, _fingerings) = self.metadata.get_show_options();
-
-        let mut s = String::new();
-        let mut is_first = true;
-        for block in &self.blocks {
-            if is_first { is_first = false }
-            else { s.push('\n') }
-
-            if let Some(title) = &block.title {
-                if !is_first && !title.is_empty() { s.push('\n') }
-                s.push_str(title);
-                s.push(' ');
-            }
-            if let Some(n) = &block.notes && notes {
-                if !is_first && block.title.is_none() { s.push('\n') }
-                s.push_str(n);
-            }
-            if !block.lines.is_empty() { s.push('\n') }
-
-            let mut is_first_line = true;
-            for line in &block.lines {
-                if is_first_line { is_first_line = false }
-                else { s.push('\n') }
-                match line {
-                    Line::TextBlock(row) => s.push_str(&row.to_string(chords, rhythm)),
-                    Line::ChordsLine(cs) => if chords {
-                        for chord in cs {
-                            s.push_str(&chord.text);
-                            s.push(' ');
-                        }
-                    },
-                    Line::NoteLine(text) => if notes {
-                        s.push_str(text);
-                    } else { s.pop(); },
-                    Line::PlainText(text) => s.push_str(text),
-                    Line::Tab(text) => s.push_str(text),
-                    Line::EmptyLine => {}
-                }
-            }
-        }
-
-        return s
-    }
 
     #[cfg(feature = "colored")]
     pub fn get_colored(&self) -> String {
@@ -297,7 +331,21 @@ impl Song {
         }
         
         let mut is_first = true;
+        let mut last_block_key = self.metadata.key;
         for block in &self.blocks {
+            // is key changed
+            let (key, is_modulation) = if chords {
+                let key = 
+                    if block.key.is_some() { block.key }
+                    else { self.metadata.key };
+
+                let m = last_block_key != key;
+                last_block_key = key;
+
+
+                (key, m)
+            } else { (None, false) };
+
             if is_first { is_first = false }
             else { s.push('\n') }
 
@@ -309,6 +357,12 @@ impl Song {
             if let Some(n) = &block.notes && notes {
                 if !is_first && block.title.is_none() { s.push('\n') }
                 s.push_str(&format!("{}", n.clone().with(NOTES_COLOR)));
+            }
+            if let Some(k) = key && chords && is_modulation {
+                s.push_str(&format!("\n{} {}",
+                        "Key:".to_string().with(NOTES_COLOR),
+                        k.to_string().with(CHORDS_COLOR)
+                    ));
             }
             if !block.lines.is_empty() { s.push('\n') }
             
@@ -357,25 +411,33 @@ impl Song {
     }
 
     pub fn transpose(&mut self, steps: i32) {
-        if let Some(key) = self.metadata.key {
-            self.metadata.key = Some(key.transpose(steps))
-        }
-        for chord in &mut self.chord_list { *chord = chord.transpose(steps) }
+        let is_flat = if let Some(key) = self.metadata.key {
+            let new_key = key.transpose(steps);
+            self.metadata.key = Some(new_key);
+            new_key.is_flat()
+        } else { false };
+
+        self.chord_list = self.chord_list.iter().map(|c| c.transpose(steps, is_flat)).collect();
         for block in &mut self.blocks {
+            let is_flat = if let Some(key) = block.key {
+                let new_key = key.transpose(steps);
+                block.key = Some(new_key);
+                new_key.is_flat()
+            } else { is_flat };
             for line in &mut block.lines {
                 match line {
                     Line::TextBlock(row) => {
                         if let Some(chords) = &mut row.chords {
                             for chord in chords {
                                 match chord {
-                                    ChordPosition::UpBeat(chord) => *chord = chord.transpose(steps),
-                                    ChordPosition::OnIndex{chord, ..} => *chord = chord.transpose(steps)
+                                    ChordPosition::UpBeat(chord) => *chord = chord.transpose(steps, is_flat),
+                                    ChordPosition::OnIndex{chord, ..} => *chord = chord.transpose(steps, is_flat)
                                 }
                             }
                         }
                     },
                     Line::ChordsLine(chords) =>
-                        chords.iter_mut().for_each(|c| *c = c.transpose(steps)),
+                        chords.iter_mut().for_each(|c| *c = c.transpose(steps, is_flat)),
                     _ => {}
                 }
             }
@@ -383,7 +445,7 @@ impl Song {
     }
 
     pub fn get_fingerings(&self) -> Vec<Fingering> {
-        let mut fings = Vec::new();
+        let mut fings: Vec<Fingering> = Vec::new();
         
         #[cfg(not(feature = "song_library"))]
         for f in self.get_all_fingerings() {
@@ -392,7 +454,10 @@ impl Song {
         
         #[cfg(feature = "song_library")]
         for chord in &self.chord_list {
-            if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.text) {
+            if let Some(fingerings) = &self.metadata.fingerings
+            && let Some(f) = fingerings.get(chord) {
+                fings.push(f.clone())
+            } else if let Ok(Some(f)) = crate::song_library::get_fingering(&chord.to_string()) {
                 fings.push(f)
             } else {
                 fings.push( chord.get_fingerings(&STANDART_TUNING)[0].clone() )
@@ -495,8 +560,8 @@ impl Song {
         self.chord_list = self.get_chord_list();
     }
 
-    fn get_chord_list(&self) -> Vec<Chord> {
-        let mut list = Vec::new();
+    fn get_chord_list(&self) -> HashSet<Chord> {
+        let mut set = HashSet::new();
         for block in &self.blocks {
             for line in &block.lines {
                 match line {
@@ -504,26 +569,149 @@ impl Song {
                         if let Some(chords) = &row.chords {
                             for chord in chords {
                                 match chord {
-                                    ChordPosition::UpBeat(chord) => if list.iter().all(|c| c != chord) {
-                                        list.push(chord.clone());
+                                    ChordPosition::UpBeat(chord) => {
+                                        set.insert(chord.clone());
                                     },
-                                    ChordPosition::OnIndex{chord, ..} => if list.iter().all(|c| c != chord) {
-                                        list.push(chord.clone());
+                                    ChordPosition::OnIndex{chord, ..} => {
+                                        set.insert(chord.clone());
                                     },
                                 }
                             }
                         }
                     },
                     Line::ChordsLine(chords) => for chord in chords {
-                        if list.iter().all(|c| c != chord) {
-                            list.push(chord.clone());
-                        }
+                        set.insert(chord.clone());
                     },
                     _ => {}
                 }
             }
         }
 
-        return list;
+        return set;
+    }
+
+
+    // yes, I broke the compatibility again
+    pub fn chord_fix(&mut self) -> bool {
+        if self.chord_list.iter().next().is_none_or(|c| c.compatibility_check()) {
+            return false;
+        }
+
+
+        self.chord_list = self.chord_list.iter().map(|c| {
+            let mut chord = c.clone();
+            chord.compatibility_fix();
+            chord
+        } ).collect::<HashSet<Chord>>();
+
+        for block in self.blocks.iter_mut() {
+            for line in block.lines.iter_mut() {
+                match line {
+                    Line::TextBlock(row) => {
+                        if let Some(chords) = &mut row.chords {
+                            for chord in chords.iter_mut() {
+                                match chord {
+                                    ChordPosition::UpBeat(chord) => chord.compatibility_fix(),
+                                    ChordPosition::OnIndex{chord, ..} => chord.compatibility_fix(),
+                                };
+                            }
+                        }
+                    },
+                    Line::ChordsLine(chords) => for chord in chords {
+                        chord.compatibility_fix();
+                    },
+                    _ => {}
+                }
+            }
+        }
+
+
+        true
+    }
+}
+
+impl fmt::Display for Song {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let (chords, rhythm, notes, fingerings) = self.metadata.get_show_options();
+        let mut s = String::new();
+
+
+        if !self.metadata.artist.is_empty() && !self.metadata.title.is_empty() {
+            s.push_str( &format!("{} - {}", self.metadata.artist, self.metadata.title) );
+            s.push_str("\n\n");
+        }
+
+        if let Some(n) = &self.notes && notes {
+            s.push_str(n);
+            s.push('\n');
+        }
+
+        if chords && fingerings {
+            let fings = self.get_fingerings();
+            
+            if let Some(text) = sum_text_in_fingerings(&fings, None) {
+                s.push_str(&text);
+            }
+        }
+
+
+        let mut is_first = true;
+        let mut last_block_key = self.metadata.key;
+        for block in &self.blocks {
+            // is key changed
+            let (key, is_modulation) = if chords {
+                let key = 
+                    if block.key.is_some() { block.key }
+                    else { self.metadata.key };
+
+                let m = last_block_key != key;
+                last_block_key = key;
+
+
+                (key, m)
+            } else { (None, false) };
+
+            if is_first { is_first = false }
+            else { s.push('\n') }
+
+            if let Some(title) = &block.title {
+                if !is_first && !title.is_empty() { s.push('\n') }
+                s.push_str(title);
+                s.push(' ');
+            }
+            if let Some(n) = &block.notes && notes {
+                if !is_first && block.title.is_none() { s.push('\n') }
+                s.push_str(n);
+            }
+            if let Some(k) = key && chords && is_modulation {
+                s.push_str(&format!("\nKey: {}", k));
+            }
+
+            if !block.lines.is_empty() { s.push('\n') }
+
+            let mut is_first_line = true;
+            for line in &block.lines {
+                if is_first_line { is_first_line = false }
+                else { s.push('\n') }
+                match line {
+                    Line::TextBlock(row) => s.push_str(&row.to_string(chords, rhythm)),
+                    Line::ChordsLine(cs) => if chords {
+                        for chord in cs {
+                            s.push_str(&chord.to_string());
+                            s.push(' ');
+                        }
+                    },
+                    Line::NoteLine(text) => if notes {
+                        s.push_str(text);
+                    } else { s.pop(); },
+                    Line::PlainText(text) => s.push_str(text),
+                    Line::Tab(text) => s.push_str(text),
+                    Line::EmptyLine => {}
+                }
+            }
+        }
+
+
+        write!(f, "{s}")
     }
 }

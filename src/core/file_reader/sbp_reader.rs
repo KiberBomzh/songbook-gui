@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     Song,
     Metadata,
@@ -79,18 +80,20 @@ fn convert_metadata(song: &SbpSong) -> ( Metadata, Option<String> ) {
         key,
         capo: if song.Capo > 0 { Some( song.Capo ) } else { None },
         autoscroll_speed: None,
+        autoscroll_delay: None,
         show_options: None,
+        tags: Some(std::collections::BTreeSet::new()),
+        fingerings: None,
     },
     if song.NotesText.is_empty() { None }
     else { Some( song.NotesText.clone() ) } )
 }
 
-fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
+fn convert_content(content: &str) -> ( Vec<Block>, HashSet<Chord> ) {
     let mut blocks = Vec::new();
-    let mut chord_list = Vec::new();
+    let mut chord_list = HashSet::new();
 
     let mut title = String::new();
-    let mut notes = String::new();
 
     let mut tab = String::new();
     let mut in_tab = false;
@@ -101,14 +104,14 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
             while lines.last() == Some(&Line::EmptyLine) {
                 lines.pop();
             }
-            if !title.is_empty() || !notes.is_empty() || !lines.is_empty() {
+            if !title.is_empty() || !lines.is_empty() {
                 blocks.push( Block {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines,
-                    notes: if notes.is_empty() { None } else { Some(notes) }
+                    notes: None,
+                    key: None,
                 });
                 title = String::new();
-                notes = String::new();
                 lines = Vec::new();
             }
 
@@ -120,8 +123,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
 
         } else if line.starts_with("(") && line.ends_with(")") {
             if let Some(end) = line.find(")") {
-                if !notes.is_empty() { notes.push('\n') }
-                notes.push_str(&line[1..end])
+                lines.push(Line::NoteLine(line[1..end].trim().to_string()))
             } else {
                 lines.push(Line::PlainText(line.trim().to_string()))
             }
@@ -150,11 +152,12 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
     while lines.last() == Some(&Line::EmptyLine) {
         lines.pop();
     }
-    if !title.is_empty() || !notes.is_empty() || !lines.is_empty() {
+    if !title.is_empty() || !lines.is_empty() {
         blocks.push( Block {
             title: if title.is_empty() { None } else { Some(title) },
             lines,
-            notes: if notes.is_empty() { None } else { Some(notes) }
+            notes: None,
+            key: None,
         });
     }
 
@@ -162,7 +165,7 @@ fn convert_content(content: &str) -> ( Vec<Block>, Vec<Chord> ) {
 }
 
 
-fn unwrap_line_with_chords(line: &str, chord_list: &mut Vec<Chord>) -> Line {
+fn unwrap_line_with_chords(line: &str, chord_list: &mut HashSet<Chord>) -> Line {
     let mut text = String::new();
     let mut chords: Vec<ChordPosition> = Vec::new();
 
@@ -175,7 +178,7 @@ fn unwrap_line_with_chords(line: &str, chord_list: &mut Vec<Chord>) -> Line {
         } else if c == ']' {
             in_chord = false;
             if let Some(chord) = Chord::new(&chord_text) {
-                if chord_list.iter().all(|ch| *ch != chord) { chord_list.push(chord.clone()) }
+                chord_list.insert(chord.clone());
                 chords.push(ChordPosition::OnIndex {index, chord} );
             }
             chord_text.clear();

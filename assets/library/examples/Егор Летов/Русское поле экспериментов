@@ -1,38 +1,49 @@
 metadata:
   title: Русское поле экспериментов
-  artist: Егор Летов
+  artist: Гражданская Оборона
   key:
     keynote: D
     is_minor: true
   capo: null
-  autoscroll_speed: 2750
+  autoscroll_speed: 2500
+  autoscroll_delay: 3
+  show_options:
+    chords: true
+    rhythm: true
+    notes: true
+    fingerings: false
 chord_list:
-- text: Bm
+- text: m
   keynote: B
+  flat: false
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: G
+- text: ''
   keynote: G
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Em
+- text: m
   keynote: E
+  flat: false
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: F#
+- text: ''
   keynote: FSharp
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: A
+- text: ''
   keynote: A
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
@@ -46,8 +57,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -55,8 +67,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -68,8 +81,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -77,8 +91,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -90,8 +105,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -99,8 +115,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -112,8 +129,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -121,8 +139,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -137,8 +156,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -146,8 +166,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -159,8 +180,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -168,8 +190,9 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -181,8 +204,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -190,8 +214,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -203,8 +228,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -212,8 +238,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -226,15 +253,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -242,8 +271,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -251,8 +281,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -262,15 +293,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -278,8 +311,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -287,8 +321,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -298,15 +333,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -314,8 +351,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -323,8 +361,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -334,15 +373,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -350,8 +391,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -359,8 +401,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -373,15 +416,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -389,8 +434,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -398,8 +444,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -409,15 +456,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -425,8 +474,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -434,21 +484,26 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Вечность пахнет нефтью...
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -456,8 +511,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -465,8 +521,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -478,8 +535,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -487,8 +545,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -496,8 +555,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -509,8 +569,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -518,8 +579,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -527,8 +589,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -540,8 +603,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -549,8 +613,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -558,21 +623,26 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Славно валится на, на, на...
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -580,8 +650,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -589,8 +660,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -598,8 +670,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -611,8 +684,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -620,8 +694,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -629,8 +704,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -638,8 +714,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -651,8 +728,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -660,8 +738,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -669,8 +748,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -678,8 +758,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -691,8 +772,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -700,8 +782,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -709,8 +792,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -718,8 +802,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -734,8 +819,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -743,8 +829,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -756,8 +843,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -765,8 +853,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -778,8 +867,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -787,8 +877,9 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -800,8 +891,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -809,21 +901,26 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Мифология оптимизма
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -831,8 +928,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -844,8 +942,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -853,8 +952,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -866,8 +966,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -875,8 +976,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -888,8 +990,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -897,8 +1000,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -911,15 +1015,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -927,8 +1033,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -936,8 +1043,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -947,15 +1055,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -963,8 +1073,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -972,21 +1083,26 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Вечность пахнет нефтью...
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -994,8 +1110,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1003,8 +1120,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1016,8 +1134,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1025,8 +1144,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1034,8 +1154,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1047,8 +1168,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1056,8 +1178,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1065,8 +1188,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1078,8 +1202,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1087,8 +1212,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1096,21 +1222,26 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Славно валится на, на, на...
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1118,8 +1249,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1127,8 +1259,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1136,8 +1269,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1149,8 +1283,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1158,8 +1293,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1167,8 +1303,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1176,8 +1313,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1189,8 +1327,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1198,8 +1337,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1207,8 +1347,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1216,8 +1357,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1229,8 +1371,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1238,8 +1381,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1247,8 +1391,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1256,8 +1401,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1272,8 +1418,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1281,8 +1428,9 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1294,8 +1442,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1303,8 +1452,9 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1316,8 +1466,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1325,8 +1476,9 @@ blocks:
     - !OnIndex
       index: 33
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1338,8 +1490,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1347,26 +1500,32 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Искусство вовремя уйти в сторонку
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1374,8 +1533,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1383,8 +1543,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1394,15 +1555,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1410,8 +1573,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1419,8 +1583,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1435,8 +1600,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1444,8 +1610,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1457,8 +1624,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1466,8 +1634,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1479,8 +1648,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1488,8 +1658,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1501,8 +1672,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1510,26 +1682,32 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: От скверного запаха немытых шей
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1537,8 +1715,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1546,8 +1725,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1557,15 +1737,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1573,8 +1755,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1582,8 +1765,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1598,8 +1782,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1607,8 +1792,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1616,8 +1802,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1625,8 +1812,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1638,8 +1826,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1647,8 +1836,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1656,8 +1846,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1665,8 +1856,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1678,8 +1870,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1687,8 +1880,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1696,8 +1890,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1705,8 +1900,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1718,8 +1914,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1727,8 +1924,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1736,8 +1934,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1745,8 +1944,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1761,8 +1961,9 @@ blocks:
     - !OnIndex
       index: 6
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1770,8 +1971,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1783,8 +1985,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1792,8 +1995,9 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1805,8 +2009,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1814,8 +2019,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1827,8 +2033,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1836,8 +2043,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1850,15 +2058,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1866,8 +2076,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1875,8 +2086,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1888,8 +2100,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1897,8 +2110,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1911,15 +2125,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Em
+      text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F#
+      text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1927,8 +2143,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1936,8 +2153,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1949,8 +2167,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1958,8 +2177,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1969,26 +2189,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -2002,8 +2226,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2011,8 +2236,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2024,8 +2250,9 @@ blocks:
     - !OnIndex
       index: 9
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2033,8 +2260,9 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2046,8 +2274,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2055,8 +2284,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2068,8 +2298,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2077,8 +2308,9 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2088,26 +2320,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -2121,8 +2357,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2130,8 +2367,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2143,8 +2381,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2152,8 +2391,9 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2165,8 +2405,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2174,8 +2415,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2187,8 +2429,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2196,26 +2439,32 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Это значит исчерпать терпение
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -2223,8 +2472,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2232,8 +2482,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2243,15 +2494,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -2259,8 +2512,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2268,8 +2522,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2284,8 +2539,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2293,8 +2549,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2306,8 +2563,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2315,8 +2573,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2328,8 +2587,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2337,8 +2597,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2350,8 +2611,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2359,8 +2621,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2375,8 +2638,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2384,8 +2648,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2397,8 +2662,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2406,8 +2672,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2419,8 +2686,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2428,8 +2696,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2441,8 +2710,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2450,8 +2720,9 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2466,8 +2737,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2475,8 +2747,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2488,8 +2761,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2497,8 +2771,9 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2510,8 +2785,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2519,8 +2795,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2532,8 +2809,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2541,21 +2819,26 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Пожирания сырой земли
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2563,8 +2846,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2576,8 +2860,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2585,8 +2870,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2598,8 +2884,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2607,8 +2894,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2620,8 +2908,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2629,8 +2918,9 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2645,8 +2935,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2654,8 +2945,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2667,8 +2959,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2676,8 +2969,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2689,8 +2983,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2698,8 +2993,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2711,8 +3007,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2720,21 +3017,26 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Сеяли доброе, разумное, вечное
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2742,8 +3044,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2755,8 +3058,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2764,8 +3068,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2777,8 +3082,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2786,8 +3092,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2799,8 +3106,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2808,8 +3116,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2819,31 +3128,35 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-  notes: (8р.)
+  notes: 8р.
 - title: null
   lines:
   - !TextBlock
@@ -2852,8 +3165,9 @@ blocks:
     - !OnIndex
       index: 6
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2861,8 +3175,9 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2874,8 +3189,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2883,8 +3199,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2896,8 +3213,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2905,8 +3223,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2918,8 +3237,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2927,8 +3247,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2938,26 +3259,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -2971,8 +3296,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -2980,8 +3306,9 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -2993,8 +3320,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3002,8 +3330,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3013,26 +3342,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3046,8 +3379,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3055,8 +3389,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3068,8 +3403,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3077,8 +3413,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3090,8 +3427,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3099,8 +3437,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3112,8 +3451,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3121,8 +3461,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3132,26 +3473,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3165,8 +3510,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3174,8 +3520,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3187,8 +3534,9 @@ blocks:
     - !OnIndex
       index: 6
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3196,8 +3544,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3209,8 +3558,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3218,8 +3568,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3231,8 +3582,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3240,8 +3592,9 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3251,26 +3604,30 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3284,8 +3641,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3293,8 +3651,9 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3306,8 +3665,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3315,8 +3675,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3328,8 +3689,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3337,8 +3699,9 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3350,8 +3713,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3359,8 +3723,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3370,31 +3735,35 @@ blocks:
 - title: Проигрыш
   lines:
   - !ChordsLine
-    - text: Bm
+    - text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: G
+    - text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: Em
+    - text: m
       keynote: E
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-    - text: F#
+    - text: ''
       keynote: FSharp
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
-  notes: (8р.)
+  notes: 8р.
 - title: null
   lines:
   - !TextBlock
@@ -3403,8 +3772,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3412,8 +3782,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3425,8 +3796,9 @@ blocks:
     - !OnIndex
       index: 6
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3434,21 +3806,26 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Освободил от дальнейших неизбежных огорчений
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3456,8 +3833,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3469,8 +3847,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3478,21 +3857,26 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Подманил её пряником
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 4
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3500,8 +3884,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3513,8 +3898,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3522,102 +3908,66 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: И повесил на облачке словно ребёнок
-  - !TextBlock
-    rhythm: null
-    chords:
-    - !OnIndex
-      index: 3
-      chord:
-        text: Bm
-        keynote: B
-        minor: true
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    - !OnIndex
-      index: 15
-      chord:
-        text: G
-        keynote: G
-        minor: false
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    text: Свою нелюбимую куклу
-  - !TextBlock
-    rhythm: null
-    chords:
-    - !OnIndex
-      index: 3
-      chord:
-        text: Em
-        keynote: E
-        minor: true
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    - !OnIndex
-      index: 15
-      chord:
-        text: F#
-        keynote: FSharp
-        minor: false
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    text: Свою нелюбимую куклу
-  - !TextBlock
-    rhythm: null
-    chords:
-    - !OnIndex
-      index: 3
-      chord:
-        text: Bm
-        keynote: B
-        minor: true
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    - !OnIndex
-      index: 15
-      chord:
-        text: G
-        keynote: G
-        minor: false
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    text: Свою нелюбимую куклу
-  - !TextBlock
-    rhythm: null
-    chords:
-    - !OnIndex
-      index: 3
-      chord:
-        text: Em
-        keynote: E
-        minor: true
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    - !OnIndex
-      index: 15
-      chord:
-        text: F#
-        keynote: FSharp
-        minor: false
-        chord_type: Norm
-        fifth_state: Norm
-        sus_or_add: No
-    text: Свою нелюбимую куклу
   notes: null
+- title: null
+  lines:
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: m
+        keynote: B
+        flat: false
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: ''
+        keynote: G
+        flat: false
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  - !TextBlock
+    rhythm: null
+    chords:
+    - !OnIndex
+      index: 3
+      chord:
+        text: m
+        keynote: E
+        flat: false
+        minor: true
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    - !OnIndex
+      index: 15
+      chord:
+        text: ''
+        keynote: FSharp
+        flat: false
+        minor: false
+        chord_type: Norm
+        fifth_state: Norm
+        sus_or_add: No
+    text: Свою нелюбимую куклу
+  notes: 2р.
 - title: null
   lines:
   - !TextBlock
@@ -3626,8 +3976,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3635,8 +3986,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3644,8 +3996,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3657,8 +4010,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3666,8 +4020,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3675,8 +4030,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3688,8 +4044,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3697,8 +4054,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3706,8 +4064,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3719,8 +4078,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3728,8 +4088,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3737,21 +4098,26 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Славно валится на-на, на-на, на-на, на-на...
+  notes: null
+- title: null
+  lines:
   - !TextBlock
     rhythm: null
     chords:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3759,8 +4125,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3768,8 +4135,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3777,8 +4145,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3790,8 +4159,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3799,8 +4169,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3808,8 +4179,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3817,8 +4189,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3830,8 +4203,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3839,8 +4213,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3848,8 +4223,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3857,8 +4233,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3870,8 +4247,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3879,8 +4257,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3888,8 +4267,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3897,8 +4277,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3911,15 +4292,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3927,8 +4310,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3936,8 +4320,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3947,15 +4332,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3963,8 +4350,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -3972,8 +4360,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -3983,15 +4372,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -3999,8 +4390,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -4008,8 +4400,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -4019,15 +4412,17 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: Bm
+      text: m
       keynote: B
+      flat: false
       minor: true
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -4035,8 +4430,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -4044,8 +4440,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F#
+        text: ''
         keynote: FSharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm

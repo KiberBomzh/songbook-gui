@@ -6,7 +6,7 @@ use std::path::PathBuf;
 use clap::{Parser, Subcommand};
 use songbook::{Song, Note, Key, STRINGS};
 use songbook::song_library;
-use songbook::{Fingering, StringState};
+use songbook::Fingering;
 
 
 #[derive(Parser, Debug)]
@@ -135,7 +135,7 @@ enum AddSubcommand {
 
     FromSbp { path: PathBuf },
 
-    #[cfg(feature = "reqwest")]
+    #[cfg(feature = "from_url")]
     FromUrl { url: String },
     
     Empty {
@@ -156,7 +156,18 @@ enum BackupSubcommand {
 }
 
 
-fn main() {
+macro_rules! main_wrapper {
+    ($($t:tt)*) => {
+        #[cfg(any(feature = "from_url", feature = "tui"))]
+        #[tokio::main]
+        async fn main() { $($t)* }
+
+        #[cfg(all(not(feature = "from_url"), not(feature = "tui")))]
+        fn main() { $($t)* }
+    };
+}
+
+main_wrapper! {
     let args = Args::parse();
 
     if let Some(command) = args.command {
@@ -214,19 +225,11 @@ fn main() {
                     return
                 }
                 
-                let mut strings = [StringState::Muted; STRINGS];
+                let mut strings = ["x"; STRINGS];
                 for (i, f) in fingering.iter().enumerate() {
-                    match f {
-                        c if c == "x" => {},
-                        c if c == "0" => strings[i] = StringState::Open,
-                        c => {
-                            let fret_num = c.parse::<u8>().unwrap();
-                            strings[i] = StringState::FrettedOn(fret_num);
-                        }
-                    }
+                    strings[i] = f;
                 }
-                
-                let fing = Fingering::new(strings, Some(chord)).unwrap();
+                let fing = Fingering::from(strings, Some(chord)).unwrap();
                 song_library::add_fingering(&fing).expect("Error during saving a fingering!");
             },
             Command::Show { 
@@ -289,9 +292,9 @@ fn main() {
                         }
                     }
                 },
-                #[cfg(feature = "reqwest")]
+                #[cfg(feature = "from_url")]
                 AddSubcommand::FromUrl { url } => {
-                    if let Some(song) = Song::from_url(&url) {
+                    if let Some(song) = Song::from_url(&url).await {
                         song_library::add(&song)
                             .expect("Error during adding a song!");
                     } else {
@@ -343,7 +346,7 @@ fn main() {
         println!("There's a command required! Try 'songbook help' for more information");
 
         #[cfg(feature = "tui")]
-        tui::main()
+        tui::main().await
             .expect("Error in TUI!");
     }
 }

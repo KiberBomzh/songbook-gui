@@ -167,11 +167,11 @@ impl Row {
                 for chord in chords {
                     match chord {
                         ChordPosition::UpBeat(chord) => {
-                            chord_string.push_str(&chord.text);
+                            chord_string.push_str(&chord.to_string());
                             chord_string.push(' ');
                         }
                         ChordPosition::OnIndex { chord, .. } => {
-                            chord_string.push_str(&chord.text);
+                            chord_string.push_str(&chord.to_string());
                             chord_string.push(' ');
                         }
                     }
@@ -181,12 +181,12 @@ impl Row {
                 for beat in beats {
                     match beat {
                         Beat::UpBeat(symbol) => {
-                            chord_string.push(*symbol);
-                            chord_string.push(' ');
+                            rhythm_string.push(*symbol);
+                            rhythm_string.push(' ');
                         }
                         Beat::OnIndex { symbol, .. } => {
-                            chord_string.push(*symbol);
-                            chord_string.push(' ');
+                            rhythm_string.push(*symbol);
+                            rhythm_string.push(' ');
                         }
                     }
                 }
@@ -209,8 +209,9 @@ impl Row {
             for (i, chord) in chords.iter().enumerate() {
                 match chord {
                     ChordPosition::UpBeat(chord) => {
-                        whitespaces_for_chords += 1 + chord.text.chars().count();
-                        chord_string.push_str(&chord.text);
+                        let chord_text = chord.to_string();
+                        whitespaces_for_chords += 1 + chord_text.chars().count();
+                        chord_string.push_str(&chord_text);
                         chord_string.push(' ');
                     },
                     ChordPosition::OnIndex { index, chord } => {
@@ -286,23 +287,26 @@ impl Row {
             
             let mut added_indent_in_rhythm = 0;
             for (index, (index_before, chord, slice)) in pairs.iter().enumerate() {
-                chord_string.push_str(&chord.text);
+                let chord_text = chord.to_string();
+                let chord_len = chord_text.chars().count();
+                let chord_len_raw = chord_text.len();
+                chord_string.push_str(&chord_text);
 
-                if slice.chars().count() <= chord.text.chars().count() {
+                if slice.chars().count() <= chord_len {
                     if let Some((next_index_before, _, next_slice)) = pairs.get(index + 1) {
                         chord_string.push(' ');
                         text_string.push_str(slice);
                         
                         if !slice.ends_with(" ") && !next_slice.starts_with(" ") && !next_slice.is_empty() {
-                            text_string.push_str( &"-".repeat(chord.text.chars().count() - slice.chars().count() + 1) );
+                            text_string.push_str( &"-".repeat(chord_len - slice.chars().count() + 1) );
                         } else {
-                            text_string.push_str( &" ".repeat(chord.text.chars().count() - slice.chars().count() + 1) );
+                            text_string.push_str( &" ".repeat(chord_len - slice.chars().count() + 1) );
                         }
 
                         let i = index_before + whitespaces_for_chords + added_indent_in_rhythm;
 
                         #[allow(clippy::collapsible_if)]
-                        if !rhythm_string.is_empty() && next_index_before - index_before <= chord.text.chars().count() {
+                        if !rhythm_string.is_empty() && next_index_before - index_before <= chord_len {
                             if let Some(i) = rhythm_string
                                 .char_indices()
                                 .nth(i + 1)
@@ -314,17 +318,17 @@ impl Row {
                         }
 
 
-                        let i = chord_string.len() - chord.text.len() - 1;
+                        let i = chord_string.len() - chord_len_raw - 1;
                         chord_string.insert_str(i, &" ".repeat((index_before + whitespaces_for_chords).saturating_sub(i)));
                     } else { // last pair
-                        let i = chord_string.len() - chord.text.len();
+                        let i = chord_string.len() - chord_len_raw;
                         chord_string.insert_str(i, &" ".repeat((index_before + whitespaces_for_chords).saturating_sub(i)));
                         // saturating_sub здесь не просто так
 
                         text_string.push_str(slice);
                     }
                 } else {
-                    chord_string.push_str( &" ".repeat(slice.chars().count() - chord.text.chars().count()) );
+                    chord_string.push_str( &" ".repeat(slice.chars().count() - chord_len) );
                     text_string.push_str(slice);
                 }
             }
@@ -335,7 +339,7 @@ impl Row {
         
         
         
-        // Если аккордов нет но есть ритм
+        // Если аккордов нет но есть ритм и текст
         if let Some(beats) = &self.rhythm {
             let mut whitespaces = 0;
             let mut added_indent = 0;
@@ -428,3 +432,150 @@ fn rhythm_from_edited(line: &str, whitespaces: usize) -> Option<Vec<Beat>> {
     else { Some(beats) }
 }
 
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::song::chord::Chord;
+
+
+    #[test]
+    fn get_strings_chords_only() {
+        use ChordPosition::*;
+
+        let chords = vec![
+            UpBeat(Chord::new("Am").unwrap()),
+            UpBeat(Chord::new("Dm").unwrap()),
+            OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ]; // index here is not for ordering, with wrong order nothing will work
+        let row = Row {
+            chords: Some(chords),
+            rhythm: None,
+            text: None,
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(text, String::new());
+        assert_eq!(chords, String::from("Am Dm F G Esus2 "));
+    }
+
+    #[test]
+    fn get_strings_rhythm_only() {
+        use Beat::*;
+
+        let rhythm = vec![
+            UpBeat('.'),
+            UpBeat('/'),
+            UpBeat('№'),
+            OnIndex{index: 4, symbol: '|'},
+            OnIndex{index: 5000, symbol: '\\'},
+        ];
+        let row = Row {
+            chords: None,
+            rhythm: Some(rhythm),
+            text: None,
+        };
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / № | \\ "));
+        assert_eq!(chords, String::new());
+        assert_eq!(text, String::new());
+    }
+
+    #[test]
+    fn get_strings_text_only() {
+        let row = Row {
+            chords: None,
+            rhythm: None,
+            text: Some(String::from("Some text here и вот так")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(chords, String::new());
+        assert_eq!(text, String::from("Some text here и вот так"));
+    }
+
+    #[test]
+    fn get_strings_rhythm_and_text() {
+        use Beat::*;
+
+        let rhythm = vec![
+            UpBeat('.'),
+            UpBeat('/'),
+            UpBeat('№'),
+            OnIndex{index: 4, symbol: '|'},
+            OnIndex{index: 10, symbol: '\\'},
+        ];
+
+        let row = Row {
+            chords: None,
+            rhythm: Some(rhythm),
+            text: Some(String::from("Some text here")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / №     |     \\ "));
+        assert_eq!(text,   String::from("      Some text here"));
+        assert_eq!(chords, String::new());
+    }
+
+    #[test]
+    fn get_strings_chords_and_text() {
+        use ChordPosition::*;
+
+        let chords = vec![
+            UpBeat(Chord::new("Am").unwrap()),
+            UpBeat(Chord::new("Dm").unwrap()),
+            OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ];
+        let row = Row {
+            chords: Some(chords),
+            rhythm: None,
+            text: Some(String::from("Some text here")),
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::new());
+        assert_eq!(chords, String::from("Am Dm F G    Esus2  "));
+        assert_eq!(text,   String::from("      Some text here"));
+    }
+
+    #[test]
+    fn get_strings_chords_and_rhythm() {
+        let chords = vec![
+            ChordPosition::UpBeat(Chord::new("Am").unwrap()),
+            ChordPosition::UpBeat(Chord::new("Dm").unwrap()),
+            ChordPosition::OnIndex{index: 0, chord: Chord::new("F").unwrap()},
+            ChordPosition::OnIndex{index: 2, chord: Chord::new("G").unwrap()},
+            ChordPosition::OnIndex{index: 7, chord: Chord::new("Esus2").unwrap()},
+        ];
+        let rhythm = vec![
+            Beat::UpBeat('.'),
+            Beat::UpBeat('/'),
+            Beat::UpBeat('№'),
+            Beat::OnIndex{index: 4, symbol: '|'},
+            Beat::OnIndex{index: 5000, symbol: '\\'},
+        ];
+        let row = Row {
+            chords: Some(chords),
+            rhythm: Some(rhythm),
+            text: None,
+        };
+
+
+        let (chords, rhythm, text) = row.get_strings();
+        assert_eq!(rhythm, String::from(". / № | \\ "));
+        assert_eq!(chords, String::from("Am Dm F G Esus2 "));
+        assert_eq!(text,   String::new());
+    }
+}

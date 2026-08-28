@@ -6,51 +6,61 @@ metadata:
     is_minor: false
   capo: null
   autoscroll_speed: 2500
+  autoscroll_delay: 3
+  show_options: null
 chord_list:
-- text: D
+- text: ''
   keynote: D
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: G
+- text: ''
   keynote: G
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: F
+- text: ''
   keynote: F
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Em
+- text: m
   keynote: E
+  flat: false
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C
+- text: ''
   keynote: C
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Bm
+- text: m
   keynote: B
+  flat: false
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: A
+- text: ''
   keynote: A
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: E
+- text: ''
   keynote: E
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
@@ -64,8 +74,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -73,8 +84,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -82,8 +94,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -91,8 +104,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -100,8 +114,9 @@ blocks:
     - !OnIndex
       index: 33
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -113,8 +128,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -122,8 +138,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -131,8 +148,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -140,8 +158,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -153,8 +172,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -162,8 +182,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -171,8 +192,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -180,8 +202,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -189,8 +212,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -198,8 +222,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -207,8 +232,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -216,8 +242,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -229,8 +256,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -238,8 +266,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -247,8 +276,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -256,8 +286,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -269,8 +300,9 @@ blocks:
     - !OnIndex
       index: 6
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -278,8 +310,9 @@ blocks:
     - !OnIndex
       index: 13
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -287,8 +320,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -296,8 +330,9 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -309,8 +344,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -318,8 +354,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -327,8 +364,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -336,8 +374,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -345,8 +384,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -354,8 +394,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -363,8 +404,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -372,8 +414,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -386,22 +429,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -411,22 +457,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -436,22 +485,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -459,8 +511,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -468,8 +521,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -477,8 +531,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -493,8 +548,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -502,8 +558,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -511,8 +568,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -520,8 +578,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -529,8 +588,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -542,8 +602,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -551,8 +612,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -560,8 +622,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -569,8 +632,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -582,8 +646,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -591,8 +656,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -600,8 +666,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -609,8 +676,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -618,8 +686,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -627,8 +696,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -636,8 +706,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -645,8 +716,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -658,8 +730,9 @@ blocks:
     - !OnIndex
       index: 4
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -667,8 +740,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -676,8 +750,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -685,8 +760,9 @@ blocks:
     - !OnIndex
       index: 34
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -698,8 +774,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -707,8 +784,9 @@ blocks:
     - !OnIndex
       index: 8
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -716,8 +794,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -725,8 +804,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -738,8 +818,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -747,8 +828,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -756,8 +838,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -765,8 +848,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -774,8 +858,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -783,8 +868,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -792,8 +878,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -801,8 +888,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -815,22 +903,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -840,22 +931,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -865,22 +959,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -888,8 +985,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -897,8 +995,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -906,8 +1005,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -922,8 +1022,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -931,8 +1032,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: E
+        text: ''
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -940,8 +1042,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -949,8 +1052,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -962,8 +1066,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -971,8 +1076,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: E
+        text: ''
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -980,8 +1086,9 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -989,8 +1096,9 @@ blocks:
     - !OnIndex
       index: 31
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1002,8 +1110,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1011,8 +1120,9 @@ blocks:
     - !OnIndex
       index: 7
       chord:
-        text: E
+        text: ''
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1020,8 +1130,9 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1029,8 +1140,9 @@ blocks:
     - !OnIndex
       index: 34
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1042,8 +1154,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1051,8 +1164,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: E
+        text: ''
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1060,8 +1174,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1069,8 +1184,9 @@ blocks:
     - !OnIndex
       index: 33
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1085,8 +1201,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1094,8 +1211,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1103,8 +1221,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1112,8 +1231,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1121,8 +1241,9 @@ blocks:
     - !OnIndex
       index: 30
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1134,8 +1255,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1143,8 +1265,9 @@ blocks:
     - !OnIndex
       index: 12
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1152,8 +1275,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1161,8 +1285,9 @@ blocks:
     - !OnIndex
       index: 36
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1174,8 +1299,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1183,8 +1309,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1192,8 +1319,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1201,8 +1329,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1210,8 +1339,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1219,8 +1349,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1228,8 +1359,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1237,8 +1369,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1250,8 +1383,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1259,8 +1393,9 @@ blocks:
     - !OnIndex
       index: 11
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1268,8 +1403,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1277,8 +1413,9 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1290,8 +1427,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1299,8 +1437,9 @@ blocks:
     - !OnIndex
       index: 10
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1308,8 +1447,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1317,8 +1457,9 @@ blocks:
     - !OnIndex
       index: 29
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1330,8 +1471,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1339,8 +1481,9 @@ blocks:
     - !OnIndex
       index: 5
       chord:
-        text: Bm
+        text: m
         keynote: B
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1348,8 +1491,9 @@ blocks:
     - !OnIndex
       index: 14
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1357,8 +1501,9 @@ blocks:
     - !OnIndex
       index: 25
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1366,8 +1511,9 @@ blocks:
     - !OnIndex
       index: 35
       chord:
-        text: G
+        text: ''
         keynote: G
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1375,8 +1521,9 @@ blocks:
     - !OnIndex
       index: 42
       chord:
-        text: F
+        text: ''
         keynote: F
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1384,8 +1531,9 @@ blocks:
     - !OnIndex
       index: 51
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -1393,8 +1541,9 @@ blocks:
     - !OnIndex
       index: 66
       chord:
-        text: D
+        text: ''
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1407,22 +1556,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1432,22 +1584,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
@@ -1457,22 +1612,25 @@ blocks:
     rhythm: null
     chords:
     - !UpBeat
-      text: D
+      text: ''
       keynote: D
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: G
+      text: ''
       keynote: G
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm
       sus_or_add: No
     - !UpBeat
-      text: F
+      text: ''
       keynote: F
+      flat: false
       minor: false
       chord_type: Norm
       fifth_state: Norm

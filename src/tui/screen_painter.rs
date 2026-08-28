@@ -1,3 +1,4 @@
+use std::time::{Duration, Instant};
 use ratatui::Frame;
 use ratatui::layout::{Constraint, Layout};
 use ratatui::widgets::{Block, Paragraph, List, ListItem, Table, Row};
@@ -89,7 +90,7 @@ impl App {
                 t_top_buf.push_str("Key: ");
                 t_top_buf.push_str(&if let Some(capo) = &song.metadata.capo {
                     format!("{}/({})",
-                        key.transpose(0 - <u8 as Into<i32>>::into(*capo)),
+                        key.transpose( (*capo).into() ),
                         key
                     )
                 } else {
@@ -134,7 +135,15 @@ impl App {
                 .title_top(Line::from(title_top).right_aligned())
                 .title_bottom(Line::from(self.long_command.as_str()).right_aligned())
                 .title_bottom(Line::from(
-                    if self.autoscroll { self.autoscroll_speed.as_millis().to_string() + "ms" }
+                    if self.delay {
+                        let delay = self.autoscroll_delay + Duration::from_secs(1);
+                        let duration_since = Instant::now().duration_since(self.delay_start);
+                        let dif = (delay - duration_since).as_secs();
+
+                        if dif > 0 { dif.to_string() + "s" }
+                        else { String::new() }
+                    }
+                    else if self.autoscroll { self.autoscroll_speed.as_millis().to_string() + "ms" }
                     else { String::new() }
                 ))
         );
@@ -234,13 +243,20 @@ impl App {
                 Line::from("Find")
             ]),
 
-            #[cfg(not(feature = "reqwest"))]
+            Row::new(vec![
+                Line::from("T(tag1, tag2)"),
+                Line::default(),
+                Line::from("Tags find")
+            ]),
+
+
+            #[cfg(not(feature = "from_url"))]
             Row::new(vec![
                 Line::from("A(e/t/c/s)"),
                 Line::default(),
                 Line::from("Add song")
             ]),
-            #[cfg(feature = "reqwest")]
+            #[cfg(feature = "from_url")]
             Row::new(vec![
                 Line::from("A(e/t/c/s/u)"),
                 Line::default(),
@@ -372,6 +388,11 @@ impl App {
                 Line::from("S(speed)"),
                 Line::default(),
                 Line::from("Set autoscroll speed")
+            ]),
+            Row::new(vec![
+                Line::from("D(delay)"),
+                Line::default(),
+                Line::from("Set autoscroll delay")
             ]),
 
             Row::new(vec![

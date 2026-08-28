@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     Metadata,
     block::{Block, Line},
@@ -6,9 +7,9 @@ use crate::song::{
 };
 
 
-pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chord>) {
+pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, HashSet<Chord>) {
     let mut blocks: Vec<Block> = Vec::new();
-    let mut chord_list: Vec<Chord> = Vec::new();
+    let mut chord_list: HashSet<Chord> = HashSet::new();
     
     
     let block_starts = [
@@ -38,7 +39,6 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
     let mut artist = String::new();
     let mut key_text = String::new();
     
-    let mut bnote = String::new();
     let mut is_in_block = false;
     let mut block_lines: Vec<Line> = Vec::new();
     let mut block_title = String::new();
@@ -52,7 +52,8 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
             blocks.push( Block {
                 title: if block_title.is_empty() { None } else { Some(block_title) },
                 lines: block_lines,
-                notes: None
+                notes: None,
+                key: None,
             } );
             
             block_title = String::new();
@@ -112,11 +113,11 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
 
         } else if line.starts_with("{comment:") || line.starts_with("{c:") {
             if let Some(end_index) = line.find("}") {
-                bnote = if line.starts_with("{c:") {
+                block_lines.push( Line::NoteLine( if line.starts_with("{c:") {
                     line[3..end_index].trim()
                 } else {
                     line[9..end_index].trim()
-                }.to_string();
+                }.to_string()));
             }
         
         
@@ -124,10 +125,10 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
             blocks.push( Block {
                 title: if block_title.is_empty() { None } else { Some(block_title) },
                 lines: block_lines,
-                notes: if bnote.is_empty() { None } else { Some(bnote) }
+                notes: None,
+                key: None,
             } );
             
-            bnote = String::new();
             block_title = String::new();
             block_lines = Vec::new();
         } else {
@@ -140,7 +141,8 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
         blocks.push( Block {
             title: if block_title.is_empty() { None } else { Some(block_title) },
             lines: block_lines,
-            notes: None
+            notes: None,
+            key: None,
         } );
     }
 
@@ -152,7 +154,10 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
             key: crate::Key::new(&key_text),
             capo: None,
             autoscroll_speed: None,
+            autoscroll_delay: None,
             show_options: None,
+            tags: Some(std::collections::BTreeSet::new()),
+            fingerings: None,
         } ) } else { None },
         blocks,
         chord_list
@@ -160,7 +165,7 @@ pub fn read_from_chordpro(text: &str) -> (Option<Metadata>, Vec<Block>, Vec<Chor
 }
 
 
-fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut Vec<Chord>) {
+fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut HashSet<Chord>) {
     if text.is_empty() && lines.is_empty() {
         return
     }
@@ -177,9 +182,7 @@ fn read_line(text: &str, lines: &mut Vec<Line>, chord_list: &mut Vec<Chord>) {
             ']' => {
                 is_chord = false;
                 if let Some(chord) = Chord::new(&current_chord) {
-                    if chord_list.iter().all(|c| *c != chord) {
-                        chord_list.push(chord.clone())
-                    }
+                    chord_list.insert(chord.clone());
                     chords.push(ChordPosition::OnIndex{index, chord});
                 }
                 current_chord.clear();

@@ -16,6 +16,7 @@ in pkgs.callPackage (
 		buildInputs = with pkgs; [ 
 			glib
 			gtk3
+			openssl
 		];
 	}
 ) { }

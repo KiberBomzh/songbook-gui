@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use crate::song::{
     block::{Block, Line},
     row::{Row, ChordPosition},
@@ -5,9 +6,9 @@ use crate::song::{
 };
 
 
-pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
+pub fn read_from_txt(txt: &str) -> (Vec<Block>, HashSet<Chord>) {
     let mut blocks: Vec<Block> = Vec::new();
-    let mut chord_list: Vec<Chord> = Vec::new();
+    let mut chord_list: HashSet<Chord> = HashSet::new();
 
     let mut title = String::new();
     let mut rows: Vec<Row> = Vec::new();
@@ -22,7 +23,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
                 blocks.push(Block {
                     title: if title.is_empty() { None } else { Some(title) },
                     lines: rows.iter().map(|r| Line::TextBlock(r.clone())).collect(),
-                    notes: None
+                    notes: None,
+                    key: None,
                 });
                 title = String::new();
                 rows.clear();
@@ -33,7 +35,8 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
                         lines: vec!(Line::TextBlock(
                                 Row { chords: Some(chords), text: None, rhythm: None }),
                         ),
-                        notes: None
+                        notes: None,
+                        key: None,
                     });
                     title = String::new();
                     chords = Vec::new();
@@ -42,8 +45,9 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
             } else if !title.is_empty() {
                 blocks.push(Block {
                     title: Some(title),
-                    lines: vec!(Line::EmptyLine),
-                    notes: None
+                    lines: Vec::new(),
+                    notes: None,
+                    key: None,
                 });
                 title = String::new();
             }
@@ -62,9 +66,7 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
                     if !chord.is_empty() {
                         if let Some(c) = Chord::new(&chord) {
                             chords.push( ChordPosition::OnIndex{ index: ( indent - chord.chars().count() ), chord: c.clone() } );
-                            if chord_list.iter().all(|chord| *chord != c) {
-                                chord_list.push(c);
-                            }
+                            chord_list.insert(c);
                         }
 
                         chord.clear();
@@ -99,14 +101,15 @@ pub fn read_from_txt(txt: &str) -> (Vec<Block>, Vec<Chord>) {
         blocks.push(Block {
             title: if title.is_empty() { None } else { Some(title) },
             lines: rows.iter().map(|r| Line::TextBlock(r.clone())).collect(),
-            notes: None
+            notes: None,
+            key: None,
         });
     }
 
     return (blocks, chord_list)
 }
 
-fn is_line_chords(line: &str) -> bool {
+pub fn is_line_chords(line: &str) -> bool {
     let words: Vec<&str> = line.split_whitespace().collect();
     let chords = ["A", "B", "C", "D", "E", "F", "G"];
 

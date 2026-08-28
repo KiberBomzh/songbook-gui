@@ -28,6 +28,10 @@ pub use crate::song::chord::Chord;
 
 pub const STANDART_TUNING: [Note; STRINGS] = [E, B, G, D, A, E];
 
+// env vars
+pub const DATA_DIR: &str = "SONGBOOK_DATA_DIR";
+pub const SHARP_ONLY: &str = "SONGBOOK_SHARP_ONLY";
+
 
 pub const METADATA_START: &str = "{metadata:}";
 pub const METADATA_END: &str = "{:metadata}";
@@ -37,13 +41,18 @@ pub const SONG_ARTIST_SYMBOL: &str = "{song_artist}: ";
 pub const SONG_KEY_SYMBOL: &str = "{song_key}: ";
 pub const SONG_CAPO_SYMBOL: &str = "{song_capo}: ";
 pub const SONG_AUTOSCROLL_SPEED_SYMBOL: &str = "{song_autoscroll_speed}: ";
+pub const SONG_AUTOSCROLL_DELAY_SYMBOL: &str = "{song_autoscroll_delay}: ";
 pub const SONG_SHOW_OPTIONS_SYMBOL: &str = "{song_show_options}: ";
+pub const SONG_TAGS_SYMBOL: &str = "{song_tags}: ";
+pub const SONG_FINGERINGS_START: &str = "{fingerings:}";
+pub const SONG_FINGERINGS_END: &str = "{:fingerings}";
 
 
 pub const BLOCK_START: &str = "{block:}";
 pub const BLOCK_END: &str = "{:block}";
 
 pub const TITLE_SYMBOL: &str = "{title}: ";
+pub const KEY_SYMBOL: &str = "{key}: ";
 
 pub const CHORDS_LINE_SYMBOL: &str = "{chords_line}: ";
 pub const NOTE_LINE_SYMBOL: &str = "{note_line}: ";
@@ -156,46 +165,67 @@ impl Key {
     pub fn get_note(&self) -> Note {
         self.keynote
     }
+
+    pub fn is_minor(&self) -> bool {
+        self.is_minor
+    }
+
+    pub fn is_flat(&self) -> bool {
+        match self.keynote {
+            A => false,
+            ASharp => true,
+            B => false,
+            C => false,
+            CSharp => true,
+            D => false,
+            DSharp => true,
+            E => false,
+            F => true,
+            FSharp => true,
+            G => false,
+            GSharp => true
+        }
+    }
 }
 
 impl fmt::Display for Key {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match self.keynote {
             A if self.is_minor => String::from("F#m"),
-            A => self.keynote.get_text(),
+            A => self.keynote.to_string(),
 
             ASharp if self.is_minor => String::from("Gm"),
-            ASharp => self.keynote.get_text(),
+            ASharp => self.keynote.to_string_flat(),
 
             B if self.is_minor => String::from("G#m"),
-            B => self.keynote.get_text(),
+            B => self.keynote.to_string(),
 
             C if self.is_minor => String::from("Am"),
-            C => self.keynote.get_text(),
+            C => self.keynote.to_string(),
 
-            CSharp if self.is_minor => String::from("A#m"),
-            CSharp => self.keynote.get_text(),
+            CSharp if self.is_minor => String::from("Bbm"),
+            CSharp => self.keynote.to_string_flat(),
 
             D if self.is_minor => String::from("Bm"),
-            D => self.keynote.get_text(),
+            D => self.keynote.to_string(),
 
             DSharp if self.is_minor => String::from("Cm"),
-            DSharp => self.keynote.get_text(),
+            DSharp => self.keynote.to_string_flat(),
 
             E if self.is_minor => String::from("C#m"),
-            E => self.keynote.get_text(),
+            E => self.keynote.to_string(),
 
             F if self.is_minor => String::from("Dm"),
-            F => self.keynote.get_text(),
+            F => self.keynote.to_string_flat(),
 
-            FSharp if self.is_minor => String::from("D#m"),
-            FSharp => self.keynote.get_text(),
+            FSharp if self.is_minor => String::from("Ebm"),
+            FSharp => self.keynote.to_string_flat(),
 
             G if self.is_minor => String::from("Em"),
-            G => self.keynote.get_text(),
+            G => self.keynote.to_string(),
 
             GSharp if self.is_minor =>String::from("Fm"),
-            GSharp => self.keynote.get_text()
+            GSharp => self.keynote.to_string_flat()
         };
 
         write!(f, "{}", s)
@@ -203,7 +233,7 @@ impl fmt::Display for Key {
 }
 
 
-#[derive(Serialize, Deserialize, Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub enum Note {
     A,
     ASharp,
@@ -240,25 +270,6 @@ impl Note {
         } )
     }
     
-    pub fn get_text(&self) -> String {
-        (
-            match self {
-                A      => "A",
-                ASharp => "A#",
-                B      => "B",
-                C      => "C",
-                CSharp => "C#",
-                D      => "D",
-                DSharp => "D#",
-                E      => "E",
-                F      => "F",
-                FSharp => "F#",
-                G      => "G",
-                GSharp => "G#",
-            }
-        ).to_string()
-    }
-
     pub fn transpose(&self, steps: i32) -> Self {
         let steps = steps % 12;
         if steps == 0 { return *self; }
@@ -305,6 +316,45 @@ impl Note {
             GSharp => G
         }
     }
+
+    pub fn to_string_flat(&self) -> String {
+        match self {
+            A      => "A",
+            ASharp => "Bb",
+            B      => "B",
+            C      => "C",
+            CSharp => "Db",
+            D      => "D",
+            DSharp => "Eb",
+            E      => "E",
+            F      => "F",
+            FSharp => "Gb",
+            G      => "G",
+            GSharp => "Ab",
+        }.to_string()
+    }
+}
+
+impl fmt::Display for Note {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let s = match self {
+            A      => "A",
+            ASharp => "A#",
+            B      => "B",
+            C      => "C",
+            CSharp => "C#",
+            D      => "D",
+            DSharp => "D#",
+            E      => "E",
+            F      => "F",
+            FSharp => "F#",
+            G      => "G",
+            GSharp => "G#",
+        };
+
+        write!(f, "{s}")
+    }
+
 }
 
 
@@ -323,7 +373,7 @@ pub fn print_fretboard(tuning: &[Note; STRINGS]) {
         } else { s.push('\n') }
 
         for string_num in (0..fretboard.len()).rev() {
-            let note = &fretboard[string_num][fret_num].get_text();
+            let note = &fretboard[string_num][fret_num].to_string();
             s.push_str(note);
             s.push_str( &" ".repeat(note_width - note.len()) );
 
@@ -369,12 +419,12 @@ pub fn print_circle_of_fifth(needed_key: Option<Key>) {
 
     let mut keys = BTreeMap::new();
     for k in KEYS {
-        let first = k[0].get_text();
-        let second = k[1].get_text() + "m";
-        let third = k[2].get_text() + "m";
-        let fourth = k[3].get_text();
-        let fifth = k[4].get_text();
-        let sixth = k[5].get_text() + "m";
+        let first = k[0].to_string();
+        let second = k[1].to_string() + "m";
+        let third = k[2].to_string() + "m";
+        let fourth = k[3].to_string();
+        let fifth = k[4].to_string();
+        let sixth = k[5].to_string() + "m";
         
         let width: usize = 5;
 

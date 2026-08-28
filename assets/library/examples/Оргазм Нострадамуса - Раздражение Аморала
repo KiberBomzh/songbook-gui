@@ -5,88 +5,110 @@ metadata:
     keynote: F
     is_minor: true
   capo: null
-  autoscroll_speed: 2500
+  autoscroll_speed: 360
+  autoscroll_delay: 3
+  show_options:
+    chords: true
+    rhythm: true
+    notes: true
+    fingerings: false
+  tags: null
+  fingerings: null
 chord_list:
-- text: Dm
-  keynote: D
-  minor: true
+- text: ''
+  keynote: A
+  flat: false
+  minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Dsus2
+- text: sus4
   keynote: D
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: sus2
+  keynote: E
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus2
-- text: Dsus4
+- text: m
   keynote: D
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: A#
-  keynote: ASharp
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: A#5-
-  keynote: ASharp
-  minor: false
-  chord_type: Norm
-  fifth_state: Dim
-  sus_or_add: No
-- text: Asus4
-  keynote: A
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: A
-  keynote: A
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: Em
-  keynote: E
+  flat: false
   minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: Esus2
+- text: sus4
   keynote: E
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus2
-- text: Esus4
-  keynote: E
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: C
-  keynote: C
+- text: ''
+  keynote: B
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: C5-
+- text: ''
+  keynote: ASharp
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: sus4
+  keynote: A
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: 5-
   keynote: C
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Dim
   sus_or_add: No
-- text: Bsus4
+- text: 5-
+  keynote: ASharp
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Dim
+  sus_or_add: No
+- text: m
+  keynote: E
+  flat: false
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: sus2
+  keynote: D
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus2
+- text: sus4
   keynote: B
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus4
-- text: B
-  keynote: B
+- text: ''
+  keynote: C
+  flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
@@ -100,6 +122,7 @@ blocks:
     Нежности и дрожь - ужаса для чутких
     А в общем все редкое для редких...
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -108,8 +131,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -117,8 +141,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -130,8 +155,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -139,8 +165,9 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -152,8 +179,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -161,8 +189,9 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -174,8 +203,9 @@ blocks:
     - !OnIndex
       index: 3
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -183,14 +213,16 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: В комнатушке моей стало вдруг светло
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -199,8 +231,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -208,8 +241,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -221,8 +255,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -230,8 +265,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -243,8 +279,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -252,8 +289,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -265,8 +303,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -274,14 +313,16 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: 'Наклонился и сказал: "Пошли со мной'
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -290,8 +331,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -299,8 +341,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -312,8 +355,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -321,8 +365,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -334,8 +379,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -343,8 +389,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -356,8 +403,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -365,14 +413,16 @@ blocks:
     - !OnIndex
       index: 28
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Там всегда светло и там всегда весна
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -381,8 +431,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -390,8 +441,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -403,8 +455,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -412,8 +465,9 @@ blocks:
     - !OnIndex
       index: 19
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -425,8 +479,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -434,8 +489,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -447,8 +503,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -456,14 +513,16 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Не бывает горя и страданий нет
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -472,8 +531,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -481,8 +541,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -494,8 +555,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -503,8 +565,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -516,8 +579,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -525,8 +589,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -538,8 +603,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -547,14 +613,16 @@ blocks:
     - !OnIndex
       index: 27
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Ну, давай мне руку, ну, пойдем со мной!"
   notes: null
+  key: null
 - title: null
   lines:
   - !TextBlock
@@ -563,8 +631,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -572,8 +641,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -585,8 +655,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -594,8 +665,9 @@ blocks:
     - !OnIndex
       index: 22
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -607,8 +679,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -616,8 +689,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: C5-
+        text: 5-
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -629,8 +703,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -638,14 +713,18 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Тяжко и свирепо старика я бил
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -654,8 +733,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -663,8 +743,9 @@ blocks:
     - !OnIndex
       index: 15
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -676,8 +757,9 @@ blocks:
     - !OnIndex
       index: 1
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -685,8 +767,9 @@ blocks:
     - !OnIndex
       index: 20
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -698,8 +781,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -707,8 +791,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: C5-
+        text: 5-
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -720,8 +805,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -729,14 +815,18 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Мои звери - это слепыши-кроты
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -745,8 +835,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -754,8 +845,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -767,8 +859,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -776,8 +869,9 @@ blocks:
     - !OnIndex
       index: 23
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -789,8 +883,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -798,8 +893,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: C5-
+        text: 5-
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -811,8 +907,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -820,14 +917,18 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: B
+        text: ''
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Право харкнуть кровью в морду бытия!
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -836,8 +937,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -845,8 +947,9 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: Esus2
+        text: sus2
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -858,8 +961,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Esus4
+        text: sus4
         keynote: E
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -867,8 +971,9 @@ blocks:
     - !OnIndex
       index: 17
       chord:
-        text: Em
+        text: m
         keynote: E
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -880,8 +985,9 @@ blocks:
     - !OnIndex
       index: 2
       chord:
-        text: C
+        text: ''
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -889,8 +995,9 @@ blocks:
     - !OnIndex
       index: 24
       chord:
-        text: C5-
+        text: 5-
         keynote: C
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -902,8 +1009,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Bsus4
+        text: sus4
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -911,14 +1019,18 @@ blocks:
     - !OnIndex
       index: 16
       chord:
-        text: B
+        text: ''
         keynote: B
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: А душа моя - шершавый лёд."
   notes: null
+  key:
+    keynote: G
+    is_minor: true
 - title: null
   lines:
   - !TextBlock
@@ -927,8 +1039,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -936,8 +1049,9 @@ blocks:
     - !OnIndex
       index: 26
       chord:
-        text: Dsus2
+        text: sus2
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -949,8 +1063,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Dsus4
+        text: sus4
         keynote: D
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -958,8 +1073,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: Dm
+        text: m
         keynote: D
+        flat: false
         minor: true
         chord_type: Norm
         fifth_state: Norm
@@ -971,8 +1087,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: A#
+        text: ''
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -980,8 +1097,9 @@ blocks:
     - !OnIndex
       index: 18
       chord:
-        text: A#5-
+        text: 5-
         keynote: ASharp
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Dim
@@ -993,8 +1111,9 @@ blocks:
     - !OnIndex
       index: 0
       chord:
-        text: Asus4
+        text: sus4
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
@@ -1002,12 +1121,14 @@ blocks:
     - !OnIndex
       index: 21
       chord:
-        text: A
+        text: ''
         keynote: A
+        flat: false
         minor: false
         chord_type: Norm
         fifth_state: Norm
         sus_or_add: No
     text: Ну а я хуярил мебель до утра...
   notes: null
+  key: null
 notes: null

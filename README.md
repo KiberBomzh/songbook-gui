@@ -39,12 +39,13 @@ cargo install songbook --features tui
 - `N`(dir name) - Create a new dir with (dir name)
 - `R`(new name) - Rename current song/dir with (new name)
 - `F`(find query) - Find (find query)
-- `A`(`e` Artist - Title/`t` Artist - Title/`c`) - Add new song to library
+- `T`(tag1, tag2) - Find songs with tags
+- `A`(`e` Artist - Title/`t` Artist - Title/`c`/`u`https://site-url.com/song-url) - Add new song to library
     - `e` - the same as a command `add empty`, needs Artist - Title
     - `t` - the same as a command `add from-text`, needs Artist - Title
     - `c` - the same as a command `add from-chordpro`
     - `s` - the same as a command `add from-sbp`
-    - 'u' - the same as a command `add from-url`
+    - `u` - the same as a command `add from-url`
 
 
 ## Song
@@ -70,7 +71,8 @@ cargo install songbook --features tui
 
 
 ### Long commands
-- `S`(speed) - Set autoscroll speed, only when autoscroll is on
+- `S`(speed) - Set autoscroll speed
+- `D`(delay) - Set autoscroll delay
 - `T`(num) - Transpose a song to a given num, examples: T7, T-4, T+10
 - `C`(fret num) - Transpose a song to a capo, examples: C7, C0, C2
 
@@ -116,3 +118,7 @@ cargo install songbook --features tui
 - `ls` - show files in a directory
 - `tree` - show library as a tree
 - `mkdir` - create a directory
+
+# Environment variables
+- `SONGBOOK_DATA_DIR` - path to data directory
+- `SONGBOOK_SHARP_ONLY` - possible values: 0 or 1. If value is 1 flat notes will not be used

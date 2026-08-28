@@ -7,7 +7,12 @@ use rfd::FileDialog;
 use songbook::song_library::lib_functions::*;
 use songbook::Song;
 
-use super::{Focus, DEFAULT_AUTOSCROLL_SPEED, App};
+use super::{
+    Focus,
+    DEFAULT_AUTOSCROLL_SPEED,
+    DEFAULT_AUTOSCROLL_DELAY,
+    App
+};
 
 
 
@@ -19,6 +24,7 @@ impl App {
             KeyCode::Char('N') |
             KeyCode::Char('R') |
             KeyCode::Char('F') |
+            KeyCode::Char('T') |
             KeyCode::Char('A') => {
                 self.is_long_command = true;
                 if let KeyCode::Char(c) = key_event.code {
@@ -105,6 +111,11 @@ impl App {
                         } else {
                             DEFAULT_AUTOSCROLL_SPEED
                         };
+                        self.autoscroll_delay = if let Some(delay) = song.metadata.autoscroll_delay {
+                            Duration::from_secs(delay)
+                        } else {
+                            DEFAULT_AUTOSCROLL_DELAY
+                        };
                         (self.show_chords, self.show_rhythm, self.show_notes, self.show_fingerings)
                             = song.metadata.get_show_options();
 
@@ -144,7 +155,7 @@ impl App {
     }
 
 
-    pub fn handle_long_command_in_library(&mut self) -> Result<()> {
+    pub async fn handle_long_command_in_library(&mut self) -> Result<()> {
         let command = if let Some(c) = self.long_command.chars().next() { c }
             else { return Ok(()) };
         let command_data: String = self.long_command.chars().skip(1).collect();
@@ -168,6 +179,10 @@ impl App {
             'F' => {
                 self.current_dir = songbook::song_library::get_lib_path()?;
                 self.lib_list = find(&command_data)?;
+            },
+            'T' => {
+                self.current_dir = songbook::song_library::get_lib_path()?;
+                self.lib_list = tag_find(&command_data.split(", ").collect::<Vec<_>>())?;
             },
             'A' => {
                 let subcommand = if let Some(c) = command_data.chars().nth(0) { c }
@@ -217,14 +232,14 @@ impl App {
                             None
                         } else { None }
                     },
-                    #[cfg(feature = "reqwest")]
+                    #[cfg(feature = "from_url")]
                     'u' => {
                         let url = command_data
                             .chars()
                             .skip(1)
                             .collect::<String>();
 
-                        Song::from_url(url.trim())
+                        Song::from_url(url.trim()).await
                     },
                     _ => None
                 };
