@@ -40,12 +40,12 @@ cargo install songbook --features tui
 - `R`(new name) - Rename current song/dir with (new name)
 - `F`(find query) - Find (find query)
 - `T`(tag1, tag2) - Find songs with tags
-- `A`(`e` Artist - Title/`t` Artist - Title/`c`) - Add new song to library
+- `A`(`e` Artist - Title/`t` Artist - Title/`c`/`u`https://site-url.com/song-url) - Add new song to library
     - `e` - the same as a command `add empty`, needs Artist - Title
     - `t` - the same as a command `add from-text`, needs Artist - Title
     - `c` - the same as a command `add from-chordpro`
     - `s` - the same as a command `add from-sbp`
-    - 'u' - the same as a command `add from-url`
+    - `u` - the same as a command `add from-url`
 
 
 ## Song
