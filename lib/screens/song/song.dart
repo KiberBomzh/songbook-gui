@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
+import 'package:songbook/main.dart';
 import 'package:songbook/screens/song/autoscroll_settings.dart';
 import 'package:songbook/screens/song/fretboard.dart';
 import 'package:songbook/screens/song/circle_of_fifth.dart';
@@ -16,6 +18,7 @@ import 'package:songbook/screens/editor/editor.dart';
 import 'package:songbook/screens/settings/settings.dart';
 import 'package:songbook/services/settings.dart';
 import 'package:songbook/functions/is_wide_screen.dart';
+import 'package:songbook/functions/get_path_name.dart';
 
 import 'package:songbook/src/rust/api/song.dart';
 import 'package:songbook/src/rust/api/theory.dart';
@@ -435,16 +438,14 @@ class _SongState extends State<SongScreen> {
 									break;
 								}
 								final String path = pathMaybe;
-								final file = await File(path).rename(path + '.yml');
+								final tempDir = await getTemporaryDirectory();
+								final tempPath = tempDir.path + pathDivider + getPathName(path) + '.yml';
+								final file = await File(path).copy(tempPath);
 
 								final params = ShareParams(
 									files: [ XFile(file.path)],
 								);
-								try {
-									await SharePlus.instance.share(params);
-								} finally {
-									await file.rename(path);
-								}
+								await SharePlus.instance.share(params);
 
 								break;
 
