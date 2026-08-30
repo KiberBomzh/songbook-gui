@@ -91,9 +91,15 @@
 
 				export PS1="\[\e[0;34m\]\w\n\[\e[0;32m\]\$\[\e[00m\] "
 
+
 				# nvim settings symlinks
+				mkdir -p $HOME/.config
 				ln -sf $OLD_HOME/.config/nvim $HOME/.config/nvim
+
+				mkdir -p $HOME/.local/share
 				ln -sf $OLD_HOME/.local/share/nvim $HOME/.local/share/nvim
+
+				mkdir -p $HOME/.cache
 				ln -sf $OLD_HOME/.cache/nvim $HOME/.cache/nvim
 			'';
 
