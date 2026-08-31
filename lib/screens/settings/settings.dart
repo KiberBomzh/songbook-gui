@@ -79,8 +79,10 @@ class _SettingsState extends State<SettingsScreen> {
 		setState(() => _isLoading = true);
 
 		final String? selectedDir = await FilePicker.getDirectoryPath();
-		if (selectedDir == null)
+		if (selectedDir == null) {
+			setState(() => _isLoading = false);
 			return;
+		}
 
 		try {
 			await _settings.setLibPath(selectedDir);
