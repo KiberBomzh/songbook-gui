@@ -14,7 +14,6 @@
 					allowUnfree = true;
 				};
 			};
- 
 
 			androidComposition = pkgs.androidenv.composeAndroidPackages {
 				abiVersions = [ "armeabi-v7a" "arm64-v8a" "x86_64" ];
@@ -112,8 +111,6 @@
 
 			androidBuildInputs = [
 				pkgs.jdk21
-				pkgs.gradle
-
 				androidSdk
 			];
 
