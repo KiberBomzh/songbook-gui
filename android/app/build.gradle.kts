@@ -14,14 +14,19 @@ if (keystorePropertiesFile.exists()) {
 	keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+
 android {
     namespace = "com.kiber_bomzh.songbook"
-    compileSdk = 37
+	compileSdk {
+        version = release(37) {
+            minorApiLevel = 0
+        }
+    }
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     defaultConfig {
@@ -70,8 +75,8 @@ android {
 }
 
 kotlin {
-	complilerOptions {
-		jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTargetJVM_17
+	compilerOptions {
+		jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21
 	}
 }
 
