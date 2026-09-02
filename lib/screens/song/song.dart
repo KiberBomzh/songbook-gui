@@ -474,7 +474,7 @@ class _SongState extends State<SongScreen> {
 					),
 				],
 			),
-			body: (blocks.isNotEmpty)
+			body: (blocks.isNotEmpty || _song.getNotes() != null)
 				? Container(
 					margin: (_isScreenWide)
 						? EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom) //safe area
