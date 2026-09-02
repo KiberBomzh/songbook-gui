@@ -91,9 +91,11 @@
 				export PS1="\[\e[0;34m\]\w\n\[\e[0;32m\]\$\[\e[00m\] "
 			'';
 
-			baseShellBuildInputs = [
-				pkgs.flutter
-				pkgs.rustup
+			baseShellBuildInputs = with pkgs; [
+				flutter
+				rustup
+
+				pkg-config
 
 				flutter_rust_bridge_codegen
 			];
