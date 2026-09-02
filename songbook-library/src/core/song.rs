@@ -410,6 +410,43 @@ impl Song {
         }
     }
 
+    pub fn set_key(&mut self, key: Key) {
+        // transposing without capo
+        loop {
+            if let Some(song_key) = self.get_key_without_capo() {
+                if song_key.get_note() != key.get_note() {
+                    self.transpose(1);
+                    continue
+                }
+            }
+
+            break
+        }
+
+
+        self.metadata.key = Some(
+            if let Some(capo) = self.metadata.capo {
+                let c: i32 = capo.into();
+                key.transpose( -c )
+            } else { key }
+        );
+    }
+
+    pub fn set_capo(&mut self, capo: u8) {
+        if let Some(song_capo) = self.metadata.capo {
+            let song_capo: i32 = song_capo.into();
+            let capo: i32 = capo.into();
+            self.transpose( -(capo - song_capo) );
+        } else {
+            let c: i32 = capo.into();
+            self.transpose( -c );
+        }
+
+        self.metadata.capo =
+            if capo == 0 { None }
+            else { Some(capo) };
+    }
+
     pub fn transpose(&mut self, steps: i32) {
         let is_flat = if let Some(key) = self.metadata.key {
             let new_key = key.transpose(steps);
@@ -442,6 +479,32 @@ impl Song {
                 }
             }
         }
+    }
+
+    pub fn get_key_without_capo(&self) -> Option<Key> {
+        let key = self.metadata.key?;
+
+        Some(
+            if let Some(capo) = self.metadata.capo{
+                key.transpose( capo.into() )
+            } else {
+                key
+            }
+        )
+    }
+
+    pub fn get_display_key(&self) -> Option<String> {
+        let key = self.metadata.key?;
+
+        Some(
+            if self.metadata.capo.is_some() {
+                let key_without_capo = self.get_key_without_capo()?;
+
+                format!("{key_without_capo}/({key})")
+            } else {
+                key.to_string()
+            }
+        )
     }
 
     pub fn get_fingerings(&self) -> Vec<Fingering> {

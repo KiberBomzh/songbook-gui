@@ -70,43 +70,12 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn set_key(&mut self, key: super::theory::SimpleKey) {
-        let key = key.key;
-
-        // transposing without capo
-        loop {
-            if let Some(song_key) = self.get_key_without_capo() {
-                if song_key.get_note() != key.get_note() {
-                    self.song.transpose(1);
-                    continue
-                }
-            }
-
-            break
-        }
-
-
-        self.song.metadata.key = Some(
-            if let Some(capo) = self.song.metadata.capo {
-                let c: i32 = capo.into();
-                key.transpose( -c )
-            } else { key }
-        );
+        self.song.set_key(key.key);
     }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn set_capo(&mut self, capo: u8) {
-        if let Some(song_capo) = self.song.metadata.capo {
-            let song_capo: i32 = song_capo.into();
-            let capo: i32 = capo.into();
-            self.transpose( -(capo - song_capo) );
-        } else {
-            let c: i32 = capo.into();
-            self.transpose( -c );
-        }
-
-        self.song.metadata.capo =
-            if capo == 0 { None }
-            else { Some(capo) };
+        self.song.set_capo(capo);
     }
 
     #[flutter_rust_bridge::frb(sync)]
@@ -306,44 +275,21 @@ impl SimpleSong {
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_key_with_capo(&self) -> Option<String> {
-        let key = self.song.metadata.key?;
-        let mut s = String::new();
-
-        if self.song.metadata.capo.is_some() {
-            let key_without_capo = self.get_key_without_capo()?;
-            s.push_str(&format!("{key_without_capo}/({key})"));
-        } else {
-            s = key.to_string();
-        }
-
-
-        Some(s)
+        self.song.get_display_key()
     }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_key(&self) -> Option<String> {
         Some(
-            self.get_key_without_capo()?.to_string()
+            self.song.get_key_without_capo()?.to_string()
         )
     }
 
     #[flutter_rust_bridge::frb(sync)]
     pub fn get_simple_key(&self) -> Option<super::theory::SimpleKey> {
-        let key = self.get_key_without_capo()?;
+        let key = self.song.get_key_without_capo()?;
 
         Some( super::theory::SimpleKey { key: key } )
-    }
-
-    fn get_key_without_capo(&self) -> Option<songbook::Key> {
-        let key = self.song.metadata.key?;
-
-        Some(
-            if let Some(capo) = self.song.metadata.capo{
-                key.transpose( capo.try_into().ok()? )
-            } else {
-                key
-            }
-        )
     }
 
     #[flutter_rust_bridge::frb(sync)]

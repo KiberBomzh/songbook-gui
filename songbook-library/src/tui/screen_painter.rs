@@ -86,16 +86,9 @@ impl App {
             title = format!("{} - {}", song.metadata.artist, song.metadata.title);
 
             let mut t_top_buf = String::new();
-            if let Some(key) = &song.metadata.key {
+            if let Some(key) = song.get_display_key() {
                 t_top_buf.push_str("Key: ");
-                t_top_buf.push_str(&if let Some(capo) = &song.metadata.capo {
-                    format!("{}/({})",
-                        key.transpose( (*capo).into() ),
-                        key
-                    )
-                } else {
-                    key.to_string()
-                });
+                t_top_buf.push_str(&key);
             }
             if let Some(capo) = &song.metadata.capo {
                 if !t_top_buf.is_empty() { t_top_buf.push_str(", ") }
