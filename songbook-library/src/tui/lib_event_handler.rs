@@ -85,8 +85,20 @@ impl App {
                 self.update_lib_list()?;
             },
 
-            KeyCode::Char('j') | KeyCode::Down => self.lib_list_state.select_next(),
-            KeyCode::Char('k') | KeyCode::Up => self.lib_list_state.select_previous(),
+            KeyCode::Char('j') | KeyCode::Down => if let Some(index) = self.lib_list_state.selected() {
+                if index == self.lib_list.len().saturating_sub(1) { // last
+                    self.lib_list_state.select_first()
+                } else {
+                    self.lib_list_state.select_next()
+                }
+            },
+            KeyCode::Char('k') | KeyCode::Up => if let Some(index) = self.lib_list_state.selected() {
+                if index == 0 {
+                    self.lib_list_state.select_last()
+                } else {
+                    self.lib_list_state.select_previous()
+                }
+            },
             KeyCode::Char('l') | KeyCode::Right | KeyCode::Enter => {
                 if let Some(selected) = self.lib_list_state.selected() {
                     let (_name, path) = &self.lib_list[selected];
