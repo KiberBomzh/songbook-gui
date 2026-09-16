@@ -75,6 +75,31 @@ class _LibraryState extends State<LibraryScreen> {
 	void initState() {
 		super.initState();
 
+		WidgetsBinding.instance.addPostFrameCallback((_) {
+			if ( !(ModalRoute.of(context)?.isFirst ?? true))
+				return;
+
+			if (!mounted)
+				return;
+
+			if (!_settings.openLatestSong)
+				return;
+
+			final latestSong = _settings.latestSong;
+			if (latestSong == null)
+				return;
+
+			final songPath = libraryPath + pathDivider + latestSong;
+			if (!existenceCheck(pathStr: songPath))
+				return;
+
+			Navigator.push(context,
+				MaterialPageRoute(
+					builder: (context) => SongScreen(path: songPath),
+				),
+			);
+		});
+
 		_copyBuffer = widget.copyBuffer ?? [];
 		_cutBuffer = widget.cutBuffer ?? [];
 
@@ -543,6 +568,10 @@ class _LibraryState extends State<LibraryScreen> {
 								_searchFocusNode.unfocus();
 
 								if (!_isSelectMode) {
+									if (!isItemDir) {
+										final latestPath = itemPath.substring(libraryPath.length + 1);
+										_settings.setLatestSong(latestPath);
+									}
 									await Navigator.push(context,
 										MaterialPageRoute(
 											builder: (context) {

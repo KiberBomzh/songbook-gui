@@ -74,6 +74,7 @@
 	"settingsBackgroundOpacity": "Background opacity",
 	"settingsBackgroundOpacityHint": "Opacity...",
 	"settingsBackgroundImage": "Background image",
+	"settingsOpenLatestSong": "Open latest song",
 	"settingsReset": "Reset",
 	"settingsFontSize": "Font size",
 	"settingsFontSizeHint": "Font size...",

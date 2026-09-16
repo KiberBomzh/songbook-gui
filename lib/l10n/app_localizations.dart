@@ -478,6 +478,12 @@ abstract class AppLocalizations {
   /// **'Background image'**
   String get settingsBackgroundImage;
 
+  /// No description provided for @settingsOpenLatestSong.
+  ///
+  /// In en, this message translates to:
+  /// **'Open latest song'**
+  String get settingsOpenLatestSong;
+
   /// No description provided for @settingsReset.
   ///
   /// In en, this message translates to:

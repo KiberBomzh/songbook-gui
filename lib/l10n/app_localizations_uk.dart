@@ -202,6 +202,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsBackgroundImage => 'Заставка';
 
   @override
+  String get settingsOpenLatestSong => 'Відкривати останню пісню';
+
+  @override
   String get settingsReset => 'Скинути';
 
   @override

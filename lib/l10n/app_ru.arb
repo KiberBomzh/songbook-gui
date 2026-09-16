@@ -74,6 +74,7 @@
 	"settingsBackgroundOpacity": "Прозрачность фона",
 	"settingsBackgroundOpacityHint": "Прозрачность...",
 	"settingsBackgroundImage": "Заставка",
+	"settingsOpenLatestSong": "Открывать последнюю песню",
 	"settingsReset": "Сбросить",
 	"settingsFontSize": "Размер текста",
 	"settingsFontSizeHint": "Размер текста...",

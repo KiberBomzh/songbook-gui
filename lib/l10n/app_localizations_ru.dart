@@ -202,6 +202,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsBackgroundImage => 'Заставка';
 
   @override
+  String get settingsOpenLatestSong => 'Открывать последнюю песню';
+
+  @override
   String get settingsReset => 'Сбросить';
 
   @override

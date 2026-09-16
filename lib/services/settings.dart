@@ -668,6 +668,28 @@ class SettingsProvider extends ChangeNotifier {
 	}
 
 
+	bool _openLatestSong = false;
+	bool get openLatestSong => _openLatestSong;
+	Future<void> setOpenLatestSong(bool value) async {
+		_openLatestSong = value;
+		await Preferences.setBool(OPEN_LATEST_SONG, value);
+
+		notifyListeners();
+	}
+
+	String? _latestSong;
+	String? get latestSong => _latestSong;
+	Future<void> setLatestSong(String? value) async {
+		_latestSong = value;
+		if (value != null)
+			await Preferences.setString(LATEST_SONG, value);
+		else
+			await Preferences.remove(LATEST_SONG);
+
+		notifyListeners();
+	}
+
+
 	bool _sharpOnly = false;
 	bool get sharpOnly => _sharpOnly;
 	Future<void> setSharpOnly(bool value) async {
@@ -677,7 +699,6 @@ class SettingsProvider extends ChangeNotifier {
 
 		notifyListeners();
 	}
-
 
 	bool _lineWrapInSong = true;
 	bool get lineWrapInSong => _lineWrapInSong;
@@ -746,6 +767,8 @@ class SettingsProvider extends ChangeNotifier {
 		_editorFontFamily = Preferences.getString(EDITOR_FONT_FAMILY) ?? 'CascadiaMono';
 		_songFontSize = Preferences.getDouble(SONG_FONT_SIZE) ?? 14;
 		_songFontFamily = Preferences.getString(SONG_FONT_FAMILY) ?? 'JetBrainsMono';
+		_openLatestSong = Preferences.getBool(OPEN_LATEST_SONG) ?? false;
+		_latestSong = Preferences.getString(LATEST_SONG);
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
@@ -848,6 +871,11 @@ class SettingsProvider extends ChangeNotifier {
 		settings[EDITOR_FONT_FAMILY] = _editorFontFamily;
 		settings[SONG_FONT_SIZE] = _songFontSize.toString();
 		settings[SONG_FONT_FAMILY] = _songFontFamily;
+
+		settings[OPEN_LATEST_SONG] = _openLatestSong.toString();
+		if (_latestSong != null)
+			settings[LATEST_SONG] = _latestSong!;
+
 		settings[SHARP_ONLY] = _sharpOnly.toString();
 		settings[LINE_WRAP_IN_SONG] = _lineWrapInSong.toString();
 
@@ -923,6 +951,16 @@ class SettingsProvider extends ChangeNotifier {
 
 		_songFontFamily = settings[SONG_FONT_FAMILY] ?? 'JetBrainsMono';
 		await Preferences.setString(SONG_FONT_FAMILY, _songFontFamily);
+
+
+		_openLatestSong = boolFromString(settings[OPEN_LATEST_SONG]) ?? false;
+		await Preferences.setBool(OPEN_LATEST_SONG, _openLatestSong);
+
+		_latestSong = settings[LATEST_SONG];
+		if (_latestSong != null)
+			await Preferences.setString(LATEST_SONG, _latestSong!);
+		else
+			await Preferences.remove(LATEST_SONG);
 
 
 		_sharpOnly = boolFromString(settings[SHARP_ONLY]) ?? true;

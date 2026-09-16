@@ -7,6 +7,7 @@ import 'package:songbook/l10n/app_localizations.dart';
 import 'package:open_with_app/open_with_app.dart';
 
 import 'package:songbook/src/rust/frb_generated.dart';
+import 'package:songbook/src/rust/api/library.dart';
 
 import 'package:songbook/screens/library/library.dart';
 import 'package:songbook/utils/song_viewer.dart';
@@ -15,6 +16,7 @@ import 'package:songbook/services/preferences.dart';
 
 
 String pathDivider = '/';
+String libraryPath = '';
 
 Future<void> main() async {
 	if (Platform.isWindows)
@@ -24,6 +26,7 @@ Future<void> main() async {
 	await RustLib.init();
 	await Preferences.init();
 	final settings = await SettingsProvider.create();
+	libraryPath = getLibraryPath();
 	runApp(
 		ChangeNotifierProvider(
 			create: (_) => settings,

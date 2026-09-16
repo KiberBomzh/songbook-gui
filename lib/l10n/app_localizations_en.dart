@@ -200,6 +200,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsBackgroundImage => 'Background image';
 
   @override
+  String get settingsOpenLatestSong => 'Open latest song';
+
+  @override
   String get settingsReset => 'Reset';
 
   @override

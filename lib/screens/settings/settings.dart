@@ -339,6 +339,15 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			onTap: _settings.setBackgroundImage,
 		),
+
+		_buildItem(
+			text: AppLocalizations.of(context)!.settingsOpenLatestSong,
+			child: Switch(
+				value: _settings.openLatestSong,
+				onChanged: _settings.setOpenLatestSong,
+			),
+			onTap: null,
+		),
 	];
 
 	List<Widget> _editorSection() => [
