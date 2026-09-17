@@ -19,6 +19,52 @@ Core is written in rust. GUI is written with flutter.
 - Capo support
 - App theming (accent color, custom fonts, custom colors for each song element, custom background image for the app and other settings)
 
+# Types
+
+## Song
+Song has a note (one or many lines), list of Blocks and the following metadata:
+- Title (required)
+- Artist (required)
+- Key
+- Capo
+- Autoscroll speed
+- Autoscroll delay
+- Show options (chords, rhythm, notes, fingerings)
+- Tags
+- Fingerings (local, for the song)
+
+## Block
+Block can have a note (one line), a title, a key and list of Lines.
+
+## Line
+Line can be any of the following types:
+
+### Row
+Row has three lines in the following order (from top to bottom):
+- Chords
+- Rhythm
+- Text
+Any of these lines can be empty, and you can hide chords and rhythm via metadata (show options).
+
+### ChordsLine
+This Line is only for chords. Any other text isn't allowed!
+
+### NoteLine
+This Line type is useful if you have some notes for certain part of a song.
+It can have only one line of text.
+
+### PlainText
+This type can be used for quotes or other things that contain only plain text.
+It can have many lines of text.
+
+### Tab
+As you can guess this Line type is for tabs. You can write here what you want and as you want.
+In fact it's almost the same thing as PlainText.
+
+### EmptyLine
+Just empty line. That's all.
+
+
 # Screenshots
 ![](fastlane/metadata/android/en-US/images/phoneScreenshots/01.jpg)
 ![](fastlane/metadata/android/en-US/images/phoneScreenshots/02.jpg)
