@@ -44,6 +44,7 @@ Row has three lines in the following order (from top to bottom):
 - Chords
 - Rhythm
 - Text
+
 Any of these lines can be empty, and you can hide chords and rhythm via metadata (show options).
 
 ### ChordsLine
