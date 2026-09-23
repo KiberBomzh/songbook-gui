@@ -7,8 +7,119 @@ metadata:
   capo: null
   autoscroll_speed: 2050
   autoscroll_delay: 3
-  show_options: null
+  show_options:
+    chords: true
+    rhythm: true
+    notes: true
+    fingerings: true
+  tags: null
+  fingerings:
+    ? text: ''
+      keynote: B
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: B
+      fret_num: 2
+      chord_size: 3
+      strings:
+      - !FrettedOn 2
+      - !FrettedOn 4
+      - !FrettedOn 4
+      - !FrettedOn 4
+      - Muted
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: C
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: C
+      fret_num: 3
+      chord_size: 3
+      strings:
+      - !FrettedOn 3
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - Muted
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: D
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: D
+      fret_num: 5
+      chord_size: 3
+      strings:
+      - !FrettedOn 5
+      - !FrettedOn 7
+      - !FrettedOn 7
+      - !FrettedOn 7
+      - Muted
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: G
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: G
+      fret_num: 3
+      chord_size: 3
+      strings:
+      - Muted
+      - !FrettedOn 3
+      - !FrettedOn 4
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - Muted
+      bars: null
+    ? text: m
+      keynote: A
+      flat: false
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: Am
+      fret_num: 5
+      chord_size: 3
+      strings:
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - !FrettedOn 7
+      - !FrettedOn 7
+      - Muted
+      bars:
+        5: 2
 chord_list:
+- text: ''
+  keynote: B
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
+- text: m
+  keynote: E
+  flat: false
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
 - text: m
   keynote: A
   flat: false
@@ -17,7 +128,7 @@ chord_list:
   fifth_state: Norm
   sus_or_add: No
 - text: ''
-  keynote: C
+  keynote: D
   flat: false
   minor: false
   chord_type: Norm
@@ -31,23 +142,9 @@ chord_list:
   fifth_state: Norm
   sus_or_add: No
 - text: ''
-  keynote: B
+  keynote: C
   flat: false
   minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: ''
-  keynote: D
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: m
-  keynote: E
-  flat: false
-  minor: true
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
@@ -231,6 +328,7 @@ blocks:
         sus_or_add: No
     text: Бравой песней заглушили злое горе;
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -282,6 +380,7 @@ blocks:
         sus_or_add: No
     text: Солдатами умирают.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -461,6 +560,7 @@ blocks:
         sus_or_add: No
     text: Бравым маршем заглушив зубовный скрежет;
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -512,6 +612,7 @@ blocks:
         sus_or_add: No
     text: Солдатами умирают.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -691,6 +792,7 @@ blocks:
         sus_or_add: No
     text: Табаком закоротив хмельные ноздри;
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -742,6 +844,7 @@ blocks:
         sus_or_add: No
     text: Солдатами умирают.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -921,6 +1024,7 @@ blocks:
         sus_or_add: No
     text: Красным флагом утерев густые слёзы;
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -972,4 +1076,5 @@ blocks:
         sus_or_add: No
     text: Солдатами умирают.
   notes: null
+  key: null
 notes: null
