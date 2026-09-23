@@ -2,8 +2,9 @@ pub mod lib_functions;
 
 use std::path::{PathBuf, Path};
 use std::fs::{self, File};
-use std::io::{BufWriter, BufReader, Read, Write, Error, ErrorKind};
+use std::io::{self, BufWriter, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
+use std::collections::HashMap;
 
 use include_dir::{include_dir, Dir};
 use anyhow::{Result, anyhow};
@@ -23,6 +24,9 @@ use crate::{Song, Fingering};
 
 
 pub const FORBIDDEN_CHARS: [char; 10] = ['<', '>', ':', '/', '\\', '|', '?', '*', '`', '"'];
+
+const LIBRARY_NAME: &str = "library";
+const FINGERINGS_NAME: &str = "fingerings";
 
 
 
@@ -140,15 +144,26 @@ pub fn export_backup(out_path: &Path) -> Result<()> {
     let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow::anyhow!("Cannot get base path!"));
     };
-    let lib_path = base_path.join("library");
-    let fingerings_path = base_path.join("fingerings");
+    let lib_path = base_path.join(LIBRARY_NAME);
+    let fingerings_path = base_path.join(FINGERINGS_NAME);
 
 
     let file = File::create(out_path)?;
     let mut zip = ZipWriter::new(file);
 
     add_in_zip_recursive(&mut zip, &base_path, &lib_path)?;
-    add_in_zip_recursive(&mut zip, &base_path, &fingerings_path)?;
+
+
+    check_fingerings(&fingerings_path)?;
+    let rel_fing_path = fingerings_path.strip_prefix(base_path)?;
+    let fing_file_name = rel_fing_path.to_string_lossy();
+    zip.start_file::<_, ()>(fing_file_name, FileOptions::default())?;
+
+    let file = File::open(&fingerings_path)?;
+    let mut reader = BufReader::new(file);
+    io::copy(&mut reader, &mut zip)?;
+
+
     zip.finish()?;
 
     Ok(())
@@ -175,10 +190,9 @@ fn add_in_zip_recursive(
             let file_name = rel_path.to_string_lossy();
             zip.start_file::<_, ()>(file_name, FileOptions::default())?;
 
-            let mut file = File::open(&path)?;
-            let mut buffer = Vec::new();
-            file.read_to_end(&mut buffer)?;
-            zip.write_all(&buffer)?;
+            let file = File::open(&path)?;
+            let mut reader = BufReader::new(file);
+            io::copy(&mut reader, zip)?;
         }
     }
 
@@ -189,22 +203,27 @@ pub fn import_backup(path: &Path) -> Result<()> {
     let base_path = if let Some(p) = get_base_path() { p } else {
         return Err(anyhow::anyhow!("Cannot get base path!"));
     };
-    let lib_path = base_path.join("library");
-    let fingerings_path = base_path.join("fingerings");
+    let lib_path = base_path.join(LIBRARY_NAME);
+    let fingerings_path = base_path.join(FINGERINGS_NAME);
 
     let temp_dir = base_path.join("temp");
     fs::create_dir_all(&temp_dir)?;
 
     extract_zip(path, &temp_dir)?;
 
-    let temp_fingerings_dir = temp_dir.join("fingerings");
-    let temp_lib_dir = temp_dir.join("library");
+    let temp_fingerings = temp_dir.join(FINGERINGS_NAME);
+    let temp_lib = temp_dir.join(LIBRARY_NAME);
 
-    fs::remove_dir_all(&fingerings_path)?;
-    fs::rename(&temp_fingerings_dir, &fingerings_path)?;
+    if fingerings_path.is_dir() {
+        fs::remove_dir_all(&fingerings_path)?;
+    } else if fingerings_path.is_file() {
+        fs::remove_file(&fingerings_path)?;
+    } fs::rename(&temp_fingerings, &fingerings_path)?;
+    check_fingerings(&fingerings_path)?;
     
-    fs::remove_dir_all(&lib_path)?;
-    fs::rename(&temp_lib_dir, &lib_path)?;
+    if lib_path.is_dir() {
+        fs::remove_dir_all(&lib_path)?;
+    } fs::rename(&temp_lib, &lib_path)?;
 
     fs::remove_dir_all(&temp_dir)?;
 
@@ -227,10 +246,9 @@ fn extract_zip(archive_path: &Path, output_dir: &Path) -> Result<()> {
                 fs::create_dir_all(parent)?;
             }
 
-            let mut output_file = File::create(output_path)?;
-            let mut buffer = Vec::new();
-            entry.read_to_end(&mut buffer)?;
-            output_file.write_all(&buffer)?;
+            let output_file = File::create(output_path)?;
+            let mut writer = BufWriter::new(output_file);
+            io::copy(&mut entry, &mut writer)?;
         }
     }
 
@@ -486,36 +504,90 @@ pub fn mkdir(added_path: &Path) -> Result<()> {
 
 pub fn add_fingering(fing: &Fingering) -> Result<()> {
     let path = get_fingerings_path()?;
-    if !path.exists() { fs::create_dir_all(&path)? }
+    check_fingerings(&path)?;
 
     let fing_name = get_without_forbidden_chars(
         fing.get_title()
             .ok_or(anyhow!("Cannot get the fingering title!"))?
     );
 
-    let file = File::create(path.join(fing_name))?;
-    let writer = BufWriter::new(file);
-
-    serde_yaml::to_writer(writer, &fing)?;
+    let mut fingerings = read_fingerings(&path)?;
+    fingerings.insert(fing_name, fing.clone());
+    write_fingerings(&path, &fingerings)?;
 
     
     Ok(())
 }
 
-pub fn get_fingering(chord_name: &str) -> Result<Option<Fingering>> {
-    let path: PathBuf = get_fingerings_path()?.join(chord_name);
+pub fn get_fingering(name: &str) -> Result<Option<Fingering>> {
+    let path = get_fingerings_path()?;
     if !path.exists() { return Ok(None) }
+    check_fingerings(&path)?;
 
+    let mut fingerings = read_fingerings(&path)?;
+    Ok(fingerings.remove(name))
+}
+fn read_fingerings(path: &Path) -> Result<HashMap<String, Fingering>> {
     let file = File::open(path)?;
     let reader = BufReader::new(file);
-    let fing: Fingering = serde_yaml::from_reader(reader)?;
+    let fingerings: HashMap<String, Fingering> =
+        serde_yaml::from_reader(reader)?;
 
-    
-    Ok(Some(fing))
+
+    Ok(fingerings)
+}
+fn write_fingerings(
+    path: &Path,
+    fingerings: &HashMap<String, Fingering>
+) -> Result<()> {
+    let file = File::create(path)?;
+    let writer = BufWriter::new(file);
+    serde_yaml::to_writer(writer, fingerings)?;
+
+
+    Ok(())
+}
+
+// Here we go. I've broken backward compatibility. Again
+fn check_fingerings(path: &Path) -> Result<()> {
+    if path.is_dir() {
+        fix_fingerings(&path)
+    } else {
+        Ok(())
+    }
+}
+
+// And this is a patch for transfering from fingerings 0.2.2 and earlier
+// to fingerings 0.2.3
+fn fix_fingerings(dir: &Path) -> Result<()> {
+    let mut fingerings: HashMap<String, Fingering> = HashMap::new();
+    for entry in dir.read_dir()? {
+        let path = entry?.path();
+        let file = File::open(&path)?;
+        let fing: Fingering = serde_yaml::from_reader(file)?;
+        let name = path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .ok_or(anyhow!("Cannot get fingering's name!"))?
+            .to_string();
+        
+        fingerings.insert(name, fing);
+    }
+
+    fs::remove_dir_all(dir)?;
+
+    let file = File::create(dir)?;
+    let writer = BufWriter::new(file);
+    serde_yaml::to_writer(writer, &fingerings)?;
+
+
+    Ok(())
 }
 
 
 fn print(text: &str) -> Result<()> {
+    use io::Write;
+
     if let Ok(mut child) = Command::new("less").arg("-R").stdin(Stdio::piped()).spawn() {
         if let Some(mut stdin) = child.stdin.take() {
             stdin.write_all(text.as_bytes())?;
@@ -548,13 +620,13 @@ pub fn get_free_path(mut path: PathBuf, name: &str) -> PathBuf {
 pub fn get_fingerings_path() -> Result<PathBuf> {
     Ok( get_base_path()
         .ok_or(anyhow!("Cannot get data directory!"))?
-        .join("fingerings")
+        .join(FINGERINGS_NAME)
     )
 }
 
 pub fn get_lib_path() -> Result<PathBuf> {
     if let Some(mut path) = get_base_path() {
-        path.push("library");
+        path.push(LIBRARY_NAME);
 
         Ok(path)
     }
