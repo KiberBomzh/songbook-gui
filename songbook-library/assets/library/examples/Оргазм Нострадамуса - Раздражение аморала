@@ -1,20 +1,282 @@
 metadata:
-  title: Раздражение Аморала
+  title: Раздражение аморала
   artist: Оргазм Нострадамуса
   key:
     keynote: F
     is_minor: true
   capo: null
-  autoscroll_speed: 360
-  autoscroll_delay: 3
+  autoscroll_speed: null
+  autoscroll_delay: null
   show_options:
     chords: true
     rhythm: true
     notes: true
     fingerings: false
   tags: null
-  fingerings: null
+  fingerings:
+    ? text: ''
+      keynote: A
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: A
+      fret_num: 2
+      chord_size: 1
+      strings:
+      - Muted
+      - !FrettedOn 2
+      - !FrettedOn 2
+      - !FrettedOn 2
+      - Muted
+      - Muted
+      bars:
+        2: 3
+    ? text: ''
+      keynote: ASharp
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: A#
+      fret_num: 3
+      chord_size: 4
+      strings:
+      - Muted
+      - !FrettedOn 6
+      - !FrettedOn 3
+      - Open
+      - Muted
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: B
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: B
+      fret_num: 1
+      chord_size: 2
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 1
+      - !FrettedOn 2
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: C
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: C
+      fret_num: 3
+      chord_size: 3
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 5
+      - !FrettedOn 3
+      - Muted
+      bars: null
+    ? text: 5-
+      keynote: ASharp
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Dim
+      sus_or_add: No
+    : title: A#5-
+      fret_num: 3
+      chord_size: 3
+      strings:
+      - Muted
+      - !FrettedOn 5
+      - !FrettedOn 3
+      - Open
+      - Muted
+      - Muted
+      bars: null
+    ? text: 5-
+      keynote: C
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Dim
+      sus_or_add: No
+    : title: C5-
+      fret_num: 3
+      chord_size: 2
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 4
+      - !FrettedOn 3
+      - Muted
+      bars: null
+    ? text: m
+      keynote: D
+      flat: false
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: Dm
+      fret_num: 6
+      chord_size: 2
+      strings:
+      - Muted
+      - !FrettedOn 6
+      - !FrettedOn 7
+      - Open
+      - Muted
+      - Muted
+      bars: null
+    ? text: m
+      keynote: E
+      flat: false
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: Em
+      fret_num: 5
+      chord_size: 3
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 5
+      - !FrettedOn 7
+      - Muted
+      bars: null
+    ? text: sus2
+      keynote: D
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus2
+    : title: Dsus2
+      fret_num: 5
+      chord_size: 3
+      strings:
+      - Muted
+      - !FrettedOn 5
+      - !FrettedOn 7
+      - Open
+      - Muted
+      - Muted
+      bars: null
+    ? text: sus2
+      keynote: E
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus2
+    : title: Esus2
+      fret_num: 4
+      chord_size: 4
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 4
+      - !FrettedOn 7
+      - Muted
+      bars: null
+    ? text: sus4
+      keynote: A
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus4
+    : title: Asus4
+      fret_num: 2
+      chord_size: 4
+      strings:
+      - Muted
+      - !FrettedOn 5
+      - !FrettedOn 2
+      - !FrettedOn 2
+      - Muted
+      - Muted
+      bars:
+        2: 3
+    ? text: sus4
+      keynote: B
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus4
+    : title: Bsus4
+      fret_num: 2
+      chord_size: 3
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 4
+      - !FrettedOn 2
+      - Muted
+      bars: null
+    ? text: sus4
+      keynote: D
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus4
+    : title: Dsus4
+      fret_num: 7
+      chord_size: 2
+      strings:
+      - Muted
+      - !FrettedOn 8
+      - !FrettedOn 7
+      - Open
+      - Muted
+      - Muted
+      bars: null
+    ? text: sus4
+      keynote: E
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: Sus4
+    : title: Esus4
+      fret_num: 7
+      chord_size: 1
+      strings:
+      - Muted
+      - Muted
+      - Muted
+      - !FrettedOn 7
+      - !FrettedOn 7
+      - Muted
+      bars:
+        7: 4
 chord_list:
+- text: sus4
+  keynote: A
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
 - text: ''
   keynote: A
   flat: false
@@ -22,38 +284,10 @@ chord_list:
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
-- text: sus4
-  keynote: D
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: sus2
-  keynote: E
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus2
 - text: m
   keynote: D
   flat: false
   minor: true
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: No
-- text: sus4
-  keynote: E
-  flat: false
-  minor: false
-  chord_type: Norm
-  fifth_state: Norm
-  sus_or_add: Sus4
-- text: ''
-  keynote: B
-  flat: false
-  minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
@@ -64,8 +298,15 @@ chord_list:
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
+- text: sus2
+  keynote: E
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus2
 - text: sus4
-  keynote: A
+  keynote: D
   flat: false
   minor: false
   chord_type: Norm
@@ -78,6 +319,20 @@ chord_list:
   chord_type: Norm
   fifth_state: Dim
   sus_or_add: No
+- text: sus4
+  keynote: B
+  flat: false
+  minor: false
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: Sus4
+- text: m
+  keynote: E
+  flat: false
+  minor: true
+  chord_type: Norm
+  fifth_state: Norm
+  sus_or_add: No
 - text: 5-
   keynote: ASharp
   flat: false
@@ -85,10 +340,10 @@ chord_list:
   chord_type: Norm
   fifth_state: Dim
   sus_or_add: No
-- text: m
-  keynote: E
+- text: ''
+  keynote: C
   flat: false
-  minor: true
+  minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
@@ -99,22 +354,22 @@ chord_list:
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: Sus2
-- text: sus4
+- text: ''
   keynote: B
   flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
-  sus_or_add: Sus4
-- text: ''
-  keynote: C
+  sus_or_add: No
+- text: sus4
+  keynote: E
   flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
-  sus_or_add: No
+  sus_or_add: Sus4
 blocks:
-- title: Вступление
+- title: null
   lines:
   - !PlainText |-
     Великие вещи для великих
