@@ -7,6 +7,12 @@ import '../frb_generated.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+String textToChordPro({required String s}) =>
+    RustLib.instance.api.crateApiTheoryTextToChordPro(s: s);
+
+String chordProToText({required String s}) =>
+    RustLib.instance.api.crateApiTheoryChordProToText(s: s);
+
 List<SimpleFingering> getFingeringsForChord({required String chord}) =>
     RustLib.instance.api.crateApiTheoryGetFingeringsForChord(chord: chord);
 

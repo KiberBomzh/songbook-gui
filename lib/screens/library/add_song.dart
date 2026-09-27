@@ -6,6 +6,7 @@ import 'package:songbook/services/settings.dart';
 import 'package:songbook/l10n/app_localizations.dart';
 
 import 'package:songbook/src/rust/api/library.dart';
+import 'package:songbook/src/rust/api/theory.dart';
 
 
 class AddSong extends StatefulWidget {
@@ -21,6 +22,8 @@ class AddSong extends StatefulWidget {
 class _AddSongState extends State<AddSong> {
 	late SettingsProvider _settings;
 
+
+	bool _chordPro = false;
 
 	late TextEditingController _artistController;
 	late FocusNode _artistFocusNode;
@@ -98,7 +101,9 @@ class _AddSongState extends State<AddSong> {
 										return;
 									}
 
-									final text = _songContentController.text;
+									final text = (_chordPro)
+										? chordProToText(s: _songContentController.text)
+										: _songContentController.text;
 									widget.onDone(artist, title, text);
 								},
 							),
@@ -161,7 +166,28 @@ class _AddSongState extends State<AddSong> {
 						),
 					]
 				),
-				const SizedBox(height: 20),
+				const SizedBox(height: 10),
+				Row(
+					children: [
+						Spacer(),
+						Text('ChordPro'),
+						const SizedBox(width: 5),
+
+						Switch(
+							value: _chordPro,
+							onChanged: (value) => setState(() {
+								_chordPro = value;
+
+								if (value) {
+									_songContentController.text = textToChordPro(s: _songContentController.text);
+								} else {
+									_songContentController.text = chordProToText(s: _songContentController.text);
+								}
+							}),
+						),
+					],
+				),
+				const SizedBox(height: 5),
 				Expanded(
 					child: TextField(
 						controller: _songContentController,
