@@ -7,7 +7,85 @@ metadata:
   capo: null
   autoscroll_speed: 2500
   autoscroll_delay: 3
-  show_options: null
+  show_options:
+    chords: true
+    rhythm: true
+    notes: true
+    fingerings: true
+  tags: null
+  fingerings:
+    ? text: ''
+      keynote: C
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: C
+      fret_num: 3
+      chord_size: 3
+      strings:
+      - !FrettedOn 3
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - !FrettedOn 5
+      - Muted
+      - Muted
+      bars: null
+    ? text: ''
+      keynote: E
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: E
+      fret_num: 1
+      chord_size: 2
+      strings:
+      - Open
+      - Open
+      - !FrettedOn 1
+      - !FrettedOn 2
+      - !FrettedOn 2
+      - Open
+      bars: null
+    ? text: ''
+      keynote: F
+      flat: false
+      minor: false
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: F
+      fret_num: 1
+      chord_size: 3
+      strings:
+      - Muted
+      - !FrettedOn 1
+      - !FrettedOn 2
+      - !FrettedOn 3
+      - !FrettedOn 3
+      - Muted
+      bars: null
+    ? text: m
+      keynote: A
+      flat: false
+      minor: true
+      chord_type: Norm
+      fifth_state: Norm
+      sus_or_add: No
+    : title: Am
+      fret_num: 1
+      chord_size: 2
+      strings:
+      - Open
+      - !FrettedOn 1
+      - !FrettedOn 2
+      - !FrettedOn 2
+      - Open
+      - Muted
+      bars: null
 chord_list:
 - text: m
   keynote: A
@@ -24,14 +102,14 @@ chord_list:
   fifth_state: Norm
   sus_or_add: No
 - text: ''
-  keynote: C
+  keynote: E
   flat: false
   minor: false
   chord_type: Norm
   fifth_state: Norm
   sus_or_add: No
 - text: ''
-  keynote: E
+  keynote: C
   flat: false
   minor: false
   chord_type: Norm
@@ -70,6 +148,7 @@ blocks:
       fifth_state: Norm
       sus_or_add: No
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -340,6 +419,7 @@ blocks:
         sus_or_add: No
     text: И вся грязь превратилась в голый лед,
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -468,6 +548,7 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -738,6 +819,7 @@ blocks:
         sus_or_add: No
     text: Лихой фонарь ожидания мотается,
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -866,6 +948,7 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -1080,6 +1163,7 @@ blocks:
         sus_or_add: No
     text: Так закопайте ж ее во Христе,
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -1208,6 +1292,7 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -1590,6 +1675,7 @@ blocks:
         sus_or_add: No
     text: Я уверен, что у них тоже самое,
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -1718,6 +1804,7 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   notes: null
+  key: null
 - title: Куплет
   lines:
   - !TextBlock
@@ -1988,6 +2075,7 @@ blocks:
         sus_or_add: No
     text: Я проснулся среди ночи и понял что
   notes: null
+  key: null
 - title: Припев
   lines:
   - !TextBlock
@@ -2228,4 +2316,5 @@ blocks:
         sus_or_add: No
     text: Всё идет по плану.
   notes: null
+  key: null
 notes: null

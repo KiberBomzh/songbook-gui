@@ -1,0 +1,438 @@
+E5:
+  title: E5
+  fret_num: 7
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 9
+  - !FrettedOn 9
+  - !FrettedOn 7
+  - Muted
+  bars: null
+A#5:
+  title: A#5
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  bars: null
+Gbm:
+  title: Gbm
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - !FrettedOn 2
+  - !FrettedOn 2
+  - !FrettedOn 2
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  bars:
+    2: 5
+Ab:
+  title: Ab
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 5
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  bars:
+    4: 5
+F#5:
+  title: F#5
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  bars: null
+A#:
+  title: A#
+  fret_num: 1
+  chord_size: 3
+  strings:
+  - !FrettedOn 1
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 1
+  - Muted
+  bars:
+    1: 4
+Dbm:
+  title: Dbm
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 5
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars:
+    4: 4
+B:
+  title: B
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - !FrettedOn 2
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  - Muted
+  bars:
+    2: 4
+C#m:
+  title: C#m
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 5
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars:
+    4: 4
+Eb5:
+  title: Eb5
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars: null
+F5:
+  title: F5
+  fret_num: 1
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 1
+  bars: null
+D#5:
+  title: D#5
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars: null
+C5:
+  title: C5
+  fret_num: 3
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 5
+  - !FrettedOn 5
+  - !FrettedOn 3
+  - Muted
+  bars: null
+Gm:
+  title: Gm
+  fret_num: 3
+  chord_size: 3
+  strings:
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 5
+  - !FrettedOn 5
+  - !FrettedOn 3
+  bars:
+    3: 5
+G#:
+  title: G#
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 5
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  bars:
+    4: 5
+C#:
+  title: C#
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars:
+    4: 4
+B5:
+  title: B5
+  fret_num: 7
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 9
+  - !FrettedOn 9
+  - !FrettedOn 7
+  bars: null
+Bb:
+  title: Bb
+  fret_num: 1
+  chord_size: 3
+  strings:
+  - !FrettedOn 1
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 3
+  - !FrettedOn 1
+  - Muted
+  bars:
+    1: 4
+Db:
+  title: Db
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - !FrettedOn 4
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars:
+    4: 4
+Bb5:
+  title: Bb5
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  bars: null
+C#5:
+  title: C#5
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars: null
+G5:
+  title: G5
+  fret_num: 3
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 5
+  - !FrettedOn 5
+  - !FrettedOn 3
+  bars: null
+Bm:
+  title: Bm
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - !FrettedOn 2
+  - !FrettedOn 3
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  - Muted
+  bars:
+    2: 4
+D#:
+  title: D#
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - !FrettedOn 6
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars:
+    6: 4
+F#m:
+  title: F#m
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - !FrettedOn 2
+  - !FrettedOn 2
+  - !FrettedOn 2
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  bars:
+    2: 5
+Ab5:
+  title: Ab5
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  bars: null
+A5:
+  title: A5
+  fret_num: 5
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 7
+  - !FrettedOn 7
+  - !FrettedOn 5
+  bars: null
+Db5:
+  title: Db5
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  - Muted
+  bars: null
+D5:
+  title: D5
+  fret_num: 5
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - !FrettedOn 7
+  - !FrettedOn 7
+  - !FrettedOn 5
+  - Muted
+  bars: null
+Ebm:
+  title: Ebm
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - !FrettedOn 6
+  - !FrettedOn 7
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars:
+    6: 4
+Eb:
+  title: Eb
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - !FrettedOn 6
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars:
+    6: 4
+G#5:
+  title: G#5
+  fret_num: 4
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 6
+  - !FrettedOn 6
+  - !FrettedOn 4
+  bars: null
+D#m:
+  title: D#m
+  fret_num: 6
+  chord_size: 3
+  strings:
+  - !FrettedOn 6
+  - !FrettedOn 7
+  - !FrettedOn 8
+  - !FrettedOn 8
+  - !FrettedOn 6
+  - Muted
+  bars:
+    6: 4
+Gb5:
+  title: Gb5
+  fret_num: 2
+  chord_size: 3
+  strings:
+  - Muted
+  - Muted
+  - Muted
+  - !FrettedOn 4
+  - !FrettedOn 4
+  - !FrettedOn 2
+  bars: null
+Cm:
+  title: Cm
+  fret_num: 3
+  chord_size: 3
+  strings:
+  - !FrettedOn 3
+  - !FrettedOn 4
+  - !FrettedOn 5
+  - !FrettedOn 5
+  - !FrettedOn 3
+  - Muted
+  bars:
+    3: 4
