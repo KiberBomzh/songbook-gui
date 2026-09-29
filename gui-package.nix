@@ -32,7 +32,7 @@ let
 in 
 	pkgs.flutter.buildFlutterApplication {
 		pname = "songbook-gui";
-		version = "2.1.1";
+		version = "2.3.0";
 		src = src;
 		
 		pubspecLock = importYaml "${src}/pubspec.lock";
