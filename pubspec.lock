@@ -976,6 +976,70 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
+  system_accent_color:
+    dependency: "direct main"
+    description:
+      name: system_accent_color
+      sha256: e0ec99f191a6c5610d1120426b89ba7b77b04b742693d0e1e55884965b6a1d9c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
+  system_accent_color_android:
+    dependency: transitive
+    description:
+      name: system_accent_color_android
+      sha256: b59f04d1507e2436eca46751951b6a86dfe317cad004b02357378c5e7c8902ff
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
+  system_accent_color_ios:
+    dependency: transitive
+    description:
+      name: system_accent_color_ios
+      sha256: ead9d0092f4cb92e886a0a0371d23f07e0e030a8b09721f0da00d06ad852f2d4
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_linux:
+    dependency: transitive
+    description:
+      name: system_accent_color_linux
+      sha256: d8350b15e80b087fc0b1e2935bce708e4a84b4477ef46630477cf822785f56b3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_macos:
+    dependency: transitive
+    description:
+      name: system_accent_color_macos
+      sha256: f1d73d6f3731da314d1794dd25db7fa77e3da2de9d12f2577b639b043728583b
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_platform_interface:
+    dependency: transitive
+    description:
+      name: system_accent_color_platform_interface
+      sha256: "5980e798f531f3fb77e591b6d1d08f0c8fbc89afc8a797aec14cb4949dc2d483"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_web:
+    dependency: transitive
+    description:
+      name: system_accent_color_web
+      sha256: "2740a119cf3a1f4c4f76f5edfe3baffb3db898aef825c3996f497419583f5e48"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  system_accent_color_windows:
+    dependency: transitive
+    description:
+      name: system_accent_color_windows
+      sha256: "73080771d206fe1f0a94dc88adb2b42923ce2e7780539f18c2b7872bf40a5488"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   term_glyph:
     dependency: transitive
     description:
@@ -1128,6 +1192,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  xdg_desktop_portal:
+    dependency: transitive
+    description:
+      name: xdg_desktop_portal
+      sha256: "4fae74b6ed63a449d4c796a74265cebdd912c390336dedc06d705142f3b939d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.14"
   xdg_directories:
     dependency: transitive
     description:

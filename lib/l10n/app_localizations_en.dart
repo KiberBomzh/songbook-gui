@@ -188,6 +188,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAmoled => 'Amoled';
 
   @override
+  String get settingsSystemAccent => 'System accent';
+
+  @override
   String get settingsAccent => 'Accent';
 
   @override

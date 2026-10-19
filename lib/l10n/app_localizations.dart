@@ -454,6 +454,12 @@ abstract class AppLocalizations {
   /// **'Amoled'**
   String get settingsAmoled;
 
+  /// No description provided for @settingsSystemAccent.
+  ///
+  /// In en, this message translates to:
+  /// **'System accent'**
+  String get settingsSystemAccent;
+
   /// No description provided for @settingsAccent.
   ///
   /// In en, this message translates to:

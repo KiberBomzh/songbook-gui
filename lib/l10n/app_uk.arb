@@ -70,6 +70,7 @@
 	"settingsLibPath": "Шлях до бібліотеки",
     "settingsTheme": "Тема",
     "settingsAmoled": "Амолед",
+	"settingsSystemAccent": "Системний акцент",
     "settingsAccent": "Акцент",
     "settingsBackgroundOpacity": "Прозорість фону",
     "settingsBackgroundOpacityHint": "Прозорість...",

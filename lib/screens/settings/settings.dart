@@ -291,23 +291,35 @@ class _SettingsState extends State<SettingsScreen> {
 		),
 
 		_buildItem(
-			text: AppLocalizations.of(context)!.settingsAccent,
-			child: ListView.builder(
-				scrollDirection: Axis.horizontal,
-				shrinkWrap: true,
-				itemCount: _colors.length,
-				itemBuilder: (context, index) {
-					final colorItem = _colors[index];
-
-					return colorItem.build(
-						context: context,
-						isSelected: (colorItem.color == _settings.colorAccent),
-						onTap: _settings.setColorAccent,
-					);
-				},
+			text: AppLocalizations.of(context)!.settingsSystemAccent,
+			child: Switch(
+				value: _settings.useSystemAccent,
+				onChanged: (_settings.isSystemAccentAvailable)
+					? _settings.setUseSystemAccent
+					: null,
 			),
 			onTap: null,
 		),
+
+		if (!_settings.useSystemAccent)
+			_buildItem(
+				text: AppLocalizations.of(context)!.settingsAccent,
+				child: ListView.builder(
+					scrollDirection: Axis.horizontal,
+					shrinkWrap: true,
+					itemCount: _colors.length,
+					itemBuilder: (context, index) {
+						final colorItem = _colors[index];
+
+						return colorItem.build(
+							context: context,
+							isSelected: (colorItem.color == _settings.colorAccent),
+							onTap: _settings.setColorAccent,
+						);
+					},
+				),
+				onTap: null,
+			),
 
 		_buildItem(
 			text: AppLocalizations.of(context)!.settingsBackgroundOpacity,

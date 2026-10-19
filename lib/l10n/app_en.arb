@@ -70,6 +70,7 @@
 	"settingsLibPath": "Library path",
 	"settingsTheme": "Theme",
 	"settingsAmoled": "Amoled",
+	"settingsSystemAccent": "System accent",
 	"settingsAccent": "Accent",
 	"settingsBackgroundOpacity": "Background opacity",
 	"settingsBackgroundOpacityHint": "Opacity...",

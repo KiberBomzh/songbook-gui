@@ -190,6 +190,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsAmoled => 'Амолед';
 
   @override
+  String get settingsSystemAccent => 'Системний акцент';
+
+  @override
   String get settingsAccent => 'Акцент';
 
   @override

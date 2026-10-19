@@ -28,6 +28,7 @@ dependencies:
   permission_handler: ^13.0.1
   open_with_app: ^0.2.0
   collection: any
+  system_accent_color: ^0.0.3
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_test:

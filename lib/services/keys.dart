@@ -31,6 +31,7 @@ const String RHYTHM_COLOR = 'rhythm_color';
 
 const String IS_DARK_THEME = 'is_dark_theme';
 const String IS_AMOLED = 'is_amoled';
+const String USE_SYSTEM_ACCENT = 'use_system_accent';
 const String COLOR_ACCENT = 'color_accent';
 const String EDITOR_FONT_SIZE = 'editor_font_size';
 const String EDITOR_FONT_FAMILY = 'editor_font_family';

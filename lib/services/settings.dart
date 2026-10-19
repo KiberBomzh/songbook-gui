@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:system_accent_color/system_accent_color.dart';
 
 import 'package:songbook/main.dart';
 import 'package:songbook/services/preferences.dart';
@@ -460,8 +461,22 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	bool _useSystemAccent = false;
+	bool get useSystemAccent => _useSystemAccent;
+	Future<void> setUseSystemAccent(bool value) async {
+		_useSystemAccent = value;
+		await Preferences.setBool(USE_SYSTEM_ACCENT, value);
+
+		notifyListeners();
+	}
+
+	late Color? _systemAccent;
+	bool get isSystemAccentAvailable => _systemAccent != null;
+
 	String _colorAccent = 'blue';
-	Color get colorAccent => stringToColor(_colorAccent) ?? Colors.blue;
+	Color get colorAccent => (_useSystemAccent)
+		? _systemAccent ?? stringToColor(_colorAccent) ?? Colors.blue
+		: stringToColor(_colorAccent) ?? Colors.blue;
 	Future<void> setColorAccent(String value) async {
 		_colorAccent = value;
 		await Preferences.setString(COLOR_ACCENT, value);
@@ -762,6 +777,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
 		_isAmoled = Preferences.getBool(IS_AMOLED) ?? false;
+		_useSystemAccent = Preferences.getBool(USE_SYSTEM_ACCENT) ?? false;
 		_colorAccent = Preferences.getString(COLOR_ACCENT) ?? 'blue';
 		_editorFontSize = Preferences.getDouble(EDITOR_FONT_SIZE) ?? 14;
 		_editorFontFamily = Preferences.getString(EDITOR_FONT_FAMILY) ?? 'CascadiaMono';
@@ -807,6 +823,7 @@ class SettingsProvider extends ChangeNotifier {
 		}
 
 
+		_systemAccent = await SystemAccentColor().getAccentColor();
 		await _loadBackgroundImage();
 		await FontManager.load();
 
@@ -866,6 +883,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		settings[IS_DARK_THEME] = _isDarkTheme.toString();
 		settings[IS_AMOLED] = _isAmoled.toString();
+		settings[USE_SYSTEM_ACCENT] = _useSystemAccent.toString();
 		settings[COLOR_ACCENT] = _colorAccent;
 		settings[EDITOR_FONT_SIZE] = _editorFontSize.toString();
 		settings[EDITOR_FONT_FAMILY] = _editorFontFamily;
@@ -934,6 +952,8 @@ class SettingsProvider extends ChangeNotifier {
 		_isAmoled = boolFromString(settings[IS_AMOLED]) ?? false;
 		await Preferences.setBool(IS_AMOLED, _isAmoled);
 		
+		_useSystemAccent = boolFromString(settings[USE_SYSTEM_ACCENT]) ?? false;
+		await Preferences.setBool(USE_SYSTEM_ACCENT, _useSystemAccent);
 
 		_colorAccent = settings[COLOR_ACCENT] ?? 'blue';
 		await Preferences.setString(COLOR_ACCENT, _colorAccent);
