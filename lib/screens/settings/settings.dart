@@ -281,14 +281,15 @@ class _SettingsState extends State<SettingsScreen> {
 			onTap: null,
 		),
 
-		_buildItem(
-			text: AppLocalizations.of(context)!.settingsAmoled,
-			child: Switch(
-				value: _settings.isAmoled,
-				onChanged: _settings.setAmoled,
+		if (Theme.of(context).brightness == Brightness.dark)
+			_buildItem(
+				text: AppLocalizations.of(context)!.settingsAmoled,
+				child: Switch(
+					value: _settings.isAmoled,
+					onChanged: _settings.setAmoled,
+				),
+				onTap: null,
 			),
-			onTap: null,
-		),
 
 		_buildItem(
 			text: AppLocalizations.of(context)!.settingsSystemAccent,
