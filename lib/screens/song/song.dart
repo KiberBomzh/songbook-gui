@@ -14,6 +14,7 @@ import 'package:songbook/screens/song/fretboard.dart';
 import 'package:songbook/screens/song/circle_of_fifth.dart';
 import 'package:songbook/screens/song/widgets.dart';
 import 'package:songbook/screens/song/bottom_bar.dart';
+import 'package:songbook/screens/song/chord_text.dart';
 import 'package:songbook/screens/editor/editor.dart';
 import 'package:songbook/screens/settings/settings.dart';
 import 'package:songbook/services/settings.dart';
@@ -65,6 +66,7 @@ class _SongState extends State<SongScreen> {
 
 
 	late SettingsProvider _settings;
+	late Color _chordsBackground;
 	late TextStyle _chordsStyle;
 	late TextStyle _textStyle;
 	late TextStyle _notesStyle;
@@ -248,6 +250,7 @@ class _SongState extends State<SongScreen> {
 		_isScreenWide = isWideScreen(context);
 
 		_settings = context.watch<SettingsProvider>();
+		_chordsBackground = _settings.chordsBackground(context);
 		_chordsStyle = _settings.chordsStyle(context);
 		_textStyle = _settings.textStyle(context);
 		_notesStyle = _settings.notesStyle(context);
@@ -631,7 +634,7 @@ class _SongState extends State<SongScreen> {
 									: text
 							),
 						SimpleLine_ChordsLine(field0: String chords) => (_showChords)
-							? Text(chords, style: _chordsStyle)
+							? ChordText(chords, style: _chordsStyle, background: _chordsBackground)
 							: SizedBox(),
 						SimpleLine_NoteLine(field0: String text) => (_showNotes)
 							? Align(

@@ -415,6 +415,14 @@ class _SettingsState extends State<SettingsScreen> {
 			),
 			onTap: null,
 		),
+		_buildItem(
+			text: AppLocalizations.of(context)!.settingsShowChordsBackground,
+			child: Switch(
+				value: _settings.showChordsBackground,
+				onChanged: _settings.setShowChordsBackground,
+			),
+			onTap: null,
+		),
 
 		_buildItem(
 			text: AppLocalizations.of(context)!.settingsFingeringsSize,
@@ -826,6 +834,43 @@ class _SettingsState extends State<SettingsScreen> {
 			],
 		),
 
+
+		if (_settings.showChordsBackground)
+			_buildItem(
+				text: AppLocalizations.of(context)!.settingsChordsBackground,
+				child: Row(
+					mainAxisAlignment: .end,
+					children: [
+						ElevatedButton(
+							child: Text(AppLocalizations.of(context)!.settingsReset),
+							onPressed: !_settings.chordsBackgroundIsNull
+								? () => _settings.setChordsBackground(null)
+								: null,
+							style: ElevatedButton.styleFrom(
+								backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+							),
+						),
+
+						const SizedBox(width: 5),
+
+						ColorItem(
+							color: _settings.chordsBackground(context),
+							value: '',
+						).build(
+							context: context,
+							isSelected: false,
+							onTap: (_) async {
+								final String? newColor = await _showColorPickerDialog(
+									context: context,
+									initialColor: _settings.chordsBackground(context),
+								);
+								await _settings.setChordsBackground(newColor);
+							}
+						)
+					],
+				),
+				onTap: null,
+			),
 
 		_buildItem(
 			text: AppLocalizations.of(context)!.settingsChordsColor,

@@ -25,9 +25,10 @@ const String IS_PLAIN_TEXT_ITALIC = 'is_plain_text_italic';
 
 
 const String BACKGROUND_COLOR = 'background_color';
-const String TEXT_COLOR = 'text_color';
+const String CHORDS_BACKGROUND = 'chords_background';
 const String CHORDS_COLOR = 'chords_color';
 const String RHYTHM_COLOR = 'rhythm_color';
+const String TEXT_COLOR = 'text_color';
 
 const String IS_DARK_THEME = 'is_dark_theme';
 const String IS_AMOLED = 'is_amoled';
@@ -41,6 +42,7 @@ const String OPEN_LATEST_SONG = 'open_latest_song';
 const String LATEST_SONG = 'latest_song';
 const String SHARP_ONLY = 'sharp_only';
 const String LINE_WRAP_IN_SONG = 'line_wrap_in_song';
+const String SHOW_CHORDS_BACKGROUND = 'show_chords_background';
 const String FINGERING_SIZE_IN_SONG = 'fingering_size_in_song';
 const String BACKGROUND_OPACITY = 'background_opacity';
 const String LANGUAGE = 'language';

@@ -84,6 +84,7 @@
 	"settingsSongFontSize": "Размер текста в песне",
 	"settingsSharpOnly": "Только диезы",
 	"settingsLineWrap": "Перенос строк",
+	"settingsShowChordsBackground": "Показывать фон аккордов",
 	"settingsFingeringsSize": "Размер аппликатур",
 
 	"settingsTitles": "Заголовки",
@@ -96,6 +97,7 @@
 	"settingsBold": "Жирный",
 	"settingsItalic": "Курсив",
 
+	"settingsChordsBackground": "Фон аккордов",
 	"settingsChordsColor": "Цвет аккордов",
 	"settingsRhythmColor": "Цвет ритма",
 	"settingsTextColor": "Цвет текста",

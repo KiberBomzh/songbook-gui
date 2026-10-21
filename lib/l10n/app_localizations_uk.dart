@@ -232,6 +232,9 @@ class AppLocalizationsUk extends AppLocalizations {
   String get settingsLineWrap => 'Перенос рядків';
 
   @override
+  String get settingsShowChordsBackground => 'Показувати фон аккордів';
+
+  @override
   String get settingsFingeringsSize => 'Розмір апплікатур';
 
   @override
@@ -257,6 +260,9 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get settingsItalic => 'Курсив';
+
+  @override
+  String get settingsChordsBackground => 'Фон аккордів';
 
   @override
   String get settingsChordsColor => 'Колір аккордів';

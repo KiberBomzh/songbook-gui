@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:songbook/services/settings.dart';
+import 'package:songbook/screens/song/chord_text.dart';
 
 
 class TabWidget extends StatefulWidget {
@@ -49,6 +50,7 @@ class RowWidget extends StatelessWidget {
 	String? text;
 
 	late SettingsProvider _settings;
+	late Color _chordsBackground;
 	late TextStyle _chordsStyle;
 	late TextStyle _rhythmStyle;
 	late TextStyle _textStyle;
@@ -64,6 +66,7 @@ class RowWidget extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		_settings = context.watch<SettingsProvider>();
+		_chordsBackground = _settings.chordsBackground(context);
 		_chordsStyle = _settings.chordsStyle(context);
 		_rhythmStyle = _settings.rhythmStyle(context);
 		_textStyle = _settings.textStyle(context);
@@ -119,7 +122,7 @@ class RowWidget extends StatelessWidget {
 
 			if (chords != null) {
 				lines.add(
-					Text(chords!.substring(startIndex, endIndex), style: _chordsStyle)
+					ChordText(chords!.substring(startIndex, endIndex), style: _chordsStyle, background: _chordsBackground),
 				);
 			}
 
@@ -145,7 +148,7 @@ class RowWidget extends StatelessWidget {
 	List<Widget> _getDefault() {
 		return [
 			if (chords != null)
-				Text(chords!, style: _chordsStyle),
+				ChordText(chords!, style: _chordsStyle, background: _chordsBackground),
 
 			if (rhythm != null)
 				Text(rhythm!, style: _rhythmStyle),

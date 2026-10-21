@@ -105,10 +105,23 @@ class SettingsProvider extends ChangeNotifier {
 		height: 1.6,
 	); // only for raw and source modes
 
+	final _chordsBackground = SettingsColor(
+		withContext: (context) => Theme.of(context).colorScheme.onSecondary,
+		key: CHORDS_BACKGROUND,
+	);
+	Color chordsBackground(BuildContext context) => (_showChordsBackground)
+		? _chordsBackground.get() ?? _chordsBackground.withContext(context)
+		: Color(0x00000000);
 	final _chordsColor = SettingsColor(
 		withContext: (context) => Theme.of(context).colorScheme.primary,
 		key: CHORDS_COLOR,
 	);
+	bool get chordsBackgroundIsNull => _chordsBackground.isNull();
+	Future<void> setChordsBackground(String? value) async {
+		_chordsBackground.set(value);
+		notifyListeners();
+	}
+
 	Color chordsColor(BuildContext context) =>
 		_chordsColor.get() ?? _chordsColor.withContext(context);
 	bool get chordsColorIsNull => _chordsColor.isNull();
@@ -724,6 +737,15 @@ class SettingsProvider extends ChangeNotifier {
 		notifyListeners();
 	}
 
+	bool _showChordsBackground = false;
+	bool get showChordsBackground => _showChordsBackground;
+	Future<void> setShowChordsBackground(bool value) async {
+		_showChordsBackground = value;
+		await Preferences.setBool(SHOW_CHORDS_BACKGROUND, value);
+
+		notifyListeners();
+	}
+
 	late String _libPath;
 	String get libPath => _libPath;
 	bool get libPathIsNull => Preferences.getString(LIB_PATH) == null;
@@ -771,9 +793,10 @@ class SettingsProvider extends ChangeNotifier {
 		_plainTextStyle.load();
 
 		_backgroundColor.load();
-		_textColor.load();
+		_chordsBackground.load();
 		_chordsColor.load();
 		_rhythmColor.load();
+		_textColor.load();
 
 		_isDarkTheme = Preferences.getBool(IS_DARK_THEME);
 		_isAmoled = Preferences.getBool(IS_AMOLED) ?? false;
@@ -786,6 +809,7 @@ class SettingsProvider extends ChangeNotifier {
 		_openLatestSong = Preferences.getBool(OPEN_LATEST_SONG) ?? false;
 		_latestSong = Preferences.getString(LATEST_SONG);
 		_lineWrapInSong = Preferences.getBool(LINE_WRAP_IN_SONG) ?? true;
+		_showChordsBackground = Preferences.getBool(SHOW_CHORDS_BACKGROUND) ?? false;
 		_fingeringSizeInSong = Preferences.getString(FINGERING_SIZE_IN_SONG);
 		_backgroundOpacity = Preferences.getDouble(BACKGROUND_OPACITY) ?? 1.0;
 
@@ -875,10 +899,11 @@ class SettingsProvider extends ChangeNotifier {
 		_tabStyle.export(settings);
 		_plainTextStyle.export(settings);
 
-		_textColor.export(settings);
 		_backgroundColor.export(settings);
+		_chordsBackground.export(settings);
 		_chordsColor.export(settings);
 		_rhythmColor.export(settings);
+		_textColor.export(settings);
 
 
 		settings[IS_DARK_THEME] = _isDarkTheme.toString();
@@ -896,6 +921,7 @@ class SettingsProvider extends ChangeNotifier {
 
 		settings[SHARP_ONLY] = _sharpOnly.toString();
 		settings[LINE_WRAP_IN_SONG] = _lineWrapInSong.toString();
+		settings[SHOW_CHORDS_BACKGROUND] = _showChordsBackground.toString();
 
 		if (_fingeringSizeInSong != null)
 			settings[FINGERING_SIZE_IN_SONG] = _fingeringSizeInSong!;
@@ -937,9 +963,10 @@ class SettingsProvider extends ChangeNotifier {
 		await _plainTextStyle.import(settings);
 
 		await _backgroundColor.import(settings);
-		await _textColor.import(settings);
+		await _chordsBackground.import(settings);
 		await _chordsColor.import(settings);
 		await _rhythmColor.import(settings);
+		await _textColor.import(settings);
 
 
 		_isDarkTheme = boolFromString(settings[IS_DARK_THEME]);
@@ -989,6 +1016,10 @@ class SettingsProvider extends ChangeNotifier {
 
 		_lineWrapInSong = boolFromString(settings[LINE_WRAP_IN_SONG]) ?? true;
 		await Preferences.setBool(LINE_WRAP_IN_SONG, _lineWrapInSong);
+
+
+		_showChordsBackground = boolFromString(settings[SHOW_CHORDS_BACKGROUND]) ?? false;
+		await Preferences.setBool(SHOW_CHORDS_BACKGROUND, _showChordsBackground);
 
 
 		_fingeringSizeInSong = settings[FINGERING_SIZE_IN_SONG];

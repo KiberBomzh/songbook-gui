@@ -84,6 +84,7 @@
 	"settingsSongFontSize": "Song font size",
 	"settingsSharpOnly": "Sharp only",
 	"settingsLineWrap": "Line wrap",
+	"settingsShowChordsBackground": "Show chords background",
 	"settingsFingeringsSize": "Fingerings size",
 
 	"settingsTitles": "Titles",
@@ -96,6 +97,7 @@
 	"settingsBold": "Bold",
 	"settingsItalic": "Italic",
 
+	"settingsChordsBackground": "Chords background",
 	"settingsChordsColor": "Chords color",
 	"settingsRhythmColor": "Rhythm color",
 	"settingsTextColor": "Text color",

@@ -230,6 +230,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLineWrap => 'Line wrap';
 
   @override
+  String get settingsShowChordsBackground => 'Show chords background';
+
+  @override
   String get settingsFingeringsSize => 'Fingerings size';
 
   @override
@@ -255,6 +258,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsItalic => 'Italic';
+
+  @override
+  String get settingsChordsBackground => 'Chords background';
 
   @override
   String get settingsChordsColor => 'Chords color';

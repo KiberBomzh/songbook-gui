@@ -232,6 +232,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLineWrap => 'Перенос строк';
 
   @override
+  String get settingsShowChordsBackground => 'Показывать фон аккордов';
+
+  @override
   String get settingsFingeringsSize => 'Размер аппликатур';
 
   @override
@@ -257,6 +260,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsItalic => 'Курсив';
+
+  @override
+  String get settingsChordsBackground => 'Фон аккордов';
 
   @override
   String get settingsChordsColor => 'Цвет аккордов';

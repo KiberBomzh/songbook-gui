@@ -538,6 +538,12 @@ abstract class AppLocalizations {
   /// **'Line wrap'**
   String get settingsLineWrap;
 
+  /// No description provided for @settingsShowChordsBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Show chords background'**
+  String get settingsShowChordsBackground;
+
   /// No description provided for @settingsFingeringsSize.
   ///
   /// In en, this message translates to:
@@ -591,6 +597,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Italic'**
   String get settingsItalic;
+
+  /// No description provided for @settingsChordsBackground.
+  ///
+  /// In en, this message translates to:
+  /// **'Chords background'**
+  String get settingsChordsBackground;
 
   /// No description provided for @settingsChordsColor.
   ///

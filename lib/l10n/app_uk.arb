@@ -84,6 +84,7 @@
     "settingsSongFontSize": "Розмір тексту в пісні",
 	"settingsSharpOnly": "Тільки дієзи",
     "settingsLineWrap": "Перенос рядків",
+	"settingsShowChordsBackground": "Показувати фон аккордів",
     "settingsFingeringsSize": "Розмір апплікатур",
 
     "settingsTitles": "Заголовки",
@@ -96,6 +97,7 @@
     "settingsBold": "Жирний",
     "settingsItalic": "Курсив",
 
+	"settingsChordsBackground": "Фон аккордів",
     "settingsChordsColor": "Колір аккордів",
     "settingsRhythmColor": "Колір ритму",
     "settingsTextColor": "Колір тексту",
