@@ -6,6 +6,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:songbook/screens/settings/select_font_family.dart';
 import 'package:songbook/services/settings.dart';
@@ -26,6 +27,22 @@ class _SettingsState extends State<SettingsScreen> {
 
 	bool _isLoading = false;
 
+
+	void _openUrl(String url) async {
+		final uri = Uri.parse(url);
+		try {
+			launchUrl(uri);
+		} catch (e) {
+			debugPrint(e.toString());
+			if (mounted)
+				ScaffoldMessenger.of(context).showSnackBar(
+					SnackBar(
+						content: Text(AppLocalizations.of(context)!.settingsErrorMsg),
+						duration: Duration(seconds: 3),
+					),
+				);
+		}
+	}
 
 	void _exportBackup() async {
 		setState(() => _isLoading = true);
@@ -195,6 +212,7 @@ class _SettingsState extends State<SettingsScreen> {
 				_buildSection(_editorSection()),
 				_buildSection(_songSection()),
 				_buildSection(_otherSection()),
+				_buildSection(_linksSection()),
 			],
 		);
 	}
@@ -1041,6 +1059,21 @@ class _SettingsState extends State<SettingsScreen> {
 			text: AppLocalizations.of(context)!.settingsResetLibrary,
 			child: null,
 			onTap: _settings.resetLibrary,
+		),
+	];
+
+	List<Widget> _linksSection() => [
+		_buildTitle('Github'),
+
+		_buildItem(
+			text: 'GUI',
+			child: null,
+			onTap: () => _openUrl('https://github.com/KiberBomzh/songbook-gui'),
+		),
+		_buildItem(
+			text: 'TUI',
+			child: null,
+			onTap: () => _openUrl('https://github.com/KiberBomzh/songbook-tui'),
 		),
 	];
 
