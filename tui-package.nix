@@ -1,8 +1,9 @@
 { pkgs, stdenv, src, ... }:
 
-pkgs.rustPlatform.buildRustPackage {
+let cargoToml = builtins.fromTOML (builtins.readFile "${src}/Cargo.toml");
+in pkgs.rustPlatform.buildRustPackage {
 	pname = "songbook-tui";
-	version = "0.2.3";
+	version = cargoToml.package.version;
 	src = src;
 	cargoLock.lockFile = "${src}/Cargo.lock";
 

@@ -30,9 +30,14 @@ let
 	];
 
 in 
-	pkgs.flutter.buildFlutterApplication {
+	let
+		pubspecYaml = importYaml "${src}/pubspec.yaml";
+		trimVersion = s:
+			let m = builtins.match "([^+]*).*" s;
+			in if m == null then s else builtins.head m;
+	in pkgs.flutter.buildFlutterApplication {
 		pname = "songbook-gui";
-		version = "2.3.0";
+		version = trimVersion pubspecYaml.version;
 		src = src;
 		
 		pubspecLock = importYaml "${src}/pubspec.lock";
