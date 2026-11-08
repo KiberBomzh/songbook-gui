@@ -25,7 +25,6 @@ dirs = { version = "6.0.0", optional = true }
 edit = { version = "0.1.5", optional = true }
 rfd = { version = "0.17.2", features = ["gtk3"], default-features = false, optional = true }
 toml = { version = "1.0.3", optional = true }
-include_dir = { version = "0.7.4", optional = true }
 serde_yaml = { version = "0.9.34", optional = true }
 scraper = { version = "0.27.0", optional = true }
 serde = { version = "1.0.228", features = ["derive"] }
@@ -40,7 +39,7 @@ zip = "8.2.0"
 default = []
 colored = ["dep:crossterm"]
 from_url = ["dep:scraper", "dep:reqwest", "dep:tokio"]
-song_library = ["dep:dirs", "dep:edit", "dep:include_dir", "dep:serde_yaml"]
+song_library = ["dep:dirs", "dep:edit", "dep:serde_yaml"]
 cli = ["dep:clap", "song_library"]
 tui = ["dep:ratatui", "dep:rfd", "dep:toml", "dep:tokio", "cli", "colored"]
 

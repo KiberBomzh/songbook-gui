@@ -7,7 +7,6 @@ use std::io::{self, BufWriter, BufReader, Error, ErrorKind};
 use std::process::{Command, Stdio};
 use std::collections::HashMap;
 
-use include_dir::{include_dir, Dir};
 use anyhow::{Result, anyhow};
 
 #[cfg(feature = "colored")]
@@ -29,13 +28,15 @@ const FINGERINGS_NAME: &str = "fingerings";
 
 
 pub fn init() -> Result<()> {
-    let assets: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/assets");
+    let assets = include_bytes!("../../assets/init-assets.zip");
+    let cursor = io::Cursor::new(assets);
+    let mut zip = zip::ZipArchive::new(cursor)?;
     if let Some(path) = get_base_path() {
         if !path.exists() { fs::create_dir_all(&path)? }
-        assets.extract(&path)?;
+        zip.extract(path)?;
         Ok(())
     } else {
-        Err(anyhow::anyhow!("Cannot init first launch"))
+        Err(anyhow::anyhow!("Cannot init"))
     }
 }
 
