@@ -30,6 +30,9 @@ jobs:
                   flutter-version: "3.47.9"
                   channel: "stable"
 
+            - name: Install Android Ndk
+              run: sdkmanager "ndk;28.2.13676358"
+
             - name: Flutter pub get
               run: flutter pub get
 
