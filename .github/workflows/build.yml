@@ -24,14 +24,15 @@ jobs:
               with:
                   targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
 
+            - name: Install Android NDK
+              run: |
+                yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.2.13676358"
+
             - name: Setup Flutter
               uses: subosito/flutter-action@v2
               with:
                   flutter-version: "3.47.9"
                   channel: "stable"
-
-            - name: Install Android Ndk
-              run: sdkmanager "ndk;28.2.13676358"
 
             - name: Flutter pub get
               run: flutter pub get
