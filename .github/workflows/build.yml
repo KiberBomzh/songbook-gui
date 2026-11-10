@@ -24,13 +24,13 @@ jobs:
               with:
                   targets: aarch64-linux-android,armv7-linux-androideabi,x86_64-linux-android
 
+            - name: Remove other Android NDK versions
+              run: |
+                rm -rf $ANDROID_HOME/ndk/*
+
             - name: Install Android NDK
               run: |
                 yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --install "ndk;28.2.13676358"
-
-            - name: Remove old Android NDK
-              run: |
-                rm -rf $ANDROID_HOME/ndk/27.3.13750724
 
             - name: Setup Flutter
               uses: subosito/flutter-action@v2
